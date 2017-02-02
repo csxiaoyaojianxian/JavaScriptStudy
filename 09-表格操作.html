@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+    <table>
+        <tr>
+            <td>1</td>
+            <td>2</td>
+            <td>3</td>
+            <td>4</td>
+        </tr>
+        <tr>
+            <td>1</td>
+            <td>2</td>
+            <td>3</td>
+            <td>4</td>
+        </tr>        
+    </table>
+
+    <script>
+
+        // rows:返回值是数组     (只读，table和textarea能用)
+        var tab = document.getElementsByTagName("table")[0];
+        console.log(tab.rows[1]);//返回第一行
+
+        // insertRow()    (只有table能调用)
+        // 等价于 var tr = document.createElement("tr");
+        var tr = tab.insertRow(1);//指定索引值之前插入
+
+        // deleteRow()      (只有table能调用)
+        tab.deleteRow(2); //删除第三行
+
+        var cell = tab.children[0];
+        // cells     (只读，tr和textarea能用)  
+        console.log(cell.children[0].cells);
+
+        // insertCell()     (只有tr能调用)
+        cell.children[0].insertCell(0);
+
+        // deleteCell()     (只有tr能调用)
+        cell.children[0].deleteCell(0);
+
+    </script>
+</body>
+</html>

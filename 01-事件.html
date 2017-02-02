@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        div {
+            width: 100px;
+            height: 100px;
+            background-color: pink;
+            cursor: pointer;
+        }
+        .aaa {
+            background-color: red;
+        }
+        .hide {
+            display: none!important;
+        }        
+    </style>
+</head>
+<body>
+<div id="box" onclick="fn()"></div>
+
+<script>
+
+    //1.【获取事件源】（document.getElementById("box")）
+    var div = document.getElementById("box");
+    var arr1 = document.getElementsByTagName("div");
+    var arr2 = document.getElementsByClassName("leiming");
+    var arr3 = document.getElementsByName("aaa");//不常用
+
+    //2.【绑定事件】（事件源.事件 = function(){ 事件驱动程序 }）
+    //2.1.匿名绑定
+    div.onclick = function () {
+        //3.【书写事件驱动程序】
+        alert(1);
+    }
+    //2.2.用函数名绑定（不能写写括号，否则成为了返回值）
+    div.onclick = fn;
+    function fn() {
+        //3.书写事件驱动程序
+        alert(1);
+    }
+    //2.3.行内绑定
+    function fn(){
+        alert(1);
+    }
+    //2.4.循环绑定事件
+    var aArr = ul.getElementsByTagName("a");
+    for(var i=0;i<aArr.length;i++){
+        aArr[i].onclick = function () {
+            //this指的是函数调用者，和i并无关系，所以不会出错
+            img.src = this.href;//img.src = aArr[i].href;
+        }
+    }
+
+    //3.【常用事件类型】
+    // onclick / ondblclick
+    // onkeyup / onkeydown
+    // onfocus / onblur
+    // onmouseup / onmousedown / onmousemove / onmouseout / onmouseover
+    // onload / onunload
+    // onsubmit / onreset
+    // onchange    
+
+    //4.【onload事件】
+    //js和html同步加载（如果使用元素在定义元素之间，容易报错）
+    //4.1 window.onload可以预防使用标签在定义标签之前，整个页面上所有元素加载完毕再执行js内容
+    window.onload = function () {
+        var aaa = document.getElementById("box");
+        console.log(aaa);
+        aaa.style.width = "100px";
+    }
+    //4.2 比onload先执行，容易报错
+    var aaa = document.getElementById("box");
+    console.log(aaa);
+    aaa.style.width = "100px";     
+    
+    
+</script>
+</body>
+</html>
