@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<script>
+
+    //需求：交换两个变量
+    //步骤：
+    //1.把a交换给b
+    //2.把b交换给a
+//    var a = 1;
+//    var b = 2;
+//    console.log("a:"+a+"---"+"b:"+b);
+//    //1.把a交换给b
+//    b = a;
+//    //2.把b交换给a
+//    a = b;
+//    console.log("a:"+a+"---"+"b:"+b);
+
+    //需求：交换两个变量
+    //步骤：
+    //0.定义一个中间值
+    //1.先把a存储进中间值中，把b交换给a
+    //2.把中间值交换给b
+//    var temp = 0;
+//    var a = 1;
+//    var b = 2;
+//    console.log("a:"+a+"---"+"b:"+b);
+//    //1.先把a存储进中间值中，把b交换给a
+//    temp = a;
+//    a = b;
+//    //2.把中间值交换给b
+//    b = temp;
+//    console.log("a:"+a+"---"+"b:"+b);
+
+//    var a = "aaa";
+//    var b = "bbb";
+//        console.log("a:"+a+"---"+"b:"+b);
+//    var temp = a;
+//    a = b;
+//    b = temp;
+//        console.log("a:"+a+"---"+"b:"+b);
+
+
+
+    //难点
+    //需求：交换两个变量（数值型）而且不能用中间值。
+    //步骤：（求两个数的和，然后减去其中一个交换给另一个）
+    //1.求和。
+    //2.利用和减去其中一个交换给本身变量
+    //3.减去刚才的一个交换给另一个
+
+//    //1.求和。
+//    var a = 10;
+//    var b = 20;
+//    var sum = a + b;
+//    console.log("a:"+a+"---"+"b:"+b);
+//    //2.利用和减去其中一个交换给本身变量
+//    b = sum - b;
+//    //3.减去刚才的一个交换给另一个
+//    a = sum - b;
+//    console.log("a:"+a+"---"+"b:"+b);
+
+    //1.求和。
+    var a = 10;
+    var b = 20;
+    console.log("a:"+a+"---"+"b:"+b);
+    a = a + b;
+    //2.利用和减去其中一个交换给本身变量
+    b = a - b;
+    //3.减去刚才的一个交换给另一个
+    a = a - b;
+    console.log("a:"+a+"---"+"b:"+b);
+
+
+
+
+
+
+
+</script>
+</body>
+</html>

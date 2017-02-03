@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<script>
+
+    var arr = ["e","d","c","b","a"];
+
+    //反转数组：曾经...(返回一个新数组，元素组不变。操作原数组，然后反正他)
+//    console.log(arr);
+//    console.log(arr.reverse());
+//    var aaa = arr.reverse();
+//    console.log(aaa);
+//    console.log(arr);
+
+
+    //数组排序:sort(功能很强大！能对数字和字母进行排列。)
+    //问题：只能通过第一位排列。解决问题办法：设计的时候就是这么设计的，可以通过回掉函数进行规则设置。
+    var arr2 = [7,6,15,4,13,2,1];
+//    console.log(arr);
+//    console.log(arr.sort());
+    console.log(arr2);
+    console.log(arr2.sort(function (a,b) {
+        return b-a;
+    }));
+
+//    alert("2".charCodeAt());
+
+    //回调函数。
+//    console.log(arr2.sort(function (a,b) {
+                //a-b升序
+                //b-a降序
+    //        return a-b;
+//    }));
+
+//    function bubble(arr){
+//        for(var i=0;i<arr.length-1;i++){
+//            for(var j=0;j<arr.length-1;j++){
+//                if(arr[j]-arr[j+1]>0){
+//                    var temp = arr[j];
+//                    arr[j] = arr[j+1];
+//                    arr[j+1] = temp;
+//                }
+//            }
+//        }
+//    }
+
+
+
+</script>
+</body>
+</html>

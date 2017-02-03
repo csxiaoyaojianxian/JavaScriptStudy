@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<script>
+
+   // 1 打印1到100
+//   for(var i=1;i<=100;i++){
+//       console.log(i);
+//   }
+
+   // 2 打印1到100的和
+   //计数器思想
+//   var sum = 0;
+//   for(var i=1;i<=100;i++){
+////       sum = sum+i;
+//       sum += i;
+//   }
+//   console.log(sum);
+
+    // 3 求1-100之间所有数的和、平均值
+//    var sum = 0;
+//    for(var i=1;i<=100;i++){
+//        sum+=i;
+//    }
+//    var avg = sum/(i-1);
+//    console.log(avg);
+
+   // 4 求1-100之间所有偶数的和、所有奇数的和
+    var sumOdd = 0;//奇数和
+    var sumEven = 0;//偶数和
+
+    for(var i=1;i<=100;i++){
+        //判断如果是奇数加到sumOdd，如果是偶数加到sumEven
+        if(i%2 === 1){
+            sumOdd += i;
+        }else{
+            sumEven += i;
+        }
+    }
+    console.log(sumOdd);
+    console.log(sumEven);
+
+</script>
+</body>
+</html>

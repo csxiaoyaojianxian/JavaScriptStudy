@@ -19,8 +19,8 @@
     </style>
 </head>
 <body>
-<div id="box" onclick="fn()"></div>
-
+    <div id="box" onclick="fn()"></div>
+    <button>事件监听</button>
 <script>
 
     //1.【获取事件源】（document.getElementById("box")）
@@ -46,6 +46,7 @@
         alert(1);
     }
     //2.4.循环绑定事件
+    /*
     var aArr = ul.getElementsByTagName("a");
     for(var i=0;i<aArr.length;i++){
         aArr[i].onclick = function () {
@@ -53,6 +54,7 @@
             img.src = this.href;//img.src = aArr[i].href;
         }
     }
+    */
 
     //3.【常用事件类型】
     // onclick / ondblclick
@@ -75,8 +77,45 @@
     var aaa = document.getElementById("box");
     console.log(aaa);
     aaa.style.width = "100px";     
-    
-    
+
+    /**
+     * 5.【事件监听】
+     */
+    var btn = document.getElementsByTagName("button")[0];
+    EventListen = {
+        addEvent: function (ele,fn,str) {
+            //通过判断调用的方式兼容IE678
+            //判断浏览器是否支持该方法，如果支持那么调用，如果不支持换其他方法
+            if(ele.addEventListener){
+                //直接调用
+                ele.addEventListener(str,fn);
+            }else if(ele.attachEvent){
+                ele.attachEvent("on"+str,fn);
+            }else{
+                //在addEventListener和attachEvent都不存在的情况下，用此代码
+                ele["on"+str] = fn;
+            }
+        },
+        removeEvent: function (ele,fn,str) {
+            if(ele.removeEventListener){
+                ele.removeEventListener(str,fn);
+            }else if(ele.detachEvent){
+                ele.detachEvent("on"+str,fn);
+            }else{
+                ele["on"+str] = null;
+            }
+        }
+    }
+    function fn1(){
+        alert("事件1响应");
+    }
+    function fn2(){
+        alert("事件2响应");
+    }
+    EventListen.addEvent(btn,fn1,"click");
+    EventListen.addEvent(btn,fn2,"mouseout");
+    EventListen.removeEvent(btn,fn2,"mouseout");
+
 </script>
 </body>
 </html>

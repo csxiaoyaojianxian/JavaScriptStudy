@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+
+<script>
+    //预解析：js的解析器在页面加载的时候，首先检查页面上的语法错误。把变量声明提升起来。
+    //变量值提升变量名，不提升变量值。而用function直接定义的方法是整体提升。
+    //1.查看语法错误。
+    //2.变量声明提升和函数整体提升(变量声明提升的时候，只提升变量名，不提升变量值)
+    //3.函数范围内，照样适用。
+    var aaa;
+    console.log(aaa);
+    aaa = 111;
+    fn();
+
+    function fn(bbb){
+        //变量声明提升在函数内部照样实用。
+        //函数的就近原则。
+        var aaa;
+        console.log(aaa);
+        aaa = 222;
+    }
+
+    function fn2(bbb){
+        //两个函数中的局部变量不会相互影响。
+        console.log(bbb);
+    }
+
+</script>
+
+</body>
+</html>

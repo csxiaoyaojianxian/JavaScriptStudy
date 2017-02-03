@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+
+<script>
+
+    //用递归求1+100和。
+    alert(getSum(100));
+
+    function getSum(n){
+        //跳出条件
+        if(n<1){
+            return 0;
+        }
+        //累加
+        return n + getSum(n-1);
+    }
+
+//    getSum(100) = 100 + 99 + 98+ ...+1+0;
+
+//    function getSum(n){
+//        //跳出条件
+//        if(n<1){
+//            return 0;
+//        }
+//        //累加
+//        return 100 + 99+...+1+0;
+//    }
+
+</script>
+
+
+</body>
+</html>

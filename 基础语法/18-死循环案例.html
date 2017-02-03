@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<script>
+
+    //死循环求和
+//    var sum = 0;
+//    var i=1;
+//    while(true){
+//        sum+=i;
+//        i++;
+//        if(i>100){
+//            break;
+//        }
+//    }
+//    alert(sum);
+
+
+    //需求：点击取消一直弹窗下去。如果点击确定，立马结婚。
+    do{
+        var bool = confirm("求求你啦，嫁给我吧，我很丑，但是我很温柔啊...");
+        if(bool){
+            alert("我们去三亚拍结婚照吧，现在才3折优惠啊！");
+            break;
+        }
+    //如果点击的是取消，那么bool的值是false，为了进入下次循环，那么把他变成true；利用的就是非！
+    }while(!bool);
+
+
+
+
+
+
+</script>
+</body>
+</html>

@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<script>
+
+
+   //一、求一组数中的所有数的和和平均值
+//   var arr = [10,20,30];
+//   //计数器思想
+//   var sum = 0;
+//   for(var i=0;i<arr.length;i++){
+//       sum += arr[i];
+//   }
+//   console.log(sum);
+//   var avg = sum/arr.length;
+//   console.log(avg);
+
+   //二、求一组数中的最大值和最小值，以及所在位置
+    //预热案例：求最大值
+//   var arr = [-10,20,-30,0];
+//   //必须使用数组中的值。（最好是第一个或者最后一个，可以少比较一次）
+////   var max = 0;
+//   var max = arr[0];
+//   for(var i=1;i<arr.length;i++){
+//       //遍历数组，判断数组中的每一项，如果比max大，赋值给max，否则不用管
+//       if(arr[i]>max){
+//           max = arr[i];
+//       }
+//   }
+//   alert(max);
+
+//    var arr = [10,-20,30,40];
+//   //定义一个最大值和一个最小值，把他们的索引值赋值给固定的两个变量
+//    var maxValue = arr[0];
+//    var minValue = arr[0];
+//    var maxIndex = 0;
+//    var minIndex = 0;
+//
+//    for(var i=1;i<arr.length;i++){
+//        //如果数组中的元素大于我们定义的最大值
+//        if(arr[i]>maxValue) {
+//            //把这个元素赋值给最大值，把他对应的索引值，赋值给maxIndex
+//            maxValue = arr[i];
+//            maxIndex = i;
+//        }
+//      //如果数组中的元素小于我们定义的最小值
+//        if(arr[i]<minValue){
+//            //把这个元素赋值给最小值，把他对应的索引值，minIndex
+//            minValue = arr[i];
+//            minIndex = i;
+//        }
+//    }
+//    console.log(maxValue);
+//    console.log(maxIndex);
+//    console.log(minValue);
+//    console.log(minIndex);
+
+   //三、将字符串数组用|或其他符号分割
+//    var arr = ["吕超","赵云","典韦","关羽","马超","张飞"];
+//    var str = arr[0];
+//    var separator = "|";
+//   //为了避免第一个名字前有|,把第一个名字从数组中取出，赋值给str，然后在链接其他名字。
+//    for(var i=1;i<arr.length;i++){
+//        str += separator+ arr[i];
+//    }
+//    console.log(str);
+
+
+    //四、将数组中值为0的去掉，不为0的存入一个新数组
+//    var arr = [0,"刘备",0,"关羽",0,"张飞",0];
+//    var newArr = [];
+//    for(var i=0;i<arr.length;i++){
+//        //判断，如果不是0，放入新数组
+//        if(arr[i] !== 0){
+//            newArr[newArr.length] = arr[i];
+//        }
+//    }
+//    console.log(newArr);
+
+
+    //五、翻转数组
+   //思路：实现方法：1.定义一个新数组，把老数组中的元素从后往前添加到新数组中。
+   //思路：实现方法：1.操作原数组，让原数组第一位和最后一个位调换位置，以此类推。
+    var arr = ["刘备","关羽","张飞","诸葛亮","马超","黄忠","姜维"];
+    console.log(arr);
+   //思路：实现方法：1.定义一个新数组，把老数组中的元素从后往前添加到新数组中。
+//    var newArr = [];
+   //复杂版
+//    for(var i=0;i<arr.length;i++){
+//        //用新数组的长度作为索引值。  给定数组的最大索引值，然后-去i，因为i自增所以，获取的将是最大索引值到0;
+//        newArr[newArr.length] = arr[arr.length-1-i];
+//    }
+//    console.log(newArr);
+   //简单版
+//   for(var i=arr.length-1;i>=0;i--){
+//       //用新数组的长度作为索引值。  给定数组的最大索引值，然后-去i，因为i自增所以，获取的将是最大索引值到0;
+//       newArr[newArr.length] = arr[i];
+//   }
+//   console.log(newArr);
+
+   //思路：实现方法：1.操作原数组，让原数组第一位和最后一个位调换位置，以此类推。
+    for(var i=0;i<arr.length/2;i++){
+        //让前后数组中的元素交换位置。
+        var temp = arr[i];
+        //前面项和对应的后面项交换位置。（arr.length-1-i = 倒数第i+1项）
+        arr[i] = arr[arr.length-1-i];
+        arr[arr.length-1-i] = temp;
+    }
+
+    console.log(arr);
+
+
+</script>
+</body>
+</html>

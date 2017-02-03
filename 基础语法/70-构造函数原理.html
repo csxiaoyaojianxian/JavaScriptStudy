@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<script>
+
+
+    var num1 = new Number(111);
+    console.log(num1);
+
+    var num2 = Number("111");
+    console.log(num2);
+
+    var aaa = new Strings(222);
+    console.log(aaa);
+
+    var bbb = Strings("333");
+    console.log(bbb);
+    function Strings(num){
+        this["[[PrimitiveValue]]"] = num;
+        return num/1;
+    }
+
+
+
+</script>
+</body>
+</html>

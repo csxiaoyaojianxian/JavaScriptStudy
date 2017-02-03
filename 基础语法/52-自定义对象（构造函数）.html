@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<script>
+
+    //需求：多个自定义对象。
+    //缺点：代码冗余，方式比较low。当我们创建空白对象的时候：new Object();
+    //利用构造函数自定义对象。
+
+    var stu1 = new Student("王五");
+    var stu2 = new Student("赵六");
+
+    console.log(stu1);
+    stu1.sayHi();
+
+    console.log(stu2);
+    stu2.sayHi();
+
+//    console.log(typeof stu1);
+//    console.log(typeof stu2);
+
+    //创建一个构造函数
+    function Student(name){
+        //构造函数中的对象指的是this。
+        this.name = name;
+        this.sayHi = function () {
+            console.log(this.name+"说：大家好！");
+        }
+    }
+
+
+</script>
+</body>
+</html>

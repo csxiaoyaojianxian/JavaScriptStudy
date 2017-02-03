@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<script>
+
+    //需求：多个自定义对象。
+    //缺点：代码冗余，方式比较low。当我们创建空白对象的时候：new Object();
+    //利用构造函数自定义对象。
+
+    var stu1 = createSudent("张三");
+    var stu2 = createSudent("李四");
+    console.log(stu1);
+    stu1.sayHi();
+    console.log(stu2);
+    stu2.sayHi();
+    //创建一个函数
+    function createSudent(name){
+        var student = new Object();
+        student.name = name;
+        student.sayHi = function () {
+            console.log(this.name+"说：大家好！");
+        }
+        return student;
+    }
+
+
+</script>
+</body>
+</html>

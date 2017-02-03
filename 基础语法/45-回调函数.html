@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<script>
+
+
+
+
+    //执行函数就等于：函数名+();   整个函数+();
+//    fn();
+//    (function(){})()
+
+    fn(test);
+    //回调函数:函数作为参数进行传递和使用。
+    function fn(demo){
+        demo();
+//        test();
+    }
+
+    function test(){
+        console.log("我是被测试的函数！");
+    }
+
+
+</script>
+</body>
+</html>
