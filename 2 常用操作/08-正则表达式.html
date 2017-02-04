@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+    </head>
+    <body>
+	<script type="text/javascript">
+/**
+ * 【正则表达式】
+ */
+/**
+ * 【1 正则定义】
+ */
+//1.内置对象法 new RegExp("正则表达式",模式);
+var reg1 = new RegExp(/abc/);
+//2.字面量[]{}/a/
+var reg2 = /def/;
+console.log(reg2);
+console.log(typeof reg2);
+
+/**
+ * 【2 常用方法】
+ */
+//test() 使用正则对象去匹配字符串，如果匹配成功返回ture，否则返回false
+console.log(reg1.test("abc"));//true
+console.log(/abc/.test("sun"));//false
+//exec() 根据正则表达式去查找字符串符合规则的内容
+//查找出三到四个字符组成的单词。
+var str  ="sun jian feng sunshine studio";
+var reg = /\b[a-z]{3,4}\b/gi;
+var line ="";
+while((line = reg.exec(str))!=null){
+    document.write(line+"<br/>");//sun jian feng
+}
+
+/**
+ * 【3 模式】
+ */
+// g 全局模式（global）（全文查找出现的所有pattern）
+// i 不区分大小写（ease-insensitive）（忽略大小写）
+
+/**
+ * 【4 使用一：五大内部类】
+ */
+console.log("-------------预定义类-------------");
+console.log(/./.test("\n\r"));              //false [^\n\r] 除换行和回车外的任意字符
+console.log(/./.test("sunshine"));          //true
+console.log(/\d/.test(123));                //true  [0-9] 数字字符
+console.log(/\d/.test("123"));              //true
+console.log(/\d/.test("sunshine"));         //false
+console.log(/\D/.test("sunshine"));         //true  [^0-9] 非数字字符
+console.log(/\s/.test("     "));            //true  [ \t\n\x0B\f\r] 空白字符
+console.log(/\S/.test("sunshine"));         //true  [^ \t\n\x0B\f\r] 非空白字符
+console.log(/\w/.test("_"));                //true  [a-zA-Z_0-9] 单词字符
+console.log(/\W/.test("$"));                //true  [^a-zA-Z_0-9] 非单词字符  
+
+console.log("-------------简单类-------------");
+console.log(/sunshine/.test("sunshine"));   //true  //必须完整，只多不少
+console.log(/shine/.test("sunshinestudio"));//true
+console.log(/sunshine/.test("sun-shine"));  //false
+console.log(/[sunshine]/.test("cs"));       //true  []只要包含其中任何一个即可
+console.log(/[sunshine]/.test("abc"));      //false
+
+console.log("-------------负向类-------------");
+// ^必须写[]中，不够或正好返回false，没有或只有部分或多出返回true
+// 简单来说，只要含有[]中没有的即可
+console.log(/[^abc]/.test("ddd"));          //true  没有
+console.log(/[^abc]/.test("add"));          //true  只有部分
+console.log(/[^abc]/.test("abc"));          //false 正好
+console.log(/[^abc]/.test("b"));            //false 不够
+
+console.log("-------------范围类-------------");
+console.log(/[a-c]/.test("b"));             //true
+console.log(/[a-c]/.test("bd"));            //true  包含一个即可
+console.log(/[a-c]/.test("def"));           //false
+
+console.log("-------------组合类-------------");
+console.log(/[a-c1-6]/.test("b"));          //true
+console.log(/[a-c1-6]/.test(33));           //true
+console.log(/[a-c1-6]/.test("bd"));         //false
+console.log(/[a-c1-6]/.test("sun"));        //true
+
+/**
+ * 【5 使用二：边界】
+ */
+// ^  匹配行或字符串起始位置，注：^在[]中才表示非
+// $  匹配行或字符串结尾位置
+// ^$ 一起使用表示精确匹配
+console.log("-------------边界 ^ $-------------");
+console.log(/^abc$/.test("abc"));           //true
+console.log(/^abc$/.test("a"));             //false
+
+/**
+ * 【6 使用三：量词】
+ */
+// 
+console.log("------------- * ( >=0 ) {0,}-------------");
+console.log(/^a*$/.test(""));               //true
+console.log(/^a*$/.test("aa"));             //true
+console.log("------------- + ( >=1 ) {1,}-------------");
+console.log(/^a+$/.test(""));               //false
+console.log(/^a+$/.test("aa"));             //true
+console.log("------------- ? ( 0||1 ) {0,1}-------------");
+console.log(/^a?$/.test(""));               //true
+console.log(/^a?$/.test("a"));              //true
+console.log(/^a?$/.test("aa"));             //false
+console.log("------------- {} -------------");
+//{n} 一个参数，循环n次。
+//{n,} 一个参数，循环>=n次。
+//{n,m} 一个参数，循环n次到m次。
+console.log(/^a{1}$/.test("a"));            //true
+console.log(/^a{1,}$/.test("aa"));          //true
+console.log(/^a{1,4}$/.test("aaa"));        //true
+console.log("------------- x|y -------------");
+//()括号提高运算优先级
+console.log(/(abc)|(xyz)/.test("xy"));      //false
+console.log(/(abc)|(xyz)/.test("abcd"));    //true
+     
+	</script>
+
+    </body>
+</html>

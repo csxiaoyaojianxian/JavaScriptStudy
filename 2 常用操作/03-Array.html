@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+    </head>
+    <body>
+	<script type="text/javascript">
+
+/**
+ * Array数组对象
+ *
+ * 创建数组的方式
+ * 方式1:var 变量名 = new Array(); //创建一个长度为0的数组
+ * 方式2:var 变量名 = new Array(长度) //创建一个指定长度的数组对象
+ * 方式3:var 变量名 = new Array("元素1","元素2"...) //创建指定元素的数组对象
+ * 方式4:var 变量名 = ["元素1","元素2"...];
+ */
+
+// 在javascript中数组长度可变
+var arr = new Array(3); //创建了一个长度为【0】的数组对象。
+arr[100] = 10;
+document.write("arr长度："+arr.length+"<br/>");//101	
+var arr = new Array("sun1","sun2","sun3");
+arr = ["sun4","sun5","sun6","sun7"];
+document.write("arr长度："+arr.length+"<br/>");//4
+
+/**
+ * 常用方法
+ */
+//【length】:返回数组长度
+var length = arr.length
+//【sort】:排序，要传入排序的方法
+arr.sort(sortNumber);
+function sortNumber(num1,num2){
+	return num1-num2;//升序
+}
+document.writeln(arr);//sun4,sun5,sun6,sun7
+//【slice】:指定数组的开始索引值与结束索引值截取数组的元素，并且返回子数组
+var subArr = arr.slice(1,2);//包左不包右
+document.writeln(subArr);//sun5
+//【reverse】:翻转数组元素
+arr.reverse();
+document.writeln(arr);//sun7,sun6,sun5,sun4
+//【join】:使用指定的分隔符把数组中的元素拼装成一个字符串返回
+var string = arr.join(",");
+document.writeln(arr);//sun7,sun6,sun5,sun4
+//【concat】:把arr1与arr2的数组元素组成一个新的数组返回
+// arr1 = arr1.concat(arr2);
+//【push】:将新元素添加到一个数组中，并返回数组的新长度值
+var length = arr.push("sunshine"); 
+document.writeln(length);//5
+//【pop】:移除数组中的最后一个元素并返回该元素
+var data = arr.pop();
+document.writeln(data);//sunshine
+//【unshift】:向数组的开头添加一个或更多元素，并返回新的长度
+var length = arr.unshift("sunshine"); 
+document.writeln(length);//5
+//【shift】:移除数组中第一个元素，并且返回
+var data = arr.shift();
+document.writeln(data);//sunshine
+//【splice】:第一个参数是开始删除元素的索引值，第二参数是删除元素的个数，往后的数据是插入的元素
+arr.splice(1,1,"张三","李四","王五");
+document.writeln(arr);//sun7,张三,李四,王五,sun5,sun4
+
+	</script>
+
+    </body>
+</html>

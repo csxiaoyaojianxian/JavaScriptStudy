@@ -7,20 +7,20 @@
         ul{list-style: none}
         *{margin:0; padding:0;}
         div{
-            width: 750px;
-            height: 170px;
+            width: 1150px;
+            height: 400px;
             margin:50px auto;
             border:1px solid red;
             overflow: hidden;
 
         }
         div li {
-            width: 150px;
-            height: 170px;
+            width: 240px;
+            height: 400px;
             float: left;
         }
         div ul {
-            width: 1000px;
+            width: 1300px;
         }
     </style>
     <script src="jquery1.0.0.1.js"></script>
@@ -36,17 +36,17 @@
             var liArr = div.getElementsByTagName("li");
             //1.给li添加背景
             for(var i=0;i<liArr.length;i++){
-                liArr[i].style.background = "url(images/0"+(i+1)+".jpg) no-repeat";
+                liArr[i].style.background = "url(images/"+(i+1)+".jpg) no-repeat";
 
                 //2.绑定onmouseover事件，鼠标放入到li中该盒子变宽，其他的盒子变窄
                 liArr[i].onmouseover = function () {
                     //排他思想
                     for(var j=0;j<liArr.length;j++){
                         //引用框架实现宽度变窄
-                        animate(liArr[j],{"width":70});
+                        animate(liArr[j],{"width":100});
                     }
                     //剩下自己
-                    animate(this,{"width":490})
+                    animate(this,{"width":800})
                 }
             }
 
@@ -54,7 +54,7 @@
             div.onmouseout = function () {
                 for(var j=0;j<liArr.length;j++){
                     //引用框架实现宽度变窄
-                    animate(liArr[j],{"width":150});
+                    animate(liArr[j],{"width":240});
                 }
             }
         }

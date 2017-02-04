@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+
+<div class="box1">
+    <div class="box2" id="box2"></div>
+    <div class="box3"></div>
+    <div id="box" value="111">你好</div>
+</div>
+
+<script>
+/**
+ * by CS逍遥剑仙
+ * 2017.02.03
+ * http://www.csxiaoyao.com
+ * 常用功能已经封装成单独.js文件
+ */
+// 1.DOM文档对象模型
+// nodeType & nodeName & nodeValue
+var ele = document.getElementById("box");//元素节点
+var att = ele.getAttributeNode("id");//属性节点
+var txt = ele.firstChild;
+//nodeType
+console.log(ele.nodeType);//1
+console.log(att.nodeType);//2
+console.log(txt.nodeType);//3
+//nodeName
+console.log(ele.nodeName);//DIV
+console.log(att.nodeName);//id
+console.log(txt.nodeName);//#text
+//nodeValue
+console.log(ele.nodeValue);//null
+console.log(att.nodeValue);//box
+console.log(txt.nodeValue);//你好
+
+// 2.Node结点查找
+// 2.1.通过html元素的标签属性找节点
+document.getElementById("html元素的id") 
+document.getElementsByTagName("标签名") 
+document.getElementsByName("html元素的name")
+document.getElementsByName("html元素的class");//不常用
+// 2.2.获取html文件中的所有标签节点
+var allNodes = document.all;
+for(var i = 0; i < allNodes.length ; i++){
+    document.writeln(allNodes[i].nodeName); //标签的名字 nodeName
+}
+// 2.3.修改文档中含有href的属性的标签
+function writeUrl(){
+    var links = document.links;
+    for(var i = 0; i<links.length ; i++){
+        links[i].href = "http://www.csxiaoyao.com";
+    }
+}
+// 2.4.通过关系(父子关系、兄弟关系)找标签
+// parentNode        获取当前元素的父节点
+// childNodes        获取当前元素的所有下一级子元素
+// firstChild        获取当前节点的第一个子节点
+// lastChild        获取当前节点的最后一个子节点
+// nextSibling        获取当前节点的下一个节点（兄节点）
+// previousSibling    获取当前节点的上一个节点（弟节点）
+// previousElementSibling和nextElementSibling在IE678中不支持，IE678不能获取文本节点
+
+var bodyNode = document.getElementsByTagName("body")[0];
+//常用查找方法1：找子节点children
+var children = bodyNode.children;//区别于box1.parentNode.childNodes
+for(var i=0;i<children.length;i++){
+    console.log(children[i]);
+}
+//常用查找方法1：找子节点childNodes，包括了空文本和注释，返回一个数组
+var children = bodyNode.childNodes; 
+for(var i = 0 ; i < children.length ; i++){
+    if(children[i].nodeType==1){//筛选标签节点
+        alert("节点的名字："+children[i].nodeName+" 对象的类型:"+children[i].nodeType);    
+    }
+}
+//常用查找方法2：第一个/最后一个子节点
+alert("第一个子节点:"+bodyNode.firstChild.nodeName); 
+alert("最后一个子节点:"+bodyNode.lastChild.nodeName); 
+//常用查找方法3：找上下兄弟节点
+var inputNode = document.getElementById("tag");
+alert("下个兄弟节点："+inputNode.nextSibling.nodeName);
+alert("上一个兄弟节点："+inputNode.previousSibling.nodeName);
+//常用查找方法4：随意获取指定兄弟节点
+var index = 0;
+var node = inputNode.parentNode.children[index];
+//常用查找方法5：获取所有的兄弟节点
+function siblings(elm) {
+    var result = [];
+    var p = elm.parentNode.children;
+    for(var i =0;i<p.length;i++) {
+        if(p[i] !== elm) {
+            result.push(p[i]);
+        }
+    }
+    return result;
+}
+
+// 3.节点操作（创建、插入、删除）
+//3.1.创建节点
+//  方式一：document.write();
+document.write("<li>document.write()创建</li>");
+//  方式二：innerHTML（innerText方法不识别标签）
+var inputNode;
+inputNode.innerHTML += "<li id='li1'>innerHTML创建</li>"
+//  方式三：createElement
+var inputNode = document.createElement("input");
+//3.2.设置节点的属性和内容
+inputNode.setAttribute("type","button");
+inputNode.setAttribute("value","按钮");
+inputNode.setAttribute("href","http://www.csxiaoyao.com");
+inputNode.innerText="csxiaoyao";
+//3.3.定义新节点的父节点
+var bodyNode = document.getElementsByTagName("body")[0];
+//3.4.插入(两种)
+//appendChild：添加子节点到父结点末尾
+bodyNode.appendChild(inputNode);
+//insertBefore：插入目标元素的位置
+elt.insertBefore(newNode, oldNode); //添加到elt中，oldNode之前，elt必须是oldNode的直接父节点
+//3.5.删除子节点
+elt.removeChild(child) //删除指定的子节点，elt必须是child的直接父节点
+//3.6.删除自身
+elt.parentNode.removeChild(elt);
+//3.7.克隆
+var node = elt.cloneNode();
+var node = elt.cloneNode(true);//递归，包含子节点
+//3.8.替换
+parentNode.replaceChild(newNode,oldNode);
+</script>
+</body>
+</html>
