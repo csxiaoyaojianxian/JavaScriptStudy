@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<script>
+
+    var arr1 = ["a","b","c"];
+    var arr2 = [1,2,3];
+
+    //concat把数组链接在一起
+    var arr3 = arr1.concat(arr2);
+    console.log(arr1);
+    console.log(arr2);
+    console.log(arr3);
+
+    //slice数组的截取
+//    var arr4 = arr3.slice(2);["c",1,2,3]
+//    var arr4 = arr3.slice(-2);[2,3]
+//    var arr4 = arr3.slice(4,2);//[]
+//    var arr4 = arr3.slice(2,4);//["c", 1]索引值包括坐标的不包括右边的。
+//    console.log(arr3);
+//    console.log(arr4);
+
+    //splice操作和截取原数组
+    var arr5 = ["关羽","关羽","关羽"];
+    //替换的元素不能是以数组形式存在，否则将整个数组放进原数组中。
+    var arr4 = arr3.splice(0,3,"关羽","关羽","关羽");
+    console.log(arr3);
+    console.log(arr4);
+
+</script>
+</body>
+</html>

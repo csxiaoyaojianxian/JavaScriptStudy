@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<script>
+    //this
+//    一、this只出现在函数中。
+//    二、谁调用函数，this就指的是谁。
+//    三、new People();   People中的this代指被创建的对象实例。
+
+
+//    var aaa = new Object();
+    //new
+//1.开辟内存空间，存储新创建的对象（ new Object() ）
+//2.把this设置为当前对象
+//3.执行内部代码，设置对象属性和方法
+//4.返回新创建的对象
+
+    var aaa = new stu();
+    console.log(aaa);
+    aaa.say();
+
+    function stu(){
+        this.say = function () {
+            console.log(this);
+        }
+    }
+
+
+</script>
+</body>
+</html>

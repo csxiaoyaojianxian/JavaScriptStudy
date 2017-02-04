@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        ul{list-style: none}
+        *{margin:0; padding:0;}
+        div{
+            width: 750px;
+            height: 170px;
+            margin:50px auto;
+            border:1px solid red;
+            overflow: hidden;
+
+        }
+        div li {
+            width: 150px;
+            height: 170px;
+            float: left;
+        }
+        div ul {
+            width: 1000px;
+        }
+    </style>
+    <script src="jquery1.0.0.1.js"></script>
+    <script>
+        window.onload = function () {
+            //鼠标放入到li中该盒子变宽，其他的盒子变窄。移开大盒子，恢复原样。
+            //步骤：
+            //1.给li添加背景
+            //2.绑定onmouseover事件，鼠标放入到li中该盒子变宽，其他的盒子变窄
+            //3.移开大盒子，恢复原样
+
+            var div = document.getElementsByTagName("div")[0];
+            var liArr = div.getElementsByTagName("li");
+            //1.给li添加背景
+            for(var i=0;i<liArr.length;i++){
+                liArr[i].style.background = "url(images/0"+(i+1)+".jpg) no-repeat";
+
+                //2.绑定onmouseover事件，鼠标放入到li中该盒子变宽，其他的盒子变窄
+                liArr[i].onmouseover = function () {
+                    //排他思想
+                    for(var j=0;j<liArr.length;j++){
+                        //引用框架实现宽度变窄
+                        animate(liArr[j],{"width":70});
+                    }
+                    //剩下自己
+                    animate(this,{"width":490})
+                }
+            }
+
+            //3.移开大盒子，回复原样
+            div.onmouseout = function () {
+                for(var j=0;j<liArr.length;j++){
+                    //引用框架实现宽度变窄
+                    animate(liArr[j],{"width":150});
+                }
+            }
+        }
+    </script>
+</head>
+<body>
+<div>
+    <ul>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+    </ul>
+</div>
+</body>
+</html>

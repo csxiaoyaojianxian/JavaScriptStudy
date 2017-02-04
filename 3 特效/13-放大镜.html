@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        .box {
+            width: 200px;
+            height: 200px;
+            margin:100px;
+            border: 1px solid #ccc;
+            position: relative;
+        }
+        .big {
+            width: 400px;
+            height: 400px;
+            position: absolute;
+            top: 0;
+            left: 360px;
+            border: 1px solid #ccc;
+            overflow: hidden;
+            display: none;
+        }
+        .mask {
+            width: 80px;
+            height: 80px;
+            background: rgba(255, 255, 0, 0.4);
+            position: absolute;
+            top: 0;
+            left: 0;
+            cursor: move;
+            display: none;
+        }
+        .small {
+            position: relative;
+        }
+        .small img{
+            width: 200px;
+            height: 200px;
+        }
+        .big img{
+            width: 1000px;
+            height: 1000px;
+        }
+        img {
+            vertical-align: top;
+        }
+    </style>
+
+    <script>
+        window.onload = function () {
+            //鼠标放到小盒子上，大盒子里的图片同步等比例移动
+            //技术点：onmouseenter==onmouseover 第一个不冒泡
+            //技术点：onmouseleave==onmouseout  第一个不冒泡
+            //步骤：
+            //1.鼠标放上去显示盒子，移开隐藏盒子
+            //2.黄盒子跟随移动
+            //3.右侧的大图片，等比例移动
+
+            var box = document.getElementsByClassName("box")[0];
+            var small = box.firstElementChild || box.firstChild;
+            var big = box.children[1];
+            var mask = small.children[1];
+            var bigImg = big.children[0];
+
+            //1.鼠标放上去显示盒子，移开隐藏盒子。(为小盒子绑定事件)
+            small.onmouseenter = function () {
+                //封装好方法调用：显示元素
+                show(mask);
+                show(big);
+            }
+            small.onmouseleave = function () {
+                //封装好方法调用：隐藏元素
+                hide(mask);
+                hide(big);
+            }
+
+            //2.黄盒子跟随移动
+            //绑定的事件是onmousemove，而事件源是small(只要在小盒子上移动1像素，黄盒子也要跟随)
+            small.onmousemove = function (event) {
+                //想移动黄盒子，必须知道鼠标在small中的位置。x作为mask的left值，y作mask的top值。
+                event = event || window.event;
+                //获取鼠标在整个页面的位置
+                var pagex = event.pageX || scroll().left + event.clientX;
+                var pagey = event.pageY || scroll().top + event.clientY;
+                //让鼠标在黄盒子最中间，减去黄盒子宽高的一半。x、y为黄盒子的坐标
+                var x = pagex - box.offsetLeft - mask.offsetWidth/2;
+                var y = pagey - box.offsetTop - mask.offsetHeight/2;
+                //限制黄盒子的范围
+                //left取值为大于0，小于（小盒子的宽-mask的宽）。
+                if(x<0){
+                    x = 0;
+                }
+                if(x>small.offsetWidth-mask.offsetWidth){
+                    x = small.offsetWidth-mask.offsetWidth;
+                }
+                //top同理
+                if(y<0){
+                    y = 0;
+                }
+                if(y>small.offsetHeight-mask.offsetHeight){
+                    y = small.offsetHeight-mask.offsetHeight;
+                }
+                //移动黄盒子
+                console.log("X:"+x+" Y:"+y)
+                mask.style.left = x + "px";
+                mask.style.top = y + "px";
+
+                //3.右侧的大图片，等比例移动
+                //    大图片/大盒子 = 小图片/mask盒子
+                //    大图片走的距离/mask走的距离 = （大图片-大盒子）/（小图片-黄盒子）
+                //var bili = (bigImg.offsetWidth-big.offsetWidth)/(small.offsetWidth-mask.offsetWidth);
+
+                //大图片走的距离/mask盒子走的距离 = 大图片/小图片
+                var bili = bigImg.offsetWidth/small.offsetWidth;
+
+                var xx = bili*x;
+                var yy = bili*y;
+
+                bigImg.style.marginTop = -yy+"px";
+                bigImg.style.marginLeft = -xx+"px";
+            }
+        }
+        //显示和隐藏
+        function show(ele){
+            ele.style.display = "block";
+        }
+        function hide(ele){
+            ele.style.display = "none";
+        }
+    </script>
+</head>
+<body>
+    <!-- 大照片宽度/big框宽度 = small框宽度/mask框宽度，且小照片宽度=small框宽度，如BigImg=1000，SmallImg=small=200，big=400，那么mask=80 -->
+    <div class="box">
+        <div class="small">
+            <img src="images/sunshine80.png" alt=""/>
+            <div class="mask"></div>
+        </div>
+        <div class="big">
+            <img src="images/sunshine2666.png" alt=""/>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        .box {
+            width: 300px;
+            height: 300px;
+            border: 1px solid red;
+            margin: 50px auto;
+            overflow: hidden;
+            position: relative;
+        }
+        .scroll {
+            width: 20px;
+            height: 300px;
+            background-color: #ccc;
+            position: absolute;
+            top: 0;
+            right: 0;
+        }
+        .bar {
+            width: 20px;
+            background-color: red;
+            border-radius: 10px;
+            cursor: pointer;
+            position: absolute;
+            top: 0;
+        }
+        .content {
+            padding: 15px;
+            background-color: yellow;
+        }
+    </style>
+    <script>
+        window.onload = function () {
+            //模拟滚动条，鼠标拖动滚动条，滚动条动，内容等比例联动
+            //步骤：
+            //1.根据内容和盒子的比例确定bar的高。
+            //2.绑定事件（鼠标按下，然后移动）
+            //3.鼠标移动，bar联动
+            //4.内容等比例联动
+
+            var box = document.getElementById("box");
+            var content = box.children[0];
+            var scroll = box.children[1];
+            var bar = scroll.children[0];
+
+            //1.根据内容和盒子的比例确定bar的高。
+            //内容的高/盒子的高 = scroll的高/bar的高
+            //bar的高 = 盒子的高*scroll的高/内容的高
+            var barHeight = box.offsetHeight*scroll.offsetHeight/content.offsetHeight;
+            bar.style.height = barHeight + "px";
+            //2.绑定事件（鼠标按下，然后移动）
+            bar.onmousedown = function (event) {
+                event = event || window.event;
+                var pageyy = event.pageY || scroll().top + event.clientY;
+                var y = pageyy - bar.offsetTop;
+                //模拟拖拽案例
+                document.onmousemove = function (event) {
+                    //获取鼠标在页面的位置
+                    event = event || window.event;
+                    var pagey = event.pageY || scroll().top + event.clientY;
+                    //鼠标的位置-鼠标在盒子中的位置。
+                    pagey = pagey - y;
+                    //限制y的取值。大于0，小于scroll的高度-bar的高度
+                    if(pagey<0){
+                        pagey = 0;
+                    }
+                    if(pagey>scroll.offsetHeight-bar.offsetHeight){
+                        pagey = scroll.offsetHeight-bar.offsetHeight;
+                    }
+
+                    //3.鼠标移动，bar联动
+                    bar.style.top = pagey + "px";
+
+                    //4.内容等比例联动
+                    //高级比例：  内容走的距离/bar走的距离 = （内容的高-大盒子的高）/（scroll的高-bar的高）
+                    var s = pagey *(content.offsetHeight-box.offsetHeight)/(scroll.offsetHeight-bar.offsetHeight);
+                    //s赋值给content。通过marginTop负值移动content
+                    content.style.marginTop = -s+"px";
+
+                    //让被选文字清除。
+                    window.getSelection ? window.getSelection().removeAllRanges() : document.selection.empty();
+                }
+            }
+
+            //事件解绑
+            document.onmouseup = function () {
+                document.onmousemove = null;
+            }
+
+        }
+    </script>
+
+</head>
+<body>
+    <div class="box" id="box">
+        <div class="content">
+            sunshine<br/>sunshine<br/>sunshine<br/>sunshine<br/>sunshine<br/>sunshine<br/>sunshine<br/>sunshine<br/>sunshine<br/>sunshine<br/>sunshine<br/>sunshine<br/>sunshine<br/>sunshine<br/>sunshine<br/>sunshine<br/>sunshine<br/>sunshine<br/>sunshine<br/>sunshine<br/>sunshine<br/>sunshine<br/>sunshine<br/>sunshine<br/>
+        </div>
+        <div class="scroll">
+            <div class="bar"></div>
+        </div>
+    </div>
+
+</body>
+</html>

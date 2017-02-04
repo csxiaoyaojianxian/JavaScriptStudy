@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        .box {
+            width: 100px;
+            height: 100px;
+            background-color: pink;
+            padding: 100px;
+            margin: 100px;
+            border: 234px solid #000;
+        }
+    </style>
+</head>
+<body>
+
+<div class="box"></div>
+
+<script>
+    // clientWidth和clientHeight
+    var box = document.getElementsByTagName("div")[0];
+    // clientWidth=padding+width,不包括margin和border
+    console.log(box.clientWidth);//300=100+100*2
+    console.log(box.clientTop);//234 即border宽度
+
+</script>
+</body>
+</html>

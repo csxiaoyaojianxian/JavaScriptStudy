@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        #back {
+            position: fixed;
+            bottom: 100px;
+            right: 50px;
+            cursor: pointer;
+            display: none;
+            border: 3px solid #fff;
+            background-color: yellow;
+            width: 50px;
+            height: 50px;
+            text-align: center;
+            line-height: 25px;
+            vertical-align: middle;
+        }
+        #content {
+            width: 1000px;
+            margin: 0px auto;
+            text-align: center;
+            font: 500 26px/35px "simsun";
+            background-color: gray;
+            height:2000px;
+        }
+    </style>
+    <script src="csxiaoyao_scroll.js"></script>
+    <script>
+        window.onload = function () {
+            //被卷去的头部超过1000显示按钮，然后点击按钮屏幕缓慢移动到最顶端。
+            //移动屏幕：window.scrollTo(x,y);浏览器显示区域跳转到指定的坐标
+            //步骤：
+            var button = document.getElementById("back");
+            window.onscroll = function () {
+                //被卷去的距离大于1000显示按钮，否则隐藏
+                if(scroll().top>1000){
+                    button.style.display = "block";
+                }else{
+                    button.style.display = "none";
+                }
+                //每次移动滚动条的时候都给leader赋值，模拟leader获取距离顶部的距离
+                leader = scroll().top;
+            }
+            //缓动跳转到页面最顶端
+            var timer = null;
+            var target = 0; //目标位置
+            var leader = 0; //显示区域自身的位置
+            button.onclick = function () {
+                //技术点：window.scrollTo(0,0);
+                clearInterval(timer);
+                timer = setInterval(function () {
+                    //获取步长
+                    var step = (target-leader)/10;
+                    //二次处理步长
+                    step = step>0?Math.ceil(step):Math.floor(step);
+                    leader = leader +step;
+                    //显示区域移动
+                    window.scrollTo(0,leader);
+                    //清除定时器
+                    if(leader === 0){
+                        clearInterval(timer);
+                    }
+                },25);
+            }
+        }
+    </script>
+
+</head>
+<body>
+    <div id="back">返回<br/>顶部</div>
+    <div id="content"></div>
+</body>
+</html>

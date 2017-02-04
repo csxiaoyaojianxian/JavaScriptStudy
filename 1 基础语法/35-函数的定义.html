@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<script>
+
+//    //第一种定义方法最强大，定义完毕后，在哪里使用都可以，无位置限制。
+//    fn1();
+//    //后两种定义方法是有局限性的。（使用函数必须在定义函数之后）
+//    fn2();
+//    fn3();
+
+
+    //第一种
+    function fn1(){
+        console.log("我是第一种定义方法！");
+    }
+
+
+    //第二种(匿名函数)
+    var fn2 = function (){
+        console.log("我是第二种定义方法！");
+    }
+
+
+
+    //第三种
+    var fn3 = new Function("console.log('我是第三种定义方法！')");
+
+
+//    fn1();
+//    fn2();
+//    fn3();
+
+
+</script>
+</body>
+</html>

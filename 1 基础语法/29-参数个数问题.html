@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<script>
+
+    //如果形参个数与实参个数不匹配...（一般情况下，我们不会让形参和实参不匹配）
+    //1.相等的话，正常执行。
+    //2.实参大于形参，正常执行。（多余的实参，函数不使用）
+    //3.实参小于形参，要看你的程序是否报错。（报错，NaN，undefined）
+        //未给定实参的形参为undefined;
+
+
+    fn(1,1);
+    fn(1,1,1);
+    fn();
+
+    function fn(a,b){
+        alert(a+b);
+//        alert(a);
+//        alert(b);
+        document.getElementById(a).title = "nihao";
+    }
+    //js中没有方法重载
+//    function fn(a,b,c){
+//        alert(a+b+c);
+//    }
+
+</script>
+</body>
+</html>

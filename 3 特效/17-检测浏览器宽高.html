@@ -1,0 +1,52 @@
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+尝试改变浏览器大小
+<script>
+
+    //获取屏幕可视区域的宽高
+    function client(){
+        if(window.innerHeight !== undefined){
+            return {
+                "width": window.innerWidth,
+                "height": window.innerHeight
+            }
+        }else if(document.compatMode === "CSS1Compat"){
+            return {
+                "width": document.documentElement.clientWidth,
+                "height": document.documentElement.clientHeight
+            }
+        }else{
+            return {
+                "width": document.body.clientWidth,
+                "height": document.body.clientHeight
+            }
+        }
+    }
+
+    //根据可视区域宽度上色
+    function fn() {
+        if(client().width>960){
+            document.body.style.backgroundColor = "red";
+        }else if(client().width>640){
+            document.body.style.backgroundColor = "blue";
+        }else{
+            document.body.style.backgroundColor = "green";
+        }
+    }
+
+    //新事件：浏览器大小变化事件
+    fn();
+    window.onresize = fn;
+
+    // 检测屏幕宽高
+    // window.onresize = function () {
+    //     document.title = client().width + "    "+ client().height;
+    // }
+
+</script>
+</body>
+</html>

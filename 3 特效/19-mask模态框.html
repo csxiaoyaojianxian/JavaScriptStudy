@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        body,html {
+            height: 100%;
+            padding: 0;
+            margin: 0;
+        }
+        .mask {
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            display: none;
+            background: rgba(0, 0, 0, 0.6);
+        }
+        .login {
+            width: 400px;
+            height: 300px;
+            cursor: pointer;
+            background-color: #fff;
+            margin: 200px auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="mask">
+        <div class="login" id="login"></div>
+    </div>
+    <a href="#">打开模态框</a>
+    <script>
+        //冒泡的应用(阻止冒泡)
+        //点击按钮，显示模态框。点击login以外的所有盒子隐藏模态框。
+        //给document绑定事件，因为可以冒泡，只要判断，点击的不是login，那么隐藏模态框
+
+        //1.给按钮绑定事件
+        var mask = document.getElementsByClassName("mask")[0];
+        var a = document.getElementsByTagName("a")[0];
+
+        a.onclick = function (event) {
+            //显示模态框
+            show(mask);
+            //阻止冒泡
+            event = event || window.event;
+            if(event && event.stopPropagation){
+                event.stopPropagation();
+            }else{
+                event.cancelBubble = true;
+            }
+
+        }
+
+        //2.给document绑定事件，因为可以冒泡，只要判断，点击的不是login，那么隐藏模态框
+        document.onclick = function (event) {
+            //获取点击按钮后传递过来的值。
+            event = event || window.event;
+            //兼容获取事件触动时，被传递过来的对象
+            var aaa = event.target?event.target:event.srcElement;
+
+            console.log(event.target);
+
+            //判断目标值的ID是否等于login，如果等于不隐藏盒子，否则隐藏盒子。
+            if(aaa.id !== "login"){
+                hide(mask);
+            }
+        }
+        
+        //显示和隐藏
+        function show(ele){
+            ele.style.display = "block";
+        }
+        function hide(ele){
+            ele.style.display = "none";
+        }
+    </script>
+</body>
+</html>

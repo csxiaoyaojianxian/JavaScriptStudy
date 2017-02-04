@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+        .box {
+            width: 500px;
+            height: 400px;
+            border: 1px solid #ccc;
+            margin: 100px auto;
+            overflow: hidden;
+        }
+        ul {
+            width: 600px;
+            height: 40px;
+            margin-left: -1px;
+            list-style: none;
+        }
+        li {
+            float: left;
+            width: 101px;
+            height: 40px;
+            text-align: center;
+            font: 600 18px/40px "simsun";
+            background-color: pink;
+            cursor: pointer;
+        }
+        span {
+            display: none;
+            width: 500px;
+            height: 360px;
+            background-color: yellow;
+            text-align: center;
+            font: 700 150px/360px "simsun";
+        }
+        .show {
+            display: block;
+        }
+        .current {
+            background-color: yellow;
+        }
+    </style>
+
+    <script>
+        window.onload = function () {
+            var boxArr = document.getElementsByClassName("box");
+            for(var i=0;i<boxArr.length;i++){
+                fn(boxArr[i]);
+            }
+            //函数封装，必须满足格式 ul>li*5^span*5；span默认不显示，显示class为show；tab显示class为current
+            function fn(ele){
+                var liArr = ele.getElementsByTagName("li");
+                var spanArr = ele.getElementsByTagName("span");
+                for(var i=0;i<liArr.length;i++){
+                    //绑定索引值(自定义属性)
+                    liArr[i].index = i;
+                    liArr[i].onmouseover = function () {
+                        //排他思想，清空
+                        for(var j=0;j<liArr.length;j++){
+                            liArr[j].className = "";
+                            spanArr[j].className = "";
+                        }
+                        //点亮当前盒子
+                        this.className = "current";
+                        spanArr[this.index].className = "show";
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body>
+
+    <div class="box">
+        <ul>
+            <li class="current">鞋子</li>
+            <li>袜子</li>
+            <li>帽子</li>
+            <li>裤子</li>
+            <li>裙子</li>
+        </ul>
+        <span class="show">鞋子</span>
+        <span>袜子</span>
+        <span>帽子</span>
+        <span>裤子</span>
+        <span>裙子</span>
+    </div>
+
+    <div class="box">
+        <ul>
+            <li class="current">鞋子</li>
+            <li>袜子</li>
+            <li>帽子</li>
+            <li>裤子</li>
+            <li>裙子</li>
+        </ul>
+        <span class="show">鞋子</span>
+        <span>袜子</span>
+        <span>帽子</span>
+        <span>裤子</span>
+        <span>裙子</span>
+    </div>
+
+</body>
+</html>

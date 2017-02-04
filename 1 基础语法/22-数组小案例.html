@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<script>
+
+    //把1-10之间所有的奇数，放到数组中
+    //有问题，索引值不是挨着的，而且不是从0开始。
+//    var arr1 = [];
+//
+//    for(var i=1;i<=10;i++){
+//        if(i%2!==0){
+//            arr1[i] = i;
+//        }
+//    }
+//
+//    console.log(arr1);
+
+    //重新定义变量作为数组的索引值使用
+//    var arr1 = [];
+//    var j = 0;
+//    for(var i=1;i<=10;i++){
+//        if(i%2!==0){
+//            arr1[j] = i;
+//            j++;
+//        }
+//    }
+//    console.log(arr1);
+
+    //数组长度本身开始的时候是0，紧接着每添加进去一个值，数组长度自增1；
+    //新的变量j可以用，arr.length替代，因为初始化值也是0，每添加一个元素也是自增1.
+    var arr = [];
+    for(var i=1;i<=10;i++){
+        if(i%2!==0){
+            arr[arr.length] = i;
+        }
+    }
+    console.log(arr);
+
+
+    //1-10之间能被3整数的数字，存到数组中
+    //数组的长度刚好可以作为数组中下一个元素的索引值。
+    var arr2 = [];
+    for(var i=1;i<=10;i++){
+        if(i%3===0){
+            arr2[arr2.length] = i;
+        }
+    }
+    console.log(arr2);
+
+
+</script>
+</body>
+</html>

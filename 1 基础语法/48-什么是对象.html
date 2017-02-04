@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<script>
+    //生活中。一类事物和对象的区别。（对象是指具有唯一性的事物）
+    //游戏中。有特指的事物是对象。
+    //程序中。
+
+    var hero = new Object();
+    //自定义属性--状态
+    hero.money = 10000;
+    hero.level = 6;
+
+    //方法---行为。
+    hero.attack = function () {
+        console.log("攻击了水晶！");
+    }
+
+    console.log(hero);
+    console.log(hero.money);
+    console.log(hero.level);
+    hero.attack();
+
+    //属性和方法：状态（名词）和行为（动词）。
+
+</script>
+</body>
+</html>

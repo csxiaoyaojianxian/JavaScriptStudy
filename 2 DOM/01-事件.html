@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        div {
+            width: 100px;
+            height: 100px;
+            background-color: pink;
+            cursor: pointer;
+        }
+        .aaa {
+            background-color: red;
+        }
+        .hide {
+            display: none!important;
+        }        
+    </style>
+</head>
+<body>
+    <div id="box" onclick="fn()"></div>
+    <button>事件监听</button>
+<script>
+
+    //1.【获取事件源】（document.getElementById("box")）
+    var div = document.getElementById("box");
+    var arr1 = document.getElementsByTagName("div");
+    var arr2 = document.getElementsByClassName("leiming");
+    var arr3 = document.getElementsByName("aaa");//不常用
+
+    //2.【绑定事件】（事件源.事件 = function(){ 事件驱动程序 }）
+    //2.1.匿名绑定
+    div.onclick = function () {
+        //3.【书写事件驱动程序】
+        alert(1);
+    }
+    //2.2.用函数名绑定（不能写写括号，否则成为了返回值）
+    div.onclick = fn;
+    function fn() {
+        //3.书写事件驱动程序
+        alert(1);
+    }
+    //2.3.行内绑定
+    function fn(){
+        alert(1);
+    }
+    //2.4.循环绑定事件
+    /*
+    var aArr = ul.getElementsByTagName("a");
+    for(var i=0;i<aArr.length;i++){
+        aArr[i].onclick = function () {
+            //this指的是函数调用者，和i并无关系，所以不会出错
+            img.src = this.href;//img.src = aArr[i].href;
+        }
+    }
+    */
+
+    //3.【常用事件类型】
+    // onclick / ondblclick
+    // onkeyup / onkeydown
+    // onfocus / onblur
+    // onmouseup(=onclick) / onmousedown(=onclick) / onmousemove / onmouseout / onmouseover
+    // onload / onunload
+    // onsubmit / onreset
+    // onchange    
+    // window.onscroll     屏幕滑动
+    // window.onresize     浏览器大小变化
+    // window.onload       页面加载完毕
+    // div.onmousemove     鼠标在盒子上移动,不是盒子移动
+
+    //4.【onload事件】
+    //js和html同步加载（如果使用元素在定义元素之间，容易报错）
+    //4.1 window.onload可以预防使用标签在定义标签之前，整个页面上所有元素加载完毕再执行js内容
+    window.onload = function () {
+        var aaa = document.getElementById("box");
+        console.log(aaa);
+        aaa.style.width = "100px";
+    }
+    //4.2 比onload先执行，容易报错
+    var aaa = document.getElementById("box");
+    console.log(aaa);
+    aaa.style.width = "100px";     
+
+    /**
+     * 5.【事件监听】
+     */
+    var btn = document.getElementsByTagName("button")[0];
+    EventListen = {
+        addEvent: function (ele,fn,str) {
+            //通过判断调用的方式兼容IE678
+            //判断浏览器是否支持该方法，如果支持那么调用，如果不支持换其他方法
+            if(ele.addEventListener){
+                //直接调用
+                ele.addEventListener(str,fn);
+            }else if(ele.attachEvent){
+                ele.attachEvent("on"+str,fn);
+            }else{
+                //在addEventListener和attachEvent都不存在的情况下，用此代码
+                ele["on"+str] = fn;
+            }
+        },
+        removeEvent: function (ele,fn,str) {
+            if(ele.removeEventListener){
+                ele.removeEventListener(str,fn);
+            }else if(ele.detachEvent){
+                ele.detachEvent("on"+str,fn);
+            }else{
+                ele["on"+str] = null;
+            }
+        }
+    }
+    function fn1(){
+        alert("事件1响应");
+    }
+    function fn2(){
+        alert("事件2响应");
+    }
+    EventListen.addEvent(btn,fn1,"click");
+    EventListen.addEvent(btn,fn2,"mouseout");
+    EventListen.removeEvent(btn,fn2,"mouseout");
+
+</script>
+</body>
+</html>

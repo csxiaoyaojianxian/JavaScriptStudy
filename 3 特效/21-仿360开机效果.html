@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        .box{
+            width: 322px;
+            position: fixed;
+            bottom:0;
+            right:0;
+        }
+        span{
+            position: absolute;
+            top:0;
+            right:0;
+            width:30px;
+            height: 20px;
+            cursor: pointer;
+            background-color: blue;
+        }
+        .hd{
+            width: 400px;
+            height: 300px;
+            background-color: green;
+        }
+        .bd{
+            width: 400px;
+            height: 100px;
+            background-color: yellow;
+        }
+    </style>
+    <script src="jquery1.0.0.1.js"></script>
+    <script>
+        window.onload = function () {
+
+            var guanbi = document.getElementById("guanbi");
+            var box = guanbi.parentNode;
+            var b = document.getElementById("b");
+
+            guanbi.onclick = function () {
+                //下面的盒子高度变为0，然后大盒子的宽变为0.
+                animate(b,{"height":0}, function () {
+                    animate(box,{"width":0});
+                });
+            }
+        }
+    </script>
+</head>
+<body>
+    <div class="box">
+        <span id="guanbi"></span>
+        <div class="hd" id="t"></div>
+        <div class="bd" id="b"></div>
+    </div>
+</body>
+</html>

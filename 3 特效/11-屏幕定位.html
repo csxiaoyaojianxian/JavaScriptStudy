@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        .box  {
+            width: 300px;
+            height: 200px;
+            padding-top: 100px;
+            background-color: pink;
+            margin: 100px;
+            text-align: center;
+            font: 18px/30px "simsun";
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="box"></div>
+
+    <script>
+        // 鼠标在盒子中的坐标，onmousemove 模拟定时器
+        //步骤：
+        //1.获取鼠标在整个页面的位置
+        //2.获取盒子在整个页面的位置
+        //3.用鼠标的位置减去盒子的位置赋值给盒子的内容。
+
+        var div = document.getElementsByTagName("div")[0];
+        div.onmousemove = function (event) {
+            event = event || window.event;
+            //获取鼠标在整个页面的位置
+            var pagex = event.pageX || scroll().left + event.clientX;
+            var pagey = event.pageY || scroll().top + event.clientY;
+            //获取盒子在整个页面的位置
+            var xx = div.offsetLeft;
+            var yy = div.offsetTop
+            //用鼠标的位置减去盒子的位置赋值给盒子的内容。
+            var targetx = pagex - xx;
+            var targety = pagey - yy;
+            this.innerHTML = "鼠标在盒子中的X坐标为："+targetx+"px;<br>鼠标在盒子中的Y坐标为："+targety+"px;"
+        }
+    </script>
+
+</body>
+</html>

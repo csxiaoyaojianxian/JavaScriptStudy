@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        .d-box {
+            width: 400px;
+            height: 300px;
+            border: 5px solid #eee;
+            box-shadow: 2px 2px 2px 2px #666;
+            position: absolute;
+            top: 40%;
+            left: 40%;
+        }
+        .hd {
+            width: 100%;
+            height: 25px;
+            background-color: #7c9299;
+            border-bottom: 1px solid #369;
+            line-height: 25px;
+            color: white;
+            cursor: move;
+        }
+    </style>
+
+    <script>
+        window.onload = function () {
+            //在指定位置按住鼠标左键移动对话框
+            //鼠标按下onmousedown   鼠标弹起:onmouseup   鼠标移动onmousemove
+            //把鼠标的坐标赋值给对话框
+            var box = document.getElementById("d_box");
+            var drop = document.getElementById("drop");
+            //先按下，在移动触动此事件
+            drop.onmousedown = function (event) {
+                //获取鼠标在盒子中的坐标，将来移动的时候减去保证鼠标在盒子的指定位置
+                event = event || window.event;
+                var pagex = event.pageX || scroll().left + event.clientX;
+                var pagey = event.pageY || scroll().top + event.clientY;
+                var x = pagex - box.offsetLeft;
+                var y = pagey - box.offsetTop;
+
+                document.onmousemove = function (event) {
+                    //把鼠标的坐标赋值给对话框。
+                    event = event || window.event;
+                    var xx = event.pageX || scroll().left + event.clientX;
+                    var yy = event.pageY || scroll().top + event.clientY;
+                    //二次操作鼠标位置  减去鼠标在盒子中的坐标
+                    xx = xx - x;
+                    yy = yy - y;
+
+                    //给box赋值
+                    box.style.left = xx+"px";
+                    box.style.top = yy+"px";
+                    //禁止文本选中（选中后取消）
+                    window.getSelection ? window.getSelection().removeAllRanges() : document.selection.empty();
+                }
+            }
+
+            //事件解绑
+            drop.onmouseup = function () {
+                //解绑
+                document.onmousemove = null;
+            }
+
+
+        }
+    </script>
+
+</head>
+<body>
+    <div class="d-box" id="d_box">
+        <div class="hd" id="drop">
+            <i>可以拖拽</i>
+        </div>
+        <div class="bd"></div>
+    </div>
+</body>
+</html>

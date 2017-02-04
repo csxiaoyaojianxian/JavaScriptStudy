@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<script>
+
+    //从1乘到100；
+    //计数器
+//    var product = 1;
+//    for(var i=1;i<=10;i++){
+//        product *= i;
+//    }
+//    alert(product);
+    //计算出1—100之间所有不能被7整除的整数的数字之和。
+//    var sum = 0;
+//    for(var i=1;i<=100;i++){
+//        //判断，不能被7整除的数字。i%7!=0；
+//        if(i%7!==0){
+//            sum+=i;
+//        }
+//    }
+//    alert(sum);
+//    alert(5050*6/7);
+
+    //计算出1—100之间所有不能被3整除的整数的和大于(或等于)2000的数字。
+    var sum = 0;
+    for(var i=1;i<=100;i++){
+        if(i%3 !== 0){
+            sum+=i;
+            if(sum>=2000){
+                console.log(sum);
+            }
+        }
+    }
+
+
+</script>
+</body>
+</html>

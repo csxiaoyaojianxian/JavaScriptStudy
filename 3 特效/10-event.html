@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+    <script>
+        // 事件对象
+        //点击页面的任何部分
+        document.onclick = function (event) {
+            //兼容写法
+            event = event || window.event;
+            console.log(event);
+            console.log(event.timeStamp);
+            console.log(event.bubbles);
+            console.log(event.button);
+            console.log(event.pageX); //body
+            console.log(event.pageY); //body
+            console.log(event.screenX); //屏幕
+            console.log(event.screenY); //屏幕
+            console.log(event.target);
+            console.log(event.type);
+            console.log(event.clientX); //浏览器可视区域
+            console.log(event.clientY); //浏览器可视区域
+        }
+    </script>
+</body>
+</html>

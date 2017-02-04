@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+        .div1 {
+            position: absolute;
+            top: 80px;
+            left: 10px;
+            width:200px;
+            height:400px;
+            background-color: red;
+        }
+        .div2 {
+            position: absolute;
+            top: 80px;
+            right: 10px;
+            width:200px;
+            height:400px;
+            background-color: red;
+        }
+        div {
+            width: 800px;
+            height: 1000px;
+            margin: 0px auto;
+            text-align: center;
+            font: 500 26px/35px 微软雅黑;
+            color: red;
+            background-color: yellow;
+        }
+    </style>
+    <script src="csxiaoyao_scroll.js"></script>
+    <script src="csxiaoyao_animate.js"></script>
+    <script>
+        window.onload = function () {
+            //屏幕滚动多少，两侧的图片联动向下移动等距离
+            var adArr1 = document.getElementsByClassName("div1")[0];
+            var adArr2 = document.getElementsByClassName("div2")[0];
+            window.onscroll = function () {
+                //获取被卷去的头部的值
+                var val = scroll().top;
+                //移动两个盒子（缓动移动）
+                animate_vertical(adArr1,val+80);
+                animate_vertical(adArr2,val+80);
+            }
+
+        }
+    </script>
+
+</head>
+<body>
+    <div class="div1"></div>
+    <div class="div2"></div>
+    <div id="div"></div>
+</body>
+</html>

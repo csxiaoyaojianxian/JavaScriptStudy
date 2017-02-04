@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<script>
+
+//    document.write("☆")
+//    document.write("☆")
+//    document.write("☆<br>")
+//
+//    document.write("☆")
+//    document.write("☆")
+//    document.write("☆<br>")
+//
+//    document.write("☆")
+//    document.write("☆")
+//    document.write("☆")
+
+    //需求：打印宽9，长9的正方形。
+//for(var k=1;k<=9;k++){
+    for(var j=1;j<=9;j++){
+        for(var i=1;i<=9;i++){
+            document.write("☆");
+        }
+        document.write("<br>");
+    }
+//    document.write("<br>");
+//}
+
+
+document.write("<br>");
+
+    //需求：打印三角形(外循环控制行，内循环控制列)
+    for(var j=1;j<=9;j++){
+        for(var i=1;i<=j;i++){
+            document.write("☆");
+        }
+        document.write("<br>");
+    }
+
+
+</script>
+</body>
+</html>

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<script>
+
+    //需求：单个自定义对象。
+    //缺点：传单单个对象的时候还好，创建多个多线的时候变得非常繁琐
+    //创建多个对象，for循环不能修改名字的值。函数也可以创建多个对象。
+    var student = new Object();
+
+//    console.log(student);
+    student.name = "张三";
+//    student.age = 18;
+//    student.address = "辽宁省铁岭市莲花乡池水沟子";
+    student.sayHi = function () {
+        console.log(this.name+"说：大家好！");
+    }
+
+    console.log(student.name);
+    student.sayHi();
+
+
+</script>
+</body>
+</html>

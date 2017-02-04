@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<script>
+
+    //需求：封装一个函数，求斐波那契数列的第n项
+    alert(getValue());
+
+
+    //定义一个函数
+    function getValue(n){
+
+        //回顾求斐波那契数列的第12项
+        var num1 = 1;
+        var num2 = 1;
+        //循环到第几位，就把n的值赋值成为几。
+        for(var i=3;i<=n;i++){
+            //交换变量
+            var temp = num2;
+            num2 = num1+num2;
+            num1 = temp;
+        }
+
+        return num2;
+    }
+
+
+
+</script>
+</body>
+</html>

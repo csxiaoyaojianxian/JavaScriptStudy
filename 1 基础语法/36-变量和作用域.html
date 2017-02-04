@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+
+
+<script>
+
+    //变量问题：根据作用范围，变量可以分为局部变量和全局变量。
+
+    //局部变量：只有局部能够访问的变量。
+        //函数内部用var定义的变量。
+    //全局变量：在哪里都能访问到的变量。
+        //函数外部或者进入javascript之后立即定义的变量和函数内部不带有var的变量。
+
+//    var num3 = 333;
+//
+//    //函数加载的时候，只加载函数名，不加载函数体。
+//    function fn(){
+//        //局部变量
+//        var num1 = 111;
+//        //全局变量（成员变量）
+//        num2 = 222;
+//
+//        console.log(num3);
+//    }
+//
+//    fn();
+////    console.log(num1);
+//    console.log(num2);
+//    console.log(num3);
+
+
+//    //块级作用域，js中没有。
+//    {
+//        var aaa = 1;
+//    }
+
+
+    //隐式全局变量
+    function fn(){
+        //b和c都是隐式全局变量
+        var a = b = c = 1;
+        //e和f都是隐式全局变量(分号相当于换行)
+        var d = 1;e =2;f=3;
+        //g和i都不是隐式全局变量
+        var g = 1,h= 2,i=3;
+    }
+
+    fn();
+    console.log(b);
+    console.log(c);
+    console.log(e);
+    console.log(f);
+//    console.log(a);
+//    console.log(h);
+//    console.log(i);
+
+
+
+</script>
+</body>
+</html>
