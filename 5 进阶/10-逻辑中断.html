@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+//逻辑中断 （短路运算）【返回当前运算到的表达式结果】
+var num = 1 || 2;
+console.log(num);//1 左边表达式为真，返回左边表达式
+var num = 0 || 2;
+console.log(num);//2
+var num = 0 || false;
+console.log(num);//false
+
+var num = 1-1 && 2;
+console.log(num);//0
+var num = 1 && 2;
+console.log(num);//2
+
+// 应用
+// 浏览器兼容性
+// var event = e || window.Event;
+// 设置默认值
+function and10(num) {
+    num = num || 0;
+    console.log(num * 10);//0
+}
+and10();
+
+</script>
+</body>
+</html>
