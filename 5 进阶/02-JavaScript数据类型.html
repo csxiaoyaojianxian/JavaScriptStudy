@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+基本数据类型
+    string  number  boolean
+复杂数据类型（引用类型）
+    Array  Date  Object  RegExp  String  Number  Boolean
+    两个核心类型
+    Object function
+数据的数据类型的获取 typeof
+    typeof返回值为string类型
+
+String  Number  Date  首字母大写的都是构造函数
+
+两个空的类型
+    null
+    undefined
+
+<script>
+    var a = "我是一个字符串";
+    console.log(typeof (typeof a));
+    var b = 12;
+    console.log(typeof b);
+    var c = true;
+    console.log(typeof c);
+
+    var obj = null;
+    console.log(typeof obj);//object
+    //变量不可能为null值，除非手动设置
+    //要解除对象的占用（引用）的时候，给对象赋值为null
+    var obj1;
+    console.log(obj1); //undefined
+    var person={/*...*/};
+    person = null;
+</script>
+</body>
+</html>
