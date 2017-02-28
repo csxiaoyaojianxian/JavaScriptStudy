@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Title</title>
+<script>
+//函数内部的一个对象 arguments
+//当函数调用的时候，系统会将所有传入的实参，依次存入这个数组对象
+
+//【要求】允许函数调用时传入任意个数参数,并且函数返回这些数字中最大的数字
+function max(){
+    // console.log(arguments);
+    var maxNum = arguments[0];
+    for (var i = 1; i < arguments.length; i++) {
+        maxNum = maxNum > arguments[i] ? maxNum :arguments[i];
+    }
+    return maxNum;
+}
+console.log(max(1, 2, 34, 5, 6));//34
+
+//【要求】数组去重
+var distinct = new Function(`
+    var arr = [];
+    for (var i = 0; i < arguments.length; i++) {
+        if(arr.indexOf(arguments[i])==-1){
+            arr.push(arguments[i]);
+        }
+    }
+    return arr;
+`);
+console.log(distinct(1, 2, 34, 34, 5, 5));//[1, 2, 34, 5]
+
+</script>
+</head>
+<body>
+
+</body>
+</html>
