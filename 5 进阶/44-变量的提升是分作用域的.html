@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Title</title>
+<script>
+console.log(a);//undefined 函数名提升，直接赋值不提升
+var a = 123;
+
+var num = 456;
+function test(){
+   console.log(num);//undefined
+   var num = 10;
+}
+test();
+
+var num;
+num = 456;
+function test(){
+   var num;
+   console.log(num);//undefined
+   num = 10;
+}
+test();
+
+var num = 456;
+function f1() {
+    console.log(num);//456
+    num = 10;
+}
+f1();
+console.log(num);//10
+
+//提升后代码
+// var num;
+// function f1(){
+//     console.log(num);
+//     num = 10;//非var，不提升
+// }
+// num = 456;
+// f1();
+// console.log(num);
+
+</script>
+</head>
+<body>
+
+</body>
+</html>

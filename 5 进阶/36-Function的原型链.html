@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Title</title>
+<script>
+//Function也可以被当做一个构造函数
+//通过Function new出来函数可以被当做是实例化的对象
+//Function构造函数也有原型对象,是一个空的函数
+//Function的原型对象的原型对象是Object.prototype
+
+var foo = new Function();
+
+console.log(Function.prototype);//function () {}
+console.log(Function.prototype.__proto__);//Object {}
+
+</script>
+</head>
+<body>
+
+</body>
+</html>

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Title</title>
+<script>
+//只要是函数就可以创造作用域
+//函数中又可以再创建函数
+//函数内部的作用域可以访问函数外部的作用域
+//如果有多个函数嵌套，那么就会构成一个链式访问结构，这就是作用域链
+
+//f1--->全局
+function f1(){
+    //f2--->f1--->全局
+    function f2(){
+        //f3---->f2--->f1--->全局
+        function f3(){
+        }
+        //f4--->f2--->f1---->全局
+        function f4(){
+        }
+    }
+    //f5--->f1---->全局
+    function f5(){
+    }
+}
+
+</script>
+</head>
+<body>
+
+</body>
+</html>

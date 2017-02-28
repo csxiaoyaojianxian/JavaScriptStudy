@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Title</title>
+csxiaoyao总结：声明提升到各自标签顶部（效果为：下面的标签可以访问上面的标签，上面的标签不可访问下面的标签）
+<script>
+    foo()
+    function foo(){
+        console.log("第1个script标签内的函数")//第1个script标签内的函数
+    };
+</script>
+<script>
+    foo()
+    function foo(){
+        console.log("第2个script标签内的函数")//第2个script标签内的函数
+    }
+</script>
+</head>
+<body>
+
+</body>
+</html>
