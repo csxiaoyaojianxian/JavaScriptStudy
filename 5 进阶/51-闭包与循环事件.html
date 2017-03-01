@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Title</title>
+<script>
+
+//JS单线程
+//JS中分三个任务
+    //1.渲染任务
+    //2.js的代码执行任务
+    //3.事件处理任务
+
+//JS代码的执行顺序
+//1.先把主任务（代码任务）执行完毕
+//2.再去执行次要的任务(包括setTimeOut和setInterval中的回调函数中的代码)
+
+//setTimeOut
+//至少在指定的时间后执行指定回调函数
+//因为要等主任务中的代码执行完毕之后，才回去检查，setTimeOut的回调函数，有没到执行时间
+
+// 【案例1】打印0-9
+// 问题代码
+for(var i = 0 ; i < 10; i++){
+   setTimeout(function(){
+       console.log(i);//10 10 10 ……
+   },0);
+}
+
+// 解决问题的代码
+// 方法1
+for(var i = 0; i< 10; i++){
+    function foo(j){
+        // var j;
+        // j = param;
+        return function(){
+            console.log(j);//0 1 2 ……
+        };
+    }
+    var f = foo(i);
+    setTimeout(f, 0);
+}
+// 方法2
+for(var i = 0; i< 10; i++){ 
+    setTimeout((function foo(j){
+        return function(){
+            console.log(j);//0 1 2 ……
+        };
+    })(i), 0);
+}
+// 立即执行函数表达式  IIFE  imediately invoked funciton expression
+(function() {
+    console.log("自调用");
+}());
+
++function(){
+    console.log("自调用");
+}();
+
+// 【案例2】循环绑定事件1
+// 问题代码
+// window.onload = function () {
+//     var divs = document.getElementsByTagName("div");
+//     for (var i = 0; i < divs.length; i++) {
+//         var div = divs[i];
+//         div.onclick = function (j) {
+//             return function () {
+//                 alert("第"+ (j+1) +"个div");
+//             }
+//         }(i);
+//     }
+// }
+// 解决问题的代码
+window.onload = function(){
+    var divs = document.getElementsByTagName("div");
+    for(var i = 0; i < divs.length; i++){
+        var div = divs[i];
+        div.onclick = function(j){
+            return function(){
+                alert("第"+ (j+1) +"个div");
+            }
+        }(i);
+    }
+}
+
+// 【案例3】循环绑定事件2 (不影响绑定变量)
+var arr = [{name: 'csxiaoyao1'},{name: 'csxiaoyao2'},{name: 'csxiaoyao3'},{name: 'csxiaoyao4'}];
+for (var i = 0; i < arr.length; i++) {
+    // arr[i].sayHello = function () {
+    //     console.log(i); // 4 4 4 4
+    // }
+    arr[i].sayHello = (function () {
+        var j = i;
+        return function () {
+            console.log(j);// 0 1 2 3
+        }
+    }());
+}
+for (var j = 0; j < arr.length; j++) {
+   arr[j].sayHello();
+}
+
+// csxiaoyao总结
+// 对于循环中的事件的处理，由于JS代码的执行顺序，事件处理任务会等到js的代码执行任务完成后执行
+// 因此，事件中获取到的循环中的索引永远为结束值
+// 解决方法为使用“闭包”+“自调用”
+// 原理：先闭包再自调用
+// 闭包：事件的回调函数被放到栈中
+// 自调用：当前索引值被作为参数传入，自调用后，闭包才能返回执行函数(函数嵌套)
+</script>
+</head>
+<body>
+
+<div>第1个div</div>
+<div>第2个div</div>
+<div>第3个div</div>
+
+</body>
+</html>

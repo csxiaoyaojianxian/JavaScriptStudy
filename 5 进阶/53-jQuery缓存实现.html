@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Title</title>
+<script>
+//eleCache
+//typeCache
+//classCache
+//eventCache
+
+// 设定缓存中数据数量限制
+var cacheMaxLength = 50;
+function createCache(){
+    //cache对象中以键值对的形式存储缓存数据
+    var cache = {};
+    //index数组中存储键，有序
+    var index = [];
+    return function (key, value) {
+        //set
+        if(value !== undefined){
+            //将数据存入cache对象,缓存,将键存入index数组
+            cache[key] = value;
+            index.push(key);
+            if(index.length >= cacheMaxLength){
+                //删除最早存储的数据，使用数组的shift方法获取并删除index数组的第一个元素
+                var tempKey = index.shift();
+                delete cache[tempKey];
+            }
+        }
+        //get
+        return cache[key];
+    }
+}
+
+var eleCache = createCache();
+eleCache("name","csxiaoyao");
+console.log(eleCache("name"));//csxiaoyao
+// var typeCache = createCache();
+
+//【源码】
+function createCache2() {
+    var keys = [];
+    // var caches = {}; // 此处为了减少变量声明，将数据存入在cache函数对象中
+    function cache( key, value ) {
+        // 使用(key + " ") 是为了避免和原生（本地）的原型中的属性冲突
+        if ( keys.push( key + " " ) > cacheMaxLength ) {//push返回新长度
+            delete cache[ keys.shift() ];
+        }
+        // 赋值+返回
+        return (cache[ key + " " ] = value);
+    }
+    return cache;
+}
+var typeCache = createCache2();
+typeCache("sunshine");
+console.log(typeCache["sunshine" + " "]);//undefined
+typeCache("sunshine","csxiaoyao");
+console.log(typeCache["sunshine" + " "]);//csxiaoyao
+typeCache("sunshine1","csxiaoyao1");
+console.log(typeCache["sunshine1 "]);//csxiaoyao1
+
+</script>
+</head>
+<body>
+
+</body>
+</html>

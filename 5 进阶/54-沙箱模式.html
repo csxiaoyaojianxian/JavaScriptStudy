@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Title</title>
+<script>
+
+//JS沙箱模式
+//原理：函数构建作用域，上级作用域不能直接访问下级作用域中的数据
+//应用：书写第三方框架、为第三方框架书写插件、书写功能独立的一些组件
+
+//沙箱模式的优势
+//1.使用立即执行函数表达式IIFE，不会给外界暴露任何全局变量，形成封闭空间，不会造成全局变量污染
+//2.沙箱中的所有数据都和外界完全隔离，外界无法对其进行修改，保证了代码的安全性
+
+//沙箱模式的基本模型
+(function(){
+    //上：变量定义
+    var sum = 0;
+    //中：逻辑代码
+    for(var i = 1; i<=100;i++){
+        sum+=i;
+    }
+    console.log(sum);
+    //下：按需给外界暴露一些成员（通过window）
+    
+})();
+
+//jQuery中的沙箱模式
+(function(win){
+    var csxiaoyao = {
+        getEle:function () {
+
+        }
+    }
+    //如果需要在外界暴露一些属性或者方法，可以将这些属性和方法加到window全局对象上
+    //但是window全局对象不可以直接引用，因为直接引用会破坏沙箱原则
+    //所以将 window对象 传入沙箱内，沙箱不会再去全局搜索window对象
+    win.csxiaoyao = win.$ = csxiaoyao;
+})(window)
+
+</script>
+</head>
+<body>
+
+</body>
+</html>

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Title</title>
+<script>
+//1.函数模式
+    //this--->window
+//2.方法模式
+    //this--->调用方法的对象
+//3.构造函数模式
+    //this--->new出来的对象
+//4.上下文模式
+	//this----->指定
+   
+function fun(){
+    console.log(this);
+}
+fun();//Window
+
+var method = {
+    test:function(){
+        console.log(this);
+    }
+}
+method.test();//Object {}
+
+function Person(){
+    console.log(this);
+}
+var obj = new Person();//Person {}
+
+
+// test1
+var age = 38;
+var obj = {
+	age: 18,
+	getAge: function() {
+		console.log(this.age);
+	}
+};
+var a = obj.getAge();// 18 (method)obj
+var getAge = obj.getAge;
+getAge();// 38 (function)window
+
+// test2
+var age = 38;
+var obj = {
+	age: 18,
+	getAge: function() {
+		console.log(this.age);
+		function foo() {
+			console.log(this.age);
+		}
+		foo();
+	}
+};
+obj.getAge();//18(method)obj  38(function)window
+
+// test3
+var length = 10;
+function fn(){
+	console.log(this.length);
+}
+var obj = {
+	length: 5,
+	method: function (fn) {
+		fn(); // 10(function)window
+
+		// var obj = {
+		// 	abc : fn
+		// }
+		// obj["abc"]()
+		// 
+		// arguments.0()
+		console.log(arguments);
+		arguments[0](); //返回长度
+	}
+};
+obj.method(fn, 123, 456, 789);
+</script>
+</head>
+<body>
+
+</body>
+</html>
