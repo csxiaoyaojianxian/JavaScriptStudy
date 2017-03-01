@@ -1,0 +1,262 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style type="text/css">
+        .container {
+            margin: 0 auto;
+            width: 850px;
+            border: 1px solid #dad8d8;
+
+            /*height: 100%;*/
+        }
+        .songslist-main, .songslist-header {
+            position: relative;
+            width: 100%;
+            text-align: center;
+        }
+        .songslist-header {
+            height: 30px;
+            border-bottom: 1px solid #dad8d8;
+            line-height: 30px;
+            background-color: #def;
+        }
+
+        .songslist-name {
+            position: absolute;
+            width: 40%;
+            height: 100%;
+            border-right: 1px solid #dad8d8;
+        }
+        .songslist-singer {
+            position: absolute;
+            left: 40%;
+            width: 50%;
+            height: 100%;
+            border-right: 1px solid #dad8d8;
+        }
+        .songslist-option {
+            position: absolute;
+            left: 90%;
+            width: 10%;
+            height: 100%;
+        }
+
+        .songslist-main {
+            background-color: #fff;
+            height: 100%;
+        }
+        .songslist-main .songslist-name{
+            height: 50px;
+            line-height: 50px;
+            border: 0;
+        }
+        .songslist-main .songslist-singer{
+            height: 50px;
+            line-height: 50px;
+            border: 0;
+        }
+        .songslist-single {
+            height: 50px;
+        }
+    </style>
+    <script>
+        //歌曲管理工具的构造函数
+        function MP3(songs){
+            //songList属性用来存储歌曲信息
+            //当创建歌曲管理工具实例的时候，如果有参数传进来就将参数赋值给songList，如果没有就给一个空数组
+            this.songList = songs || [];
+            this._init();
+        }
+
+        //原型替换，将所有的方法，全部加入原型对象中，做到所有的实例共享
+        MP3.prototype = {
+            //由于是替换原型对象，所以constructor属性会丢失，所以需要手动设置
+            constructor : MP3,
+            //初始化这个歌曲管理工具
+            _init:function(){
+                console.log("Hello Itcast");
+                this.render();
+            },
+            //数据驱动，只要歌曲列表发生改变，就调用render方法，将页面上信息进行刷新渲染
+            render:function(){
+                //<div class="songslist-single">
+                // <div class="songslist-name">歌曲名称</div>
+                // <div class="songslist-singer">歌手</div>
+                //</div>
+
+                //拼接字符串有几种方式？
+                //  +
+                // 用数组 push   最终使用join 将数组转换成字符串
+
+                //获取到歌曲列表的父盒子
+                var listDiv = document.getElementById("c");
+                //定义这个数组用来拼接字符串
+                var strArr = [];
+                //遍历歌曲列表中所有的歌曲信息
+                for (var i = 0; i < this.songList.length; i++) {
+                    var song = this.songList[i];
+                    //使用每一个歌曲信息，拼接单独的歌曲html字符串
+                    strArr.push('<div class="songslist-single">'+
+                            '<div class="songslist-name">'+ song.name + '</div>'+
+                            '<div class="songslist-singer">'+ song.singer +'</div>'+
+                            '</div>');
+                }
+                //将所有的歌曲信息html字符串进行组合
+                var str = strArr.join("");
+                //直接将父盒子的内容修改为已经拼接好的字符串
+                listDiv.innerHTML = str;
+            },
+            //添加歌曲
+            addSong:function(songName, singer){
+                //判断是否有传入参数，而且要判断传入参数是否为空字符串
+
+//                if(!songName||!singer){
+//                    throw "请以正确方式添加歌曲！";
+//                }
+
+                if(songName==undefined||singer==undefined||songName==""||singer==""){
+                    throw "请以正确方式添加歌曲！";
+                }
+                //使用传入的参数，构建一个歌曲对象
+                var temp ={name:songName,singer:singer}
+                //将歌曲对象添加到songList中
+                this.songList.push(temp);
+                //在根据歌曲列表重新渲染页面
+                this.render();
+                return temp;
+            },
+            //删除歌曲
+            removeSong:function(songName){
+                //调用seleteSong方法找到指定歌曲
+                var song = this.selectSong(songName);
+                //获取这个歌曲在歌曲列表中索引
+                var index = this.songList.indexOf(song);
+                //判断这个索引是不是为-1 也就是与没有找到
+                if(index!=-1){
+                    //如果直到了，就直接将其从数组中删除
+                    this.songList.splice(index, 1);
+                    //因为数组改变了，所以再次重新渲染
+                    this.render();
+                    return true;
+                }else{
+                    return false;
+                }
+            },
+            updateSong:function(songName,singer){
+                var song = this.selectSong(songName);
+                if(song == null){
+                    return null;
+                }else{
+                    song.singer = singer;
+                    this.render();
+                    return song;
+                }
+            },
+            selectSong:function(songName){
+                for (var i = 0; i < this.songList.length; i++) {
+                    var song = this.songList[i];
+                    if(song.name == songName){
+                        return song;
+                    }
+                }
+                return null;
+            }
+        };
+
+        window.onload = function () {
+            var myMp3 = new MP3([
+                {
+                    name:"南山南",
+                    singer:"马頔"
+                },
+                {
+                    name:"大明湖畔",
+                    singer:"夏雨荷"
+                },
+                {
+                    name:"五环之歌",
+                    singer:"小岳岳"
+                }
+            ]);
+
+            var btnAdd = document.getElementById("btnAdd");
+            var btnRemove= document.getElementById("btnRemove");
+
+            var txtSName = document.getElementById("txtAddSName");
+            var txtSSinger = document.getElementById("txtAddSinger");
+            //点击添加按钮的事件
+            btnAdd.onclick = function () {
+                var songName = txtSName.value;
+                var singer = txtSSinger.value;
+                if(songName.trim()!==""&&singer.trim()!=""){
+                    myMp3.addSong(songName,singer);
+                }
+            }
+            //点击删除按钮的事件
+            btnRemove.onclick=function () {
+                var songName = txtSName.value;
+                if(songName.trim()!==""){
+                    if(myMp3.removeSong(songName)){
+                        alert("删除成功了");
+                    }
+                }
+            }
+
+            var song = myMp3.selectSong("五环之歌");
+            console.log(song);
+
+            var isDeleted = myMp3.removeSong("大明湖畔");
+            console.log(isDeleted,myMp3.songList);
+
+            var song1 = myMp3.updateSong("五环之歌","网络歌手");
+            console.log(myMp3.songList, song1);
+
+            var song2 = myMp3.addSong("十七环之歌","郭德纲");
+            console.log(myMp3.songList, song2);
+        }
+
+    </script>
+</head>
+<body>
+
+<div class="container">
+    <div class="songslist-top">
+        <label for="txtAddSName">歌曲名:</label><input type="text" id="txtAddSName" />
+        <label for="txtAddSinger">歌手:</label><input type="text" id="txtAddSinger" />
+        <button id="btnAdd">添加</button>
+        <button id="btnRemove">删除</button>
+    </div>
+
+    <div class="songslist-header">
+        <div class="songslist-name">歌曲名称</div>
+        <div class="songslist-singer">歌手</div>
+        <div class="songslist-option">操作</div>
+    </div>
+
+    <div class="songslist-main" id="c">
+        <div class="songslist-single">
+            <div class="songslist-name">歌曲名称</div>
+            <div class="songslist-singer">歌手</div>
+        </div>
+
+        <div class="songslist-single">
+            <div class="songslist-name">歌曲名称</div>
+            <div class="songslist-singer">歌手</div>
+        </div>
+
+        <div class="songslist-single">
+            <div class="songslist-name">歌曲名称</div>
+            <div class="songslist-singer">歌手</div>
+        </div>
+
+        <div class="songslist-single">
+            <div class="songslist-name">歌曲名称</div>
+            <div class="songslist-singer">歌手</div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -61,7 +61,42 @@ window.onload = function () {
         ele.style.backgroundColor = "yellow";
     }
 }
-        
+
+//案例4：concat
+var obj = {
+    0:"abc",
+    1:"def",
+    2:"ghi",
+    length:3
+}
+var arr = [].concat.apply([],obj);
+//[].concat(obj[0],obj[1],obj[2])
+console.log(arr);
+
+
+//当call和apply传入的第一个参数为值类型的时候，会将值类型转换成对应的对象（引用类型）然后赋值给this
+//当传入的第一个参数为 null 或 Undefined 的时候，会把this赋值为 window
+function test() {
+    console.log(this.valueOf());
+    console.log(+this);//转换Number
+    console.log(""+this);//转换String
+}
+test.apply(1);// 1 1 1
+test.apply("abc");// abc NaN abc
+test.apply(true);// true 1 true
+test.apply(undefined);// window
+
+//借用构造函数 实现继承
+function Person(){
+    this.name = "csxiaoyao";
+    this.age = 18;
+}
+function Student(){
+    var stu = this;
+    Person.apply(stu);
+}
+var stu = new Student();
+console.log(stu);
 </script>
 </head>
 <body>
