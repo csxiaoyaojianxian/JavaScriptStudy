@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+<meta charset="UTF-8">
+<title></title>
+</head>
+<body>
+
+<script>
+//局部变量：函数内部用var定义的变量
+//全局变量：函数外部/进入javascript之后立即定义的变量/函数内部不带var的变量
+
+//隐式全局变量
+function fn(){
+    //b、c、e、f是隐式全局变量(分号相当于换行)
+    var a = b = c = 1;
+    var d = 1; e = 2; f = 3;
+}
+fn();//若不执行，全部为is not defined
+// console.log(a);//is not defined
+console.log(b);//1
+console.log(c);//1
+// console.log(d);//is not defined
+console.log(e);//2
+console.log(f);//3
+
+</script>
+</body>
+</html>

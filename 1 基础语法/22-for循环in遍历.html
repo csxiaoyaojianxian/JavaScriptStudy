@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<script>
+
+//对象本身没有length，所以不能用for循环遍历，要用for...in...循环
+var obj = {"name":"csxiaoyao","age":18,"arr":[1,2,3]};
+for(var k in obj){
+	console.log(k);//name age arr
+	//obj.k代表对象的k属性的值，并不是k对应的变量值的属性(.后面不能用变量)
+	console.log(obj.k);//undefined undefined undefined
+	//obj[k],代表对象中k这个变量值对应的属性值
+	console.log(obj[k]);//csxiaoyao 18 [1, 2, 3]
+}
+for(var k in obj["arr"]){ // 或obj.arr
+   console.log(obj.arr[k]);// 1 2 3
+}
+
+</script>
+</body>
+</html>

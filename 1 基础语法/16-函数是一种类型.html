@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+<meta charset="UTF-8">
+<title></title>
+</head>
+<body>
+<script>
+
+//函数也是一种数据类型,归根结底属于object
+
+var str = "abc";
+var num = 1;
+var boo = true;
+var aaa;
+var bbb = null;//对象类型
+var arr = [];//对象类型
+
+function fn(){
+    return 111;
+}
+
+console.log(typeof str);//string
+console.log(typeof num);//number
+console.log(typeof boo);//boolean
+console.log(typeof aaa);//undefined
+console.log(typeof bbb);//object
+console.log(typeof arr);//object
+console.log(typeof fn);//function
+console.log(typeof fn());//number
+
+</script>
+</body>
+</html>

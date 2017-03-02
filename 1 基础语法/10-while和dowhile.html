@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+<meta charset="UTF-8">
+<title></title>
+</head>
+<body>
+<script>
+
+//求和
+var sumWhile = 0;
+var i = 1;
+while(i<=100){
+    sumWhile += i;
+    i++;
+}
+console.log(sumWhile);//5050
+
+var j = 1;
+var sumDoWhile = 0;
+do{
+    sumDoWhile += j;
+    j++;
+}while(j<=100);
+console.log(sumDoWhile);//5050
+
+//需求：点取消一直弹窗,点确定结束
+//如果点击取消bool值是false
+do{
+    var bool = confirm("无法取消...");
+    if(bool){
+        alert("ok");
+        break;
+    }
+}while(!bool);
+
+</script>
+</body>
+</html>

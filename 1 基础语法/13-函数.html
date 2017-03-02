@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+<meta charset="UTF-8">
+<title></title>
+</head>
+<body>
+<script>
+//函数就是具有一定功能的可以重复执行的代码块
+//函数的组成分为： 1.参数 2.返回值 3.功能
+//如果函数名相同，后面的函数会覆盖前面的函数（函数名不能一样）
+//函数不调用不执行
+//执行方法是：函数名+();
+//如果没有return或者只有return没有值，那么返回值是undefined
+fn(1,1);
+//定义方法
+function fn(a,b){
+    alert(a+b);
+    return a+b;
+}
+
+//如果形参个数与实参个数不匹配...（一般情况下，我们不会让形参和实参不匹配）
+//js中没有方法重载
+    //1.相等，正常执行。
+    //2.实参大于形参，正常执行。（多余的实参，函数不使用）
+    //3.实参小于形参，可能报错。（报错，NaN，undefined） 未给定实参的形参为undefined;
+fn(1,1,1);
+fn();
+
+//函数名 fn ，就等于整个函数
+//执行函数 fn() ，就等于函数的功能+返回值
+//打印函数名，就等于打印整个函数
+console.log(fn);
+//打印执行函数，就等于打印函数的返回值
+console.log(fn());  
+//函数中包函数，先执行里面，后执行外面
+
+//无调用位置限制
+fn1();
+function fn1(){
+	console.log("第一种定义方法");
+}
+//有局限性（使用函数必须在定义函数之后）
+//(匿名函数)
+var fn2 = function (){
+	console.log("第二种定义方法");
+}
+var fn3 = new Function("console.log('第三种定义方法')");
+fn2();
+fn3();
+
+// 案例：输出天数
+console.log(getDays(2017,3,1));//60
+function getDays(year,month,day){
+    var arr = [31,28,31,30,31,30,31,31,30,31,30,31];
+    for(var i=0;i<month-1;i++){
+        day += arr[i];
+    }
+    if(month>2 && isRN(year)){
+        day += 1;
+    }
+    return day;
+}
+function isRN(year){
+    if(year%4===0 && year%100!==0 || year%400===0){
+        return true;
+    }
+    return false;
+}
+
+</script>
+</body>
+</html>

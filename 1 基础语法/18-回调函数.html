@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+<meta charset="UTF-8">
+<title></title>
+</head>
+<body>
+<script>
+//执行函数：函数名+(); 整个函数+();
+// fn();
+// (function(){})()
+
+//回调函数:函数作为参数进行传递和使用
+//回调函数一般用于定义一个规则，规则的传递只能通过函数实现，通过变量无法达成
+console.log(fn(10,5,add));//15
+console.log(fn(10,5,minus));//5
+console.log(fn(10,5,multiple));//50
+console.log(fn(10,5,divide));//2
+function fn(num1,num2,demo){
+    return demo(num1,num2);
+}
+function add(a,b){
+    return a+b;
+}
+function minus(a,b){
+    return a-b;
+}
+function multiple(a,b){
+    return a*b;
+}
+function divide(a,b){
+    return a/b;
+}
+
+</script>
+</body>
+</html>
