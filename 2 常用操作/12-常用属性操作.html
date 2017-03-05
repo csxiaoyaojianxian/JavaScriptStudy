@@ -14,9 +14,9 @@ var div = document.getElementById("box");
 var inp = document.getElementsByTagName("input")[0];
 // 1.修改内容
 div.value = "sun";
-div.innerHTML="<a>sunshine</a>";
 div.innerText = "sunshine";
-console.log(div.outerHTML);
+div.innerHTML="<a>sunshine</a>";
+console.log(div.outerHTML);//<div id="box">sunshine</div>
 
 // 2.属性操作(两种方式)，获取值与赋值方法，【不能混用】
 // 2.1.第一类方式【获取值】：get/set/removeAttribut: 绑定的属性值会出现在标签上
