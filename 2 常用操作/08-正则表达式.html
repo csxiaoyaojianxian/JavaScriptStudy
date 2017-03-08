@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8">
-    </head>
-    <body>
-	<script type="text/javascript">
+<head>
+<meta charset="utf-8">
+</head>
+<body>
+<script type="text/javascript">
 /**
  * 【正则表达式】
  */
@@ -12,9 +12,12 @@
  * 【1 正则定义】
  */
 //1.内置对象法 new RegExp("正则表达式",模式);
+// new RegExp(pattern, attributes);
 var reg1 = new RegExp(/abc/);
+var reg3 = new RegExp("abc","g");
 //2.字面量[]{}/a/
 var reg2 = /def/;
+var reg4 = /abc/g;
 console.log(reg2);
 console.log(typeof reg2);
 
@@ -24,7 +27,7 @@ console.log(typeof reg2);
 //test() 使用正则对象去匹配字符串，如果匹配成功返回ture，否则返回false
 console.log(reg1.test("abc"));//true
 console.log(/abc/.test("sun"));//false
-//exec() 根据正则表达式去查找字符串符合规则的内容
+//exec() 根据正则表达式去查找字符串符合规则的内容，返回数组，没有匹配项返回null
 //查找出三到四个字符组成的单词。
 var str  ="sun jian feng sunshine studio";
 var reg = /\b[a-z]{3,4}\b/gi;
@@ -32,12 +35,34 @@ var line ="";
 while((line = reg.exec(str))!=null){
     document.write(line+"<br/>");//sun jian feng
 }
+console.log(reg.exec(str));// ["sun", index: 0, input: "sun jian feng sunshine studio"]
+// match() 根据正则表达式去查找字符串符合规则的内容，返回数组，没有匹配项返回null
+console.log(str.match(reg));// ["sun", "jian", "feng"]
+
+// 比较exec和match
+// 1. exec是正则表达式方法，参数为字符串；match是字符串方法，参数为正则表达式
+// 2. 正则表达式有无子表达式(如/abc(\s*)/中(\s*))，是否定义为非全局匹配
+//  2.1. 无子表达式，非全局匹配，二者相同，返回第一个匹配的字符串内容
+//  2.2. 无子表达式，全局匹配，若存在多处匹配，exec返回第一处匹配的单元素数组，match返回多元素数组
+console.log(reg.exec(str));// ["sun", index: 0, input: "sun jian feng sunshine studio"] 只返回第一处匹配项
+console.log(str.match(reg));// ["sun", "jian", "feng"]
+// 3. 有子表达式，非全局匹配，二者相同
+var reg = new RegExp("a(b(c))");//模式0:abc，模式1:bc，模式2:c
+var str = "1abc2,3abc4";
+console.log(reg.exec(str));//["abc", "bc", "c", index: 1, input: "1abc2,3abc4"]
+console.log(str.match(reg));//["abc", "bc", "c", index: 1, input: "1abc2,3abc4"]
+// 4. 有子表达式，全局匹配，match忽略子表达式，只查找模式0并返回所有内容
+var reg = new RegExp("a(b(c))","g");//模式0:abc，模式1:bc，模式2:c
+var str = "1abc2,3abc4";
+console.log(reg.exec(str));//["abc", "bc", "c", index: 1, input: "1abc2,3abc4"]
+console.log(str.match(reg));//["abc", "abc"]
 
 /**
  * 【3 模式】
  */
 // g 全局模式（global）（全文查找出现的所有pattern）
 // i 不区分大小写（ease-insensitive）（忽略大小写）
+// m 执行多行匹配
 
 /**
  * 【4 使用一：五大内部类】
@@ -115,8 +140,12 @@ console.log("------------- x|y -------------");
 //()括号提高运算优先级
 console.log(/(abc)|(xyz)/.test("xy"));      //false
 console.log(/(abc)|(xyz)/.test("abcd"));    //true
-     
-	</script>
+console.log("------------- 贪婪匹配/懒惰匹配 -------------");
+// 量词默认为贪婪匹配(匹配最长串)，量词+"?"可转化为懒惰匹配模式(匹配最短串)
+// a.*?b匹配最短的以a开始b结束的字符串
+console.log("aabab".match(/a.*?b/g));       //["aab", "ab"] 懒惰匹配
+console.log("aabab".match(/a.*b/g));        //["aabab"] 贪婪匹配
 
-    </body>
+</script>
+</body>
 </html>
