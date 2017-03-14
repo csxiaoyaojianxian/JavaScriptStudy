@@ -2,7 +2,7 @@
 * @Author: csxiaoyaojianxian
 * @Date:   2017-02-16 18:30:52
 * @Last Modified by:   SUNSHINE
-* @Last Modified time: 2017-03-08 19:40:52
+* @Last Modified time: 2017-03-15 18:15:45
 */
 var responseCode = function(code){
   switch(code){
@@ -18,7 +18,7 @@ var responseCode = function(code){
     // 2xx （成功） 表示成功处理了请求的状态代码。
     case 200:
       // 服务器已成功处理了请求。 通常，这表示服务器提供了请求的网页。 
-      return {msg:"成功"};
+      return {msg:"成功",act:"alert('操作成功')"};
       break;
     case 201:
       // 请求成功并且服务器创建了新的资源。
@@ -168,7 +168,7 @@ var responseCode = function(code){
       return {msg:"HTTP 版本不受支持"};
       break;
     default:
-      return {msg:"未知状态"};
+      return {msg:"未知状态",act:"alert('操作失败')"};
       break;
   }
   return 0;

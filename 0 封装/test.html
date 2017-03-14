@@ -8,6 +8,7 @@
 <script src="csxiaoyao-url.js"></script>
 <script src="csxiaoyao-cookie.js"></script>
 <script src="csxiaoyao-useragent.js"></script>
+<script src="csxiaoyao-response.js"></script>
 <script>
 /**
  * url
@@ -38,6 +39,12 @@ Cookie.clearCookie("csxiaoyao");
 var UserAgent = UserAgent();
 console.log(UserAgent.language);//zh-cn
 console.log(UserAgent.isMobile);//false
+/**
+ * response
+ */
+var res = responseCode(200);
+alert(res.msg);
+eval(res.act);
 
 </script>
 </body>
