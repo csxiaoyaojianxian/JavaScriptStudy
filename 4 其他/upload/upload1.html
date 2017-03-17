@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+</head>
+<body>
+<h3>File Upload Demo1</h3>
+<form action="upload1.php" method="post" enctype="multipart/form-data">
+	<!-- 隐藏域限制上传文件的最大长度(B),2M -->
+	<input type="hidden" name="MAX_FILE_SIZE" value="2000000">
+	<input name="file" type="file"  value="浏览" ><br/>
+	<input type="submit" value="上传">
+</form>
+<h3>File Upload Demo2</h3>
+<form action="upload2.php" method="post" enctype="multipart/form-data" >
+	<input type="text" name="test" value="" /><br/>
+	<input type="hidden" name="MAX_FILE_SIZE" value="2000000" />
+	<input type="file" name="csxiaoyao[]" value=""><br/>
+	<input type="file" name="csxiaoyao[]" value=""><br/>
+	<input type="file" name="csxiaoyao[]" value=""><br/>
+	<input type="submit" value="上传">
+</form>
+<h3>File Upload Demo3</h3>
+<form action="upload2.php" method="post" enctype="multipart/form-data" >
+	<input type="text" name="test" value="" /><br/>
+	<input type="hidden" name="MAX_FILE_SIZE" value="2000000" />
+	<input type="file" value="" name="csxiaoyao[]" multiple><br/>
+	<input type="submit" value="上传">
+</form>
+</body>
+</html>

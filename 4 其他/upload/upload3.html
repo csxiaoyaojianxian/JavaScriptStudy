@@ -1,0 +1,89 @@
+<!DOCTYPE html>  
+<html>  
+<head>  
+<title></title>  
+<script type="text/javascript">  
+
+function uploadFile() {
+    // 使用 FormData 代替 enctype="multipart/form-data" 的form表单
+    var fd = new FormData();
+    // 注意文件域的键值与后台对应
+    fd.append("csxiaoyao[]", document.getElementById('uploadFile').files[0]);
+    // 新建 xhr 对象
+    var xhr = new XMLHttpRequest();
+    // 检查上传进度
+    xhr.upload.addEventListener("progress", uploadProgress, false);
+    // xhr.addEventListener("readystatechange", readystatechange, false);
+    xhr.addEventListener("load", uploadComplete, false);
+    xhr.addEventListener("error", uploadFailed, false);
+    xhr.addEventListener("abort", uploadCanceled, false);
+    //上传地址接口
+    xhr.open("POST", "upload2.php"); 
+    xhr.send(fd);
+}
+
+function uploadProgress(evt) {
+    if (evt.lengthComputable) {
+        //通过事件对象检查，匿名函数表达式约0.05-0.1秒执行一次
+        console.log(evt);
+        console.log(evt.loaded + " / " + evt.total);  // 已经上传大小 / 总大小
+        var per = Math.round(evt.loaded * 100 / evt.total);//已经上传的百分比
+        var inner =  document.getElementById('inner');
+        inner.innerHTML = per+"%";
+        inner.style.width=per+"%";
+    } else {
+        document.getElementById('progressNumber').innerHTML = 'unable to compute';
+    }
+}
+function readystatechange(){
+    if(this.readyState==4 && this.status==200){
+        alert(this.responseText);
+    }
+}
+function uploadComplete(evt) {
+    /* 服务器端返回响应时候触发event事件*/
+    console.log(evt.target.responseText);
+}
+function uploadFailed(evt) {
+    alert("上传失败");
+}
+function uploadCanceled(evt) {
+    alert("用户取消上传或连接关闭");
+}
+
+// 显示缩略图
+function fileSelected(){
+    var file = document.getElementById('uploadFile').files[0];
+    if (file) {
+        var fileSize = 0;
+        if (file.size > 1024 * 1024)
+            fileSize = (Math.round(file.size * 100 / (1024 * 1024)) / 100).toString() + 'MB';
+        else
+            fileSize = (Math.round(file.size * 100 / 1024) / 100).toString() + 'KB';
+        document.getElementById('fileName').innerHTML = 'Name: ' + file.name;
+        document.getElementById('fileSize').innerHTML = 'Size: ' + fileSize;
+        document.getElementById('fileType').innerHTML = 'Type: ' + file.type;
+        //利用mypic获得图像的url地址(二进制源码)
+        document.getElementsByTagName('img')[0].src = window.URL.createObjectURL(file);
+    }
+}  
+</script>
+<style type="text/css">
+#outer{width:200px; height:10px; border:2px solid blue;}
+#inner{width:0; height:100%; background-color:red; text-align:center; line-height:10px;}
+</style>
+</head>
+<body>
+    <!-- 进度条 -->
+    <div id="outer"><div id="inner"></div></div>  
+    <input type="file" id="uploadFile" onchange="fileSelected()"/>
+    <input type="button" value="上传" onclick="uploadFile()" />
+    
+    <!-- 信息 -->
+    <div id="fileName"></div>
+    <div id="fileSize"></div>
+    <div id="fileType"></div>
+    <!-- 缩略图 -->
+    <img src="" alt="" width="100" height="100"/>
+</body>  
+</html>  
