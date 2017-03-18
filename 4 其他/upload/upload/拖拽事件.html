@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<script>
+// 拖拽事件DragEvent HTML5
+// drag、dragend、dragenter、dragexit、dragleave、dragover、dragstart、drop
+// 常用的四个：dragenter、dragover、drop、dragend 
+// 分别对应的事件为：拖进、拖来拖去、释放鼠标、拖出
+// 上传在drop进行(松开鼠标)，然后可从event取到dataTransfer.files对象，获得拖拽的数据
+
+document.addEventListener("dragenter", function( event ) {
+    console.log("dragenter");
+}, false);
+
+document.addEventListener("dragover", function( event ) {
+    console.log("dragover");
+}, false);
+
+document.addEventListener("drop", function( event ) {
+    event.preventDefault();//禁止浏览器默认行为
+    console.log("drop");
+    // 获取文件
+    console.log(Object.prototype.toString.call(event.dataTransfer.files));//[object FileList]
+    // 遍历文件
+    var file;
+	var files = event.dataTransfer.files;
+	for(var i = 0; i < files.length; i++){
+		// 识别文件/文件夹
+		// event.dataTransfer不能很好的区分文件/文件夹:
+		// 1. 部分文件夹仍会显示size
+		// 2. 文件夹的File的type为""，不加拓展名的文件File的type也为""
+		// 利用FileReader判断，三种方式可以读取文件，但是读取文件夹的时候会触发error
+		// var fr = new FileReader();
+		// fr.readAsBinaryString(file);
+		// fr.readAsDataURL(file);
+		// fr.readAsText(file);
+		// fr.onload=function(e){
+		//    var data = this.result;
+		// }
+		// fr.onerror=function(e){
+		//     //...
+		// }
+	    file = files [i];// 或 file = files.item(i);
+	    myFileReader(file,function(result,file){
+		    if(result){
+		        //文件
+		        console.log("文件");
+		    }else{
+		        //文件夹
+		        console.log("文件夹");
+		    }
+		});
+	    console.log(file.name);
+	}
+    return false;//禁止浏览器默认行为
+}, false);
+
+document.addEventListener("dragend", function( event ) {
+    console.log("dragend");
+}, false);
+
+function myFileReader(file, callback){
+    if(!window.FileReader){
+        callback(true,file);
+        return false;
+    }
+    var fr = new FileReader();
+    fr.readAsDataURL(file);
+    fr.onload=function(e){
+        callback(true,file);
+    }
+    fr.onerror=function(e){
+
+        callback(false,file);  
+    }
+    return true;
+};
+
+</script>
+
+</head>
+<body>
+
+</body>
+</html>
