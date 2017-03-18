@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+
+</head>
+<body>
+<!-- <a href="download.html" download="download.html">直接下载文件</a> -->
+<input type="file" id="fileImg" multiple />
+<script>
+function selectChange(evt){
+	var files = evt.target.files;
+	console.log(files);
+    for(var i=0;i<files.length;i++){
+    	var name = files[i].name;
+    	
+    	// downloadFile(name,files[i]);//直接传入File对象下载
+
+        var reader = new FileReader();
+        reader.onload = function(evt) {
+            downloadDataUrl(name,reader.result);
+        }
+    	reader.readAsDataURL(files[i]);
+    }
+}
+function downloadFile(fileName, content){
+    var aLink = document.createElement('a')
+      , blob = new Blob([content])
+      , evt = document.createEvent("HTMLEvents");
+    evt.initEvent("click",false,false);
+    aLink.download = fileName;
+    aLink.href = URL.createObjectURL(blob);
+    // aLink.dispatchEvent(evt); 未知原因，无效
+    aLink.click();
+}
+function downloadDataUrl(fileName, DataUrl){
+    var aLink = document.createElement('a')
+      , blob = dataURLtoBlob(DataUrl)
+      , evt = document.createEvent("HTMLEvents");
+    evt.initEvent("click",false,false);
+    aLink.download = fileName;
+    aLink.href = URL.createObjectURL(blob);
+    // aLink.dispatchEvent(evt); 未知原因，无效
+    aLink.click();
+}
+function dataURLtoBlob(dataurl) {
+    var arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1],
+        bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
+    while(n--){
+        u8arr[n] = bstr.charCodeAt(n);
+    }
+    return new Blob([u8arr], {type:mime});
+}
+document.getElementById('fileImg').addEventListener('change', selectChange, false);
+</script>
+</body>
+</html>

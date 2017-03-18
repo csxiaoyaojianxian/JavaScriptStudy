@@ -9,12 +9,18 @@
 * **图片居中、上传预览.html**
 1、水平垂直居中的两种实现：CSS-table & js计算
 2、图片的max宽高的两种实现：CSS & js计算
-3、预览图的实现的三种方式：
+3、判断文件类型
+4、文件大小限制
+5、预览图的实现的三种方式：
  【file -> base64】、【file -> blob】、【canvas】 
 4、FileReader 读取文件常见属性
 * **拖拽事件.html**
 1、拖拽事件的判断
 2、识别文件/文件夹
+* **js图片压缩.html**
+利用canvas压缩图片
+* **download.html**
+多文件下载，支持DataURL和Blob
 
 ## 2. webuploader-demo
 

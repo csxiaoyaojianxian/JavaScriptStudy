@@ -92,16 +92,25 @@ function upload(){
 
 图片预览的三种方式：
 【1】 file -> base64 (FileReader)
+data:[][;charset=][;base64],
+Base64 在CSS中的使用：
+.demoImg{ background-image: url("data:image/jpg;base64,/9j/4QMZRXhpZgAASUkqAAgAAAAL...."); }
+Base64 在HTML中的使用：
+<img width="40" height="30" src="data:image/jpg;base64,/9j/4QMZRXhpZgAASUkqAAgAAAAL...." />  
+
+实现代码：
 var reader = new FileReader();
 reader.onload = function(e) {
   var img = new Image;
   img.src = this.result;  // this.result 为base64
 };
 reader.readAsDataURL(file);
+
 【2】 file -> blob
 var url = window.URL.createObjectURL(file);
 var img = new Image;
 img.src = url;
+
 【3】 canvas 略
 
 FileReader

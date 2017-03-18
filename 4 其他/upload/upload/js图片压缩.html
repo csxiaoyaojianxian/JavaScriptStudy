@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+</head>
+<body>
+
+<input type="file" id="fileImg" >
+<img src="" id="preview" alt="">
+
+<script src="js/picCompress.js"></script>
+<script>
+// 图片压缩
+// (1) 调用 FileReader 的 reader.readAsDataURL(img); 方法, 在其onload事件中, 将用户选择的图片读入 Image 对象.
+// (2) 在 image 对象的 onload 事件中, 通过 canvas 的 canvas.getContext('2d') 的 drawImage 方法, 将Image 改变大小绘制到canvas上.
+// (3) 通过 canvas.toDataURL("image/jpeg", 0.1); 方法, 将图片变成base64字符串, 传入服务端.
+
+function handleFileSelect(evt) {
+    // 最终成像质量
+    var quality = 50;
+    var files = evt.target.files;
+    for (var i = 0; i < files.length; i++) {
+        var f = files[i];
+        // 判断文件类型
+        if (!f.type.match('image.*')) {
+            continue;
+        }
+        var reader = new FileReader();
+        reader.onloadend = function() {
+            var result = document.getElementById("preview");
+            result.src = reader.result;
+            // 只为确定显示效果的大小，不影响实际结果
+            result.width /= 10;
+            result.src = picCompress.compress(result, quality).src;
+            // window.location.href = result.src;
+        }
+        reader.readAsDataURL(f);
+    }
+}
+document.getElementById('fileImg').addEventListener('change', handleFileSelect, false);
+
+</script>
+</body>
+</html>
