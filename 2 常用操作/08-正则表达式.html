@@ -38,6 +38,12 @@ while((line = reg.exec(str))!=null){
 console.log(reg.exec(str));// ["sun", index: 0, input: "sun jian feng sunshine studio"]
 // match() 根据正则表达式去查找字符串符合规则的内容，返回数组，没有匹配项返回null
 console.log(str.match(reg));// ["sun", "jian", "feng"]
+// replace()
+console.log("sunjianfeng".replace(/jianfeng/,"shine"));//sunshine
+// search()
+console.log("sunjianfeng".search(/jianfeng/));//3
+// split()  stringObject.split(separator,howmany) separator为字符串或正则表达式，howmany可选，可指定返回数组的最大长度
+console.log("sunjianfeng".split(/n/,3));//["su", "jia", "fe"]
 
 // 比较exec和match
 // 1. exec是正则表达式方法，参数为字符串；match是字符串方法，参数为正则表达式
