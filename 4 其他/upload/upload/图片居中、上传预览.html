@@ -1,0 +1,235 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />     
+<title>图片上传本地预览</title>
+
+<style>
+/**
+ * CSS 实现图片的max宽高和水平垂直居中
+ */
+/* 设置图片的最大宽高，兼容ie6 */
+img { 
+    max-width:400px;
+    max-height:300px;
+    width:expression(document.body.clientWidth>400?"400px":"auto"); /*IE6*/
+    height:expression(document.body.clientHeight>300?"300px":"auto"); /*IE6*/
+    overflow:hidden;
+}
+/* container_outer 确定容器大小，构建一行一列table */
+.outer{
+    display:table;
+    overflow:hidden;
+    _position:relative;
+    width:400px;
+    height:300px;
+}   
+/* container_inner 构建table-cell */
+.inner{
+    vertical-align:middle;
+    display:table-cell;
+    text-align:center;
+    _position:absolute;
+    _top:50%;
+    _left:50%;
+    border:1px solid #000;
+}
+/* content 内容*/
+.content{
+    display:inline-block;
+    _position:relative;
+    _top:-50%;
+    _left:-50%;
+    border:1px solid #000;
+}
+</style>
+<script>
+// js计算图片的max宽高并居中
+function calcImgZoomParam(maxWidth, maxHeight, width, height) {
+    var param = {
+        top: 0,
+        left: 0,
+        width: width,
+        height: height
+    };
+    if (width > maxWidth || height > maxHeight) {
+        rateWidth = width / maxWidth;
+        rateHeight = height / maxHeight;
+        if (rateWidth > rateHeight) {
+            param.width = maxWidth;
+            param.height = Math.round(height / rateWidth);
+        } else {
+            param.width = Math.round(width / rateHeight);
+            param.height = maxHeight;
+        }
+    }
+    param.left = Math.round((maxWidth - param.width) / 2);
+    param.top = Math.round((maxHeight - param.height) / 2);
+    return param;
+}
+</script>
+
+<script>
+// FileReader简单处理版本，使用input[type=file]获取元素，添加onchange事件
+function previewFile() {
+    var preview = document.querySelector('img');
+    var file = document.querySelector('input[type=file]').files[0];
+    var reader = new FileReader();
+    reader.onloadend = function() {
+        preview.src = reader.result;
+    }
+    if (file) {
+        reader.readAsDataURL(file);
+    } else {
+        preview.src = "";
+    }
+}
+function upload(){
+    document.getElementById("file1").click();
+}
+</script>
+<script>
+/*
+
+图片预览的三种方式：
+【1】 file -> base64 (FileReader)
+var reader = new FileReader();
+reader.onload = function(e) {
+  var img = new Image;
+  img.src = this.result;  // this.result 为base64
+};
+reader.readAsDataURL(file);
+【2】 file -> blob
+var url = window.URL.createObjectURL(file);
+var img = new Image;
+img.src = url;
+【3】 canvas 略
+
+FileReader
+常见属性
+1. type
+图片类："image/jpeg"(jpg)、"image/png"、"image/gif"、"image/x-icon"(ico)
+text类："text/plain"(txt)、"text/html"
+video类："video/mp4"
+application类："application/pdf"(pdf)、"application/x-msdownload"(exe)、"application/vnd.openxmlformats-officedocument.wordprocessingml.document"(docx)
+2. lastModified:1486663233834
+3. lastModifiedDate:Fri Feb 10 2017 02:00:33 GMT+0800 (中国标准时间)
+4. name:"index.php"
+5. size:9515
+*/
+
+var maxSize = 512*1024; // 0.5M
+var MAXWIDTH = 400;
+var MAXHEIGHT = 300;
+var result = document.getElementById("result");  
+var file = document.getElementById("file");  
+//判断浏览器是否支持FileReader 
+if(typeof FileReader == 'undefined'){  
+    result.InnerHTML="<p>浏览器不支持FileReader,使用兼容模式实现</p>";  
+    // file.setAttribute("disabled","disabled");  
+}
+function readAsDataURL(){ 
+    // 文件列表 
+    var files = document.getElementById("file");
+    // 第一个文件
+    var file = files.files[0];
+    // 文件类型校验
+    if(!/image\/\w+/.test(file.type)){
+        alert("只允许上传图片");  
+        return false;  
+    }  
+    // 文件大小限制
+    if(file.size > maxSize){
+        alert("文件大小超过"+maxSize/1024+"K");
+        return false;
+    }
+    var result = document.getElementById("result");  
+    // 判断文件的存在性
+    if (file && files) {
+        // 预览图显示div
+        result.innerHTML = "<img id='preview'/>";
+        var img = document.getElementById('preview');
+        // 控制显示样式：水平垂直居中
+        img.onload = function() {
+            var rect = calcImgZoomParam(MAXWIDTH, MAXHEIGHT, img.offsetWidth, img.offsetHeight);
+            img.width = rect.width;
+            img.height = rect.height;
+            img.style.marginLeft = rect.left + 'px';
+            img.style.marginTop = rect.top + 'px';
+        }
+        // FileReader
+        var reader = new FileReader();  
+        reader.onload = function(evt) {
+            img.src = evt.target.result;
+        }
+        // 将文件以 Data URL 形式读入页面 
+        reader.readAsDataURL(file); 
+    }else{ //兼容IE
+        var sFilter = 'filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=scale,src="';
+        file.select();
+        var src = document.selection.createRange().text;
+        result.innerHTML = "<img id='preview'/>";
+        var img = document.getElementById('preview');
+        img.filters.item('DXImageTransform.Microsoft.AlphaImageLoader').src = src;
+        var rect = calcImgZoomParam(MAXWIDTH, MAXHEIGHT, img.offsetWidth, img.offsetHeight);
+        status = ('rect:' + rect.top + ',' + rect.left + ',' + rect.width + ',' + rect.height);
+        result.innerHTML = "<div style='width:" + rect.width + "px;height:" + rect.height + "px;margin-top:" + rect.top + "px;" + sFilter + src + "\"'></div>";
+    }
+}
+function readAsBinaryString(){  
+    var file = document.getElementById("file").files[0];  
+    var reader = new FileReader();  
+    //将文件以二进制形式读入页面  
+    reader.readAsBinaryString(file);  
+    reader.onload=function(f){  
+        var result=document.getElementById("result");  
+        //显示文件  
+        result.innerHTML=this.result;  
+    }  
+}
+function readAsText(){  
+    var file = document.getElementById("file").files[0];  
+    var reader = new FileReader();  
+    //将文件以文本形式读入页面  
+    reader.readAsText(file);  
+    reader.onload=function(f){  
+        var result=document.getElementById("result");  
+        //显示文件  
+        result.innerHTML=this.result;
+    }  
+}
+
+</script>  
+
+<style>
+#file1{
+    visibility: hidden;
+    position: absolute;
+}
+#result{
+    width: 400px;
+    height: 300px;
+    border: 1px solid black;
+}
+#preview{
+    filter: progid: DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=image);
+}
+</style>
+</head>
+
+<body>
+    <input type="file" onchange="previewFile()" id="file1">
+    <div class="outer">
+        <div class="inner">
+            <img class="content" src="" alt="点击上传图片并预览" onclick="upload()" />
+        </div>
+    </div>
+
+	<input type="file" id="file" />  
+	<input type="button" value="读取图像" onclick="readAsDataURL()" />  
+	<input type="button" value="读取二进制数据" onclick="readAsBinaryString()" />  
+	<input type="button" value="读取文本文件" onclick="readAsText()" />  
+	<div id="result"></div>
+
+</body>
+
+</html>
