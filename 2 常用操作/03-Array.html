@@ -8,13 +8,18 @@
 
 /**
  * Array数组对象
- *
- * 创建数组的方式
- * 方式1:var 变量名 = new Array(); //创建一个长度为0的数组
- * 方式2:var 变量名 = new Array(长度) //创建一个指定长度的数组对象
- * 方式3:var 变量名 = new Array("元素1","元素2"...) //创建指定元素的数组对象
- * 方式4:var 变量名 = ["元素1","元素2"...];
  */
+/**
+ * (一) 创建数组的方式
+ */
+// 方式1:var 变量名 = new Array(); //创建一个长度为0的数组
+// 方式2:var 变量名 = new Array(长度) //创建一个指定长度的数组对象
+// 方式3:var 变量名 = new Array("元素1","元素2"...) //创建指定元素的数组对象
+// 方式4:var 变量名 = ["元素1","元素2"...];
+
+// 【概念】：浅拷贝、深拷贝
+// 浅拷贝，复制的是引用
+// 深拷贝，遍历数组赋值，复制的是值
 
 // 在javascript中数组长度可变
 var arr = new Array(3); //创建了一个长度为【0】的数组对象。
@@ -27,6 +32,23 @@ document.write("arr长度："+arr.length+"<br/>");//4
 /**
  * 常用方法
  */
+// (二) 存取函数
+// 查找元素：indexOf()、lastIndexOf()
+// 字符串-->数组：split()
+// 数组-->字符串：join()、toString()
+// 已有数组-->新数组：concat()、splice()
+
+// (三) 可变函数
+// 添加元素：push()、unshift()
+// 删除元素：pop()、shift()
+// 中间位置添加删除元素：splice()
+// 排序：reverse()、sort()
+
+// (四) 迭代器方法
+// 不生成新数组：forEach()、every()、some()、reduce()、reduceRight()
+// 生成新数组：map()、filter()
+
+
 //【length】:返回数组长度
 var length = arr.length
 //【sort】:排序，要传入排序的方法
@@ -109,7 +131,7 @@ var arr1 = arr.filter(function (ele,index,array) {
 	return false;
 });
 console.log(arr1);//["诸葛亮"]
-//【foreach()】: 遍历数组(无返回值，纯操作数组中的元素)
+//【forEach()】: 遍历数组(无返回值，纯操作数组中的元素)
 var str = "";
 arr.forEach(function (ele,index,array) {
 	str+=ele;
@@ -128,7 +150,28 @@ var flag = arr.some(function (ele,index,array) {
 	return false;
 })
 console.log(flag);//true
+//【reduce()】: 接受一个函数、返回一个值
+function add(runningTotal, currentValue){
+	return runningTotal + currentValue;
+}
+function concat(accumulatedString, item){
+	return accumulatedString + item;
+}
+var nums = [1,2,3,4,5,6,7,8,9,10];
+var sum = nums.reduce(add);// 累加
+var words = ["sun","shine"," ","studio"];
+var sentence = words.reduce(concat);// 拼接字符串
+console.log(sum);//55
+console.log(sentence);// sunshine studio
+//【reduceRight()】: 接受一个函数、返回一个值
+var sentence = words.reduceRight(concat);// 拼接字符串
+console.log(sentence);// studio shinesun
 
+/**
+ * (五) 二维和多维数组
+ * 定义 [[],[],[]]
+ * 访问 [][]
+ */
 </script>
 
 </body>
