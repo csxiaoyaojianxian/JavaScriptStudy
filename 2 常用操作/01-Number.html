@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<script>
+// Number 对象
+/**
+ * 创建
+ */
+var myNum1 = new Number(77);
+var myNum2 = Number(77);
+
+/**
+ * 获取值
+ */
+// 获取 Number 原始值，使用 valueOf() 方法
+var iNumber1 = myNum1.valueOf();
+var iNumber2 = myNum2.toString();
+console.log(iNumber1);//77
+console.log(iNumber2);//77
+
+/**
+ * 属性
+ */
+// constructor	返回对创建此对象的 Number 函数的引用
+// MAX_VALUE	可表示的最大的数
+// MIN_VALUE	可表示的最小的数
+// NaN	非数字值
+// NEGATIVE_INFINITY	负无穷大，溢出时返回该值
+// POSITIVE_INFINITY	正无穷大，溢出时返回该值
+// prototype	使您有能力向对象添加属性和方法
+
+// MAX_VALUE、MIN_VALUE、NEGATIVE_INFINITY、POSITIVE_INFINITY、NaN 是 Number构造函数的属性，而非Number对象的属性
+console.log(myNum1.MAX_VALUE);//undefined
+console.log(iNumber1.MAX_VALUE);//undefined
+console.log(Number.MAX_VALUE);//1.7976931348623157e+308
+console.log(Number.MIN_VALUE);//5e-324
+console.log(Number.NEGATIVE_INFINITY);//-Infinity
+console.log(Number.POSITIVE_INFINITY);//Infinity
+console.log(Number.NaN);//NaN
+console.log(Number.constructor);//function Function() { [native code] }
+console.log(Number.prototype);//Number {[[PrimitiveValue]]: 0}
+
+/**
+ * 方法
+ */
+// toString	把数字转换为字符串，使用指定的基数
+// toLocaleString	把数字转换为字符串，使用本地数字格式顺序
+// toFixed	把数字转换为字符串，结果的小数点后有指定位数的数字
+// toExponential	把对象的值转换为指数计数法
+// toPrecision	把数字格式化为指定的长度
+// valueOf	返回一个 Number 对象的基本数字值
+console.log(myNum1.toFixed(2));//77.00
+console.log(myNum1.toFixed(2));//77.00
+console.log(myNum1.toExponential(2));//7.70e+1 参数代表小数位数
+console.log(Number(7777).toPrecision(2));//7.8e+3 出现四舍五入
+console.log(Number(7777).toPrecision(5));//7777.0
+
+</script>
+</body>
+</html>
