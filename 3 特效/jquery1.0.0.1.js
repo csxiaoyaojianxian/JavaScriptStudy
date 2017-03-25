@@ -1,6 +1,3 @@
-/**
- * Created by Lenovo on 2016/9/11.
- */
 function show(ele){
     ele.style.display = "block";
 }
