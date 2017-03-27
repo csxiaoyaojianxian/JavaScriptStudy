@@ -1,0 +1,122 @@
+﻿<script type="text/javascript">
+	
+	//当函数作为对象的方法被调用时，this 指向该对象：
+
+	var obj = {
+		a: 1,
+		getA: function(){
+			alert ( this === obj ); // 输出：true
+			alert ( this.a ); // 输出: 1
+		}
+	};
+
+	obj.getA();
+
+
+	//在浏览器的JavaScript 里，这个全局对象是window 对象。
+	window.name = 'globalName';
+
+	var getName = function(){
+		return this.name;
+	};
+	console.log( getName() ); // 输出：globalName
+
+	//或者：
+	window.name = 'globalName';
+
+	var myObject = {
+		name: 'sven',
+		getName: function(){
+			return this.name;
+		}
+	};
+
+	var getName = myObject.getName;
+	console.log( getName() ); // globalName
+
+</script>
+
+<html>
+	<body>
+		<div id="div1">我是一个div</div>
+	</body>
+	<script>
+
+	window.id = 'window';
+
+	document.getElementById( 'div1' ).onclick = function(){
+		alert ( this.id ); // 输出：'div1'
+		var callback = function(){
+			alert ( this.id ); // 输出：'window'
+		}
+		callback();
+	};
+
+
+	document.getElementById( 'div1' ).onclick = function(){
+		var that = this; // 保存div 的引用
+		var callback = function(){
+			alert ( that.id ); // 输出：'div1'
+		}
+		callback();
+	};
+
+	</script>
+</html>
+
+
+
+<script type="text/javascript">
+
+	function func(){
+		"use strict"
+		alert ( this ); // 输出：undefined
+	}
+
+	func();
+
+</script>
+
+
+<script type="text/javascript">
+	//构造器里的this 就指向返回的这个对象，见如下代码：
+	var MyClass = function(){
+		this.name = 'sven';
+	};
+
+	var obj = new MyClass();
+	alert ( obj.name ); // 输出：sven
+
+	var MyClass = function(){
+		this.name = 'sven';
+		return { // 显式地返回一个对象
+			name: 'anne'
+		}
+	};
+
+	var obj = new MyClass();
+	alert ( obj.name ); // 输出：anne
+
+	var MyClass = function(){
+		this.name = 'sven'
+		return 'anne'; // 返回string 类型
+	};
+
+	var obj = new MyClass();
+	alert ( obj.name ); // 输出：sven
+
+	var obj1 = {
+		name: 'sven',
+		getName: function(){
+			return this.name;
+		}
+	};
+
+	var obj2 = {
+		name: 'anne'
+	};
+	
+	console.log( obj1.getName() ); // 输出: sven
+	console.log( obj1.getName.call( obj2 ) ); // 输出：anne
+
+</script>
