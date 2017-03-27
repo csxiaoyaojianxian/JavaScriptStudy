@@ -1,0 +1,89 @@
+﻿<script type="text/javascript">
+
+ 	'use strict'
+
+	var obj1 = new Object();
+	var obj2 = {};
+
+	console.log( Object.getPrototypeOf( obj1 ) === Object.prototype ); // 输出：true
+	console.log( Object.getPrototypeOf( obj2 ) === Object.prototype ); // 输出：true
+
+
+	//再来看看如何用new 运算符从构造器中得到一个对象，下面的代码我们再熟悉不过了：
+	function Person( name ){
+		this.name = name;
+	};
+
+	Person.prototype.getName = function(){
+		return this.name;
+	};
+
+	var a = new Person( 'sven' )
+	console.log( a.name ); // 输出：sven
+	console.log( a.getName() ); // 输出：sven
+	console.log( Object.getPrototypeOf( a ) === Person.prototype ); // 输出：true
+
+	//在Chrome 和Firefox 等向外暴露了对象__proto__属性的浏览器下，我们可以通过下面这段代码来理解new 运算的过程：
+	function Person( name ){
+		this.name = name;
+	};
+
+	Person.prototype.getName = function(){
+		return this.name;
+	};
+
+	var objectFactory = function(){
+		var obj = new Object(), // 从Object.prototype 上克隆一个空的对象
+		Constructor = [].shift.call( arguments ); // 取得外部传入的构造器，此例是Person
+		obj.__proto__ = Constructor.prototype; // 指向正确的原型
+		var ret = Constructor.apply( obj, arguments ); // 借用外部传入的构造器给obj 设置属性
+		return typeof ret === 'object' ? ret : obj; // 确保构造器总是会返回一个对象
+	};
+
+	var a = objectFactory( Person, 'sven' );
+
+	console.log( a.name ); // 输出：sven
+	console.log( a.getName() ); // 输出：sven
+	console.log( Object.getPrototypeOf( a ) === Person.prototype ); // 输出：true
+
+
+	//下面的代码是我们最常用的原型继承方式：
+
+	var obj = { name: 'sven' };
+	var A = function(){};
+	A.prototype = obj;
+	var a = new A();
+	console.log( a.name ); // 输出：sven
+
+	//当我们期望得到一个“类”继承自另外一个“类”的效果时，往往会用下面的代码来模拟实现：
+	var A = function(){};
+	A.prototype = { name: 'sven' };
+	var B = function(){};
+	B.prototype = new A();
+	var b = new B();
+	console.log( b.name ); // 输出：sven
+
+	//通过Class 创建对象的一段简单示例代码①如下所示 ：
+	class Animal {
+		constructor(name) {
+			this.name = name;
+		}
+
+		getName() {
+			return this.name;
+		}
+	}
+
+	class Dog extends Animal {
+		constructor(name) {
+			super(name);
+		}
+		speak() {
+			return "woof";
+		}
+	}
+
+	var dog = new Dog("Scamp");
+	console.log(dog.getName() + ' says ' + dog.speak());
+
+</script>

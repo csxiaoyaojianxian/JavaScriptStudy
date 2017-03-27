@@ -1,0 +1,81 @@
+﻿<html>
+<body>
+	<button id="exeCommand">执行菜单命令</button>
+	<script>
+		var RefreshMenuBarCommand = function(){};
+		RefreshMenuBarCommand.prototype.execute = function(){
+			console.log( '刷新菜单界面' );
+		};
+		var AddSubMenuCommand = function(){};
+		AddSubMenuCommand.prototype.execute = function(){
+			console.log( '增加子菜单' );
+		};
+		var DelSubMenuCommand = function(){};
+		/*****没有实现DelSubMenuCommand.prototype.execute *****/
+		// DelSubMenuCommand.prototype.execute = function(){
+		// };
+
+		var refreshMenuBarCommand = new RefreshMenuBarCommand(),
+		addSubMenuCommand = new AddSubMenuCommand(),
+		delSubMenuCommand = new DelSubMenuCommand();
+		var setCommand = function( command ){
+			document.getElementById( 'exeCommand' ).onclick = function(){
+				command.execute();
+			}
+		};
+		setCommand( refreshMenuBarCommand );
+		// 点击按钮后输出："刷新菜单界面"
+		setCommand( addSubMenuCommand );
+		// 点击按钮后输出："增加子菜单"
+		setCommand( delSubMenuCommand );
+		// 点击按钮后报错。Uncaught TypeError: undefined is not a function
+</script>
+</body>
+</html>
+
+<script type="text/javascript">
+	var setCommand = function( command ){
+		document.getElementById( 'exeCommand' ).onclick = function(){
+			if ( typeof command.execute !== 'function' ){
+				throw new Error( "command 对象必须实现execute 方法" );
+			}
+			command.execute();
+		}
+	};
+
+</script>
+
+<script type="text/javascript">
+	interface Command{
+		execute: Function;
+	}
+
+	class RefreshMenuBarCommand implements Command{
+		constructor (){
+		}
+		execute(){
+			console.log( '刷新菜单界面' );
+
+		}
+	}
+	class AddSubMenuCommand implements Command{
+		constructor (){
+		}
+		execute(){
+			console.log( '增加子菜单' );
+		}
+	}
+	class DelSubMenuCommand implements Command{
+		constructor (){
+		}
+			// 忘记重写execute 方法
+	}
+
+	var refreshMenuBarCommand = new RefreshMenuBarCommand(),
+	addSubMenuCommand = new AddSubMenuCommand(),
+	delSubMenuCommand = new DelSubMenuCommand();
+	refreshMenuBarCommand.execute(); // 输出：刷新菜单界面
+	addSubMenuCommand.execute(); // 输出：增加子菜单
+	delSubMenuCommand.execute(); // 输出：Uncaught TypeError: undefined is not a function
+
+</script>

@@ -1,0 +1,392 @@
+﻿<script type="text/javascript">
+	var getUserInfo = function( userId, callback ){
+		$.ajax( 'http://xxx.com/getUserInfo?' + userId, function( data ){
+			if ( typeof callback === 'function' ){
+				callback( data );
+			}
+		});
+	}
+	getUserInfo( 13157, function( data ){
+		alert ( data.userName );
+	});
+
+
+	//比如，我们想在页面中创建100 个div 节点，然后把这些div 节点都设置为隐藏。下面是一种编写代码的方式：
+	var appendDiv = function(){
+		for ( var i = 0; i < 100; i++ ){
+			var div = document.createElement( 'div' );
+			div.innerHTML = i;
+			document.body.appendChild( div );
+			div.style.display = 'none';
+		}
+	};
+	appendDiv();
+
+
+	//于是我们把div.style.display = 'none'这行代码抽出来，用回调函数的形式传入appendDiv方法：
+	var appendDiv = function( callback ){
+		for ( var i = 0; i < 100; i++ ){
+			var div = document.createElement( 'div' );
+			div.innerHTML = i;
+			document.body.appendChild( div );
+			if ( typeof callback === 'function' ){
+				callback( div );
+			}
+		}
+	};
+	appendDiv(function( node ){
+		node.style.display = 'none';
+	});
+
+	[ 1, 4, 3 ].sort( function( a, b ){
+		return a - b;
+	});
+
+	[ 1, 4, 3 ].sort( function( a, b ){
+		return b - a;
+	});
+
+
+	//所以我们可以编写一系列的isType 函数。代码如下：
+	var isString = function( obj ){
+		return Object.prototype.toString.call( obj ) === '[object String]';
+	};
+	var isArray = function( obj ){
+		return Object.prototype.toString.call( obj ) === '[object Array]';
+	};
+	var isNumber = function( obj ){
+		return Object.prototype.toString.call( obj ) === '[object Number]';
+	};
+
+	var isType = function( type ){
+		return function( obj ){
+			return Object.prototype.toString.call( obj ) === '[object '+ type +']';
+		}
+	};
+
+	var isString = isType( 'String' );
+	var isArray = isType( 'Array' );
+	var isNumber = isType( 'Number' );
+
+	console.log( isArray( [ 1, 2, 3 ] ) ); // 输出：true
+
+	//我们还可以用循环语句，来批量注册这些isType 函数：
+	var Type = {};
+	for ( var i = 0, type; type = [ 'String', 'Array', 'Number' ][ i++ ]; ){
+		(function( type ){
+			Type[ 'is' + type ] = function( obj ){
+				return Object.prototype.toString.call( obj ) === '[object '+ type +']';
+			}
+		})( type )
+	};
+
+	Type.isArray( [] ); // 输出：true
+	Type.isString( "str" ); // 输出：true
+
+	var getSingle = function ( fn ) {
+		var ret;
+		return function () {
+			return ret || ( ret = fn.apply( this, arguments ) );
+		};
+	};
+
+	//这个高阶函数的例子，既把函数当作参数传递，又让函数执行后返回了另外一个函数。我们
+	//可以看看getSingle 函数的效果：
+
+	var getScript = getSingle(function(){
+		return document.createElement( 'script' );
+	});
+	var script1 = getScript();
+	var script2 = getScript();
+	alert ( script1 === script2 ); // 输出：true
+
+	Function.prototype.before = function( beforefn ){
+		var __self = this; // 保存原函数的引用
+		return function(){ // 返回包含了原函数和新函数的"代理"函数
+			beforefn.apply( this, arguments ); // 执行新函数，修正this
+			return __self.apply( this, arguments ); // 执行原函数
+		}
+	};
+
+	Function.prototype.after = function( afterfn ){
+		var __self = this;
+		return function(){
+			var ret = __self.apply( this, arguments );
+			afterfn.apply( this, arguments );
+			return ret;
+		}
+	};
+
+	var func = function(){
+		console.log( 2 );
+	};
+
+	func = func.before(function(){
+		console.log( 1 );
+	}).after(function(){
+		console.log( 3 );
+	});
+
+	func();
+
+	var monthlyCost = 0;
+	var cost = function( money ){
+		monthlyCost += money;
+	};
+
+	cost( 100 ); // 第1 天开销
+	cost( 200 ); // 第2 天开销
+	cost( 300 ); // 第3 天开销
+	//cost( 700 ); // 第30 天开销
+	alert ( monthlyCost ); // 输出：600
+
+	var cost = (function(){
+		var args = [];
+		return function(){
+			if ( arguments.length === 0 ){
+				var money = 0;
+				for ( var i = 0, l = args.length; i < l; i++ ){
+					money += args[ i ];
+					50 第3 章 闭包和高阶函数
+				}
+				return money;
+			}else{
+				[].push.apply( args, arguments );
+			}
+		}
+	})();
+
+	cost( 100 ); // 未真正求值
+	cost( 200 ); // 未真正求值
+	cost( 300 ); // 未真正求值
+	console.log( cost() ); // 求值并输出：600
+
+	var currying = function( fn ){
+		var args = [];
+		return function(){
+			if ( arguments.length === 0 ){
+				return fn.apply( this, args );
+			}else{
+				[].push.apply( args, arguments );
+				return arguments.callee;
+			}
+		}
+	};
+	var cost = (function(){
+		var money = 0;
+		return function(){
+			for ( var i = 0, l = arguments.length; i < l; i++ ){
+				money += arguments[ i ];
+			}
+			return money;
+		}
+	})();
+
+	var cost = currying( cost ); // 转化成currying 函数
+	cost( 100 ); // 未真正求值
+	cost( 200 ); // 未真正求值
+	cost( 300 ); // 未真正求值
+	alert ( cost() ); // 求值并输出：600
+
+	Function.prototype.uncurrying = function () {
+		var self = this;
+		return function() {
+			var obj = Array.prototype.shift.call( arguments );
+			return self.apply( obj, arguments );
+		};
+	};
+
+	var push = Array.prototype.push.uncurrying();
+
+	(function(){
+		push( arguments, 4 );
+		console.log( arguments ); // 输出：[1, 2, 3, 4]
+	})( 1, 2, 3 );
+
+	for ( var i = 0, fn, ary = [ 'push', 'shift', 'forEach' ]; fn = ary[ i++ ]; ){
+		Array[ fn ] = Array.prototype[ fn ].uncurrying();
+	};
+	var obj = {
+		"length": 3,
+		"0": 1,
+		"1": 2,
+		"2": 3
+	};
+
+	Array.push( obj, 4 ); // 向对象中添加一个元素
+	console.log( obj.length ); // 输出：4
+	var first = Array.shift( obj ); // 截取第一个元素
+	console.log( first ); // 输出：1
+	console.log( obj ); // 输出：{0: 2, 1: 3, 2: 4, length: 3}
+
+	Array.forEach( obj, function( i, n ){
+		console.log( n ); // 分别输出：0, 1, 2
+	});
+
+
+	var call = Function.prototype.call.uncurrying();
+
+	var fn = function( name ){
+		console.log( name );
+	}
+
+	call( fn, window, 'sven' ); // 输出：sven
+
+	var apply = Function.prototype.apply.uncurrying();
+	var fn = function( name ){
+		console.log( this.name ); // 输出："sven"
+		console.log( arguments ); // 输出: [1, 2, 3]
+	};
+
+	apply( fn, { name: 'sven' }, [ 1, 2, 3 ] );
+
+
+	Function.prototype.uncurrying = function () {
+		var self = this; // self 此时是Array.prototype.push
+		return function() {
+			var obj = Array.prototype.shift.call( arguments );
+			return self.apply( obj, arguments );
+		// 相当于Array.prototype.push.apply( obj, 2 )
+	};
+};
+
+var push = Array.prototype.push.uncurrying();
+var obj = {
+	"length": 1,
+	"0": 1
+};
+
+push( obj, 2 );
+	console.log( obj ); // 输出：{0: 1, 1: 2, length: 2}
+
+	Function.prototype.uncurrying = function(){
+		var self = this;
+		return function(){
+			return Function.prototype.call.apply( self, arguments );
+		}
+	};
+
+	var throttle = function ( fn, interval ) {
+		var __self = fn, // 保存需要被延迟执行的函数引用
+		timer, // 定时器
+		firstTime = true; // 是否是第一次调用
+		return function () {
+			var args = arguments,
+			__me = this;
+			if ( firstTime ) { // 如果是第一次调用，不需延迟执行
+				__self.apply(__me, args);
+				return firstTime = false;
+			}
+			if ( timer ) { // 如果定时器还在，说明前一次延迟执行还没有完成
+				return false;
+
+			timer = setTimeout(function () { // 延迟一段时间执行
+				clearTimeout(timer);
+				timer = null;
+				__self.apply(__me, args);
+			}, interval || 500 );
+		};
+	};
+
+
+	window.onresize = throttle(function(){
+		console.log( 1 );
+	}, 500 );
+
+	var ary = [];
+	for ( var i = 1; i <= 1000; i++ ){
+		ary.push( i ); // 假设ary 装载了1000 个好友的数据
+	};
+
+	var renderFriendList = function( data ){
+		for ( var i = 0, l = data.length; i < l; i++ ){
+			var div = document.createElement( 'div' );
+			div.innerHTML = i;
+			document.body.appendChild( div );
+		}
+	};
+
+	renderFriendList( ary );
+
+	var timeChunk = function( ary, fn, count ){
+		var obj,
+		t;
+		var len = ary.length;
+		var start = function(){
+			for ( var i = 0; i < Math.min( count || 1, ary.length ); i++ ){
+				var obj = ary.shift();
+				fn( obj );
+			}
+		};
+		return function(){
+			t = setInterval(function(){
+			if ( ary.length === 0 ){ // 如果全部节点都已经被创建好
+				return clearInterval( t );
+			}
+			start();
+			}, 200 ); // 分批执行的时间间隔，也可以用参数的形式传入
+		};
+	};
+
+	var ary = [];
+	for ( var i = 1; i <= 1000; i++ ){
+		ary.push( i );
+	};
+	var renderFriendList = timeChunk( ary, function( n ){
+		var div = document.createElement( 'div' );
+		div.innerHTML = n;
+		document.body.appendChild( div );
+	}, 8 );
+	renderFriendList();
+
+	var addEvent = function( elem, type, handler ){
+		if ( window.addEventListener ){
+			return elem.addEventListener( type, handler, false );
+
+		}
+		if ( window.attachEvent ){
+			return elem.attachEvent( 'on' + type, handler );
+		}
+	};
+
+	var addEvent = (function(){
+		if ( window.addEventListener ){
+			return function( elem, type, handler ){
+				elem.addEventListener( type, handler, false );
+			}
+		}
+		if ( window.attachEvent ){
+			return function( elem, type, handler ){
+				elem.attachEvent( 'on' + type, handler );
+			}
+		}
+	})();
+</script>
+
+<html>
+	<body>
+		<div id="div1">点我绑定事件</div>
+		<script>
+			var addEvent = function( elem, type, handler ){
+				if ( window.addEventListener ){
+					addEvent = function( elem, type, handler ){
+						elem.addEventListener( type, handler, false );
+					}
+				}else if ( window.attachEvent ){
+					addEvent = function( elem, type, handler ){
+						elem.attachEvent( 'on' + type, handler );
+					}
+				}
+				addEvent( elem, type, handler );
+			};
+
+			var div = document.getElementById( 'div1' );
+			addEvent( div, 'click', function(){
+				alert (1);
+			});
+			addEvent( div, 'click', function(){
+				alert (2);
+			});
+		</script>
+	</body>
+</html>

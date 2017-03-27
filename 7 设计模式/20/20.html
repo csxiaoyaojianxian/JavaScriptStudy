@@ -1,0 +1,103 @@
+﻿<script type="text/javascript">
+	Function.prototype.after = function( afterfn ){
+		var __self = this;
+		return function(){
+			var ret = __self.apply( this, arguments );
+			afterfn.apply( this, arguments );
+			return ret;
+		}
+	};
+	window.onload = ( window.onload || function(){} ).after(function(){
+		console.log( document.getElementsByTagName( '*' ).length );
+	});
+
+</script>
+
+<script type="text/javascript">
+	var makeSound = function( animal ){
+		if ( animal instanceof Duck ){
+			console.log( '嘎嘎嘎' );
+		}else if ( animal instanceof Chicken ){
+			console.log( '咯咯咯' );
+		}
+	};
+
+	var Duck = function(){};
+	var Chicken = function(){};
+	makeSound( new Duck() ); // 输出：嘎嘎嘎
+	makeSound( new Chicken() ); // 输出：咯咯咯
+
+
+
+	var makeSound = function( animal ){
+		if ( animal instanceof Duck ){
+			console.log( '嘎嘎嘎' );
+		}else if ( animal instanceof Chicken ){
+			console.log( '咯咯咯' );
+		}else if ( animal instanceof Dog ){ // 增加跟狗叫声相关的代码
+			console.log('汪汪汪' );
+		}
+	};
+
+
+
+	var Dog = function(){};
+	makeSound( new Dog() ); // 增加一只狗
+
+	var makeSound = function( animal ){
+		animal.sound();
+	};
+	var Duck = function(){};
+	Duck.prototype.sound = function(){
+		console.log( '嘎嘎嘎' );
+	};
+	var Chicken = function(){};
+	Chicken.prototype.sound = function(){
+		console.log( '咯咯咯' );
+	};
+	makeSound( new Duck() ); // 嘎嘎嘎
+	makeSound( new Chicken() ); // 咯咯咯
+	/********* 增加动物狗，不用改动原有的makeSound 函数 ****************/
+	var Dog = function(){};
+	Dog.prototype.sound = function(){
+		console.log( '汪汪汪' );
+	};
+	makeSound( new Dog() ); // 汪汪汪
+
+</script>
+
+
+<script type="text/javascript">
+
+	var getUserInfo = function( callback ){
+		$.ajax( 'http:// xxx.com/getUserInfo', callback );
+	};
+	getUserInfo( function( data ){
+		console.log( data.userName );
+	});
+	getUserInfo( function( data ){
+		console.log( data.userId );
+	});
+
+	var arrayMap = function( ary, callback ){
+		var i = 0,
+		length = ary.length,
+		value,
+		ret = [];
+		for ( ; i < length; i++ ){
+			value = callback( i, ary[ i ] );
+			ret.push( value );
+		}
+		return ret;
+	}
+	var a = arrayMap( [ 1, 2, 3 ], function( i, n ){
+		return n * 2;
+	});
+	var b = arrayMap( [ 1, 2, 3 ], function( i, n ){
+		return n * 3;
+	});
+	
+	console.log( a ); // 输出：[ 2, 4, 6 ]
+	console.log( b ); // 输出：[ 3, 6, 9 ]
+
+</script>

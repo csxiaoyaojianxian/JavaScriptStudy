@@ -1,0 +1,43 @@
+﻿<script type="text/javascript">
+	//这是一个经常遇到的问题，我们先看下面的代码：
+	var obj = {
+		myName: 'sven',
+		getName: function(){
+			return this.myName;
+		}
+	};
+
+	console.log( obj.getName() ); // 输出：'sven'
+
+	var getName2 = obj.getName;
+	console.log( getName2() ); // 输出：undefined
+
+
+	//如同prototype.js 等一些框架所做过的事情：
+
+	var getId = function( id ){
+		return document.getElementById( id );
+	};
+	
+	getId( 'div1' );
+	
+	//我们也许思考过为什么不能用下面这种更简单的方式：
+	
+	var getId = document.getElementById;
+	getId( 'div1' );
+	
+
+
+	//我们可以尝试利用apply 把document 当作this 传入getId 函数，帮助“修正”this：
+	document.getElementById = (function( func ){
+		return function(){
+			return func.apply( document, arguments );
+		}
+	})( document.getElementById );
+	
+	var getId = document.getElementById;
+	var div = getId( 'div1' );
+	alert (div.id); // 输出： div1
+
+
+</script>

@@ -1,0 +1,118 @@
+﻿<script type="text/javascript">
+	var myImage = (function(){
+		var imgNode = document.createElement( 'img' );
+		document.body.appendChild( imgNode );
+		return {
+			setSrc: function( src ){
+
+				imgNode.src = src;
+			}
+		}
+	})();
+
+	var proxyImage = (function(){
+		var img = new Image;
+		img.onload = function(){
+			myImage.setSrc( this.src );
+		}
+		return {
+			setSrc: function( src ){
+				myImage.setSrc( 'file:// /C:/Users/svenzeng/Desktop/loading.gif' );
+				img.src = src;
+			}
+		}
+	})();
+	proxyImage.setSrc( 'http:// imgcache.qq.com/music/photo/000GGDys0yA0Nk.jpg' );
+
+</script>
+
+<script type="text/javascript">
+	var each = function( obj, callback ) {
+		var value,
+		i = 0,
+		length = obj.length,
+		isArray = isArraylike( obj ); // isArraylike 函数未实现，可以翻阅jQuery 源代码
+		if ( isArray ) { // 迭代类数组
+			for ( ; i < length; i++ ) {
+				callback.call( obj[ i ], i, obj[ i ] );
+			}
+		} else {
+			for ( i in obj ) { // 迭代object 对象
+				value = callback.call( obj[ i ], i, obj[ i ] );
+			}
+		}
+		return obj;
+	};
+
+	var appendDiv = function( data ){
+		each( data, function( i, n ){
+			var div = document.createElement( 'div' );
+			div.innerHTML = n;
+			document.body.appendChild( div );
+		});
+	};
+
+	appendDiv( [ 1, 2, 3, 4, 5, 6 ] );
+	appendDiv({a:1,b:2,c:3,d:4} );
+
+</script>
+
+<script type="text/javascript">
+	var createLoginLayer = (function(){
+		var div;
+		return function(){
+			if ( !div ){
+				div = document.createElement( 'div' );
+				div.innerHTML = '我是登录浮窗';
+				div.style.display = 'none';
+				document.body.appendChild( div );
+			}
+			return div;
+		}
+	})();
+
+	var getSingle = function( fn ){ // 获取单例
+		var result;
+		return function(){
+			return result || ( result = fn .apply(this, arguments ) );
+		}
+	};
+	var createLoginLayer = function(){ // 创建登录浮窗
+		var div = document.createElement( 'div' );
+		div.innerHTML = '我是登录浮窗';
+		document.body.appendChild( div );
+		return div;
+	};
+
+	var createSingleLoginLayer = getSingle( createLoginLayer );
+	var loginLayer1 = createSingleLoginLayer();
+	var loginLayer2 = createSingleLoginLayer();
+	alert ( loginLayer1 === loginLayer2 ); // 输出： true
+
+</script>
+
+
+<html>
+<body>
+	<button tag="login" id="button">点击打开登录浮层</button>
+</body>
+<script>
+	Function.prototype.after = function( afterfn ){
+		var __self = this;
+		return function(){
+			var ret = __self.apply( this, arguments );
+			afterfn.apply( this, arguments );
+			return ret;
+		}
+	};
+	var showLogin = function(){
+		console.log( '打开登录浮层' );
+	};
+	var log = function(){
+		console.log( '上报标签为: ' + this.getAttribute( 'tag' ) );
+
+	};
+	document.getElementById( 'button' ).onclick = showLogin.after( log );
+// 打开登录浮层之后上报数据
+</script>
+</html>

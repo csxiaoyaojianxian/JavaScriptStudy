@@ -1,0 +1,328 @@
+﻿<script type="text/javascript">
+	
+	var getUserInfo = function(){
+		ajax( 'http:// xxx.com/userInfo', function( data ){
+			console.log( 'userId: ' + data.userId );
+			console.log( 'userName: ' + data.userName );
+			console.log( 'nickName: ' + data.nickName );
+		});
+	};
+//改成：
+var getUserInfo = function(){
+	ajax( 'http:// xxx.com/userInfo', function( data ){
+		printDetails( data );
+	});
+};
+
+var printDetails = function( data ){
+	console.log( 'userId: ' + data.userId );
+	console.log( 'userName: ' + data.userName );
+	console.log( 'nickName: ' + data.nickName );
+};
+
+</script>
+
+
+<script type="text/javascript">
+	var paging = function( currPage ){
+		if ( currPage <= 0 ){
+			currPage = 0;
+			jump( currPage ); // 跳转
+		}else if ( currPage >= totalPage ){
+			currPage = totalPage;
+			jump( currPage ); // 跳转
+		}else{
+			jump( currPage ); // 跳转
+		}
+	};
+
+	var paging = function( currPage ){
+		if ( currPage <= 0 ){
+			currPage = 0;
+		}else if ( currPage >= totalPage ){
+			currPage = totalPage;
+		}
+		jump( currPage ); // 把jump 函数独立出来
+	};
+</script>
+
+<script type="text/javascript">
+	
+	var getPrice = function( price ){
+		var date = new Date();
+		if ( date.getMonth() >= 6 && date.getMonth() <= 9 ){ // 夏天
+			return price * 0.8;
+		}
+		return price;
+	};
+
+	var isSummer = function(){
+		var date = new Date();
+		return date.getMonth() >= 6 && date.getMonth() <= 9;
+	};
+
+	var getPrice = function( price ){
+		if ( isSummer() ){ // 夏天
+			return price * 0.8;
+		}
+		return price;
+	};
+</script>
+
+<script type="text/javascript">
+	var createXHR = function(){
+		var xhr;
+		try{
+			xhr = new ActiveXObject( 'MSXML2.XMLHttp.6.0' );
+		}catch(e){
+			try{
+				xhr = new ActiveXObject( 'MSXML2.XMLHttp.3.0' );
+			}catch(e){
+				xhr = new ActiveXObject( 'MSXML2.XMLHttp' );
+			}
+		}
+		return xhr;
+	};
+	var xhr = createXHR();
+	//下面我们灵活地运用循环，可以得到跟上面代码一样的效果：
+	var createXHR = function(){
+		var versions= [ 'MSXML2.XMLHttp.6.0ddd', 'MSXML2.XMLHttp.3.0', 'MSXML2.XMLHttp' ];
+		for ( var i = 0, version; version = versions[ i++ ]; ){
+			try{
+				return new ActiveXObject( version );
+			}catch(e){
+			}
+		}
+	};
+	var xhr = createXHR();
+
+</script>
+
+
+<script type="text/javascript">
+	var del = function( obj ){
+		var ret;
+		if ( !obj.isReadOnly ){ // 不为只读的才能被删除
+			if ( obj.isFolder ){ // 如果是文件夹
+				ret = deleteFolder( obj );
+			}else if ( obj.isFile ){ // 如果是文件
+				ret = deleteFile( obj );
+			}
+		}
+		return ret;
+	};
+
+	var del = function( obj ){
+		if ( obj.isReadOnly ){ // 反转if 表达式
+			return;
+		}
+		if ( obj.isFolder ){
+			return deleteFolder( obj );
+		}
+		if ( obj.isFile ){
+			return deleteFile( obj );
+		}
+	};
+
+</script>
+
+
+<script type="text/javascript">
+	var setUserInfo = function( id, name, address, sex, mobile, qq ){
+		console.log( 'id= ' + id );
+		console.log( 'name= ' +name );
+		console.log( 'address= ' + address );
+		console.log( 'sex= ' + sex );
+		console.log( 'mobile= ' + mobile );
+		console.log( 'qq= ' + qq );
+	};
+	setUserInfo( 1314, 'sven', 'shenzhen', 'male', '137********', 377876679 );
+
+	var setUserInfo = function( obj ){
+		console.log( 'id= ' + obj.id );
+		console.log( 'name= ' + obj.name );
+		console.log( 'address= ' + obj.address );
+		console.log( 'sex= ' + obj.sex );
+		console.log( 'mobile= ' + obj.mobile );
+		console.log( 'qq= ' + obj.qq );
+	};
+	setUserInfo({
+		id: 1314,
+		name: 'sven',
+		address: 'shenzhen',
+		sex: 'male',
+		mobile: '137********',
+		qq: 377876679
+	});
+</script>
+
+<script type="text/javascript">
+	var draw = function( width, height, square ){};
+	var draw = function( width, height ){
+		var square = width * height;
+	};
+</script>
+
+<script type="text/javascript">
+	var global = typeof window !== "undefined" ? window : this;
+	if ( !aup || !bup ) {
+		return a === doc ? -1 :
+		b === doc ? 1 :
+		aup ? -1 :
+		bup ? 1 :
+		sortInput ?
+		( indexOf.call( sortInput, a ) - indexOf.call( sortInput, b ) ) :
+		0;
+	}
+
+</script>
+
+<script type="text/javascript">
+	var User = function(){
+		this.id = null;
+		this.name = null;
+	};
+	User.prototype.setId = function( id ){
+		this.id = id;
+		return this;
+	};
+	User.prototype.setName = function( name ){
+
+		this.name = name;
+		return this;
+	};
+	console.log( new User().setId( 1314 ).setName( 'sven' ) );
+
+	var User = {
+		id: null,
+		name: null,
+		setId: function( id ){
+			this.id = id;
+			return this;
+		},
+		setName: function( name ){
+			this.name = name;
+			return this;
+		}
+	};
+	console.log( User.setId( 1314 ).setName( 'sven' ) );
+
+	var user = new User();
+	user.setId( 1314 );
+	user.setName( 'sven' );
+
+</script>
+
+<script type="text/javascript">
+	var Spirit = function( name ){
+		this.name = name;
+	};
+
+	Spirit.prototype.attack = function( type ){ // 攻击
+		if ( type === 'waveBoxing' ){
+			console.log( this.name + ': 使用波动拳' );
+
+		}else if( type === 'whirlKick' ){
+			console.log( this.name + ': 使用旋风腿' );
+		}
+	};
+
+	var spirit = new Spirit( 'RYU' );
+	spirit.attack( 'waveBoxing' ); // 输出：RYU: 使用波动拳
+	spirit.attack( 'whirlKick' ); // 输出：RYU: 使用旋风腿
+
+	var Attack = function( spirit ){
+		this.spirit = spirit;
+	};
+	Attack.prototype.start = function( type ){
+		return this.list[ type ].call( this );
+	};
+	Attack.prototype.list = {
+		waveBoxing: function(){
+			console.log( this.spirit.name + ': 使用波动拳' );
+		},
+		whirlKick: function(){
+			console.log( this.spirit.name + ': 使用旋风腿' );
+		}
+	};
+
+	var Spirit = function( name ){
+		this.name = name;
+		this.attackObj = new Attack( this );
+	};
+
+
+	Spirit.prototype.attack = function( type ){ // 攻击
+		this.attackObj.start( type );
+	};
+	var spirit = new Spirit( 'RYU' );
+	spirit.attack( 'waveBoxing' ); // 输出：RYU: 使用波动拳
+	spirit.attack( 'whirlKick' ); // 输出：RYU: 使用旋风腿
+
+</script>
+
+
+<script type="text/javascript">
+	var func = function(){
+		var flag = false;
+		for ( var i = 0; i < 10; i++ ){
+			for ( var j = 0; j < 10; j++ ){
+				if ( i * j >30 ){
+					flag = true;
+					break;
+				}
+			}
+			if ( flag === true ){
+				break;
+			}
+		}
+	};
+
+	var func = function(){
+		outerloop:
+		for ( var i = 0; i < 10; i++ ){
+			innerloop:
+			for ( var j = 0; j < 10; j++ ){
+				if ( i * j >30 ){
+					break outerloop;
+				}
+			}
+		}
+	};
+
+	var func = function(){
+		for ( var i = 0; i < 10; i++ ){
+			for ( var j = 0; j < 10; j++ ){
+				if ( i * j >30 ){
+					return;
+				}
+			}
+		}
+	};
+
+	var func = function(){
+		for ( var i = 0; i < 10; i++ ){
+			for ( var j = 0; j < 10; j++ ){
+				if ( i * j >30 ){
+					return;
+				}
+			}
+		}
+		console.log( i ); // 这句代码没有机会被执行
+	};
+
+	var print = function( i ){
+		console.log( i );
+	};
+	var func = function(){
+		for ( var i = 0; i < 10; i++ ){
+			for ( var j = 0; j < 10; j++ ){
+				if ( i * j >30 ){
+					return print( i );
+				}
+			}
+		}
+	};
+	
+	func();
+</script>

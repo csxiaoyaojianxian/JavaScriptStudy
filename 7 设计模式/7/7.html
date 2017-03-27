@@ -1,0 +1,112 @@
+﻿<script type="text/javascript">
+	
+	$.each( [1, 2, 3], function( i, n ){
+		console.log( '当前下标为： '+ i );
+		console.log( '当前值为:' + n );
+	});
+
+	var each = function( ary, callback ){
+		for ( var i = 0, l = ary.length; i < l; i++ ){
+			callback.call( ary[i], i, ary[ i ] ); // 把下标和元素当作参数传给callback 函数
+		}
+	};
+
+	each( [ 1, 2, 3 ], function( i, n ){
+		alert ( [ i, n ] );
+	});
+
+	var compare = function( ary1, ary2 ){
+		if ( ary1.length !== ary2.length ){
+			throw new Error ( 'ary1 和ary2 不相等' );
+		}
+		each( ary1, function( i, n ){
+			if ( n !== ary2[ i ] ){
+				throw new Error ( 'ary1 和ary2 不相等' );
+			}
+		});
+		alert ( 'ary1 和ary2 相等' );
+	};
+	compare( [ 1, 2, 3 ], [ 1, 2, 4 ] ); // throw new Error ( 'ary1 和ary2 不相等' );
+
+	var Iterator = function( obj ){
+		var current = 0;
+		var next = function(){
+			current += 1;
+		};
+		var isDone = function(){
+			return current >= obj.length;
+		};
+		var getCurrItem = function(){
+			return obj[ current ];
+		};
+		return {
+			next: next,
+			isDone: isDone,
+			getCurrItem: getCurrItem
+		}
+	};
+
+	//再看看如何改写compare 函数：
+	var compare = function( iterator1, iterator2 ){
+		while( !iterator1.isDone() && !iterator2.isDone() ){
+			if ( iterator1.getCurrItem() !== iterator2.getCurrItem() ){
+				throw new Error ( 'iterator1 和iterator2 不相等' );
+			}
+			iterator1.next();
+			iterator2.next();
+		}
+		alert ( 'iterator1 和iterator2 相等' );
+	}
+	var iterator1 = Iterator( [ 1, 2, 3 ] );
+	var iterator2 = Iterator( [ 1, 2, 3 ] );
+	compare( iterator1, iterator2 ); // 输出：iterator1 和iterator2 相等
+
+	$.each = function( obj, callback ) {
+		var value,
+		i = 0,
+		length = obj.length,
+		isArray = isArraylike( obj );
+		if ( isArray ) { // 迭代类数组
+			for ( ; i < length; i++ ) {
+				value = callback.call( obj[ i ], i, obj[ i ] );
+				if ( value === false ) {
+					break;
+				}
+			}
+		} else {
+		for ( i in obj ) { // 迭代object 对象
+			value = callback.call( obj[ i ], i, obj[ i ] );
+			if ( value === false ) {
+				break;
+			}
+		}
+		}
+		return obj;
+		};
+
+	var reverseEach = function( ary, callback ){
+		for ( var l = ary.length - 1; l >= 0; l-- ){
+			callback( l, ary[ l ] );
+		}
+	};
+	
+	reverseEach( [ 0, 1, 2 ], function( i, n ){
+		console.log( n ); // 分别输出：2, 1 ,0
+	});
+
+	var each = function( ary, callback ){
+		for ( var i = 0, l = ary.length; i < l; i++ ){
+			if ( callback( i, ary[ i ] ) === false ){ // callback 的执行结果返回false，提前终止迭代
+				break;
+			}
+		}
+	};
+
+	each( [ 1, 2, 3, 4, 5 ], function( i, n ){
+		if ( n > 3 ){ // n 大于3 的时候终止循环
+			return false;
+		}
+		console.log( n ); // 分别输出：1, 2, 3
+	});
+
+</script>

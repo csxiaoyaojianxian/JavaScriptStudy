@@ -1,0 +1,266 @@
+﻿<script type="text/javascript">
+	
+	//另外一种情况是用var 关键字在函数中声明变量，这时候的变量即是局部变量，只有在该函数内部才能访问到这个变量，在函数外面是访问不到的。代码如下：
+	var func = function(){
+		var a = 1;
+		alert ( a ); // 输出: 1
+	};
+
+	func();
+	alert ( a ); // 输出：Uncaught ReferenceError: a is not defined
+
+
+	//下面这段包含了嵌套函数的代码，也许能帮助我们加深对变量搜索过程的理解：
+	var a = 1;
+	var func1 = function(){
+		var b = 2;
+		var func2 = function(){
+			var c = 3;
+			alert ( b ); // 输出：2
+			alert ( a ); // 输出：1
+		}
+		func2();
+		alert ( c ); // 输出：Uncaught ReferenceError: c is not defined
+	};
+
+	func1();
+
+
+	//现在来看看下面这段代码：
+	var func = function(){
+		var a = 1;
+		return function(){
+			a++;
+			alert ( a );
+		}
+	};
+
+	var f = func();
+
+	f(); // 输出：2
+	f(); // 输出：3
+	f(); // 输出：4
+	f(); // 输出：5
+
+	var Type = {};
+
+	for ( var i = 0, type; type = [ 'String', 'Array', 'Number' ][ i++ ]; ){
+		(function( type ){
+			Type[ 'is' + type ] = function( obj ){
+				return Object.prototype.toString.call( obj ) === '[object '+ type +']';
+			}
+		})( type )
+	};
+
+	Type.isArray( [] ); // 输出：true
+	Type.isString( "str" ); // 输出：true
+
+	//假设有一个计算乘积的简单函数：
+	var mult = function(){
+		var a = 1;
+		for ( var i = 0, l = arguments.length; i < l; i++ ){
+			a = a * arguments[i];
+		}
+		return a;
+	};
+
+	//我们可以加入缓存机制来提高这个函数的性能：
+	var cache = {};
+	var mult = function(){
+		var args = Array.prototype.join.call( arguments, ',' );
+		if ( cache[ args ] ){
+			return cache[ args ];
+		}
+
+		var a = 1;
+		for ( var i = 0, l = arguments.length; i < l; i++ ){
+			a = a * arguments[i];
+		}
+		return cache[ args ] = a;
+	};
+
+	alert ( mult( 1,2,3 ) ); // 输出：6
+	alert ( mult( 1,2,3 ) ); // 输出：6
+
+
+	//以避免这个变量在其他地方被不小心修改而引发错误。代码如下：
+	var mult = (function(){
+		var cache = {};
+		return function(){
+			var args = Array.prototype.join.call( arguments, ',' );
+			if ( args in cache ){
+				return cache[ args ];
+			}
+			var a = 1;
+			for ( var i = 0, l = arguments.length; i < l; i++ ){
+				a = a * arguments[i];
+			}
+			return cache[ args ] = a;
+		}
+	})();
+
+	//最好是把它们用闭包封闭起来。代码如下：
+	var mult = (function(){
+		var cache = {};
+		var calculate = function(){ // 封闭calculate 函数
+			var a = 1;
+			for ( var i = 0, l = arguments.length; i < l; i++ ){
+				a = a * arguments[i];
+			}
+			return a;
+		};
+
+		return function(){
+			var args = Array.prototype.join.call( arguments, ',' );
+			if ( args in cache ){
+				return cache[ args ];
+			}
+
+			return cache[ args ] = calculate.apply( null, arguments );
+		}
+
+	})();
+
+	//img 对象经常用于进行数据上报，如下所示：
+	var report = function( src ){
+	var img = new Image();
+		img.src = src;
+	};
+	report( 'http://xxx.com/getUserInfo' );
+
+	//现在我们把img 变量用闭包封闭起来，便能解决请求丢失的问题：
+	var report = (function(){
+		var imgs = [];
+		return function( src ){
+			var img = new Image();
+			imgs.push( img );
+			img.src = src;
+		}
+	})();
+
+
+	//下面来看看这段跟闭包相关的代码：
+	var extent = function(){
+		var value = 0;
+		return {
+			call: function(){
+				value++;
+				console.log( value );
+			}
+		}
+	};
+
+	var extent = extent();
+	extent.call(); // 输出：1
+	extent.call(); // 输出：2
+	extent.call(); // 输出：3
+
+	//如果换成面向对象的写法，就是：
+	var extent = {
+		value: 0,
+		call: function(){
+			this.value++;
+			console.log( this.value );
+		}
+	};
+
+	extent.call(); // 输出：1
+	extent.call(); // 输出：2
+	extent.call(); // 输出：3
+
+	//或者：
+
+	var Extent = function(){
+		this.value = 0;
+	};
+
+	Extent.prototype.call = function(){
+		this.value++;
+		console.log( this.value );
+	};
+
+	var extent = new Extent();
+
+	extent.call();
+	extent.call();
+	extent.call();
+
+</script>
+
+<html>
+	<body>
+		<button id="execute">点击我执行命令</button>
+		<button id="undo">点击我执行命令</button>
+		<script>
+			var Tv = {
+				open: function(){
+					console.log( '打开电视机' );
+				},
+				close: function(){
+					console.log( '关上电视机' );
+				}
+			};
+
+			var OpenTvCommand = function( receiver ){
+				this.receiver = receiver;
+			};
+
+			OpenTvCommand.prototype.execute = function(){
+				this.receiver.open(); // 执行命令，打开电视机
+			};
+
+			OpenTvCommand.prototype.undo = function(){
+				this.receiver.close(); // 撤销命令，关闭电视机
+			};
+
+			var setCommand = function( command ){
+				document.getElementById( 'execute' ).onclick = function(){
+					command.execute(); // 输出：打开电视机
+				}
+
+				document.getElementById( 'undo' ).onclick = function(){
+					command.undo(); // 输出：关闭电视机
+				}
+			};
+
+			setCommand( new OpenTvCommand( Tv ) );
+		</script>
+	</body>
+</html>
+
+<script type="text/javascript">
+	var Tv = {
+		open: function(){
+			console.log( '打开电视机' );
+		},
+
+		close: function(){
+			console.log( '关上电视机' );
+		}
+	};
+
+	var createCommand = function( receiver ){
+		var execute = function(){
+			return receiver.open(); // 执行命令，打开电视机
+		}
+		var undo = function(){
+			return receiver.close(); // 执行命令，关闭电视机
+		}
+		return {
+			execute: execute,
+			undo: undo
+		}
+	};
+
+	var setCommand = function( command ){
+		document.getElementById( 'execute' ).onclick = function(){
+			command.execute(); // 输出：打开电视机
+		}
+		document.getElementById( 'undo' ).onclick = function(){
+			command.undo(); // 输出：关闭电视机
+		}
+	};
+
+	setCommand( createCommand( Tv ) );
+
+</script>
