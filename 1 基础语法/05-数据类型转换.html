@@ -6,6 +6,50 @@
 </head>
 <body>
 <script>
+
+// "=="引起的类型转换
+// 1. 存在 NaN 必为 false
+// 2. 【null】 == 【undefined】   不转换，始终为 true
+// 3. 【null / undefined】 == 【其他非 null / undefined】   不转换，始终为 false
+// 4. 【原始类型 string / number / boolean】 == 【Date对象】   原始类型=>number，Date对象 --> toString() / valueOf()
+// 5. 【原始类型 string / number / boolean】 == 【非Date对象】   原始类型=>number，Date对象 --> valueOf() / toString()
+// 6. 【原始类型 string / number / boolean】 == 【原始类型 string / number / boolean】   原始类型 => number
+
+console.log(NaN == NaN);//false
+console.log("sunshine" == NaN);//false   存在 NaN 必为 false
+console.log(1 == true);//true   true => 1
+console.log(true == "sun");//false   true => 1  "sun" => NaN
+
+var a = [0];
+if(a){
+	console.log(a == true);//false
+}else{
+	console.log("sun");
+}
+console.log(a.valueOf());//Array[1]…
+console.log(a.toString());//0
+
+// => boolean
+console.log("------Boolean------");
+console.log(Boolean(0));//false
+console.log(Boolean(""));//false
+console.log(Boolean(null));//false
+console.log(Boolean(undefined));//false
+console.log(Boolean(NaN));//false
+console.log(Boolean());//false
+console.log(Boolean([]));//true
+console.log("------!!------");
+console.log(!!0);//false
+console.log(!!"");//false
+console.log(!!null);//false
+console.log(!!undefined);//false
+console.log(!!NaN);//false
+console.log(!![]);//true
+console.log(!!1);//true
+console.log(!!"abc");//true
+var date = new Date();
+console.log(!!date);//true
+
 //转换成字符串
 var bool = true;
 var num = 111;
@@ -41,14 +85,6 @@ console.log(parseInt(str2));
 console.log(parseFloat(str2));
 console.log(Number(str3));
 
-//布尔类型转换
-var date = new Date();
-console.log(Boolean(0));
-console.log(Boolean(""));
-console.log(Boolean(null));
-console.log(!!1);
-console.log(!!"abc");
-console.log(!!date);
 
 </script>
 </body>
