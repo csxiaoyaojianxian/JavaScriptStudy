@@ -36,6 +36,11 @@ while((line = reg.exec(str))!=null){
     document.write(line+"<br/>");//sun jian feng
 }
 console.log(reg.exec(str));// ["sun", index: 0, input: "sun jian feng sunshine studio"]
+//compile() 在脚本执行过程中编译正则表达式
+reg=/abc/g;
+reg.compile(reg);
+
+// 【字符串方法】
 // match() 根据正则表达式去查找字符串符合规则的内容，返回数组，没有匹配项返回null
 console.log(str.match(reg));// ["sun", "jian", "feng"]
 // replace()

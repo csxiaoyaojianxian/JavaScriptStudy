@@ -21,6 +21,7 @@
 <body>
     <div id="box" onclick="fn()"></div>
     <button>事件监听</button>
+    <a href="http://www.csxiaoyao.com">链接</a>
 <script>
 
     //1.【获取事件源】（document.getElementById("box")）
@@ -121,6 +122,24 @@
     EventListen.addEvent(btn,fn2,"mouseout");
     EventListen.removeEvent(btn,fn2,"mouseout");
 
+    /**
+     * stopPropagation()  preventDefault()
+     */
+    document.onclick = function(){
+        alert("冒泡事件");
+    }
+    document.getElementsByTagName("a")[0].onclick = function(e){
+        alert('链接地址：' + this.href + ',但不跳转'); 
+        stopDefault(e);// 阻止默认事件 e.preventDefault() 的兼容写法
+        e.stopPropagation();// 阻止冒泡
+    }
+    function stopDefault( e ) { 
+        if ( e && e.preventDefault ) 
+            e.preventDefault(); 
+        else 
+            window.event.returnValue = false; 
+        return false; 
+    } 
 </script>
 </body>
 </html>
