@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="../build/react.js"></script>
+    <script src="../build/react-dom.js"></script>
+    <script src="../build/browser.min.js"></script>
+  </head>
+  <body>
+    <div id="example"></div>
+    <script type="text/babel">
+
+// this.state 状态机
+// 【区分 this.props 和 this.state】
+// this.props 表示一旦定义不改变的特性
+// this.state 表示随用户互动而变化的特性
+var LikeButton = React.createClass({
+  // getInitialState 方法定义初始状态的对象，通过 this.state 属性读取
+  getInitialState: function() {
+    return {liked: false};
+  },
+  // 用户点击组件，导致状态变化
+  handleClick: function(event) {
+    // this.setState 方法修改状态值，每次修改后自动调用 this.render 方法，再次渲染组件
+    this.setState({liked: !this.state.liked});
+  },
+  render: function() {
+    var text = this.state.liked ? 'like' : 'haven\'t liked';
+    return (
+      <p onClick={this.handleClick}>
+        You {text} this. Click to toggle.
+      </p>
+    );
+  }
+});
+
+ReactDOM.render(
+  <LikeButton />,
+  document.getElementById('example')
+);
+
+    </script>
+  </body>
+</html>
+

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="../build/react.js"></script>
+    <script src="../build/react-dom.js"></script>
+    <script src="../build/browser.min.js"></script>
+  </head>
+  <body>
+    <div id="example"></div>
+    <script type="text/babel">
+      // this.props.children 属性表示组件的所有子节点
+      // this.props.children 的值有三种：如果当前组件没有子节点，数据类型是undefined; 如果有一个子节点，数据类型是object；如果有多个子节点，数据类型就是array
+      // React 提供工具方法 React.Children 来处理 this.props.children 。可以用 React.Children.map 遍历子节点，不用担心 this.props.children 的数据类型是 undefined 还是 object
+      var NotesList = React.createClass({
+        render: function() {
+          return (
+            <ol>
+              {
+                React.Children.map(this.props.children, function (child) {
+                  return <li>{child}</li>;
+                })
+              }
+            </ol>
+          );
+        }
+      });
+
+      ReactDOM.render(
+        <NotesList>
+          <span>hello</span>
+          <span>world</span>
+        </NotesList>,
+        document.getElementById('example')
+      );
+    </script>
+  </body>
+</html>
+
