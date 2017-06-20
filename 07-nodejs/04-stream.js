@@ -32,13 +32,13 @@ var readerStream = fs.createReadStream('input.txt'); //创建可读流
 readerStream.setEncoding('UTF8'); //设置编码为 utf8
 // 处理流事件 --> data, end, error
 readerStream.on('data', function(chunk) {
-   data += chunk;
+	data += chunk;
 });
 readerStream.on('end',function(){
-   console.log(data);
+	console.log(data);
 });
 readerStream.on('error', function(err){
-   console.log(err.stack);
+	console.log(err.stack);
 });
 console.log("程序执行完毕");
 // 程序执行完毕
@@ -52,10 +52,10 @@ writerStream2.write(data,'UTF8'); // 使用 utf8 编码写入数据
 writerStream2.end(); // 标记文件末尾
 // 处理流事件 --> finish, error
 writerStream2.on('finish', function() {
-    console.log("写入完成");
+	console.log("写入完成");
 });
 writerStream2.on('error', function(err){
-   console.log(err.stack);
+	console.log(err.stack);
 });
 console.log("程序执行完毕");
 // 程序执行完毕
