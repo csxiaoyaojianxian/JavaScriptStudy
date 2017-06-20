@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+</head>
+<body ng-app="app">
+    <!-- 指定模块 -->
+	<div>
+		<!-- 指定控制器 -->
+		<div ng-controller="DemoContoller">
+			<h1>{{name}}在{{year}}成立了</h1>
+			<ul>
+				<li ng-repeat="(key, company) in companies">No.{{key+1}}：{{company}}</li>
+			</ul>
+		</div>
+	</div>
+
+	<!-- 引入框架 -->
+	<script src="./bower_components/angular/angular.min.js"></script>
+	<script>
+		// App就是新创建的模块，这个模块又是一个对象，模块不可嵌套
+		var App = angular.module('app', []);
+
+		// controller可以创建一个控制器，控制器可以嵌套
+		// 控制器名 : DemoContoller
+		// 参数 : 参数1-$scope 是一个空对象{}，此对象就是Model
+		App.controller('DemoContoller', ['$scope', function ($scope) {
+
+			$scope.name = 'CS逍遥剑仙';
+			$scope.year = '2012'; 
+
+			$scope.companies = [
+				'SUNSHINE STUDIO',
+				'逍遥国际',
+				'csxiaoyao'
+			]
+
+		}]);
+
+	</script>
+
+
+</body>
+</html>

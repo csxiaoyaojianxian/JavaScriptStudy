@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="author" content="CS逍遥剑仙">
+<title>人民币数字大写转换 CS逍遥剑仙</title>
+<link rel="icon" href="http://www.csxiaoyao.com/favicon.ico" type="image/x-icon">
+<link rel="shortcut icon" href="http://www.csxiaoyao.com/favicon.ico" type="image/x-icon">
+</head>
+<body>
+<h1>人民币数字大写转换</h1>
+<b>by CS逍遥剑仙</b> <a href="http://www.csxiaoyao.com">www.csxiaoyao.com</a>
+<p>
+<b>具体需求：</b><br/>
+1）中文大写金额数字应用壹、贰、叁、肆、伍、陆、柒、捌、玖、拾、佰、仟、万、亿、元、角、分、零、整(正)等字样。<br/>
+2）中文大写金额数字到"元"为止的，在"元"之后，应写"整"(或"正")字，在"角"之后，可以不写"整"(或"正")字。<br/>
+3）中文大写金额数字前应标明"人民币"字样，大写金额数字有"分"的，"分"后面不写"整"(或"正")字。<br/>
+4）大写金额数字应紧接"人民币"字样填写，不得留有空白。<br/>
+5）阿拉伯数字小写金额数字中有"0"时，中文大写应按照汉语语言规律、金额数字构成和防止涂改的要求进行书写。
+</p>
+<b>测试：</b><br/>
+<input type="text"><button>记录</button><br/>
+当前结果：&nbsp;<b><span>空</span></b><br/>
+历史记录(保存记录需要服务器环境)：
+<ul></ul>
+<script>
+// init & getCookie
+var historyResult;
+try{
+    historyResult = getCookie("result").split(",");
+}catch(e){}
+var historyResultInnerText = "";
+if(historyResult){
+	for(var i=0;i<historyResult.length;i++){
+		historyResultInnerText += "<li>"+historyResult[i]+"</li>";
+	}
+}
+document.getElementsByTagName("ul")[0].innerHTML = historyResultInnerText;
+// page event
+var historyResult = [];
+var maxLength = 5;
+var button = document.getElementsByTagName("button")[0];
+var input = document.getElementsByTagName("input")[0];
+var span = document.getElementsByTagName("span")[0];
+if("\v"=="v"){//true为IE浏览器
+	input.onpropertychange = function(){
+		setResult();
+	}
+}else{
+	input.addEventListener("input",function(e){
+		setResult();
+	})
+}
+function setResult(){
+    var inputValue = input.value;
+    var result;
+	if(inputValue!=""){
+        result = convertCurrency(inputValue);
+        if(result != "")
+		span.innerText = result;
+	}else{
+		span.innerText = "空";
+	}
+}
+button.onclick = function(){
+	var content = input.value;
+	var result = convertCurrency(content);
+	var cookies = [];
+	if(result !== ""){
+		var inputNode = document.createElement("li");
+		inputNode.innerText = content + " ---> " + result;
+		var bodyNode = document.getElementsByTagName("ul")[0];
+		var children = bodyNode.getElementsByTagName("li");
+		if(children.length == maxLength){
+			bodyNode.removeChild(children[0]);
+		}
+		bodyNode.appendChild(inputNode);
+		input.value = "";
+	}
+	var c = bodyNode.getElementsByTagName("li");
+	for(var i=0;i<c.length;i++){
+		cookies[i] = c[i].innerText;
+	}
+	setCookie("result",cookies,3);
+}
+// core function
+function convertCurrency(currencyDigits) {
+    // 常量定义
+    var MAXIMUM_NUMBER = 999999999999.99;
+    // 预定义的基数字符和符号
+    var CN_ZERO = "零";
+    var CN_ONE = "壹";
+    var CN_TWO = "贰";
+    var CN_THREE = "叁";
+    var CN_FOUR = "肆";
+    var CN_FIVE = "伍";
+    var CN_SIX = "陆";
+    var CN_SEVEN = "柒";
+    var CN_EIGHT = "捌";
+    var CN_NINE = "玖";
+    var CN_TEN = "拾";
+    var CN_HUNDRED = "佰";
+    var CN_THOUSAND = "仟";
+    var CN_TEN_THOUSAND = "万";
+    var CN_HUNDRED_MILLION = "亿";
+    var CN_SYMBOL = "人民币";
+    var CN_DOLLAR = "元";
+    var CN_TEN_CENT = "角";
+    var CN_CENT = "分";
+    var CN_INTEGER = "整";
+    // 变量
+    var integral; // 整数部分
+    var decimal; // 小数部分
+    var outputCharacters; // 输出结果
+    var parts;
+    var digits, radices, bigRadices, decimals;
+    var zeroCount;
+    var i, p, d;
+    var quotient, modulus;
+    // 验证输入
+    currencyDigits = currencyDigits.toString();
+    if (currencyDigits == "") {
+        alert("输入为空!");
+        return "";
+    }
+    // 只允许出现：","、"."、数字
+    if (currencyDigits.match(/[^,.\d]/) != null) {
+        alert("输入内容含有非法字符！");
+        deleteInputLastCapital();
+        return "";
+    }
+    // 允许以小数点结尾   不允许(\d+(.\d+)?)
+    // \d{1,3}(,\d{3})*【","计数整数部分】 .((\d{3},)*\d{1,3}))?【","计数小数部分】 (\d+(.\d*)?)【非","计数】
+    if ((currencyDigits).match(/^((\d{1,3}(,\d{3})*(.((\d{3},)*\d{1,3}))?)|(\d+(.\d*)?))$/) == null) {
+        alert("数字格式不正确！");
+        deleteInputLastCapital();
+        return "";
+    }
+    // 输入数据规格化
+    currencyDigits = currencyDigits.replace(/,/g, ""); // 去除","
+    currencyDigits = currencyDigits.replace(/^0+/, ""); // 去除前导0
+    // 规定最大值
+    if (Number(currencyDigits) > MAXIMUM_NUMBER) {
+        alert("数字值溢出!");
+        deleteInputLastCapital();
+        return "";
+    }
+    // 分离整数和小数部分
+    // 当小数位数超过两位考虑小数四舍五入
+    if(currencyDigits.indexOf(".") != -1 && currencyDigits.length - currencyDigits.indexOf(".") - 1 > 2 ){
+        if(currencyDigits.charAt(currencyDigits.indexOf(".")+3) >= 5){
+            currencyDigits = (Number(currencyDigits)+0.01).toString();
+        }
+    }
+
+    parts = currencyDigits.split(".");
+    if (parts.length > 1) {
+        integral = parts[0];
+        decimal = parts[1];
+        // 只保留两位小数
+        decimal = decimal.substr(0, 2);
+    } else {
+        integral = parts[0];
+        decimal = "";
+    }
+    // 单位整数
+    digits = new Array(CN_ZERO, CN_ONE, CN_TWO, CN_THREE, CN_FOUR, CN_FIVE, CN_SIX, CN_SEVEN, CN_EIGHT, CN_NINE);
+    // 小基数
+    radices = new Array("", CN_TEN, CN_HUNDRED, CN_THOUSAND);
+    // 大基数
+    bigRadices = new Array("", CN_TEN_THOUSAND, CN_HUNDRED_MILLION);
+    // 小数部分基数
+    decimals = new Array(CN_TEN_CENT, CN_CENT);
+    // 输出结果
+    outputCharacters = "";
+    // 整数部分处理
+    if (Number(integral) > 0) {
+        // 统计连续零数量
+        zeroCount = 0;
+        for (i = 0; i < integral.length; i++) {
+            // 反序位置 n-1 --> 0
+            p = integral.length - i - 1;
+            // 当前位数字值
+            d = integral.substr(i, 1);
+            // 定位bigRadices
+            quotient = p / 4;// >=0
+            // 定位radices
+            modulus = p % 4;// 0~3
+            if (d == "0") {
+                zeroCount++;
+            } else {
+                if (zeroCount > 0) {
+                    outputCharacters += digits[0];
+                }
+                zeroCount = 0;
+                outputCharacters += digits[Number(d)] + radices[modulus];
+            }
+            if (modulus == 0 && zeroCount < 4) {
+                outputCharacters += bigRadices[quotient];
+            }
+        }
+        outputCharacters += CN_DOLLAR;
+    }
+    zeroCount = 0;
+    // 小数部分处理
+    if (decimal != "") {
+        for (i = 0; i < decimal.length; i++) {
+            // 当前位数字值
+            d = decimal.substr(i, 1);
+            if (d != "0") {
+                if (zeroCount > 0) {
+                    outputCharacters += digits[0];
+                }
+                outputCharacters += digits[Number(d)] + decimals[i];
+            }else{
+                zeroCount++;
+            }
+        }
+    }
+    // 结果拼接
+    if (outputCharacters == "") {
+        outputCharacters = CN_ZERO + CN_DOLLAR;
+    }
+    if (decimal == "" || zeroCount === 2 || decimal.length === 1 && zeroCount === 1) {
+        outputCharacters += CN_INTEGER;
+    }
+    outputCharacters = CN_SYMBOL + outputCharacters;
+    return outputCharacters;
+}
+// common functions
+function deleteInputLastCapital(){
+    if(input.value.length>0){
+        input.value = input.value.substring(0,input.value.length-1);
+        setResult();
+    }
+}
+function setCookie(cname, cvalue, exdays) {
+    var d = new Date();
+    d.setTime(d.getTime() + (exdays*24*60*60*1000));
+    document.cookie = cname + "=" + cvalue + "; " + "expires="+d.toUTCString();
+}
+function getCookie(name)
+{
+    var arr,reg=new RegExp("(^| )"+name+"=([^;]*)(;|$)");
+    if(arr=document.cookie.match(reg)){return (arr[2]);}
+    else{return null;}
+}
+</script>
+</body>
+</html>

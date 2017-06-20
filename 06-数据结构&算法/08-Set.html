@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+</head>
+<body>
+<script src="Set.js"></script>
+<script>
+
+var set1 = new Set();
+var set2 = new Set();
+var union = new Set();
+var intersect = new Set();
+var diff = new Set();
+
+set1.add("data1");
+set1.add("data2");
+set1.add("data3");
+set2.add("data2");
+set2.add("data3");
+set2.add("data4");
+set2.remove("data3");
+console.log(set1.size(),set1.show());//3 "[data1,data2,data3]"
+console.log(set2.size(),set2.show());//2 "[data2,data4]"
+console.log(set1.contains("data1"));//true
+
+union = set1.union(set2);
+intersect = set1.intersect(set2);
+diff = set1.difference(set2);
+// 并集
+console.log(union.show());//[data1,data2,data3,data4]
+// 交集
+console.log(intersect.show());//[data2]
+// 差集
+console.log(diff.show());//[data1,data3]
+
+// 判断子集
+var set3 = new Set();
+set3.add("data1");
+subset1 = set2.subset(set1);
+console.log(subset1);//false
+subset2 = set3.subset(set1);
+console.log(subset2);//true
+
+</script>
+</body>
+</html>

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>五角星评分案例</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+
+        .comment {
+            font-size: 40px;
+            color: #ff3100;
+        }
+
+        .comment li {
+            float: left;
+            cursor: pointer;
+        }
+
+        ul {
+            list-style: none;
+        }
+    </style>
+    <script src="jquery-1.11.1.min.js"></script>
+    <script>
+        $(function () {
+            var wjx_none = '☆'; // 空心五角星
+            var wjx_sel = '★'; // 实心五角星
+
+            //鼠标放上去当前的li和之前所有的li内容全部变为实心五角星，移开变为空心。
+            $(".comment li").on("mouseenter", function () {
+                // $(this).text(wjx_sel).prevAll("li").text(wjx_sel);
+                // $(this).nextAll("li").text(wjx_none);
+                // 链式编程  end();结束当前链最近的一次过滤操作，并且返回匹配元素之前的状态。
+                $(this).text(wjx_sel).prevAll("li").text(wjx_sel).end().nextAll("li").text(wjx_none);
+            });
+
+            $(".comment li").on("mouseleave", function () {
+                //bug：如果没有点击过li会出现无法清除的现象，处理办法是先判断，看看是否有current类
+                if($("li.current").length === 0){
+                    $(".comment li").text(wjx_none);
+                }else{
+                    //当鼠标移开的时候，谁有current类名，那么当前和之前所有的li前部是实心五角星，后面的所有li都是空心
+                    $("li.current").text(wjx_sel).prevAll("li").text(wjx_sel).end().nextAll("li").text(wjx_none);
+                }
+            });
+
+            //鼠标点击，当前li和之前所有的li都变成实心五角星，其他变为空心。
+            $(".comment li").on("click", function () {
+                //当前li添加一个类名。清空其他所有的li的类名
+                $(this).attr("class","current").siblings("li").removeAttr("class");
+            });
+
+
+        });
+    </script>
+</head>
+
+<body>
+
+    <ul class="comment">
+        <li>☆</li>
+        <li>☆</li>
+        <li>☆</li>
+        <li>☆</li>
+        <li>☆</li>
+    </ul>
+
+</body>
+</html>

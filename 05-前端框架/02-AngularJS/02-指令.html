@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>AngularJS 指令</title>
+	<!-- <link rel="stylesheet" ng-href="{{link}}"> -->
+	<style>
+		.red {
+			color: red;
+		}
+
+		.blue {
+			color: blue;
+		}
+	</style>
+</head>
+<body ng-app="App">
+	
+	<ul ng-controller="DemoController">
+		<!-- 数据绑定 见04-数据绑定.html -->
+		<li ng-bind="name"></li>
+		<li>{{name}}</li>
+		<li ng-bind-template="{{name}}{{isShow}}"></li>
+
+		<!-- 显示 -->
+		<li ng-show="1">ng-show用来显示或隐藏内容，当值为true时显示</li>
+		<li ng-hide="{{!isShow}}">ng-hide用来显示或隐藏内容，当值为true时隐藏</li>
+		<li ng-if="1">ng-if用来控制元素是否存在，当值为true时存在</li>
+		<li ng-class="{red: true, blue: true}">ng-class指令，可使用bool值控制</li>
+
+		<!-- 路径 -->
+		<li><img ng-src="{{path}}/sunshine.png" alt="">ng-src增强图片路径</li>
+		<li><a ng-href="http://{{url}}">ng-href增强地址</a></li>
+		
+		<!-- form表单 -->
+		<li><input type="text" ng-disabled="0"></li>
+		<li><input type="text" ng-readonly="1" value="angular"></li>
+		<li><input type="checkbox" ng-checked="1">男</li>
+		<li>
+			<select name="" id="">
+				<option value="">江苏省</option>
+				<option value="">安徽省</option>
+				<option value="" ng-selected="1">北京市</option>
+			</select>
+		</li>
+
+		<!-- 事件 -->
+		<li><button ng-click="single()">单击</button></li>
+		<li><button ng-dblclick="double()">双击</button></li>
+		<li><input type="text" ng-blur="blur()"></li>
+		<li ng-mouseout="mouseout()">事件</li>
+	</ul>
+
+	<!-- 控制指令 -->
+	<ul ng-controller="DemoController">
+		<li ng-repeat="star in stars">{{star.name}}:{{star.age}}</li>
+		<li ng-repeat="(key, star) in stars">No.{{key}},{{star.name}}:{{star.age}}</li>
+		<li ng-repeat="item in items" ng-switch="item">
+			<span ng-switch-when="css">{{item}}</span>
+		</li>
+	</ul>
+	
+	<!-- 自定义指令 -->
+	<!-- tag1 -->
+	<div tag1></div>
+	<tag1></tag1>
+	<div class="tag1"></div>
+	<!-- tag2 -->
+	<div tag2>sunshine</div>
+	<tag2>sunshine</tag2>
+	<div class="tag2">sunshine</div>
+
+
+	<script src="./bower_components/angular/angular.min.js"></script>
+	<script>
+		
+		// 创建模块
+		var App = angular.module('App', []);
+
+		App.controller('DemoController', ['$scope', function ($scope) {
+			// $scope
+			$scope.name = 'csxiaoyao';
+			$scope.isShow = true;
+			$scope.path = './images';
+			$scope.url = 'www.csxiaoyao.com';
+
+			// 事件
+			$scope.single = function () {
+				alert('单击');
+			}
+			$scope.double = function () {
+				alert('双击');
+			}
+			$scope.blur = function () {
+				// alert('失去焦点');
+			}
+			$scope.mouseout = function () {
+				// alert('鼠标移出');
+			}
+
+			// 控制
+			$scope.stars = [
+				{name: '刘德华', age: 60},
+				{name: '周杰伦', age: 38},
+				{name: '王力宏', age: 39}
+			];
+			$scope.items = ['html', 'css', 'js'];
+		}]);
+
+		// 通过模块实例对象的directive方法可以自定义指令
+		App.directive('tag1', function () {
+			// 返回一个对象，这个对象就是自定义指令相关的内容
+			return {
+				// E element
+				// A attribute
+				// C class
+				// M mark replace 必须为true
+				restrict: 'ECMA',
+				template: '<ul><li>首页</li><li>列表</li><li>列表</li></ul>',
+				// replace: true
+			}
+		});
+		App.directive('tag2', function () {
+			return {
+				restrict: 'ECMA',
+				// 必须在服务器下执行
+				templateUrl: './views/02-page-list.html',
+				replace: true
+			}
+		});
+
+	</script>
+</body>
+</html>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>AngularJS 数据绑定</title>
+    <script src="./bower_components/angular/angular.min.js"></script>
+</head>
+<body ng-app="App">
+    
+    <!-- ng-init定义全局变量 -->
+    <ul ng-controller="DemoController" ng-init="name='csxiaoyao';age=24">
+    	<!-- ng-bind方式不存在闪烁问题，只能绑定一个变量 -->
+        <li ng-bind="name"></li>
+        <!-- {{}}是ng-bind的简写，可以使用 ng-cloak 来避免闪烁，需要提前调用angular框架，原理是通过添加样式 -->
+        <li ng-cloak>{{name}}{{age}}</li>
+		<!-- ng-bind-template内可以写指令，可以绑定多个变量，但是内容不解析，不方便 -->
+        <li ng-bind-template="{{name}}{{age}}"></li>
+    </ul>
+
+    <div ng-controller="TodoController">
+        <form ng-submit="add()">
+            <!-- ng-model实现了 视图->模型 的转换 -->
+            <input type="text" ng-model="todo">
+        </form>
+        <ul>
+            <li ng-repeat="(key, val) in items">
+                <input type="checkbox" ng-checked="val.flag">
+                <span>{{val.text}}</span>
+            </li>
+        </ul>
+    </div>
+    <script>
+        
+        var App = angular.module('App', []);
+
+        App.controller('DemoController', ['$scope', function ($scope) {
+            // $scope 就是Model
+            $scope.name = 'sunshine';
+            $scope.age = 25;
+        }]);
+
+        App.controller('TodoController', ['$scope', function ($scope) {
+            $scope.items = [];
+            $scope.add = function () {
+                $scope.items.push({text: $scope.todo, flag: false});
+            }
+        }]);
+
+    </script>
+</body>
+</html>

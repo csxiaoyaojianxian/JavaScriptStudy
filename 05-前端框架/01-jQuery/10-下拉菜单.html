@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <script src="jquery-1.11.1.min.js"></script>
+        <style type="text/css">
+            * {
+                margin: 0;
+                padding: 0;
+            }
+
+            ul {
+                list-style: none;
+            }
+
+            .wrap {
+                width: 330px;
+                height: 30px;
+                margin: 100px auto 0;
+                padding-left: 10px;
+                background-color: blue;
+            }
+
+            .wrap li{
+                background-color: yellow;
+            }
+
+            .wrap > ul > li {
+                float: left;
+                margin-right: 10px;
+                position: relative;
+            }
+
+            .wrap a {
+                display: block;
+                height: 30px;
+                width: 100px;
+                text-decoration: none;
+                color: #000;
+                line-height: 30px;
+                text-align: center;
+            }
+
+            .wrap li ul {
+                position: absolute;
+                top: 30px;
+                display: none;
+            }
+        </style>
+		<script>
+        //入口函数
+        $(document).ready(function () {
+            var jqli = $(".wrap>ul>li");
+            //绑定事件
+            jqli.mouseenter(function () {
+                //这个位置用到了this.
+                console.log(this);  //jquery对象绑定中的this也代指js的dom对象
+                //把js的dom对象包装为jquery对象
+                $(this).children("ul").stop().slideDown(1000);
+            });
+            jqli.mouseleave(function () {
+                $(this).children("ul").stop().slideUp(1000);
+            });
+        });
+        </script>
+    </head>
+    <body>
+        <div class="wrap">
+            <ul>
+                <li>
+                    <a href="javascript:void(0);">一级菜单1</a>
+                    <ul>
+                        <li><a href="javascript:void(0);">二级菜单1</a></li>
+                        <li><a href="javascript:void(0);">二级菜单2</a></li>
+                        <li><a href="javascript:void(0);">二级菜单3</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="javascript:void(0);">一级菜单2</a>
+                    <ul>
+                        <li><a href="javascript:void(0);">二级菜单1</a></li>
+                        <li><a href="javascript:void(0);">二级菜单2</a></li>
+                        <li><a href="javascript:void(0);">二级菜单3</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="javascript:void(0);">一级菜单3</a>
+                    <ul>
+                        <li><a href="javascript:void(0);">二级菜单1</a></li>
+                        <li><a href="javascript:void(0);">二级菜单2</a></li>
+                        <li><a href="javascript:void(0);">二级菜单3</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </body>
+</html>

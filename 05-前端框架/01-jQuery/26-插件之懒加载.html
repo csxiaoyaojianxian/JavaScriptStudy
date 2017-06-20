@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        div {
+            height: 1000px;
+            background-color: pink;
+        }
+    </style>
+    <script src="jquery-1.11.1.min.js"></script>
+    <script src="jquery.lazyload.min.js"></script>
+    <script>
+        $(function () {
+            //懒加载调用
+
+            //使用插件
+            $("img.lazy").lazyload();
+        })
+    </script>
+</head>
+<body>
+    <div></div>
+    <!--<img src="images/02.jpg" alt=""/>-->
+    <img class="lazy" data-original="images/1.jpg">
+    <img class="lazy" data-original="images/2.jpg">
+    <img class="lazy" data-original="images/3.jpg">
+    <img class="lazy" data-original="images/4.jpg">
+    <img class="lazy" data-original="images/5.jpg">
+</body>
+</html>

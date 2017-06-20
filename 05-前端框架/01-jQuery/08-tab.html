@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style type="text/css">
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        ul {
+            list-style: none;
+        }
+        .wrapper {
+            width: 490px;
+            height: 170px;
+            margin: 0 auto;
+            margin-top: 100px;
+        }
+
+        .tab {
+            border: 1px solid #ddd;
+            border-bottom: 0;
+            height: 36px;
+            width: 320px;
+        }
+
+        .tab li {
+            position: relative;
+            float: left;
+            width: 80px;
+            height: 34px;
+            line-height: 34px;
+            text-align: center;
+            cursor: pointer;
+            border-top: 4px solid #fff;
+        }
+        .menu {
+            width: 490px;
+            border: 1px solid #ddd;
+            height: 170px;
+        }
+
+        .menu .main {
+            float: left;
+            display: none;
+        }
+
+        .menu .main.selected {
+            display: block;
+        }
+
+        .tab li.active {
+            border-color: red;
+            border-bottom: 0;
+        }
+
+    </style>
+    <script src="jquery-1.11.1.min.js"></script>
+    <script>
+        jQuery(window).ready(function () {
+            //鼠标放到那个li上，该li添加active类，下面对应的.main的div添加selected
+            $(".tab>li").mouseenter(function () {
+                //不用判断，当前的li添加active类，其他的删除active类
+                $(this).addClass("active").siblings("li").removeClass("active");
+                //对应索引值的div添加selected类，其他的删除selected类
+                $(".menu>div").eq($(this).index()).addClass("selected").siblings("div").removeClass("selected");
+            });
+        });
+    </script>
+</head>
+<body>
+    <div class="wrapper">
+        <ul class="tab">
+            <li class="tab-item active">menu1</li>
+            <li class="tab-item">menu2</li>
+            <li class="tab-item">menu3</li>
+            <li class="tab-item">menu4</li>
+        </ul>
+        <div class="menu">
+            <div class="main selected">
+                <a href="#"><img src="images/01.jpg" alt=""/></a>
+            </div>
+            <div class="main">
+                <a href="#"><img src="images/02.jpg" alt=""/></a>
+            </div>
+            <div class="main">
+                <a href="#"><img src="images/03.jpg" alt=""/></a>
+            </div>
+            <div class="main">
+                <a href="#"><img src="images/04.jpg" alt=""/></a>
+            </div>
+        </div>
+    </div>
+    
+</body>
+</html>

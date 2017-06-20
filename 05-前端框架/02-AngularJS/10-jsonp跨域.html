@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="App">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+    <div ng-controller="DemoController"></div>
+    <script src="./bower_components/jquery/jquery.min.js"></script>
+    <script src="./bower_components/angular/angular.min.js"></script>
+
+
+    
+    <script>
+        // 【jsonp跨域原理】
+        // XMLHttpRequest; 是不能完成跨域访问的，jsonp使用【get】请求，解决同源问题，返回javascript代码，因为请求javascript文件是没有同源问题的。跨域必须有后台的支持，与前端协调一致，原理是向跨域后台使用src方式请求js代码。
+        // <script src="./jsonp.php?callback=JSON_CALLBACK" /> JSON_CALLBACK为返回数据处理函数
+        
+        /**
+         * jQuery
+         */
+        // 1.当请求数据类型为jsonp时，jQuery会自动将callback=jsonpCallback参数加在url上，http://localhost:8090/api/test?callback=jsonpCallback，jquery默认请求头为 application/x-www-form-urlencoded
+        // 2.前台javascript中定义jsonpCallback函数，此函数必须定义在window下，也就是全局的函数，否则找不到。
+        // 3.后台获取请求的callback参数值jsonpCallback，返回字符串"jsonpCallback(result)"，result为返回结果。
+        // 4.请求返回的是script tag，首先会调用jsonpCallback函数，不管是否找到该函数，都会调用success函数。
+        // 5.如果没有定义jsonp和jsonpCallback，jsonp默认为"callback",jsonpCallback会是Jquery自动生成的函数名。
+        myUrl = "http://localhost:8080/api/test";
+        $.ajax({
+        　　type:"GET",
+        　　url:myUrl,
+        　　dataType:"jsonp",
+        　　jsonp:"callback",
+        　　jsonpCallback:"jsonpCallback",
+            // data: {name: 'csxiaoyao', age: 24}, // jquery自动转换成name=csxiaoyao&age=24
+            // data: 'name=csxiaoyao&age=24',
+        　　success:function(data){
+        　　　　alert(data.msg);
+        　　}
+        });
+        function jsonpCallback(data){
+        　　alert(data);
+        }
+        /*
+        <?php
+            // php模拟接收jsonp请求，获取请求的callback参数值jsonpCallback，返回字符串"jsonpCallback(result)"，result为返回结果
+            // 封装返回结果
+            $arr = array('name'=>'csxiaoyao','age'=>24);
+            $result = json_encode($arr); // {"name": "csxiaoyao", "age": 24}
+            $callback = $_GET['callback']; // jsonpCallback
+            echo $callback . '(' . $result . ')'; // jsonpCallback({"name": "csxiaoyao", "age": 24});
+        ?>
+         */
+        
+        /**
+         * angular
+         */
+        // 1.angularJS中使用$http.jsonp函数
+        // 2.指定callback和回调函数名，函数名为JSON_CALLBACK时，会调用success回调函数，JSON_CALLBACK必须全为大写。
+        // 3.也可以指定其它回调函数，但必须是定义在window下的全局函数。
+        // 4.url中必须加上callback
+        // 5.当callback为JSON_CALLBACK时，只会调用success，即使window中有JSON_CALLBACK函数，也不会调用该函数。
+        myUrl = "http://localhost:8080/api/test?callback=JSON_CALLBACK";     
+        var App = angular.module('App', []);
+        App.controller('DemoController', ['$http', '$scope', '$log', function ($http, $scope, $log) {
+            $http.jsonp(myUrl).success(
+            　　function(data){
+            　　　　$log.log(data);
+            　　}
+            );
+            // $http({
+            //     url: 'jsonp.php',
+            //     method: 'jsonp', // 采用JSONP方式
+            //     params: { // 请求的参数，get方式拼接
+            //         callback: 'JSON_CALLBACK' // angular_callback.0({name: 1})
+            //         name: 'csxiaoyao',
+            //         age: '24'
+            //     }
+            // }).success(function (data) {
+            //     $log.log(data); // 成功的回调
+            // });
+        }]);
+        // myUrl = "http://localhost:8080/api/test?callback=fn";
+        // $http.jsonp(myUrl).success(
+        // 　　function(data){
+        // 　　　　alert(data);
+        // 　　}
+        // );
+        // function fn(arg) {
+        //     console.log(arg);
+        // }
+        /*
+        <?php
+            // php模拟接收jsonp请求，获取请求的callback参数值JSON_CALLBACK，返回字符串"JSON_CALLBACK(result)"，result为返回结果
+            // 封装返回结果
+            $arr = array('name'=>'csxiaoyao','age'=>24);
+            $result = json_encode($arr); // {"name": "csxiaoyao", "age": 24}
+            $callback = $_GET['callback']; // JSON_CALLBACK
+            echo $callback . '(' . $result . ')'; // JSON_CALLBACK({"name": "csxiaoyao", "age": 24});
+        ?>
+         */
+        
+    </script>
+</body>
+</html>
+
+

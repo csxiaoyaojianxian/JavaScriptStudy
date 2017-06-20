@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <script src="jquery-1.11.1.min.js"></script>
+		<script>
+		$(function () {
+            var jqli1 = $("li:odd");
+            var jqli2 = $("li:even");
+            //隐式迭代，不用一个一个设置
+            jqli1.css("background","red");
+            jqli2.css("background","yellow");
+
+            //计数器
+            var color = "";
+            $("li").mouseenter(function () {
+                color = $(this).css("background");
+                $(this).css("background","blue");
+            });
+            //移开恢复
+            $("li").mouseleave(function () {
+                $(this).css("background",color);
+            });
+        });
+		</script>
+    </head>
+    <body>
+        <ul>
+            <li>sunshine</li>
+            <li>sunshine</li>
+            <li>sunshine</li>
+            <li>sunshine</li>
+            <li>sunshine</li>
+        </ul>
+    </body>
+</html>

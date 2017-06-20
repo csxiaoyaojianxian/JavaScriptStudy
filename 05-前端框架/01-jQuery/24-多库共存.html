@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="jquery-1.8.2.min.js"></script>
+    <script src="jquery-1.11.1.min.js"></script>
+    <script>
+        jQuery(function () {
+            //打印版本号。
+            console.log($.fn.jquery);//1.11.1
+            //让1.11.1放弃$的使用权
+            $.noConflict();
+            console.log($.fn.jquery);//1.8.2
+            console.log(jQuery.fn.jquery);//1.11.1
+            //放弃两个符号的使用权，同时定义一个新的使用权
+            var csxiaoyao = $.noConflict(true);
+            // console.log($.fn.jquery);
+            console.log(jQuery.fn.jquery);//1.11.1
+            console.log(csxiaoyao.fn.jquery);//1.8.2
+        })
+    </script>
+</head>
+<body>
+
+</body>
+</html>

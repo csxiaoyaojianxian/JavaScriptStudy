@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+</head>
+<body>
+
+<script>
+function Stack() {
+	this.dataStore = [];
+	this.top = 0;
+	this.push = push;
+	this.pop = pop;
+	this.peek = peek;//返回栈顶元素
+	this.clear = clear;
+	this.length = length;
+}
+function push(element) {
+	this.dataStore[this.top++] = element;
+}
+function pop() {
+	return this.dataStore[--this.top];
+}
+function peek() {
+	return this.dataStore[this.top-1];
+}
+function clear() {
+	this.top = 0;
+}
+function length() {
+	return this.top;
+}
+
+//测试
+var s = new Stack();
+s.push("sun1");
+s.push("sun2");
+s.push("sun3");
+console.log(s.length());//3
+console.log(s.pop());//sun3
+console.log(s.peek());//sun2
+s.clear();
+console.log(s.peek());//undefined
+
+</script>
+
+</body>
+</html>

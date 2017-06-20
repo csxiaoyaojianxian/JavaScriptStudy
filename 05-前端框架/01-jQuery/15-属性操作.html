@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        .aaa {
+            border: 1px solid red;
+        }
+        .box {
+            width: 100px;
+            height: 100px;
+            padding-left: 10px;
+            border: 10px solid #000;
+            background-color: pink;
+        }
+    </style>
+    <script src="jquery-1.11.1.min.js"></script>
+    <script>
+
+        $(function () {
+            //获取元素，绑定属性
+            var jqinp = $("input").eq(0);
+            var jqinp2 = $("input:checkbox");
+            var jqbtn = $("button");
+
+            jqbtn.click(function () {
+                //绑定到标签上，两个参数是给属性赋值，单个参数是获取属性值
+                jqinp.attr("aaa",111);
+                console.log(jqinp.attr("aaa"));
+                jqinp.attr("class","aaa");
+                console.log(jqinp.attr("class"));
+
+                jqinp.removeAttr("class");
+                console.log(jqinp.attr("class"));
+
+                //form中的特殊属性，用prop
+                jqinp2.prop("checked",true);
+
+            });
+
+            /**
+             * 值操作
+             * val()、text()、html()
+             */
+            //val();   获取标签中的value属性的值，带有参数是赋值(类比js中的value属性)
+            alert($("input").val());
+            $("input").val("sunshine");
+
+            //text();  获取双闭合标签中的文本值。（不识别标签）(类比innerText)
+            alert($("div").text());
+            $("div").text("<li>sunshine</li>");
+
+            //html();  获取双闭合标签中的文本值。（识别标签）(类比innerHTML)
+            alert($("div").html());
+            $("div").html("<li>sunshine</li>");
+
+            /**
+             * width()、height()
+             */
+            //获取宽度
+            $("button").eq(1).click(function () {
+                //换个offsetHeiht不一样。只获取高度
+                alert($(".box").width());
+            })
+            //获取宽度
+            $("button").eq(2).click(function () {
+                //设置宽度
+                $(".box").width(200);
+            })
+            //获取高度
+            $("button").eq(3).click(function () {
+                //换个offsetHeiht不一样。只获取高度
+                alert($(".box").height());
+            })
+            //获取高度
+            $("button").eq(4).click(function () {
+                //设置高度
+                $(".box").height(200);
+            })
+        })
+    </script>
+</head>
+<body>
+<button>绑定</button>
+<input type="text"/>
+<input type="checkbox"/>
+<div></div>
+<button>获取宽度</button>
+<button>设置宽度</button>
+<button>获取高度</button>
+<button>设置高度</button>
+<div class="box"></div>
+</body>
+</html>

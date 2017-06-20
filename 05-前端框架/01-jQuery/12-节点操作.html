@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+
+<ul></ul>
+
+<script src="jquery-1.11.1.min.js"></script>
+<script>
+jQuery(document).ready(function () {
+    /**
+     * 创建jquery对象
+     */
+    //创建节点1: $("标签");  类比于js中的document.createElement("li");
+    var jqNewLi = $("<li class='sun'>node</li>");
+    //创建节点2: $("ul").html("");  类比innerHTML属性。因为此属性，识别标签。
+    $("ul").html("<li id='test'>sunshine</li>");
+    
+    /**
+     * 添加节点
+     */
+    //append();  在末尾添加
+    $("ul").append(jqNewLi);
+    jqNewLi.appendTo($("ul"));
+
+    //prepend();  在前面添加
+    $("ul").prepend(jqNewLi);
+    jqNewLi.prependTo($("ul"));
+
+    //after();  放兄弟元素之后
+    $("#test").after(jqNewLi);
+
+    //before();  放兄弟元素之前
+    $("#test").before(jqNewLi);
+
+    /**
+     * 删除和清空节点
+     */
+    //删除指定的li
+    $("li:eq(0)").remove();
+    
+    //清空li
+    //方法1：.html("");
+    $("ul").html("");
+    //方法2：.empty();
+    $("ul").empty();
+
+    /**
+     * 复制节点
+     */
+    //clone();
+    var newUl = $("ul").clone();
+
+});
+</script>
+</body>
+</html>

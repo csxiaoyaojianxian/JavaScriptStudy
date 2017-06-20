@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+</head>
+<body>
+<script>
+
+function swap(arr, index1, index2) {
+	var temp = arr[index1];
+	arr[index1] = arr[index2];
+	arr[index2] = temp;
+}
+
+var data = [];
+// 冒泡排序
+function bubbleSort(dataStore) {
+	var numElements = dataStore.length;
+	console.log(numElements);
+	var temp;
+	for (var outer = numElements; outer >= 2; --outer) {
+		for (var inner = 0; inner <= outer-1; ++inner) {
+			if (dataStore[inner] > dataStore[inner+1]) {
+				swap(dataStore, inner, inner+1);
+			}
+		}
+	}
+}
+
+// 选择排序
+function selectionSort(dataStore) {
+	var min, temp;
+	for (var outer = 0; outer <= dataStore.length-2; ++outer) {
+		min = outer;
+		for (var inner = outer + 1; inner <= dataStore.length-1; ++inner) {         
+			if (dataStore[inner] < dataStore[min]) {
+				min = inner;  
+			}
+		}
+		swap(dataStore, outer, min);
+	}
+}
+
+// 插入排序
+function insertionSort(dataStore) {
+	var temp, inner;
+	for (var outer = 1; outer <= dataStore.length-1; ++outer) {
+		temp = dataStore[outer];
+		inner = outer;
+		while (inner > 0 && (dataStore[inner-1] >= temp)) {
+			dataStore[inner] = dataStore[inner-1];
+			--inner;
+		}
+		dataStore[inner] = temp;
+	}
+}
+
+// 希尔排序
+function shellSort(dataStore) {
+	var N = dataStore.length;
+	var h = 1;
+	while (h < N/3) {
+		h = 3 * h + 1;
+	}
+	while (h >= 1) {
+		for (var i = h; i < N; i++) {
+			for (var j = i; j >= h && dataStore[j] < dataStore[j-h]; j -= h) {
+				swap(dataStore, j, j-h);
+			}
+		}
+		h = (h-1)/3;
+	}
+}
+
+// 归并排序
+function mergeSort(arr) {
+	if (arr.length < 2) {
+		return;
+	}
+	var step = 1;
+	var left, right;
+	while (step < arr.length) {
+		left = 0;
+		right = step;
+		while (right + step <= arr.length) {
+			mergeArrays(arr, left, left+step, right, right+step);
+			left = right + step;
+			right = left + step;
+		}
+		if (right < arr.length) {
+			mergeArrays(arr, left, left+step, right, arr.length);
+		}
+		step *= 2;
+	}
+}
+function mergeArrays(arr, startLeft, stopLeft, startRight, stopRight) {
+	var rightArr = new Array(stopRight - startRight + 1);
+	var leftArr = new Array(stopLeft - startLeft + 1);
+	k = startRight;
+	for (var i = 0; i < (rightArr.length-1); ++i) {
+		rightArr[i] = arr[k];
+		++k;
+	}
+	k = startLeft;
+	for (var i = 0; i < (leftArr.length-1); ++i) {
+		leftArr[i] = arr[k];
+		++k;
+	}
+	rightArr[rightArr.length-1] = Infinity; // a sentinel value
+	leftArr[leftArr.length-1] = Infinity; // a sentinel value
+	var m = 0;
+	var n = 0;
+	for (var k = startLeft; k < stopRight; ++k) {
+		if (leftArr[m] <= rightArr[n]) {
+			arr[k] = leftArr[m];
+			m++;
+		}
+		else {
+			arr[k] = rightArr[n];
+			n++;
+		}
+	}
+	console.log("left array - ", leftArr);
+	console.log("right array - ", rightArr);
+}
+
+// 快速排序
+function qSort(arr)
+{
+    if (arr.length == 0) {
+        return [];
+    }
+    var left = [];
+    var right = [];
+    var pivot = arr[0];
+    for (var i = 1; i < arr.length; i++) {
+        if (arr[i] < pivot) {
+			left.push(arr[i]);
+        } else {
+			right.push(arr[i]);
+        }
+    }
+    return qSort(left).concat(pivot, qSort(right));
+}
+
+// 测试
+data = [3,6,9,12,2,4,8];
+bubbleSort(data);
+console.log(data);
+data = [3,6,9,12,2,4,8];
+selectionSort(data);
+console.log(data);
+data = [3,6,9,12,2,4,8];
+insertionSort(data);
+console.log(data);
+data = [3,6,9,12,2,4,8];
+shellSort(data);
+console.log(data);
+data = [3,6,9,12,2,4,8];
+mergeSort(data);
+console.log(data);
+data = [3,6,9,12,2,4,8];
+console.log(qSort(data));
+
+</script>
+</body>
+</html>

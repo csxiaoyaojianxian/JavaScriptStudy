@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+</head>
+<body>
+<script src="BST.js"></script>
+<script>
+
+var nums = new BST();
+    //     23
+    //    /  \
+    //   16   45 
+    //  / \  / \
+    // 3 22 37  99
+
+// 插入
+nums.insert(23);
+nums.insert(45);
+nums.insert(16);
+nums.insert(37);
+nums.insert(3);
+nums.insert(99);
+nums.insert(22);
+
+// 遍历
+inOrder(nums.root);// 3 16 22 23 37 45 99
+preOrder(nums.root);// 23 16 3 22 45 37 99
+postOrder(nums.root);// 3 22 16 37 99 45 23
+
+// 根结点
+console.log(nums.root.show());//23
+// 获取最小最大值
+console.log(nums.getmin());//3
+console.log(getSmallest(nums.root).show());//3
+console.log(nums.getmax());//99
+console.log(getBigest(nums.root).show());//99
+// 查找结点
+console.log(nums.find(16).left.show());//3
+
+// 删除结点
+nums.remove(16);
+inOrder(nums.root);// 3 22 23 37 45 99
+
+</script>
+</body>
+</html>

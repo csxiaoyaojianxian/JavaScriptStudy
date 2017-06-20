@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        select {
+            width: 170px;
+            height: 240px;
+            font-size: 18px;
+            background-color: #a4ff34;
+        }
+    </style>
+    <script src="jquery-1.11.1.min.js"></script>
+    <script>
+        $(function () {
+
+            //获取左侧的全部标签添加到右侧
+            $("button").eq(0).click(function () {
+                //右侧标签.append(左侧标签);
+                $("#sel2").append($("#sel1 option"));
+            });
+            $("button").eq(1).click(function () {
+                $("#sel1").append($("#sel2 option"));
+            });
+
+            //option:selected;
+            //获取左侧的选中的标签添加到右侧
+            $("button").eq(2).click(function () {
+                //右侧标签.append(左侧标签);
+                $("#sel2").append($("#sel1 option:selected"));
+            });
+            $("button").eq(3).click(function () {
+                $("#sel1").append($("#sel2 option:selected"));
+            });
+
+        })
+    </script>
+</head>
+<body>
+    <select id="sel1" size="10" multiple>
+        <option value="0">香蕉</option>
+        <option value="1">苹果</option>
+        <option value="2">鸭梨</option>
+        <option value="3">葡萄</option>
+    </select>
+    <button>>>></button>
+    <button><<<</button>
+    <button>></button>
+    <button><</button>
+    <select id="sel2" size="10" multiple></select>
+</body>
+</html>

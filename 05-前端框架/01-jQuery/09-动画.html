@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        div{
+            width: 300px;
+            height: 300px;
+            /* display: none; */
+            background-color: purple;
+        }
+    </style>
+
+    <script src="jquery-1.11.1.min.js"></script>
+    <script>
+        $(function () {
+            //显示动画
+            $("button:eq(0)").click(function () {
+                //【show();   不加参数】
+                $("div").show(); //实现方法：display: block;
+
+                //【show(2000);   毫秒值】
+                // $("div").show(2000); //通过控制宽高、透明度、display
+                
+                //【show(字符串);   slow慢：600ms   normal正常:400ms   fast快：200ms】
+                // $("div").show("slow");
+                // $("div").show("fast");
+                // $("div").show("normal");
+
+                //【show(毫秒值，回调函数[显示完毕执行内容]);】
+                // $("div").show(2000,function () {
+                //    alert("动画执行完毕");
+                // });
+            })
+
+            //隐藏动画
+            $("button:eq(1)").click(function () {
+                //与show方法一样有四种用法
+                $("div").hide();  //实现方法：display: none;
+                // $("div").hide(2000);  //通过控制宽高、透明度、display
+                // $("div").hide("slow");
+                // $("div").hide("fast");
+                // $("div").hide("normal");
+                // $("div").hide(2000,function () {
+                //    alert("动画执行完毕");
+                // });
+            })
+
+            //显示隐藏切换
+            $("button:eq(2)").click(function () {               
+                //与show方法一样有四种用法
+                $("div").toggle(2000);
+            })
+
+            //滑入动画
+            $("button:eq(3)").click(function () {
+                //与show方法一样有四种用法
+                // $("div").slideDown();
+                $("div").slideDown(2000);//通过控制高、display
+                // $("div").slideDown("slow");
+                // $("div").slideDown("fast");
+                // $("div").slideDown("normal");
+                // $("div").slideDown(2000,function () {
+                //     alert("动画执行完毕");
+                // });
+            })
+
+            //滑出动画
+            $("button:eq(4)").click(function () {
+                //与show方法一样有四种用法
+                // $("div").slideUp();
+                $("div").slideUp(2000);  //通过控制高、display
+                // $("div").slideUp("slow");
+                // $("div").slideUp("fast");
+                // $("div").slideUp("normal");
+                // $("div").slideUp(2000,function () {
+                //     alert("动画执行完毕");
+                // });
+            })
+
+            //滑入滑出切换
+            $("button:eq(5)").click(function () {
+                //与show方法一样有四种用法
+                $("div").slideToggle(2000);
+            })
+
+            //淡入动画
+            $("button:eq(6)").click(function () {
+                //与show方法一样有四种用法
+                // $("div").fadeIn();
+                $("div").fadeIn(2000);  //通过控制透明度、display
+                // $("div").fadeIn("slow");
+                // $("div").fadeIn("fast");
+                // $("div").fadeIn("normal");
+                // $("div").fadeIn(2000,function () {
+                //     alert("动画执行完毕");
+                // });
+            })
+
+            //淡出动画
+            $("button:eq(7)").click(function () {
+                //与show方法一样有四种用法
+                // $("div").fadeOut();
+                $("div").fadeOut(2000);  //通过控制透明度、display
+                // $("div").fadeOut("slow");
+                // $("div").fadeOut("fast");
+                // $("div").fadeOut("normal");
+                // $("div").fadeOut(2000,function () {
+                //     alert("动画执行完毕");
+                // });
+            })
+
+            //淡入淡出切换
+            $("button:eq(8)").click(function () {
+                //与show方法一样有四种用法
+                $("div").fadeToggle(2000);
+            })
+
+            //改透明度
+            $("button:eq(9)").click(function () {
+                //与show方法一样有四种用法
+                $("div").fadeTo(2000,0.5, function () {
+                    alert("success");
+                });
+            })
+
+            //自定义动画
+            $("button:eq(10)").click(function () {
+                var json1 = {"width":500,"height":500,"left":300,"top": 300,"border-radius":100};
+                var json2 = {"width":100,"height":100,"left":100,"top": 100,"border-radius":100,"background-color":"red"};
+                $("div").animate(json1,1000, function () {
+                    $("div").animate(json2,1000, function () {
+                        alert("动画执行完毕");
+                    });
+                });
+                // $("div").animate({"display":"none","opacity":0,"width":0,"height":0},2000);
+            })
+
+            //停止动画
+            $("button:eq(11)").click(function () {
+                // stop(param1,param2)
+                // 第一个参数表示后续动画是否要执行
+                //（true:后续动画不执行; false:后续动画会执行）
+                // 第二个参数表示当前动画是否执行完
+                //（true:立即执行完成当前动画;  false:立即停止当前动画）
+                
+                $("div").stop();   //两个参数都不写，默认两个都是false;
+
+                //四种情况：情况1：true,true
+                //（后续动画不执行，立即执行完成当前动画）
+                // $("div").stop(true,true);
+
+                //四种情况：情况2：false,true
+                //（后续动画会执行，立即执行完成当前动画）
+                // $("div").stop(false,true);
+
+                //四种情况：情况3：true,false
+                //（后续动画不执行，立即停止当前动画`）
+                // $("div").stop(true,false);
+
+                //四种情况：情况4：false,false
+                //（后续动画会执行，立即停止当前动画`）
+                // $("div").stop(false,false);
+            })                
+
+        })
+    </script>
+</head>
+<body>
+<button>显示</button>
+<button>隐藏</button>
+<button>切换</button>
+<button>滑入</button>
+<button>滑出</button>
+<button>切换</button>
+<button>淡入</button>
+<button>淡出</button>
+<button>切换</button>
+<button>改透明度为0.5</button>
+<button>自定义动画</button>
+<button>停止</button>
+<div></div>
+
+</body>
+</html>

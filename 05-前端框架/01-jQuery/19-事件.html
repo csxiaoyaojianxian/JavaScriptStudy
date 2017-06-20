@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="jquery-1.11.1.min.js"></script>
+    <script>
+        /**
+         * 事件绑定与解绑，推荐使用最后一种
+         */
+        // //这种绑定事件的方法是不会层叠的。
+        // $(document).click(function () {
+        //     alert(1);
+        // });
+        // $(document).click(function () {
+        //     alert(2);
+        // });
+
+        // //第二种绑定：bind  给匹配到的元素直接绑定事件（不推荐，1.7以后的jQuery版本被on取代）
+        // $(document).bind("click mouseenter", function () {
+        //     alert(1);
+        // })
+        // $(document).bind("click mouseenter", function () {
+        //     alert(2);
+        // })
+        // //解绑
+        // $(document).unbind("mouseenter");
+
+        // //第三种 （特点：性能高，支持动态创建的元素）给匹配到的元素绑定事件，对支持动态创建的元素有效，减少事件绑定次数提高效率
+        // $(document).delegate(".box","click mouseenter", fn)
+        // $(document).delegate(".box","click mouseenter", fn2)
+        // function fn(){
+        //     alert(1);
+        // }
+        // function fn2(){
+        //     alert(2);
+        // }
+        // //解绑
+        // $(document).undelegate(".box","mouseenter",fn)
+
+        //第四种(重点)（最现代的方式，兼容zepto(移动端类似jQuery的一个库)，强烈建议使用的方式）
+        $(document).on("click mouseenter",".box",{"name":111}, function (event) {
+            alert(event.data.name);
+        });
+        $(document).on("click mouseenter",".box", function () {
+            alert(1);
+        });
+        //解绑
+        // $(document).off("mouseenter",".box");
+
+        /**
+         * 事件触发
+         */
+        $(function () {
+
+            //事件触发(1)(触发浏览器行为)
+            $(document).click();
+            $(document).mouseenter();
+
+            //事件触发(2)(触发浏览器行为)
+            $(document).trigger("mouseenter");
+            $(document).trigger("click");
+
+            //事件触发(3)(不触发浏览器行为)(只执行程序，不触动事件)
+            $(document).triggerHandler("mouseenter");
+            $(document).triggerHandler("click");
+
+
+            //事件触发2 (触发浏览器行为)(执行程序，触动事件)
+            $(document).click(function () {
+                $("input").trigger("focus");
+            });
+            //事件触发3 (不触发浏览器行为)
+            $(document).mouseenter(function () {
+                $("input").triggerHandler("focus");
+                $(document).triggerHandler("click");
+            });
+        })
+
+
+        /**
+         * 事件对象
+         */
+        /*
+            event.data                  传递给事件处理程序的额外数据
+            event.currentTarget         等同于this，当前DOM对象
+            event.pageX                 鼠标相对于文档左部边缘的位置
+            event.target                触发事件源，不一定===this
+            event.stopPropagation()；   阻止事件冒泡
+            event.preventDefault();     阻止默认行为
+            event.type                  事件类型：click，dbclick…
+            event.which                 鼠标的按键类型：左1 中2 右3
+            event.keyCode               键盘按键代码
+         */
+        $(function () {
+            $(document).on("click", {},function (e) {
+                console.log(e);
+                console.log(e.data);
+                console.log(e.currentTarget );
+                console.log(e.target );
+                console.log(e.pageX );
+                console.log(e.type );
+                console.log(e.which );
+                console.log(e.keyCode);
+            });
+        })
+    </script>
+
+</head>
+<body>
+<div class="box" style="width: 100px;height: 100px;background-color: pink;"></div>
+<input type="text" />
+</body>
+</html>

@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body ng-app="App">
+	
+	<!-- 若使用iframe会产生多个window对象，获取数据(frame名demo,变量名str)可以通过 window.frames['demo'].str -->
+	<!-- ng-include 必须在服务器中运行，利用ajax插入到div中 -->
+	<div ng-include="'./views/03-page-header.html'"></div>
+	<section>主体</section>
+	<div ng-include="'./views/03-page-footer.html'"></div>
+	
+	<script src="./bower_components/angular/angular.min.js"></script>
+	<script>
+		var App = angular.module('App', []);
+	</script>
+</body>
+</html>

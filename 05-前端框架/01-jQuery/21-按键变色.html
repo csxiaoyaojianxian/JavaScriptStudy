@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        .wrap {
+            width: 400px;
+            height: 400px;
+            margin: 100px auto 0;
+        }
+
+        .wrap h1 {
+            text-align: center;
+        }
+
+        .wrap div {
+            width: 400px;
+            height: 300px;
+            background: pink;
+            font-size: 30px;
+            text-align: center;
+            line-height: 300px;
+        }
+    </style>
+    <script src="jquery-1.11.1.min.js"></script>
+    <script>
+        $(function () {
+            //在页面上，按键是哪个颜色的首写字母div就改变为该颜色，然后span内容赋值。
+
+            var div = $("#bgChange");
+            var span = $("#keyCodeSpan");
+
+            //绑定事件
+            $(document).keyup(function (e) {
+                //调用方法
+                setColor(e.keyCode);
+            });
+
+            function setColor(aaa){
+                //获取值，根据此值，给div和span上色和内容
+                switch (aaa){
+                    case 80:
+                        //修改内容pink
+                        setEle("pink",aaa);
+                        break;
+                    case 66:
+                        //修改内容blue
+                        setEle("blue",aaa);
+                        break;
+                    case 79:
+                        //修改内容orange
+                        setEle("orange",aaa);
+                        break;
+                    case 82:
+                        //修改内容red
+                        setEle("red",aaa);
+                        break;
+                    case 89:
+                        //修改内容yellow
+                        setEle("yellow",aaa);
+                        break;
+                    default :
+                        alert("系统没有设置该颜色！");
+                }
+
+                function setEle(a,b){
+                    div.css("background-color",a);
+                    span.text(b);
+                }
+            }
+        })
+    </script>
+</head>
+
+<body>
+
+    <div class="wrap">
+        <h1>按键改变颜色</h1>
+        <div id="bgChange">
+            keyCode为：
+            <span id="keyCodeSpan">80</span>
+        </div>
+    </div>
+
+</body>
+</html>

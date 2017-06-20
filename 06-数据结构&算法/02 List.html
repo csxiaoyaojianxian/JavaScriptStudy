@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+</head>
+<body>
+
+<script>
+function List() {
+	this.listSize = 0;
+	this.pos = 0;
+	this.dataStore = [];
+	this.length = length;
+	this.toString = toString;
+	// 基本操作
+	this.find = find;
+	this.insert = insert;
+	this.insertAfter = insertAfter;
+	this.append = append;
+	this.setData = setData;
+	this.remove = remove;
+	this.removeElement = removeElement;
+	this.contains = contains;
+	this.clear = clear;
+	// 遍历列表
+	this.front = front;
+	this.end = end;
+	this.prev = prev;
+	this.next = next;
+	this.currPos = currPos;
+	this.moveTo = moveTo;
+	this.getElement = getElement;
+}
+
+function length(){
+	return this.listSize;
+}
+function toString() {
+	return this.dataStore;
+}
+
+function find(element) {
+	for (var i = 0; i < this.dataStore.length; ++i) {
+		if (this.dataStore[i] == element) {
+			return i;
+		}
+	}
+	return -1;
+}
+function insert(element, insertPos){
+	if(insertPos > -1){
+		this.dataStore.splice(insertPos, 0, element);
+	}
+	++this.listSize;
+}
+function insertAfter(element, after){
+	var insertPos = this.find(after);
+	if(insertPos > -1){
+		this.dataStore.splice(insertPos+1, 0, element);
+	}
+	++this.listSize;
+}
+function append(element){
+	this.dataStore[this.listSize++] = element;
+}
+function setData(index,element){
+	if(index > 0 && index <= this.listSize){
+		this.dataStore[index] = element;
+	}
+}
+function remove(index) {
+	if (index > -1) {
+		this.dataStore.splice(index,1);
+		--this.listSize;
+		return true;
+	}
+	return false;
+}
+function removeElement(element) {
+	var foundAt = this.find(element);
+	if (foundAt > -1) {
+		this.dataStore.splice(foundAt,1);
+		--this.listSize;
+		return true;
+	}
+	return false;
+}
+function contains(element) {
+	for (var i = 0; i < this.dataStore.length; ++i) {
+		if (this.dataStore[i] == element) {
+			return true;
+		}
+	}
+	return false;
+}
+function clear(){
+	delete this.dataStore;
+	this.dataStore = [];
+	this.listSize = this.pos = 0;
+}
+
+function front() {
+	this.pos = 0;
+}
+function end() {
+	this.pos = this.listSize-1;
+}
+function prev() {
+	// if (this.pos > 0) {
+		--this.pos;
+	// }
+}
+function next() {
+	// if (this.pos < this.listSize-1) {
+		++this.pos;
+	// }
+}
+function currPos() {
+	return this.pos;
+}
+function moveTo(position) {
+	this.pos = position;
+}
+function getElement() {
+	return this.dataStore[this.pos];
+}
+
+// 测试
+var names = new List();
+// 添加操作
+names.append("sun1");
+names.append("sun4");
+names.append("sun5");
+names.insert("sun2",1);
+names.insertAfter("sun3","sun2");
+console.log(names.toString());//["sun1", "sun2", "sun3", "sun4", "sun5"]
+
+// 查询操作
+console.log(names.length());//5
+console.log(names.find("sun3"));//2
+console.log(names.contains("sun3"));//true
+
+names.front();
+console.log(names.currPos());//0
+names.end();
+console.log(names.currPos());//4
+names.moveTo(2);
+console.log(names.currPos());//2
+names.prev();
+console.log(names.currPos());//1
+names.next();
+console.log(names.currPos());//2
+console.log(names.getElement());//sun3
+
+// 修改操作
+names.setData(1,"sunshine2");
+console.log(names.toString());//["sun1", "sunshine2", "sun3", "sun4", "sun5"]
+
+// 迭代方法遍历
+for(names.front(); names.currPos() < names.length(); names.next()) {
+	console.log(names.getElement());
+}
+for(names.end(); names.currPos() >= 0; names.prev()) {
+	console.log(names.getElement());
+}
+
+// 删除操作
+names.remove(3);
+names.removeElement("sun5");
+console.log(names.toString());//["sun1", "sunshine2", "sun3"]
+names.clear();
+console.log(names.toString());//[]
+
+</script>
+
+</body>
+</html>

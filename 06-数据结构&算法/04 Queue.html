@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+</head>
+<body>
+
+<script>
+
+function Queue() {
+	this.dataStore = [];
+	this.enqueue = enqueue;
+	this.dequeue = dequeue;
+	this.front = front;
+	this.back = back;
+	this.length = length;
+	this.toString = toString;
+	this.isEmpty = isEmpty;
+}
+function enqueue(element) {
+	this.dataStore.push(element);
+}
+function dequeue() {
+	return this.dataStore.shift();
+}
+function front() {
+	return this.dataStore[0];
+}
+function back() {
+	return this.dataStore[this.dataStore.length-1];
+}
+function length() {
+	return this.dataStore.length;
+}
+function toString() {
+var retStr = "";
+	for (var i = 0; i < this.dataStore.length; ++i) {
+		retStr += this.dataStore[i] + "\n";
+	}
+	return retStr;
+}
+function isEmpty() {
+	if (this.dataStore.length == 0) {
+		return true;
+	} else {
+		return false;
+	}
+}
+// 测试程序
+var q = new Queue();
+q.enqueue("sun1");
+q.enqueue("sun2");
+q.enqueue("sun3");
+q.enqueue("sun4");
+console.log(q.isEmpty(),q.length(),q.toString());// false 4 "sun1 sun2 sun3 sun4"
+console.log(q.dequeue());// sun1
+console.log(q.front());// sun2
+console.log(q.back());// sun4
+
+</script>
+
+</body>
+</html>

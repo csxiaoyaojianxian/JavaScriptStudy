@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="App">
+<head>
+    <meta charset="UTF-8">
+    <title>AngularJS 路由和多视图</title>
+    <style>
+        body {
+            padding: 0;
+            margin: 0;
+            background-color: #F7F7F7;
+            font-family: Arial;
+        }
+        .wrapper {
+            max-width: 980px;
+            margin: 50px auto;
+        }
+        ul {
+            padding: 0;
+            margin: 0;
+            overflow: hidden;
+            list-style: none;
+            background-color: #000;
+            border-radius: 4px;
+        }
+        li {
+            float: left;
+            width: 120px;
+            height: 40px;
+            text-align: center;
+            line-height: 40px;
+            font-size: 18px;
+        }
+        li.active {
+            background-color: #333;
+        }
+        li a {
+            display: block;
+            color: #FFF;
+            text-decoration: none;
+        }
+        .content {
+            margin-top: 30px;
+            font-size: 24px;
+            padding: 0 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <!-- 导航菜单 -->
+        <ul>
+            <li class="active">
+                <a href="#/index">Index</a>
+            </li>
+            <li>
+                <a href="#/introduce">Introduce</a>
+            </li>
+            <li>
+                <a href="#/contact">Contact Us</a>
+            </li>
+            <li>
+                <a href="#/list">List</a>
+            </li>
+        </ul>
+        <!-- 内容 -->
+        <div class="content">
+            <!-- 占位符 -->
+            <div ng-view></div>
+        </div>
+
+    </div>
+    <!-- AngularJS核心框架 -->
+    <script src="./libs/angular.min.js"></script>
+    <!-- 路由模块插件 -->
+    <script src="./libs/angular-route.js"></script>
+    <script>
+        /**
+         * 原理
+         */
+        /*
+        // 监听锚点变化然后发送请求
+        // hashchange事件可以监听锚点变化
+        window.addEventListener('hashchange', function () {
+            // console.log(1);
+            // 获取锚点
+            var hash = location.hash;
+            // 处理#
+            hash = hash.slice(1);
+            // 实例对象
+            var xhr = new XMLHttpRequest;
+            // 将锚点做为参数传递给服务端进处理
+            xhr.open('get', 'test.php?hash=' + hash);
+            xhr.send(null);
+            xhr.onreadystatechange = function () {
+                if(xhr.readyState == 4 && xhr.status == 200) {
+                    var result = xhr.responseText;
+                    // 将返回结果添加到页面
+                    document.querySelector('.content').innerHTML = result;
+                }
+            }
+        });
+        */
+       
+        // 依赖ngRoute模块
+        var App = angular.module('App', ['ngRoute']);
+        // 需要对路由模块进行配置，使其正常工作
+        App.config(['$routeProvider', function ($routeProvider) {
+            $routeProvider.when('/index', {
+                // template: '<h1>index Pages!</h1>',
+                templateUrl: './abc.html' // 视图模板，可以与控制器配合，控制器负责取数据
+            })
+            .when('/introduce', {
+                template: '<h1>introduce Pages!</h1>'
+            })
+            .when('/contact', {
+                templateUrl: './contact.html',
+                controller: 'ContactController' // 定义控制器
+            })
+            .when('/list', {
+                templateUrl: './list.html', 
+                controller: 'ListController'
+            })
+            .otherwise({
+                redirectTo: '/index'
+            });
+        }]);
+
+        // 列表控制器
+        App.controller('ListController', ['$scope', '$http', function ($scope, $http) {
+            // 模型数据
+            // $scope.items = ['html', 'css', 'js'];
+            $http({
+                url: 'test.php',
+            }).success(function (info) {
+                $scope.items = info;
+            });
+        }]);
+
+        App.controller('ContactController', ['$scope', '$http', function ($scope, $http) {
+            $http({
+                url: 'contact.php'
+            }).success(function (info) {
+                $scope.content = info;
+            });
+        }]);
+
+
+        /**
+         * 功能抽取
+         */
+        /*
+        <li class="active">
+            <a href="#/index/5/abc/7">Index</a>
+        </li>
+        // 需要对路由模块进行配置，使其正常工作
+        App.config(['$routeProvider', function ($routeProvider) {
+
+            $routeProvider.when('/index/:id/:page/:p', {
+                templateUrl: 'abc.html',
+                controller: 'IndexController'
+            })
+            .otherwise({
+                redirectTo: '/index'
+            });
+
+        }]);
+        // 提供了一个专门负责获取$routeParams参数的一个服务
+        App.controller('IndexController', ['$scope', '$http', '$routeParams', function ($scope, $http, $routeParams) {
+            // 根据参数采取不同操作
+            console.log($routeParams);
+        }]);
+        */
+
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>AngularJS $http服务</title>
+</head>
+<body ng-app="App">
+    <div ng-controller="DemoController"></div>
+    <script src="./bower_components/angular/angular.min.js"></script>
+
+    <script>
+        App.controller('DemoController', ['$scope', '$http', '$log', function ($scope, $http, $log) {       
+            /**  
+             * 接口方式  SOAP / RESTFUL
+             * post请求放在请求主体里，get发送请求没有请求主体
+             * 
+             * （1）formData形式：[] / '' ，传递的数据可以是'key=val&key=val'形式
+             * Content-Type 设成 application/x-www-form-urlencoded
+             * 以PHP为例可以使用$_POST接收
+             *
+             * （2）json对象形式：{}，json对象
+             * Content-Type 设成 application/json;charset=UTF-8
+             * Request Payload（关键信息），以PHP为例$_POST就不能接收了
+             * angularjs默认支持restful接口
+             */
+            
+            // 【$http 本质是对 XMLHttpRequest 对象封装】
+            // var xhr = new XMLHttpRequest;
+            // xhr.open('get', 'example.php?name=csxiaoyao');
+            // xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            // xhr.send('name=csxiaoyao&age=10');
+            
+            // 定义数据
+            var jsondata = {
+                name: 'csxiaoyao',
+                age: 24
+            };
+            
+            // get方式参数放params中自动拼接
+            // post方式默认为application/json;charset=UTF-8，json数据放data数据域中后台不能接收
+            // 即
+            // $http({
+            //     url: 'example.php',
+            //     method: 'post',
+            //     data: { // post 传参，放数据域中，后台不能接收
+            //         age: 24
+            //     }
+            // }).success(function (data) {
+            //     $log.info(data);
+            // });
+
+            // 解决方式：改为 application/x-www-form-urlencoded，采用以下两种方式传递数据
+     
+            // post传数据方式一，不推荐
+            $http({
+                url: 'example.php',
+                method: 'post',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                data: 'name=csxiaoyao&age=24'
+            }).success(function (data) {
+                $log.info(data);
+            });
+
+            // post传数据方式二，自定义格式化数据服务，推荐
+            // 测试自定义服务
+            console.log(format(jsondata));
+            console.log(format.format(jsondata));
+            $http({
+                url: 'example.php',
+                method: 'post', // method: 'get',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                // params: { // get 参数，自动拼接
+                //     name: 'csxiaoyao',
+                //     sex: '男'
+                // },
+                // data: 'name=csxiaoyao&age=10',
+                // data: { // post 传参，放数据域中
+                //     age: 10
+                // },
+                data: format.format(jsondata)
+            }).success(function (data) {
+                console.log(data);
+            });
+        }]);
+
+        // 提供3种方法实现自定义服务
+        // factory、service、value
+        App.factory('format', ['$filter', function ($filter) {
+            // 自定义服务，依赖于$filter
+            // 定义服务具体功能
+            function format(arg) {
+                var s = '';
+                for(var key in arg) {
+                    s += key + '=' + arg[key] + '&';
+                }
+                s = s.slice(0, -1);
+                return s;
+            }
+            function author() {
+                alert('by CS逍遥剑仙');
+            }
+            // 返回出去以被调用
+            return {
+                format: format,
+                author: author
+            }
+        }]);
+
+    </script>
+
+</body>
+</html>

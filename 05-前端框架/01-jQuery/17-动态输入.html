@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        @keyframes blink {
+            0%,
+            100% {
+                opacity: 1
+            }
+            50% {
+                opacity: 0
+            }
+        }
+        @-webkit-keyframes blink {
+            0%,
+            100% {
+                opacity: 1
+            }
+            50% {
+                opacity: 0
+            }
+        }
+        @-moz-keyframes blink {
+            0%,
+            100% {
+                opacity: 1
+            }
+            50% {
+                opacity: 0
+            }
+        }
+        .wrap {
+            width: 1000px;
+            text-align: center;
+            margin: 100px auto 0;
+        }
+
+        .wrap h1 {
+            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+            font-weight: 300;
+        }
+
+        .word {
+            font-weight: 700;
+        }
+
+        .typed-cursor {
+            opacity: 1;
+            -webkit-animation: blink .7s infinite;
+            -moz-animation: blink .7s infinite;
+            animation: blink .7s infinite;
+            display: none;
+        }
+
+        .saySection {
+            margin-top: 50px;
+        }
+
+        .saySection input {
+            font-size: 30px;
+        }
+
+        .saySection .txtSay {
+            padding-left: 10px;
+        }
+
+        .saySection .btnSay {
+            display: inline-block;
+            padding: 0 20px;
+            cursor: pointer;
+        }
+    </style>
+    <script src="jquery-1.11.1.min.js"></script>
+    <script>
+        jQuery(function () {
+
+            //页面加载的时候每隔固定时间，.word中添加一个字符
+            //步骤：
+            //1.定义字符串，然后显示插入条光标(把字符串转换成数组)
+            //2.定时器。
+            //3.每隔一段时间，在.word中插入一个文字。（ 就是改变内容，text() ）
+            //4.判断，如果文字的个数和数组的长度一样了，就清除定时器
+
+            //1.定义字符串，然后显示插入条光标(把字符串转换成数组)
+            var str = "Welcome to SUNSHINE STUDIO";
+            var arr =  str.split("");
+            var str2 = "";
+            var num = 0;
+            var timer = null;
+
+            $(".typed-cursor").show();
+            //2.定时器。
+            timer = setInterval(function () {
+                //4.判断，如果文字的个数和数组的长度一样了，就清除定时器
+                if(arr[num] === undefined){
+                    clearInterval(timer);
+                    $(".typed-cursor").hide();
+                }else{
+                    //定义一个字符串用来接收
+                    str2 += arr[num];
+                    //3.每隔一段时间，在.word中插入一个文字。（ 就是改变内容，text() ）
+                    $(".word").text(str2);
+                    //索引值自增
+                    num++;
+                }
+            },200);
+
+            //点击say按钮，上面的input中的内容，每隔固定时间，.word中添加一个字符，插入的就是input中的内容
+            $("#btnSay").click(function () {
+                str = $("#inValue").val();
+                $("#inValue").val("");
+                arr =  str.split("");
+                str2 = "";
+                num = 0;
+                $(".typed-cursor").show();
+                //2.定时器。
+                timer = setInterval(function () {
+                    //4.判断，如果文字的个数和数组的长度一样了，就清除定时器
+                    if(arr[num] === undefined){
+                        clearInterval(timer);
+                        $(".typed-cursor").hide();
+                    }else{
+                        //定义一个字符串用来接收
+                        str2 += arr[num];
+                        //3.每隔一段时间，在.word中插入一个文字。（ 就是改变内容，text() ）
+                        $(".word").text(str2);
+                        //索引值自增
+                        num++;
+                    }
+                },200);
+            });
+
+
+        });
+    </script>
+</head>
+
+<body>
+
+    <div class="wrap">
+        <h1>
+            You want to say ： <span class="word"></span><span class="typed-cursor">|</span> ！
+        </h1>
+
+        <div class="saySection">
+            <input type="text" id="inValue" class="txtSay"/>
+            <input type="button" value="Say" id="btnSay" class="btnSay"/>
+        </div>
+    </div>
+
+
+</body>
+</html>

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>AngularJS jQuery</title>
+</head>
+<body>
+    <div ng-controller="DemoController">
+        <div class="box">普通盒子</div>
+        <button>点击</button>
+    </div>
+    <script src="./libs/jquery.min.js"></script>
+    <script src="./libs/angular.min.js"></script>
+    <script>
+        // angular.element() 方法可以将一个原生DOM对象转成jquery对象
+        // 原生DOM对象
+        var box = document.querySelector('.box');
+        var btn = document.querySelector('button');
+        // 转成jQuery对象
+        box = angular.element(box);
+        btn = angular.element(btn);
+
+        btn.on('click', function () {
+            // box.css('color', 'red');
+            box.animate({
+                fontSize: '40px'
+            }, 400);
+        });
+        // 但 angularJS 只实现了jquery对象部分方法
+    </script>
+</body>
+</html>

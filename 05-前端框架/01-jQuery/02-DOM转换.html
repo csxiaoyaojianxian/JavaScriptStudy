@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <script src="jquery-1.11.1.min.js"></script>
+		<script>
+		//入口函数
+        jQuery(document).ready(function () {
+            //1.js对象 --> jquery对象     $(js对象);
+            //2.jquery对象 --> js对象     (1)jquery对象[索引值]  (2)jquery对象.get(索引值)
+
+            var box = document.getElementById("box");
+            var cbox = document.getElementsByClassName("box");
+            var div = document.getElementsByTagName("div");
+            //jquery对象是一个数组。数组中包含着原生JS中的DOM对象
+            var jqbox = $("#box");
+            var jqCbox = $(".box");
+            var jqdiv = $("div");
+            console.log(box);
+            console.log(jqbox);
+            console.log("------------");
+            console.log(cbox);
+            console.log(jqCbox);
+            console.log("------------");
+            console.log(div);
+            console.log(jqdiv);
+
+            //1.js对象 --> jquery对象
+            box = $(box);
+            cbox = $(cbox);
+            div = $(div);
+            console.log(box);
+            console.log(jqbox);
+            console.log("------------");
+            console.log(cbox);
+            console.log(jqCbox);
+            console.log("------------");
+            console.log(div);
+            console.log(jqdiv);
+
+			//2.jquery对象 --> js对象 
+            jqdiv[0].style.backgroundColor = "black";
+            jqdiv.get(4).style.backgroundColor = "pink";
+
+        });
+
+		</script>
+    </head>
+    <body>
+    <div></div>
+    <div class="box"></div>
+    <div id="box"></div>
+    <div class="box"></div>
+    <div></div>
+    </body>
+</html>

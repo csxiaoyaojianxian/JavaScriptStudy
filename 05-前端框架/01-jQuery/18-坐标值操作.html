@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        body {
+            height: 5000px;
+        }
+        .box1 {
+            width: 300px;
+            height: 300px;
+            position: relative;
+            margin: 10px;
+            overflow: auto;
+            background-color: pink;
+        }
+        .box2 {
+            width: 200px;
+            height: 400px;
+            position: absolute;
+            top: 50px;
+            left: 50px;
+            background-color: yellow;
+        }
+    </style>
+    <script src="jquery-1.11.1.min.js"></script>
+    <script>
+        $(function () {
+            //距离页面最顶端或者最左侧的距离和有没有定位没有关系
+            $("button").eq(0).click(function () {
+                alert($(".box2").offset().top);
+            })
+
+            //距离页面最顶端或者最左侧的距离和有没有定位没有关系
+            $("button").eq(1).click(function () {
+                $(".box2").offset({"left":1000,"top":1000});
+            })
+
+            //距离父系盒子中带有定位的盒子的距离(获取的就是定位值，和margin/padding无关)
+            $("button").eq(2).click(function () {
+                alert($(".box2").position().top);
+            })
+
+            //距离父系盒子中带有定位的盒子的距离(获取的就是定位值，和margin/padding无关)
+            $("button").eq(3).click(function () {
+                $(".box2").position().top = "100px";
+            })
+
+            //获取被选取的头部
+            $("button").eq(4).click(function () {
+                alert($(window).scrollTop());
+            })
+
+            //设置被选取的头部
+            $("button").eq(5).click(function () {
+                $(window).scrollTop(100);
+            })
+
+        })
+    </script>
+
+</head>
+<body>
+
+
+<div class="box1">
+    <div class="box2"></div>
+</div>
+
+<button>offset().top获取</button>
+<button>offset().top设置</button>
+<button>position().top获取</button>
+<button>position().top设置</button>
+<button>scrollTop()</button>
+<button>scrollTop()</button>
+
+</body>
+</html>

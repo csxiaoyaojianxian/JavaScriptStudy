@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>AngularJS 依赖注入</title>
+</head>
+<body ng-app="App">
+    
+    <div ng-controller="DemoController">
+        <h3>{{name}}</h3>
+    </div>
+
+    <script src="./bower_components/angular/angular.min.js"></script>
+    <script>
+        
+        var App = angular.module('App', []);
+        // AngularJS 内置一些具有特殊功能的“模块”
+
+        // 推断式依赖注入，代码压缩混淆后可能失效
+        App.controller('DemoController', function ($scope, $http) {
+
+        });
+
+        // 行内式注入
+        // App.controller('DemoController', ['$scope', '$http', function ($scope, $http) {
+        //     $scope.name = '依赖注入';
+        // }]);
+        App.controller('DemoController', ['$scope', '$http', function (a, b) {
+            a.name = '依赖注入';
+        }]);
+
+    </script>
+</body>
+</html>

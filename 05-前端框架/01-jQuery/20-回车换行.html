@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="jquery-1.11.1.min.js"></script>
+    <script>
+        $(function () {
+            //在input中按回车，插入条光标跳转到下一个input
+            $("input").on("keyup", function (e) {
+                if(e.keyCode === 13){
+                    //跳转到下一行：下一个input获取插入条光标。
+                    //focus(); js和jq中一样的方法
+                    $(this).next().next().focus().select();//$(this).next().next()[0].focus();
+                }
+            });
+
+            $("input").on("mouseenter", function (e) {
+                //选定所有内容(能够输入内容的标签)
+                $(this).select();
+            });
+        })
+    </script>
+</head>
+<body>
+    <input type="text" value="sunshine"/><br>
+    <input type="text" value="sunshine"/><br>
+    <input type="text" value="sunshine"/><br>
+    <input type="text" value=""/><br>
+    <input type="text" value=""/><br>
+</body>
+</html>

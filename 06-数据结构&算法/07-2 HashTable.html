@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+</head>
+<body>
+<script src="Hashing.js"></script>
+<script>
+var numStudents = 10;
+var arrSize = 97;
+var idLen = 9;
+var students = new Array(numStudents);
+// 产生数据
+genStuData(students);
+for (var i = 0; i < students.length; ++i) {
+    console.log(students[i].substring(0, 8) + " " + students[i].substring(9));
+}
+// 存放数据
+var hTable = new HashTable();
+for (var i = 0; i < students.length; ++i) {
+    hTable.put(students[i]);
+}
+// 展示数据
+hTable.showDistro();
+
+</script>
+</body>
+</html>

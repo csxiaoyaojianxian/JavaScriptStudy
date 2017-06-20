@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <script src="jquery-1.11.1.min.js"></script>
+        <style type="text/css">
+            * {
+                margin: 0;
+                padding: 0;
+            }
+
+            ul {
+                list-style: none;
+            }
+
+            body {
+                background: #000;
+            }
+
+            .wrap {
+                margin: 100px auto 0;
+                width: 270px;
+                height: 180px;
+                padding: 10px 0 0 10px;
+                background: #000;
+                overflow: hidden;
+                border: 1px solid #fff;
+            }
+
+            .wrap li {
+                float: left;
+                margin: 0 10px 10px 0;
+
+            }
+
+            .wrap img {
+                display: block;
+                border: 0;
+            }
+        </style>
+		<script>
+            jQuery(window).ready(function () {
+                //鼠标放入li中，其他的li半透明
+                $(".wrap").find("li").mouseenter(function () {
+                    //链式编程
+                    $(this).css("opacity",1).siblings("li").css("opacity",0.4);
+                });
+                //离开wrap时所有的li的opacity值为1
+                $(".wrap").mouseleave(function () {
+                    $(this).children().children("li").css("opacity",1);
+                });
+            });
+        </script>
+    </head>
+    <body>
+        <div class="wrap">
+            <ul>
+                <li><a href="#"><img src="images/sunshine.png" alt=""/></a></li>
+                <li><a href="#"><img src="images/sunshine.png" alt=""/></a></li>
+                <li><a href="#"><img src="images/sunshine.png" alt=""/></a></li>
+                <li><a href="#"><img src="images/sunshine.png" alt=""/></a></li>
+                <li><a href="#"><img src="images/sunshine.png" alt=""/></a></li>
+                <li><a href="#"><img src="images/sunshine.png" alt=""/></a></li>
+            </ul>
+        </div>
+    </body>
+</html>

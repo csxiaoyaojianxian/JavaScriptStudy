@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+</head>
+<body>
+<script src="Dictionary.js"></script>
+<script>
+/**
+ * 字典，使用数组实现，因为普通对象的属性不能排序
+ */
+// 测试
+var pbook = new Dictionary();
+pbook.add("sun1", "80");
+pbook.add("sun2", "90");
+pbook.add("sun3", "100");
+console.log(pbook.find("sun3"));//100
+pbook.remove("sun2");
+pbook.showAll();// sun1 -> 80   sun3 -> 100
+console.log(pbook.count());//2
+pbook.clear();
+console.log(pbook.count());//0
+
+</script>
+</body>
+</html>

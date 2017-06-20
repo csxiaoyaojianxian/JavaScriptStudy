@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+</head>
+<body>
+<script>
+// 顺序查找
+function seqSearch(arr, data) {
+   for (var i = 0; i < arr.length; ++i) {
+      if (arr[i] == data) {
+         return i;
+      }
+   }
+   return -1;
+}
+
+// 二分查找
+function binSearch(arr, data) {
+   var upperBound = arr.length-1;
+   var lowerBound = 0;
+   while (lowerBound <= upperBound) {
+      var mid = Math.floor((upperBound + lowerBound) / 2);
+      if (arr[mid] < data) {
+         lowerBound = mid + 1;
+      }
+      else if (arr[mid] > data) {
+         upperBound = mid - 1;
+      }
+      else {
+         return mid;
+      }
+   }
+   return -1;
+}
+// 快速排序
+function qSort(arr)
+{
+    if (arr.length == 0) {
+        return [];
+    }
+    var left = [];
+    var right = [];
+    var pivot = arr[0];
+    for (var i = 1; i < arr.length; i++) {
+        if (arr[i] < pivot) {
+			left.push(arr[i]);
+        } else {
+			right.push(arr[i]);
+        }
+    }
+    return qSort(left).concat(pivot, qSort(right));
+}
+
+var arr = [3,4,5,1,2,3,7,8,9];
+console.log(seqSearch(arr,5));
+console.log(binSearch(qSort(arr),5));
+
+</script>
+</body>
+</html>

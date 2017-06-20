@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+</head>
+<body>
+
+<script>
+
+// 1. 二叉树的定义
+/*
+           1
+          / \
+         2   3
+        / \
+       4   5
+          / \
+         6   7
+              \
+               8
+*/
+var tree = {
+	value:1,
+	left:{
+		value:2,
+		left:{
+			value:4
+		},
+		right:{
+			value:5,
+			left:{
+				value:6
+			},
+			right:{
+				value:7,
+				right:{
+					value:8
+				}
+			}
+		}
+	},
+	right:{
+		value:3
+	}
+}
+// 2.1 先序遍历 递归
+var preOrder = function(node){
+	if(node){
+		console.log(node.value);
+		preOrder(node.left);
+		preOrder(node.right);		
+	}
+}
+// 2.2 中序遍历 递归
+var inOrder = function(node){
+	if(node){
+		inOrder(node.left);
+		console.log(node.value);
+		inOrder(node.right);
+	}
+}
+// 2.3 后序遍历 递归
+var postOrder = function(node){
+	if(node){
+		postOrder(node.left);
+		postOrder(node.right);
+		console.log(node.value);
+	}
+}
+// 3.1 先序遍历 非递归
+// 思路：当前结点不为空，当前结点压栈，将左结点设为当前结点，不断循环
+// 当前结点为空，出栈栈顶元素，并将其右结点设为当前结点
+var preOrderUnrecur = function(node){
+	if(!node){
+		throw new Error("Empty Tree");
+	}
+	var stack = [];
+	var queue = [];
+	while(stack.length>0 || node){
+		while(node){
+			queue.push(node);
+			stack.push(node);
+			node = node.left;
+		}
+		if(stack.length>0){
+			node = stack.pop().right;
+		}
+	}
+	while(queue.length>0){
+		console.log(queue.shift().value);
+	}
+}
+// 3.2 中序遍历 非递归
+// 思路：左结点不为空，不断将左结点入栈，当前结点设为左结点
+// 左结点为空，弹出栈顶元素并输出，将其右结点设为当前结点
+var inOrderUnrecur = function(node){
+	if(!node){
+		throw new Error("Empty Tree");
+	}
+	var stack = [];
+	var queue = [];
+	while(stack.length>0 || node){
+		if(node){
+			stack.push(node);
+			node = node.left;
+		}else{
+			node = stack.pop();
+			queue.push(node);
+			node = node.right;
+		}
+	}
+	while(queue.length>0){
+		console.log(queue.shift().value);
+	}
+}
+// 3.3 后序遍历 非递归
+// 思路：从栈1弹出结点，压入栈2，将其左右孩子结点压入栈1
+var postOrderUnrecur = function(node){
+	if(!node){
+		throw new Error("Empty Tree");
+	}
+	var stack1 = [];
+	var stack2 = [];
+	stack1.push(node);
+	while(stack1.length>0){
+		node = stack1.pop();
+		stack2.push(node);
+		if(node.left){
+			stack1.push(node.left);
+		}
+		if(node.right){
+			stack1.push(node.right);
+		}
+	}
+	while(stack2.length>0){
+		console.log(stack2.pop().value);
+	}
+}
+
+// 4. 广度优先遍历（层序遍历）
+var levelOrder = function(node){
+	if(!node){
+		throw new Error("Empty Tree");
+	}
+	var queue = [];
+	queue.push(node);
+	while(queue.length>0){
+		node = queue.shift();
+		console.log(node.value);
+		if(node.left){
+			queue.push(node.left);
+		}
+		if(node.right){
+			queue.push(node.right);
+		}
+	}
+}
+
+
+console.log("------preOrder------");
+preOrder(tree);// 1 2 4 5 6 7 8 3
+console.log("------inOrder------");
+inOrder(tree);// 4 2 6 5 7 8 1 3
+console.log("------postOrder------");
+postOrder(tree);// 4 6 8 7 5 2 3 1
+console.log("------preOrderUnrecur------");
+preOrderUnrecur(tree);// 1 2 4 5 6 7 8 3
+console.log("------inOrderUnrecur------");
+inOrderUnrecur(tree);// 4 2 6 5 7 8 1 3
+console.log("------postOrderUnrecur------");
+postOrderUnrecur(tree);// 4 6 8 7 5 2 3 1
+console.log("------levelOrder------");
+levelOrder(tree);// 1 2 3 4 5 6 7 8
+</script>
+</body>
+</html>

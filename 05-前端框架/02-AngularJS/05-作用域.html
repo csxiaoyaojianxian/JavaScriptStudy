@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+    <meta charset="UTF-8">
+    <title>AngularJS</title>
+</head>
+<!-- 根作用域 -->
+<body ng-app="App" ng-init="name='根作用域'">
+    <h1>{{name}}</h1>
+    <div class="parent" ng-controller="ParentController">     
+        <h1>{{name}}</h1>
+        <div class="child" ng-controller="ChildController">
+            <h2>{{name}}</h2>
+        </div>
+    </div>
+
+    <script src="./bower_components/angular/angular.min.js"></script>
+    <script>
+        var App = angular.module('App', []);
+
+        App.controller('ParentController', ['$scope', function ($scope) {
+            $scope.name = '父作用域';
+        }]);
+        App.controller('ChildController', ['$scope', function ($scope) {
+            $scope.name = '子作用域';
+        }]);
+
+        var name = '作用域1';
+        function test1() {
+             var name = '作用域2';
+             function test2() {
+                 var name = '作用域3';
+             }
+        }
+    </script>
+</body>
+</html>

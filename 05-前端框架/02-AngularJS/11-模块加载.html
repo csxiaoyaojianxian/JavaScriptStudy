@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="App">
+<head>
+    <meta charset="UTF-8">
+    <title>AngularJS 模块加载</title>
+</head>
+<body>
+    <div ng-controller="DemoController">
+        <h1>{{now}}</h1>
+        <h2>{{str|capitalize}}</h2>
+    </div>
+    <div ng-controller="DemoController2">
+        {{name}}
+    </div>
+    <script src="./bower_components/angular/angular.min.js"></script>
+    <script>
+        var App = angular.module('App', []);
+        /**
+         * 配置块 config
+         */
+        // AngularJS中的服务大部分都对应一个“provider”，用来执行与对应服务相同的功能或对其进行配置。
+        // 比如$log、$http、$location都是内置服务，相对应的“provider”分别是$logProvider、$httpProvider、$locationPorvider
+
+        // 配置$log服务(禁用debug),增加一个过滤器
+        // 允许一次配置多个服务（块）
+        // 传递的一个数组（依赖注入方式）
+        App.config(['$logProvider', '$filterProvider', function ($logProvider, $filterProvider) {
+            // 禁用debug功能
+            $logProvider.debugEnabled(false);
+            // 默认9个过滤器，通过配置可以新增一些过滤器
+            $filterProvider.register('capitalize', function () {
+                // 新增一个过滤器
+                return function (input) {
+                    return input[0].toUpperCase() + input.slice(1);
+                }
+            });
+        }]);
+        App.controller('DemoController', ['$scope', '$log', function ($scope, $log) {
+            // 测试配置后的结果
+            $log.debug('debug');
+            $scope.str = 'hello angular';
+        }]);
+
+        /**
+         * 运行块 run
+         */
+        // 可以将一些需要优先执行的功能通过run方法来运行，比如验证用户是否登录，未登录则不允许进行任何其它操作
+        // 直接运行$http、$rootScope服务
+        // $rootScope根作域
+        App.run(['$http', '$rootScope', function ($http, $rootScope) {
+            // 直接调用$http
+            $http({
+                url: 'example.php',
+                method: 'get'
+            });
+            // 根作用域
+            $rootScope.name = 'root';
+        }]);
+        App.controller('DemoController2', ['$scope', function($scope) {
+            $scope.name = 'csxiaoyao';
+        }]) 
+
+    </script>
+
+</body>
+</html>

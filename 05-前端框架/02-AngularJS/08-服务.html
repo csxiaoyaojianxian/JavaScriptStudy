@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="App">
+<head>
+    <meta charset="UTF-8">
+    <title>AngularJS 服务</title>
+</head>
+<body>
+
+    <dl ng-controller="DemoController">
+        <dt>{{title}}</dt>
+        <dd>absUrl: {{absUrl}}</dd>
+        <dd>url: {{url}}</dd>
+        <dd>host: {{host}}</dd>
+        <dd>search: {{search}}</dd>
+        <dd>hash: {{hash}}</dd>
+        <dd>protocol: {{protocol}}</dd>
+        <dd>port: {{port}}</dd>
+        <dd>path: {{path}}</dd>
+    </dl>
+    <div ng-controller="DemoController2">
+        <ul>
+            <li>{{msg}}</li>
+            <li>{{now|date: 'yyyy-MM-dd hh:mm:ss'}}</li>
+            <li><button ng-click="stop()">停</button></li>
+        </ul>
+    </div>
+    <ul ng-controller="DemoController3">
+        <li>价格: {{price}}</li>
+        <li>大写：{{str}}</li>
+        <li>截取: {{str1}}</li>
+    </ul>
+    <ul ng-controller="DemoController4"></ul>
+    <div ng-controller="DemoController5">
+        <span>{{now}}</span>
+    </div>
+    <div ng-controller="DemoController6">
+        {{author}}
+        {{ver}}
+    </div>
+
+    <script src="./bower_components/angular/angular.min.js"></script>
+    <script>
+        var App = angular.module('App', []);
+
+        // $location内置服务:获取URL地址的服务
+        // $timeout&$interval对原生Javascript中的setTimeout和setInterval进行了封装
+        // $filter在控制器中格式化数据
+        // $log打印调试信息
+        // $http用于向服务端发起异步请求（见09-http&jsonp.html）
+        // 自定义服务
+        
+        // 【location服务测试未通过】@csxiaoyao
+        App.controller('DemoController', ['$scope', '$location', function($scope, $location) {
+            $scope.title = '$location服务';
+            // localhost:8080/angularjs/08-1.html#/abc?name=csxiaoyao&age=24
+            console.log($location);
+            // ?绝对路径
+            $scope.absUrl = $location.absUrl();
+            // ?锚点？aaa.html#/abcd?XXX
+            $scope.url = $location.url();
+            // 主机名
+            $scope.host = $location.host();// localhost
+            // ?查询字符串
+            $scope.search = $location.search();
+            // 哈希值
+            $scope.hash = $location.hash();//abc?name=csxiaoyao&age=24
+            // 协议
+            $scope.protocol = $location.protocol(); // http
+            // 端口号
+            $scope.port = $location.port(); // 8080
+            // ?子路径
+            $scope.path = $location.path();
+        }]);
+        for(var key in location) {
+            console.log(key + '=>' + location[key]);
+        }
+
+        App.controller('DemoController2', ['$scope', '$timeout', '$interval',function ($scope, $timeout, $interval) {
+            // 倒计时
+            $timeout(function () {
+                $scope.msg = '执行了';
+            }, 2000);
+            // 循环定时器
+            var timer = $interval(function () {
+                $scope.now = new Date;
+            }, 1000);
+            $scope.stop = function () {
+                $interval.cancel(timer);
+            }
+        }]);
+
+        // $filter是过滤器
+        App.controller('DemoController3', ['$scope', '$filter', function ($scope, $filter) {
+            // $filter是九种过滤器中任何一个
+            $scope.price = 11.11;
+            var currency = $filter('currency');
+            $scope.price = currency($scope.price);//$11.11
+            $scope.str = 'hello angular';
+            var uppercase = $filter('uppercase');
+            $scope.str = uppercase($scope.str);//HELLO ANGULAR
+            $scope.str1 = $filter('limitTo')($scope.str, 5);//HELLO
+        }]);
+
+        // 使用日志服务
+        App.controller('DemoController4', ['$log', function ($log) {
+            $log.info('普通信息');
+            $log.warn('警告信息');
+            $log.error('错误信息');
+            $log.log('打印信息');
+            $log.debug('调试信息');
+        }]);
+
+
+        // 自定义服务showTime显示日期
+        App.service('showTime', ['$filter', function($filter) {
+            var now = new Date();
+            var date = $filter('date');
+            this.now = date(now, 'y-M-d H:mm:ss');
+        }]);
+        App.controller('DemoController5', ['$scope', 'showTime', function($scope, showTime) {
+            $scope.now = showTime.now;
+        }])
+
+        // 自定义常量服务，本质上一个服务，从表现形式上是一个常量
+        App.value('author', 'csxiaoyao');
+        App.value('version', '1.0');
+        // 声明依赖调用服务
+        App.controller('DemoController6', ['$scope', 'author', 'version', function($scope, author, version) {
+            $scope.author = author;
+            $scope.ver = version;
+        }]);
+    </script>
+
+</body>
+</html>

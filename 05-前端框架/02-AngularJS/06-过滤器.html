@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>AngularJS 过滤器</title>
+</head>
+<body ng-app="App">
+    <!-- 9大过滤器，使用“|”调用，使用“:”传递参数，类似于管道，可以多个链式使用 -->
+    <ul ng-controller="DemoController">
+        <li>{{price|currency:'￥'}}</li><!-- ￥11.11 -->
+        <li>{{now|date:'yyyy/MM/dd hh:mm:ss'}}</li><!-- 2017/02/07 01:06:45 -->
+
+        <li>{{items|filter:'s'}}</li><!-- ["css","js"] -->
+        <li>{{students|filter:{age: 16} }}</li><!-- 过滤器传对象最后要空一格，否则可能解析出错 [{"name":"小红","age":16},{"name":"小明","age":16}]-->
+
+        <li>{{students|json}}</li><!-- [ { "name": "小红", "age": 16 }, { "name": "小明", "age": 16 }, { "name": "小米", "age": 10 } ] -->
+        <li>{{items|limitTo:-1}}</li><!-- ["js"] -->
+        <li>{{str|uppercase|limitTo:3}}</li><!-- HEL -->
+        <li>{{str|lowercase}}</li><!-- hello angular -->
+        <li>{{num|number:2}}</li><!-- 10.23 -->
+
+        <li>{{items|orderBy: '':true}}</li><!-- true为降序，false为升序，["js","html","css"] -->
+        <li>{{students|orderBy: 'age': false}}</li><!-- [{"name":"小米","age":10},{"name":"小红","age":16},{"name":"小明","age":16}] -->
+
+        <!-- 自定义过滤器 -->
+        <h1>自定义过滤器:{{text|capitalize:123}}{{name}}</h1><!-- Sunshine -->
+    </ul>
+
+    <script src="./bower_components/angular/angular.min.js"></script>
+    <script>
+        var App = angular.module('App', []);
+        App.controller('DemoController', ['$scope', function ($scope) {
+            $scope.price = 11.111;
+            $scope.now = new Date;
+            $scope.items = ['html', 'css', 'js'];
+            $scope.students = [
+                {name: '小红', age: 16},
+                {name: '小明', age: 16},
+                {name: '小米', age: 10}
+            ];
+            $scope.str = 'hello Angular';
+            $scope.num = '10.2345';
+            //自定义过滤器
+            $scope.text = 'sunshine';
+        }]);
+
+        // 自定义过滤器
+        App.filter('capitalize', function () {
+            return function (input, arg) {
+                console.log(input);//sunshine,传入的变量
+                console.log(arg);//123,传入的参数
+                return input[0].toUpperCase() + input.slice(1);
+            }
+        });
+    </script>
+</body>
+</html>

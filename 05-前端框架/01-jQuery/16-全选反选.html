@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+
+        .wrap {
+            width: 300px;
+            margin: 100px auto 0;
+        }
+
+        table {
+            border-collapse: collapse;
+            border-spacing: 0;
+            border: 1px solid #c0c0c0;
+        }
+
+        th,
+        td {
+            border: 1px solid #d0d0d0;
+            color: #404060;
+            padding: 10px;
+        }
+
+        th {
+            background-color: #09c;
+            font: bold 16px "微软雅黑";
+            color: #fff;
+        }
+
+        td {
+            font: 14px "微软雅黑";
+        }
+
+        tbody tr {
+            background-color: #f0f0f0;
+        }
+
+        tbody tr:hover {
+            cursor: pointer;
+            background-color: #fafafa;
+        }
+    </style>
+    <script src="jquery-1.11.1.min.js"></script>
+    <script>
+        $(function () {
+            //点击上面的全选按钮，下面的多选按钮同步
+            $("#j_cbAll").click(function () {
+                //直接让下面的所有按钮和上面的按钮属性值一样
+                $("#j_tb input:checkbox").prop("checked",$(this).prop("checked"));
+            });
+
+            //点击下面的多选按钮，上面全选按钮同步
+            $("#j_tb input:checkbox").click(function () {
+                //判断，只有所有多选按钮都被选定，上面的全选按钮才被选定
+                //【带有checked属性的标签和checkbox个数一样多的时候】
+                if($("#j_tb input:checkbox").length === $("#j_tb input:checked").length){
+                    $("#j_cbAll").prop("checked",true);
+                }else{
+                    $("#j_cbAll").prop("checked",false);
+                }
+            });
+        })
+    </script>
+</head>
+
+<body>
+    <div class="wrap">
+        <table>
+            <thead>
+                <tr>
+                    <th>
+                        <input type="checkbox" id="j_cbAll"/>
+                    </th>
+                    <th>姓名</th>
+                    <th>年龄</th>
+                </tr>
+            </thead>
+            <tbody id="j_tb">
+                <tr>
+                    <td>
+                        <input type="checkbox"/>
+                    </td>
+                    <td>sun</td>
+                    <td>24</td>
+                </tr>
+                <tr>
+                    <td>
+                        <input type="checkbox"/>
+                    </td>
+                    <td>jian</td>
+                    <td>24</td>
+                </tr>
+                <tr>
+                    <td>
+                        <input type="checkbox"/>
+                    </td>
+                    <td>feng</td>
+                    <td>24</td>
+                </tr>
+                <tr>
+                    <td>
+                        <input type="checkbox"/>
+                    </td>
+                    <td>sunshine</td>
+                    <td>24</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

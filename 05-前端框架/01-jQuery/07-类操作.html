@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        span{
+            width: 100px;
+            height: 100px;
+            background-color: blue;
+            display: inline-block;
+        }
+        .current {
+            background-color: yellow;
+        }
+    </style>
+    <script src="jquery-1.11.1.min.js"></script>
+    <script>
+        $(function () {
+            /**
+             * css 操作
+             */
+            //方法1(设置样式): css(json);
+            $("div").css({"width":100,"height":100,"background-color":"pink"});
+
+            //方法2(设置样式): css(属性,值);
+            $("div").css("background-color","red");
+
+            //方法3(获取样式): css(属性);
+            //如果有多个，取第一个
+            // alert($("div").css("width"));
+
+            /**
+             * class 操作，class优先级低于行内式
+             */
+            // addClass、removeClass、toggleClass
+            $("button").eq(0).click(function () {
+                //判断类，只要一个元素满足即为true
+                if($("span").hasClass("current")){
+                    //删除类
+                    $("span").removeClass("current")
+                }else{
+                    //添加类
+                    $("span").addClass("current")
+                }
+            });
+            $("button").eq(1).click(function () {
+                //切换类
+                $("span").toggleClass("current");
+            });
+        });
+    </script>
+</head>
+<body>
+    <button>添加/删除</button>
+    <button>切换</button>
+    <span></span>
+    <div></div>
+    <div style="width: 200px;"></div>
+</body>
+</html>

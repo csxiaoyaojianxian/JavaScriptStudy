@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="jquery-1.11.1.min.js"></script>
+    <script src="jquery-csxiaoyao-1.11.1-min.js"></script>
+    <script>
+        $(function () {
+            //调用插件中的方法
+            //第一种制作方法
+            $("button").on("click", function () {
+                $("button").setColorRed();
+            })
+            //第二种绑定方法
+            $("button").on("click", function () {
+                $.setColorRed($(this));
+            })
+
+        })
+    </script>
+</head>
+<body>
+<button>按钮1</button>
+<button>按钮2</button>
+<button>按钮3</button>
+</body>
+</html>

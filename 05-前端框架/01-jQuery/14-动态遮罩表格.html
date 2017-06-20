@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style type="text/css">
+        * {
+          padding: 0;
+          margin: 0;
+        }
+
+        .wrap {
+          width: 410px;
+          margin: 100px auto 0;
+        }
+
+        table {
+          border-collapse: collapse;
+          border-spacing: 0;
+          border: 1px solid #c0c0c0;
+        }
+
+        th,
+        td {
+          border: 1px solid #d0d0d0;
+          color: #404060;
+          padding: 10px;
+        }
+
+        th {
+          background-color: #09c;
+          font: bold 16px "微软雅黑";
+          color: #fff;
+        }
+
+        td {
+          font: 14px "微软雅黑";
+        }
+
+        td a.delete {
+          text-decoration: none;
+        }
+
+        a.del:hover {
+          text-decoration: underline;
+        }
+
+        tbody tr {
+          background-color: #f0f0f0;
+        }
+
+        tbody tr:hover {
+          cursor: pointer;
+          background-color: #fafafa;
+        }
+
+        .btnAdd {
+          width: 110px;
+          height: 30px;
+          font-size: 20px;
+          font-weight: bold;
+        }
+
+        .form-item {
+          height: 100%;
+          position: relative;
+          padding-left: 100px;
+          padding-right: 20px;
+          margin-bottom: 34px;
+          line-height: 36px;
+        }
+
+        .form-item > .lb {
+          position: absolute;
+          left: 0;
+          top: 0;
+          display: block;
+          width: 100px;
+          text-align: right;
+        }
+
+        .form-item > .txt {
+          width: 300px;
+          height: 32px;
+        }
+
+        .mask {
+          position: absolute;
+          top: 0px;
+          left: 0px;
+          width: 100%;
+          height: 100%;
+          background: #000;
+          opacity: 0.5;
+          display: none;
+        }
+
+        .form-add {
+          position: fixed;
+          top: 30%;
+          left: 50%;
+          margin-left: -197px;
+          padding-bottom: 20px;
+          background: #fff;
+          display: none;
+        }
+
+        .form-add-title {
+          background-color: #f7f7f7;
+          border-width: 1px 1px 0 1px;
+          border-bottom: 0;
+          margin-bottom: 15px;
+          position: relative;
+        }
+
+        .form-add-title span {
+          width: auto;
+          height: 18px;
+          font-size: 16px;
+          font-family: 宋体;
+          font-weight: bold;
+          color: rgb(102, 102, 102);
+          text-indent: 12px;
+          padding: 8px 0px 10px;
+          margin-right: 10px;
+          display: block;
+          overflow: hidden;
+          text-align: left;
+        }
+
+        .form-add-title div {
+          width: 16px;
+          height: 20px;
+          position: absolute;
+          right: 10px;
+          top: 6px;
+          font-size: 30px;
+          line-height: 16px;
+          cursor: pointer;
+        }
+
+        .form-submit {
+          text-align: center;
+        }
+
+        .form-submit input {
+          width: 170px;
+          height: 32px;
+        }
+    </style>
+    <script src="jquery-1.11.1.min.js"></script>
+    <script>
+        jQuery(function () {
+
+            //需求1：点击按钮显示遮罩层和添加数据表格
+            $("#j_btnAddData").click(function () {
+                //显示遮罩层和j_formAdd盒子
+                $("#j_mask").show();
+                $("#j_formAdd").show();
+            });
+
+            //需求2：点击关闭按钮隐藏遮罩层和添加数据表格
+            $("#j_hideFormAdd").click(function () {
+                $("#j_mask").hide();
+                $("#j_formAdd").hide();
+            });
+
+            //需求3：点击删除标签，删除所在的tr
+            $("a.delete").click(function () {
+                $(this).parent("td").parent("tr").remove();
+            });
+
+            //需求4：点击添加，添加数据到tbody中
+            $("#j_btnAdd").click(function () {
+                if($("#j_txtName").val() === ""){
+                    alert("内容不能为空！");
+                    return;
+                }
+                //创建tr节点
+                var tr = $("<tr></tr>");
+                tr.html('<td>'+$("#j_txtName").val()+'</td><td>'+$("#j_txtBelSch").val()+'</td><td><a href="javascrip:;" class="delete">删除</a></td>');
+                $("#j_tb").append(tr);
+                //【重要】绑定删除事件
+                tr.find("a").click(function () {
+                    tr.remove();
+                });
+                //隐藏遮罩层和j_formAdd
+                $("#j_mask").hide();
+                $("#j_formAdd").hide();
+                //设置完毕，清空表单内容
+                $("#j_txtName").val("");
+            });
+        });
+    </script>
+</head>
+<body>
+    <div class="wrap">
+        <div>
+            <input type="button" value="添加数据" id="j_btnAddData" class="btnAdd"/>
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <!-- <th><input type="checkbox" id="j_cbAll" /></th> -->
+                    <th>姓名</th>
+                    <th>年龄</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody id="j_tb">
+                <tr>
+                    <!-- <td><input type="checkbox"/></td> -->
+                    <td>CS逍遥剑仙</td>
+                    <td>24</td>
+                    <td><a href="javascrip:;" class="delete">删除</a></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <!-- 遮罩层 -->
+    <div id="j_mask" class="mask"></div>
+    <div id="j_formAdd" class="form-add">
+        <div class="form-add-title">
+            <span>添加数据</span>
+            <div id="j_hideFormAdd">x</div>
+        </div>
+        <div class="form-item">
+            <label class="lb" for="j_txtName">姓名：</label>
+            <input class="txt" type="text" id="j_txtName" placeholder="请输入姓名">
+        </div>
+        <div class="form-item">
+            <label class="lb" for="j_txtBelSch">年龄：</label>
+            <input class="txt" type="text" id="j_txtBelSch" value="24">
+        </div>
+        <div class="form-submit">
+            <input type="button" value="添加" id="j_btnAdd">
+        </div>
+    </div>
+
+</body>
+</html>

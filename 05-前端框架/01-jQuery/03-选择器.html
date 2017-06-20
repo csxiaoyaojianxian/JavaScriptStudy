@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <script src="jquery-1.11.1.min.js"></script>
+		<script>
+		//入口函数
+        $(function () {
+            //1.基本选择器  三种方法获取jquery对象
+            var jqdiv = $("div");
+            var jqCdiv = $(".box");
+            var jqIdiv = $("#box");
+
+            //2.层级选择器
+            var jqli = $("ul li");
+            var jqotherLi = $("ul>li");
+
+            //3.过滤选择器
+            var jqliodd = $("ul li:odd"); //获取奇数索引
+            var jqlieven = $("ul li:even");//获取偶数索引
+            var jqlifirst = $("ul li:eq(0)");//指定索引值
+            //获取页面上所有的li，最大索引值为长度-1；
+            var li = $("li");
+            var jqlilast = $("ul li:eq("+(li.length-1)+")");
+
+            //4.筛选选择器
+            var jqul = $("ul");
+            //4.1 find(selector); 从jquery对象的后代中查找，必须指定参数
+            console.log(jqul.find("li"));
+            console.log(jqul.find());//未指定参数，length为0
+            //4.2 chidlren(selector); 从jquery对象的子代中查找，不指定参数则获取所有子元素
+            console.log(jqul.children("li"));
+            //4.3 eq(索引值); 从jquery对象的子代中查找该索引值的元素，取代数组操作
+            console.log(jqul.eq(0));
+            //4.4 next(); 该元素的下一个兄弟元素
+            console.log(jqul.next());
+            //4.5 siblings(selector); 该元素的所有兄弟元素
+            console.log(jqul.siblings());
+            //4.6 parent(); 该元素的父元素（和定位没有关系）
+            console.log(jqul.parent());
+        });
+		</script>
+    </head>
+    <body>
+    <div></div>
+    <div class="box"></div>
+    <div id="box"></div>
+    <div class="box"></div>
+    <div></div>
+    </body>
+</html>
