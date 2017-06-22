@@ -5,7 +5,29 @@
 </head>
 
 <body>
-    Hello World!
+	<h1>GET</h1>
+    <form action="http://127.0.0.1:8080/process_get" method="GET">
+        First Name:
+        <input type="text" name="first_name"><br>
+        Last Name:
+        <input type="text" name="last_name">
+        <input type="submit" value="Submit">
+    </form>
+
+    <h1>POST</h1>
+    <form action="http://127.0.0.1:8080/process_post" method="POST">
+        First Name:
+        <input type="text" name="first_name"><br>
+        Last Name:
+        <input type="text" name="last_name">
+        <input type="submit" value="Submit">
+    </form>
+    
+    <h1>文件上传</h>
+	<form action="/file_upload" method="post" enctype="multipart/form-data">
+		<input type="file" name="image" size="50" /><br />
+		<input type="submit" value="上传文件" />
+	</form>
 </body>
 
 </html>
