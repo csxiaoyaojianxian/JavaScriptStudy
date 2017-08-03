@@ -1,0 +1,90 @@
+<html>
+
+<head>
+	<title>scope basic</title>
+</head>
+<body>
+
+<script type="text/javascript">
+// alert(a);
+// alert(b);
+// alert(c);
+// alert(d);	
+
+// var a = 1;
+// if(false){
+// 	var b = 2;
+// }else {
+// 	c = 3;
+// }
+// function f () {
+// 	var d = 4;
+// }
+// for(var i =0; i < 3 ; i++){
+
+// }
+
+// var x = 100;
+// function f () {
+
+// 	alert(x);
+// }
+
+
+// function f1 () {
+// 	var x = 5;
+// 	f();  
+
+// }
+
+// function f2 () {
+// 	var x = 6;
+// 	f();
+// }
+// f1();
+
+// function  f () {   //scope == window
+// 	//le{x =100}  ->f.[[scope]]
+// 	var x = 100;
+// 	function g () {  //g.[[scope]] ==f.le
+// 		//le  ->g.[[scope]]
+// 	}
+// 	g();
+// }
+
+// g.le ->g.[[scope]]  ->f.   ->f.[[scope] ==winow]
+
+// function f () {  
+// 	var x = 100;
+
+// 	var g = function  () { 
+// 		alert(x);
+// 	}
+// 	g();
+// }
+// f();
+
+// var x = 12;
+
+// function f () {  
+// 	var x = 100;
+// //g.[[scope ]]=window
+// 	var g = new Function("","alert(x)");
+// 	g();
+// }
+// f();
+(function(){
+	var  a = 5;
+	var b = 6;
+	function f(){
+		alert(a);
+	}
+	window.f  = f;
+})();
+f();
+
+</script>
+</body>
+
+
+</html>

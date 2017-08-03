@@ -1,0 +1,59 @@
+<html>
+
+<head>
+	<title>Object</title>
+</head>
+<body>
+
+<script type="text/javascript">
+
+var  p = {
+	name:"cj",
+	work:function () {
+		console.log("working...");
+	},
+	_age:18,
+	get age(){
+		return this._age;
+	},
+	set age(val){
+		if(val <0 || val >150){
+			throw new Error("invalid value");
+		}else{
+			this._age = val;
+		}
+	},
+	address:{
+		home:"jiating",
+		office:"office"
+
+	}
+
+};
+//get,set writable ,enuerable,configurable,value
+	Object.defineProperties(p,{
+		salary:{
+			value:1000,
+			writable:false
+
+		},
+		gender:{
+			value:true
+		},
+		height:{
+			get:function(){
+				return 180
+			},
+			set:function(val){
+				console.log(val);
+			}
+
+		}
+
+	});
+
+</script>
+</body>
+
+
+</html>

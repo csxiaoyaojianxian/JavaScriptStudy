@@ -1,0 +1,137 @@
+<html>
+
+<head>
+	<title>polymorphism</title>
+</head>
+<body>
+
+<p id="js" >this is for js</p>
+<script type="text/javascript">
+
+ // function demo (a,b) {
+ // 	console.log(demo.length);
+ // 	console.log(arguments.length);
+ // 	console.log(arguments[0]);
+ // 	console.log(arguments[1]);
+
+ // }
+
+ // demo(4,5,6);
+
+ // function add(){
+ // 	var total = 0;
+ // 	for (var i = arguments.length - 1; i >= 0; i--) {
+ // 		total += arguments[i];
+ // 	};
+
+ // 	return total;
+ // }
+
+ // console.log(add(1));
+ // console.log(add(1,2));
+/*function fontSize(){
+	var ele = document.getElementById("js");
+	if (arguments.length == 0){
+
+		return ele.style.fontSize;
+	}else{
+		ele.style.fontSize = arguments[0];
+
+	}
+}
+fontSize(18);
+console.log(fontSize());*/
+
+// function setting(){
+// 	var ele = document.getElementById("js");
+
+// 	if (typeof arguments[0] ==="object"){
+// 		for(p in arguments[0]){
+// 			ele.style[p] = arguments[0][p];
+// 		}
+// 	}else{
+// 		ele.style.fontSize = arguments[0];
+// 		ele.style.backgroundColor= arguments[1]
+// ;	}
+// }
+
+// //setting(18,"red");
+// setting({fontSize:20,backgroundColor:"green"});
+
+
+
+
+
+// function demo(o){
+// 	o.run();
+// }
+
+
+// var o ={run:function(){
+
+// 	console.log("o is running...");
+// }};
+// demo(o);
+
+
+// var p ={run:function(){
+
+// 	console.log("p is running...");
+// }};
+// demo(p);
+
+
+// function Parent(){
+//   this.run = function(){
+//   	console.log("parent is running...");
+//   }
+// }
+
+// function Child(){
+// 	Parent.call(this);
+// 	var parentRun = this.run;
+// 	this.run = function (){
+// 		console.log("child is running...");
+// 		parentRun();
+// 	}
+// }
+
+// var c = new Child();
+// c.run();
+
+
+function Parent(){
+
+}
+Parent.prototype.run = function() {
+	console.log("parent");
+};
+
+Child.prototype = Object.create(Parent.prototype);
+Child.prototype.constructor = Child;
+Child.super  = Parent.prototype;
+function Child(){
+
+}
+
+Child.prototype.run=function(){
+	console.log('child is running...');
+	Child.super.run();
+}
+
+var c = new Child();
+c.run();
+
+
+
+
+
+
+
+
+
+</script>
+</body>
+
+
+</html>

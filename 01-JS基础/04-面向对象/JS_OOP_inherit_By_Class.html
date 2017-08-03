@@ -1,0 +1,69 @@
+<html>
+
+<head>
+	<title>Inherit by func Class</title>
+</head>
+<body>
+
+<script type="text/javascript">
+
+ //创建父类
+ //创建子类
+ //建立关系
+
+//  function  P () {
+ 	
+//  }
+//  function C(){
+
+//  }
+//  //inherit
+//  //C.prototype = P.prototype;
+
+// //C.prototype = new P();
+
+// C.prototype = Object.create(P.prototype);
+
+
+function Person(name,age){
+	this.name = name;
+	this.age = age;
+}
+Person.prototype.headCount = 1;
+Person.prototype.eat = function() {
+	console.log("eating...");
+};
+
+
+function Programmer(name,age,title){
+	Person.apply(this,arguments);
+
+}
+
+
+// Programmer.prototype = Object.create(Person.prototype);
+// Programmer.prototype.constructor = Programmer;
+
+createEx(Programmer,Person);
+
+Programmer.prototype.language = "javascript";
+Programmer.prototype.work = function(){
+	console.log("i am writing code in " + this.language);
+	Programmer.base.eat();
+	
+}
+
+function createEx(Child,Parent){
+	function F(){};
+	F.prototype = Parent.prototype;
+	Child.prototype = new F();
+	Child.prototype.constructor = Child;
+	Child.super = Child.base = Parent.prototype;
+}
+
+
+</script>
+</body>
+
+
+</html>

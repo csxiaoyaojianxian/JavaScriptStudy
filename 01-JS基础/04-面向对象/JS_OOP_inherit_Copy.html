@@ -1,0 +1,82 @@
+<html>
+
+<head>
+	<title>Inherit by Copy</title>
+</head>
+<body>
+
+<script type="text/javascript">
+
+// var person ={
+// 	name:"cj",
+// 	age:22,
+// 	address:{
+// 		home:"home address",
+// 		office:"office address"
+
+// 	},
+// 	schools:["xiaoxue","daxue"]
+	
+
+// };
+// var programer = {
+// 	language:"javascript"
+// };
+
+// function  extend (p,c) {
+// 	var c = c ||{};
+// 	for(var prop in p){
+// 		c[prop] = p[prop];
+// 	}
+
+// }
+
+// function extendDeeply(p,c){
+// 	var c = c|| {};
+// 	for(var prop in p){
+// 		if(typeof p[prop] === "object"){
+// 			c[prop] = (p[prop].constructor ===Array)?[]:{};
+// 			extendDeeply(p[prop],c[prop]);
+			
+// 		}else{
+// 			c[prop] = p[prop];
+// 		}
+
+// 	}
+// }
+
+
+//    function Parent(){
+//    	this.name = "abc";
+//    	this.address = {home:"home"};
+//    }
+//    function Child(){
+//    	 Parent.call(this);
+//    	 this.language = "java";
+//    }
+
+	var p ={name:"cj"};
+//Douglas Crockford  
+	function myCreate(p){
+		var ins ;
+		function F(){};
+		F.prototype = p;
+		ins =  new F();
+		return ins ;
+	}
+//对象的__proto__ 指向的是
+//对象的构造器constructor
+//的原型对象（prototype）
+
+//但原型对象并不是能用上面的话来说明
+//原型对象的__proto__指向的是Object得prototype
+//而不是指向
+//其(Object.prototype)构造器constructor ==某个函数
+//的原型对象
+
+   
+</script>
+</body>
+
+
+</html>

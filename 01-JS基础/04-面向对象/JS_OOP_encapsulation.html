@@ -1,0 +1,56 @@
+<html>
+
+<head>
+	<title>Encapsulation</title>
+</head>
+<body>
+
+<script type="text/javascript">
+
+// function  Person (pname) {
+
+// 	var age = 100;
+// 	function pm(){
+// 		console.log(this.name);
+// 	}
+// 	this.name = pname
+// 	this.test=function(){
+// 		console.log("public method");
+// 		//pm();
+// 		pm.call(this);
+// 	};
+// }
+
+	function Person(pname){
+		function pm(){
+			console.log(self.name);
+		}
+
+		var self = {
+
+			name:pname,
+			test:function(){
+				pm();
+			}
+		};
+
+		return self;
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+</script>
+</body>
+
+
+</html>
