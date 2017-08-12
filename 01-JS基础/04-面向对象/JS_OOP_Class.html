@@ -1,0 +1,87 @@
+<html>
+
+<head>
+	<title>Object</title>
+</head>
+<body>
+
+<script type="text/javascript">
+
+// function PersonFactory(pname,page){
+
+// 	return {
+// 		name:pname,
+// 		age:page,
+// 		headCount:1
+// 	};
+
+// }
+// var p1 = PersonFactory("cj",22);
+// var p2 = PersonFactory("david",33);
+//constructor
+
+	// function Person(){   //class
+	// 	var age = 30;
+	// 	this.age=22;
+	// 	this.name = "cj";
+	// }
+
+	// Person.prototype.headCount = 1;
+	// var p = new Person();
+	// var p1 = new Person();
+	// Person.prototype.headCount = 2;
+
+	// function f(){
+	// 	this.name = "asdfas";
+	// }
+
+	// var o ={
+	// 	name :"cj",
+	// 	print:function(){
+	// 		console.log(this.name);
+	// 	}
+
+	// };
+
+	// var ele = document.getElementById("id");
+	// ele.addEventListener("click",function(){
+	// 	console.log(this);
+
+	// })
+
+	// function log(a,b){
+	// 	console.log(this[a]);
+	// 	console.log(this[b]);
+	// }
+ //log.call(this,)  == this.log()
+
+ // function p(){
+ // 	this.name = "111";
+ // }
+
+ // var o ={};
+ // p.call(o);
+
+
+  function Person(name,age){
+  	this.name =  name;
+  	this.age = age;
+  }
+  var p1  = new Person   ("cj",22);
+
+  function New(f){ //f 是个函数。f 构造器函数
+  	var o = {"__proto__":f.prototype};
+  	return function(){
+  		
+  		f.apply(o,arguments);
+  		
+  		return o;
+  	}
+  }
+
+
+</script>
+</body>
+
+
+</html>
