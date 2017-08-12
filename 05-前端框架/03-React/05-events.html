@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="build/new/react.js"></script>
+    <script src="build/new/react-dom.js"></script>
+    <script src="build/browser.min.js"></script>
+  </head>
+  <body>
+    <div id="example1"></div>
+    <div id="example2"></div>
+    <script type="text/babel">
+
+// 【 preventDefault 】
+// <a href="#" onclick="console.log('The link was clicked.'); return false">
+//   Click me
+// </a>
+// react 必须指明preventDefault()
+function ActionLink() {
+  function handleClick(e) {
+    e.preventDefault();
+    console.log('The link was clicked.');
+  }
+  return (
+    <a href="#" onClick={handleClick}>
+      Click me
+    </a>
+  );
+}
+
+
+// 【 demo1 】 this.handleClick = this.handleClick.bind(this);
+class Toggle1 extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {isToggleOn: true};
+
+    // This binding is necessary to make `this` work in the callback
+    this.handleClick = this.handleClick.bind(this);
+  }
+
+  handleClick() {
+    this.setState(prevState => ({
+      isToggleOn: !prevState.isToggleOn
+    }));
+  }
+
+  render() {
+    return (
+      <button onClick={this.handleClick}>
+        {this.state.isToggleOn ? 'ON' : 'OFF'}
+      </button>
+    );
+  }
+}
+
+// 【 demo2 】
+// class Toggle2 extends React.Component {
+//   // This syntax ensures `this` is bound within handleClick.
+//   // Warning: this is *experimental* syntax.
+//   handleClick = () => {
+//     console.log('this is:', this);
+//   }
+//   render() {
+//     return (
+//       <button onClick={this.handleClick}>
+//         Click me
+//       </button>
+//     );
+//   }
+// }
+
+// 【 demo3 】
+class Toggle3 extends React.Component {
+  handleClick() {
+    console.log('this is:', this);
+  }
+  render() {
+    // This syntax ensures `this` is bound within handleClick
+    return (
+      <button onClick={(e) => this.handleClick(e)}>
+        Click me
+      </button>
+    );
+  }
+}
+
+
+ReactDOM.render(
+  <Toggle1 />,
+  document.getElementById('example1')
+);
+ReactDOM.render(
+  <Toggle3 />,
+  document.getElementById('example2')
+);
+
+
+    </script>
+  </body>
+</html>

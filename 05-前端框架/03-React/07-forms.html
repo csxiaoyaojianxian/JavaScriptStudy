@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="build/new/react.js"></script>
+    <script src="build/new/react-dom.js"></script>
+    <script src="build/browser.min.js"></script>
+  </head>
+  <body>
+    <div id="example1"></div>
+    <div id="example2"></div>
+    <div id="example3"></div>
+    <div id="example4"></div>
+    <script type="text/babel">
+
+// 【 demo1 】获取数据，处理变化
+var Input = React.createClass({
+  getInitialState: function() {
+    return {value: 'Hello!'};
+  },
+  handleChange: function(event) {
+    // 用户在表单填入的内容不能用 this.props 获取
+    // 获取表单值需要定义 onChange 事件的回调函数，通过 event.target.value 读取
+    this.setState({value: event.target.value});
+  },
+  render: function () {
+    var value = this.state.value;
+    return (
+      <div>
+        <input type="text" value={value} onChange={this.handleChange} />
+        <p>{value}</p>
+      </div>
+    );
+  }
+});
+ReactDOM.render(<Input/>, document.getElementById('example1'));
+
+// 【 demo2 】获取数据，处理变化
+class NameForm extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {value: ''};
+
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  handleChange(event) {
+    this.setState({value: event.target.value.toUpperCase()});
+  }
+
+  handleSubmit(event) {
+    alert('A name was submitted: ' + this.state.value);
+    event.preventDefault();
+  }
+
+  render() {
+    return (
+      <form onSubmit={this.handleSubmit}>
+        <label>
+          Name:
+          <input type="text" value={this.state.value} onChange={this.handleChange} />
+        </label>
+        <input type="submit" value="Submit" />
+      </form>
+    );
+  }
+}
+ReactDOM.render(<NameForm/>, document.getElementById('example2'));
+
+// 【 demo3 】select
+class FlavorForm extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {value: 'coconut'};
+
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  handleChange(event) {
+    this.setState({value: event.target.value});
+  }
+
+  handleSubmit(event) {
+    alert('Your favorite flavor is: ' + this.state.value);
+    event.preventDefault();
+  }
+
+  render() {
+    return (
+      <form onSubmit={this.handleSubmit}>
+        <label>
+          <select value={this.state.value} onChange={this.handleChange}>
+            <option value="grapefruit">Grapefruit</option>
+            <option value="lime">Lime</option>
+            <option value="coconut">Coconut</option>
+            <option value="mango">Mango</option>
+          </select>
+        </label>
+        <input type="submit" value="Submit" />
+      </form>
+    );
+  }
+}
+ReactDOM.render(<FlavorForm/>, document.getElementById('example3'));
+
+
+// 【 demo4 】
+class Reservation extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      isGoing: true,
+      numberOfGuests: 2
+    };
+
+    this.handleInputChange = this.handleInputChange.bind(this);
+  }
+
+  handleInputChange(event) {
+    const target = event.target;
+    const value = target.type === 'checkbox' ? target.checked : target.value;
+    const name = target.name;
+
+    console.log(name);// 对应tag的name
+
+    this.setState({
+      [name]: value
+    });
+    // 等价于
+    // var partialState = {};
+    // partialState[name] = value;
+    // this.setState(partialState);
+  }
+
+  render() {
+    return (
+      <form>
+        <label>
+          Is going:
+          <input
+            name="isGoing"
+            type="checkbox"
+            checked={this.state.isGoing}
+            onChange={this.handleInputChange} />
+        </label>
+        <br />
+        <label>
+          Number of guests:
+          <input
+            name="numberOfGuests"
+            type="number"
+            value={this.state.numberOfGuests}
+            onChange={this.handleInputChange} />
+        </label>
+      </form>
+    );
+  }
+}
+ReactDOM.render(<Reservation/>, document.getElementById('example4'));
+
+
+    </script>
+  </body>
+</html>

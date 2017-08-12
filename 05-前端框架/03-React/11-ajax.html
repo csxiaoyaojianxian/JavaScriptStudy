@@ -1,14 +1,52 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <script src="../build/react.js"></script>
-    <script src="../build/react-dom.js"></script>
-    <script src="../build/browser.min.js"></script>
-    <script src="../build/jquery.min.js"></script>
+    <script src="build/new/react.js"></script>
+    <script src="build/new/react-dom.js"></script>
+    <script src="build/browser.min.js"></script>
+    <script src="build/jquery.min.js"></script>
   </head>
   <body>
     <div id="example"></div>
     <script type="text/babel">
+var UserGist = React.createClass({
+  getInitialState: function() {
+    return {
+      username: '',
+      lastGistUrl: ''
+    };
+  },
+  
+  componentDidMount: function() {
+    // 数据获取，放在 componentDidMount 中，调用 setState 更新，此处使用jQuery的ajax请求
+    $.get(this.props.source, function(result) {
+      var lastGist = result[0];
+      if (this.isMounted()) {
+        this.setState({
+          username: lastGist.owner.login,
+          lastGistUrl: lastGist.html_url
+        });
+      }
+    }.bind(this));
+  },
+
+  render: function() {
+    return (
+      <div>
+        {this.state.username}'s last gist is <a href={this.state.lastGistUrl}>here</a>.
+      </div>
+    );
+  }
+});
+
+ReactDOM.render(
+  <UserGist source="http://www.csxiaoyao.com/src/data" />,
+  document.getElementById('example')
+);
+
+
+
+
 var RepoList = React.createClass({
   getInitialState: function() {
     return {
@@ -49,7 +87,7 @@ var RepoList = React.createClass({
 });
 
 ReactDOM.render(
-  <RepoList promise={$.getJSON('https://api.github.com/search/repositories?q=javascript&sort=stars')} />,
+  <RepoList promise={$.getJSON('http://www.csxiaoyao.com/src/data')} />,
   document.getElementById('example')
 );
     </script>

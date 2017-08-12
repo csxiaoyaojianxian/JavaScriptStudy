@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="build/new/react.js"></script>
+    <script src="build/new/react-dom.js"></script>
+    <script src="build/browser.min.js"></script>
+    <style type="text/css">
+      .greeting{
+        color:red;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="example1"></div>
+    <div id="example2"></div>
+    <div id="example3"></div>
+    <div id="example4"></div>
+    <script type="text/babel">
+
+      // 使用 JSX 语法要加上 type="text/babel"
+      // react.js、react-dom.js、Browser.js 必须先加载
+      // browser.js 将 JSX 语法转为 JavaScript 语法
+
+      // JSX 语法: HTML 直接写在 JavaScript 中，不加任何引号，遇到 HTML 标签（以 < 开头），用 HTML 规则解析；遇到代码块（以 { 开头），用 JavaScript 规则解析
+
+      // 【 demo1 】
+      var names = ['victorsun', 'sunshine', 'csxiaoyao'];
+      ReactDOM.render(
+        <div>
+        {
+          names.map(function (name) {
+            return <div key={name}>Hello, {name}!</div>
+          })
+        }
+        </div>,
+        document.getElementById('example1')
+      );
+
+      // 【 demo2 】
+      var arr = [
+        <h1>Hello world!</h1>,
+        <h2>React is awesome</h2>,
+      ];
+      // JSX 允许直接在模板插入 JavaScript 变量，数组会展开所有成员
+      const element1 = <div>{arr}</div>;
+      ReactDOM.render(
+        element1,
+        document.getElementById('example2')
+      );
+
+      // 【 demo3 】
+      // JSX just provides syntactic sugar for the React.createElement(component, props, ...children) function
+      const element2 = React.createElement(
+        'h1',
+        {className: 'greeting'},
+        'Hello, world!'
+      );
+      const element3 = <div>ex3:{element2}</div>;
+      ReactDOM.render(
+        element3,
+        document.getElementById('example3')
+      );
+      // const element2 = {
+      //  type: 'h1',
+      //   props: {
+      //     className: 'greeting',
+      //     children: 'Hello, world!'
+      //   }
+      // };
+
+      // 【 demo4 】props
+      // 第一组，参数的两种形式
+      // <MyComponent message="&lt;3" />
+      // <MyComponent message={'<3'} />
+
+      // 第二组，默认参数为true
+      // <MyTextBox autocomplete />
+      // <MyTextBox autocomplete={true} />
+
+      // 第三组，...的使用
+      // return <Greeting firstName="Ben" lastName="Hector" />;
+      // 等价于
+      // const props = {firstName: 'Ben', lastName: 'Hector'};
+      // return <Greeting {...props} />;
+      
+      // 第四组，不渲染
+      // <div />
+      // <div></div>
+      // <div>{false}</div>
+      // <div>{null}</div>
+      // <div>{undefined}</div>
+      // <div>{true}</div>
+
+
+    </script>
+  </body>
+</html>

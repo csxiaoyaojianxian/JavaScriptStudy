@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="build/new/react.js"></script>
+    <script src="build/new/react-dom.js"></script>
+    <script src="build/browser.min.js"></script>
+  </head>
+  <body>
+    <div id="example"></div>
+    <script type="text/babel">
+
+// 结合 lifecycle
+
+// 【 区分 this.props 和 this.state 】
+// this.props 参数，表示一旦定义不改变的特性
+// this.state 状态机，表示随用户互动而变化的特性
+
+// 【 demo1 】
+var LikeButton = React.createClass({
+  // getInitialState 方法定义初始状态的对象，通过 this.state 属性读取
+  getInitialState: function() {
+    return {
+      liked: false
+    };
+  },
+  // 用户点击组件，导致状态变化
+  handleClick: function(event) {
+
+    // this.setState 方法修改状态值，每次修改后自动调用 this.render 方法，再次渲染组件
+    // 错误用法1
+    // this.state.liked = !this.state.liked;
+    // 异步
+    // 错误用法2
+    // this.setState({
+    //   counter: this.state.counter + this.props.increment,
+    // });
+    // 正确用法1 --- 解决异步，使用ES6
+    // this.setState((prevState, props) => ({
+    //   counter: prevState.counter + props.increment
+    // }));
+    // 正确用法2 --- 解决异步，未使用ES6
+    // this.setState(function(prevState, props) {
+    //   return {
+    //     counter: prevState.counter + props.increment
+    //   };
+    // });
+
+    this.setState({liked: !this.state.liked});
+
+  },
+  render: function() {
+    var text = this.state.liked ? 'like' : 'don\'t like';
+    return (
+      <p onClick={this.handleClick}>
+        You {text} this. Click to toggle.
+      </p>
+    );
+  }
+});
+ReactDOM.render(
+  <LikeButton />,
+  document.getElementById('example')
+);
+
+    </script>
+  </body>
+</html>
+

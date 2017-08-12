@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="build/new/react.js"></script>
+    <script src="build/new/react-dom.js"></script>
+    <script src="build/browser.min.js"></script>
+  </head>
+  <body>
+    <div id="example1"></div>
+    <div id="example2"></div>
+    <script type="text/babel">
+
+// 【组件生命周期三个状态】
+// Mounting：已插入真实 DOM
+// Updating：正在被重新渲染
+// Unmounting：已移出真实 DOM
+
+// React 为每个状态提供两种处理函数，will 函数在进入状态前调用，did 函数在进入状态后调用
+// componentWillMount()
+// componentDidMount()
+// componentWillUpdate(object nextProps, object nextState)
+// componentDidUpdate(object prevProps, object prevState)
+// componentWillUnmount()
+// componentWillReceiveProps(object nextProps)：已加载组件收到新的参数时调用
+// shouldComponentUpdate(object nextProps, object nextState)：组件判断是否重新渲染时调用
+
+// 【 demo1 】
+var Hello = React.createClass({
+  getInitialState: function () {
+    return {
+      opacity: 1.0
+    };
+  },
+  // hello组件加载后，通过 componentDidMount 方法设置定时器
+  componentDidMount: function () {
+    this.timer = setInterval(function () {
+      var opacity = this.state.opacity;
+      opacity -= .05;
+      if (opacity < 0.1) {
+        opacity = 1.0;
+      }
+      this.setState({
+        opacity: opacity
+      });
+    }.bind(this), 100);
+  },
+
+  render: function () {
+    return (
+      // 第一重大括号表示 JavaScript 语法，第二重大括号表示样式对象
+      <div style={{opacity: this.state.opacity}}>
+        Hello {this.props.name}
+      </div>
+    );
+  }
+});
+ReactDOM.render(
+  <Hello name="world"/>,
+  document.getElementById('example1')
+);
+
+
+// 【 demo2 】
+// 原始方法参考 02-components&props.html
+class Clock extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {date: new Date()};
+  }
+
+  componentDidMount() {
+    this.timerID = setInterval(
+      () => this.tick(),
+      1000
+    );
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.timerID);
+  }
+
+  tick() {
+    this.setState({
+      date: new Date()
+    });
+  }
+
+  render() {
+    return (
+      <div>
+        <h1>It is {this.state.date.toLocaleTimeString()}.</h1>
+      </div>
+    );
+  }
+}
+ReactDOM.render(
+  <Clock />,
+  document.getElementById('example2')
+);
+
+
+    </script>
+  </body>
+</html>
