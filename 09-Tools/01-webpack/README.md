@@ -496,34 +496,20 @@ localhost:8080
 Babel其实可以完全在 `webpack.config.js` 中进行配置，但是考虑到babel具有非常多的配置选项，在单一的`webpack.config.js`文件中进行配置往往使得这个文件显得太复杂，因此一些开发者支持把babel的配置选项放在一个单独的名为 ".babelrc" 的配置文件中。我们现在的babel的配置并不算复杂，不过之后我们会再加一些东西，因此现在我们就提取出相关部分，分两个配置文件进行配置（webpack会自动调用`.babelrc`里的babel配置选项），如下：
 
 ```
-// webpack.config.js
 module.exports = {
-  devtool: 'eval-source-map',
-
-  entry:  __dirname + "/app/main.js",
-  output: {
-    path: __dirname + "/public",
-    filename: "bundle.js"
-  },
-
-  module: {
-    loaders: [
-      {
-        test: /\.json$/,
-        loader: "json"
-      },
-      {
-        test: /\.js$/,
-        exclude: /node_modules/,
-        loader: 'babel'
-      }
-    ]
-  },
-
-  devServer: {...} // Omitted for brevity
-}
-
-
+   ...
+    module: {
+        rules: [
+            {
+                test: /(\.jsx|\.js)$/,
+                use: {
+                    loader: "babel-loader"
+                },
+                exclude: /node_modules/
+            }
+        ]
+    }
+};
 ```
 
 ```
@@ -579,7 +565,6 @@ module.exports = {
         ]
     }
 };
-
 ```
 
 > 请注意这里对同一个文件引入多个loader的方法。
