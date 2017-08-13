@@ -1,0 +1,15 @@
+{
+  "name": "gulpstudy",
+  "version": "1.0.0",
+  "description": "## 1. 安装 Gulp.js",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "csxiaoyao",
+  "license": "ISC",
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-util": "^3.0.8"
+  }
+}
