@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<body>
+<h1 id="message"></h1>
+<script src="js/traceur.js"></script>
+<script src="js/BrowserSystem.js"></script>
+<script src="js/bootstrap.js"></script>
+<script type="module">
+  class Greeter {
+    constructor(message) {
+      this.message = message;
+    }
+
+    greet() {
+      var element = document.querySelector('#message');
+      element.innerHTML = this.message;
+    }
+  };
+
+  var greeter = new Greeter('Hello, world!');
+  greeter.greet();
+</script>
+</body>
+</html>
