@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+</head>
+<body>
+
+<!-- babel -->
+<h1 id="message"></h1>
+<script src="js/babel_standalone/js/babel.min.js"></script>
+<script type="text/babel">
+// 数组的解构赋值
+let [ , , param1="cs", [[param2], param3], ...param4] = [1, 2, , [[4], 5], 6, 7, 8];
+console.log(param1);
+
+// 模板字符串
+const tmpl = addrs => `
+  <table>
+  ${addrs.map(addr => `
+    <tr><td>${addr.first}</td></tr>
+    <tr><td>${addr.last}</td></tr>
+  `).join('')}
+  </table>
+`;
+const data = [
+    { first: '<Jane>', last: 'Bond' },
+    { first: 'Lars', last: '<Croft>' },
+];
+document.write(tmpl(data));
+
+
+</script>
+
+<!-- traceur -->
+<script src="js/traceur/js/traceur.js"></script>
+<script src="js/traceur/js/BrowserSystem.js"></script>
+<script src="js/traceur/js/bootstrap.js"></script>
+<script type="module">
+
+</script>
+
+</body>
+</html>

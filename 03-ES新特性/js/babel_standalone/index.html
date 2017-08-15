@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+</head>
+<body>
+
+<h1 id="message"></h1>
+<script src="js/babel.min.js"></script>
+<script type="text/babel">
+class Greeter {
+  constructor(message) {
+    this.message = message;
+  }
+
+  greet() {
+    var element = document.querySelector('#message');
+    element.innerHTML = this.message;
+  }
+};
+
+var greeter = new Greeter('Hello, world!');
+greeter.greet();
+</script>
+
+</body>
+</html>
