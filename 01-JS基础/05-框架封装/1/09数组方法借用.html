@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="jquery-2.2.0.js"></script>
+</head>
+<body>
+    <script>
+        // 借用数组的push方法给obj按照下标的方式添加属性值，并且会自动维护lenghth属性
+        var obj = {};
+        [].push.apply( obj, [ 1, 2, 3, 4 ] );
+        console.log( obj );
+
+        // 借用数组的pop方法删除obj最后一个属性值
+        [].pop.call( obj );
+        console.log( obj );
+    </script>
+</body>
+</html>

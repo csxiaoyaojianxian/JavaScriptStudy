@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="jquery-2.2.0.js"></script>
+</head>
+<body>
+    <script>
+        var obj = { a: {val:1}, b: 222, c: 333, d: 444 };
+
+        function each( obj, fn ) {
+            var i, len, key;
+
+            // likeArray
+            if ( 'length' in obj ) {
+                for ( i = 0, len = obj.length; i < len; i++ ) {
+                    if ( fn.call( obj[ i ], i, obj[ i ] ) === false ) {
+                        break;
+                    }
+                }
+            }else {
+                for ( key in obj ) {
+                    if ( fn.call( obj[ key ], key, obj[ key ] ) === false ) {
+                        break;
+                    }
+                }
+            }
+        }
+    </script>
+</body>
+</html>

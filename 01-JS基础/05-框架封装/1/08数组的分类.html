@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="jquery-2.2.0.js"></script>
+</head>
+<body>
+    <script>
+        /*
+        * 数组的分类：
+        *
+        * 1、真数组
+        * new Array 创建的数组，或者字面量形式 [] 创建的数组，都是真数组。
+        * 1.1 稀疏数组
+        * 数组中，某些下标不存在，即为稀疏数组。
+        * 1.2 非稀疏数组
+        * 数组中没有缺失任何值。
+        *
+        * 2、伪数组
+        * 必须要有length属性，
+        * 要么length为0，要么有length - 1为下标的属性。
+        * */
+
+        /*
+        * 伪数组的特点：
+        * 1、必须要有length属性
+        * 2、如果length属性值为0，那么这个对象有没有元素无所谓
+        * 3、如果length属性值不为0，那么这个对象一定有 (length - 1) 为下标的属性值。
+        * */
+
+        // 是伪装组
+        var obj = { length: 0 };
+        var obj = { length: 4, 3: 'a' }; // 没有0，1，2可以认为0，1，2存的是undefined
+        var obj = { length: 2, 0: 'a', 1: 'b' };
+
+        // 不是伪数组，因为没有 9(length - 1) 这个属性
+        var obj = { length: 10, 0: 'a', 1: 'b', 2: 'c', 3: 'd', 4: 'e', 5: 'f' };
+    </script>
+</body>
+</html>

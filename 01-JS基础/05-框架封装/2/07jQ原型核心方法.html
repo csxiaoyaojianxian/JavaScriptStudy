@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="jquery-2.2.0.js"></script>
+</head>
+<body>
+    <ul>
+        <li>aaaaaa</li>
+        <li>nnnnnnn</li>
+        <li>bbbbbbbb</li>
+        <li>eeeeeeeee</li>
+    </ul>
+    <script>
+        /*
+        * jQ原型上的核心方法和属性：
+        * 1、jquery 获取版本号
+        * 2、selector 代表所有实例默认的选择器，也代表实例是一个jQuery类型的对象
+        * 3、length 代表所有实例默认的长度
+        * 4、toArray 把实例转换为数组返回
+        * 5、get 获取指定下标的元素，获取的是原生DOM
+        * 6、each 遍历实例，把遍历到的数据分别传给回调使用
+        * 7、map 遍历实例，把遍历到的数据分别传给回调使用，然后把回调的返回值收集起来组成一个数组返回
+        * 8、slice 截取实例的部分元素，构成一个新的jQuery实例返回。
+        * 9、first 获取实例中的第一个元素，是jQuery类型的实例对象。
+        * 10、last 获取实例中的最后一个元素，是jQuery类型的实例对象。
+        * 11、eq 获取指定下标的元素，获取的是jQuery类型的实例对象。
+        * 12、push 给实例添加新元素
+        * 13、sort 对实例中的元素进行排序
+        * 14、splice 按照指定下标指定数量删除元素，也可以替换删除的元素。
+        * */
+
+        console.log($().jquery);
+        console.log($().selector);
+        console.log($().length);
+        console.log($('li').toArray());
+
+        // get 不传相当于toArray，
+        // 传参获取指定下标获取元素，可以传负数，获取到的是原生DOM
+        console.log($('li').get());
+        console.log($('li').get(0));
+        console.log($('li').get(-1));
+
+        // 使用方式和数组的slice一样，但是得到是一个新的实例
+        console.log($('li').slice( 0, 2 ));
+
+        // get 不传相当于得到一个新实例，
+        // 传参获取指定下标获取元素，可以传负数，获取到的元素是新的实例
+        console.log($('li').eq());
+        console.log($('li').eq(0));
+        console.log($('li').eq(-2));
+
+        // 获取第一个和最后一个元素，得到的是新的实例
+        console.log($('li').first());
+        console.log($('li').last());
+
+        // 给实例添加一个新元素
+        var $$ = $();
+        $$.push( document.body );
+        console.log( $$ );
+
+        // 给实例排序
+        /*var $lis = $('li');
+        $lis.sort(function( li1, li2 ) {
+            return li1.innerHTML > li2.innerHTML;
+        });
+        console.log( $lis );
+        $lis.appendTo( document.body );*/
+
+        // 删除或替换
+        var $lis = $('li');
+        $lis.splice( 1, 1, document.body );
+        console.log( $lis );
+    </script>
+</body>
+</html>

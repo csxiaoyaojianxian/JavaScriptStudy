@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <script>
+        /*
+        * 异常捕获
+        * */
+
+        try {
+            console.log(a);
+        }catch( e ) {
+            console.log(8);
+        }finally {
+            console.log('我一定要执行');
+        }
+        console.log(111);
+
+        /*
+        * 异常抛出
+        * */
+
+        function fn( obj ) {
+            if ( !obj ) {
+                throw '参数错误！';
+            }
+        }
+
+        fn();
+    </script>
+</body>
+</html>

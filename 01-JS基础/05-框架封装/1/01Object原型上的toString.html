@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <script>
+        /*
+        * Object.prototype.toString
+        * 作用：根据内部的this返回一个类似于这样的字符串'[object constructorName]'
+        * 这个方法有个缺点，不能获取用户自定义对象的具体类型，只能获取内置对象的类型。
+        * */
+
+        // 测试
+        console.log(Object.prototype.toString.call([]));
+        console.log(Object.prototype.toString.call( new Date() ));
+        console.log(Object.prototype.toString.call( Array ));
+        console.log(Object.prototype.toString.call( Date ));
+
+        // 简写 ==> 因为{}对象直接继承Object.prototype，
+        // 所以通过这个对象得到的toString，一定来自Object.prototype。
+        console.log(({}).toString.call([]));
+        console.log(({}).toString.call( new Date() ));
+        console.log(({}).toString.call( Array ));
+        console.log(({}).toString.call( Date ));
+
+        // 用这个toString获取自定义对象的类型
+        function Person(){}
+        var xiaofang = new Person();
+        console.log(({}).toString.call( xiaofang ));
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <script>
+        /*
+        * 什么是代码块：
+        * 代码块就是一对大括号。
+        *
+        * 如果把一对大括号赋值给其他变量，或者参与运算，那么大括号就变成了字面对象。
+        * */
+
+        {
+            var a = 1;
+            console.log(a);
+        }
+
+        // 需要通过运算，把{}转换为字面量，才能调用方法
+        console.log(({}).toString()); // '[object Object]'
+
+        // 错误，代码块不能调用方法
+        // {}.toString();
+
+    </script>
+</body>
+</html>

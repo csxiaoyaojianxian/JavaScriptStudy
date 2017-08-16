@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <script>
+        function jQuery() {
+
+        }
+
+        // 传入的obj，谁调用给谁混入方法
+        jQuery.extend = jQuery.prototype.extend = function( obj ) {
+            for ( var key in obj ) {
+                this[ key ] = obj[ key ];
+            }
+        }
+
+        // 添加静态
+        jQuery.extend({
+           isFunction: function( fn ) {
+               return typeof fn === 'function';
+           }
+        });
+
+        // 添加实例方法
+        jQuery.prototype.extend({
+            alert: function( msg ) {
+                alert( msg );
+            }
+        });
+
+        // 静态方法使用
+        console.log(jQuery.isFunction([]));
+
+        // 实例方法使用
+        var $$ = new jQuery();
+        $$.alert( '实例调用' );
+
+
+
+        // 1. 构造函数不能使用自己原型中方法( Function例外 )
+        // jQuery.alert( '构造函数能调用实例方法吗？' );
+        // 2. 实例不能直接使用构造函数身上的静态方法
+        // $$.isFunction('实例能不能直接调用静态方法');
+
+
+        // 【 我的理解 】
+        // Object(原型对象$$)      Function(构造函数jQuery)               Prototype(原型)
+        //                   <= new                        prototype    =>
+        //                                                 <=  constructor
+        //                               (isFunction)                         (alert)
+        // 构造函数搜索方法时，找不到会去其构造函数（Function）找
+        // 实例对象搜索方法时，找不到会去其构造函数（prototype）找
+        // alert 在构造函数的原型上，而 $$ 是 jQuery 的实例，与jQuery的原型无关，所以没有 alert 方法
+
+    </script>
+</body>
+</html>

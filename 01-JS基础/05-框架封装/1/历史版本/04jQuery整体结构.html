@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <script>
+
+        // 咱们的自调结构，沿用了1.7的版本
+        (function( w ) {
+
+            // 对外暴露的工厂函数
+            function jQuery() {
+                return new jQuery.fn.init();
+            }
+
+            // 给原型提供一个简写方式
+            jQuery.fn = jQuery.prototype = {
+                constrcutor: jQuery
+            };
+
+            // init是jQuery中真正的构造函数
+            var init = jQuery.fn.init = function() {
+
+            };
+
+            // 替换构造函数的原型 为 jQuery工厂的原型
+            // 为了实现插件机制，让外界可以透过jQuery.fn扩充方法。
+            init.prototype = jQuery.fn;
+
+            // 把工厂通过两个变量暴露出去
+            w.jQuery = w.$ = jQuery;
+
+        }( window ));
+
+    </script>
+</body>
+</html>

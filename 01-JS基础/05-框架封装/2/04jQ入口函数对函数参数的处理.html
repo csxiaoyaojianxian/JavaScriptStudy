@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="jquery-2.2.0.js"></script>
+</head>
+<body>
+    <script>
+
+        // 为了防止获取不到页面的元素，所以要把函数传入到jQuery，
+        // 然后在这个回调函数中编写代码。
+        // 这个回调函数会在页面DOM解析完毕之后执行。
+        $(function() {
+            // 可以获取到
+            console.log($('span'));
+        });
+
+        // 获取不到span，因为这个时候span还不存在呢
+        console.log($('span'));
+    </script>
+    <div>
+        <span>123</span>
+        <span>456</span>
+    </div>
+</body>
+</html>

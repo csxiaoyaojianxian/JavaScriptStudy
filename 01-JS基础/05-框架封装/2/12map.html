@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="jquery-2.2.0.js"></script>
+</head>
+<body>
+    <script>
+
+        var obj = { a: 111, b: 222, c: 333, d: 444 };
+        var arr = [ 'aaa', 'bbb', 'ccc', 'dddd' ];
+
+
+        /*
+        * jQ的map方法，用来遍历对象或者数组，
+        * 然后把遍历到了val和key值传给回调，
+        * 最后收集回调的返回值，构成新数组返回。
+        * */
+
+        /*console.log($.map(obj, function (val, key) {
+            console.log(val, key, this);
+            return val;
+        }));*/
+
+
+        // map实现
+        function map( obj, fn ) {
+
+            /*
+             * 1、先判断obj是不是数组或者伪数组，
+             * 2、如果是，则通过i的方式遍历这个对象
+             * 3、如果不是，则通过for in的方式遍历这个对象
+             * 4、在遍历的过程中，把每一次遍历到key和val分别传给回调。
+             * 5、在给回调传参的时候，需要收集回调的返回值，最后把所有的返回值构成新数组返回。
+             * */
+            var i, len, key, result = [];
+
+            if( 'length' in obj ) {
+                for ( i = 0, len = obj.length; i < len; i++ ) {
+                    result.push( fn.call( obj[ i ], obj[ i ], i ) );
+                }
+            }else {
+                for ( key in obj ) {
+                    result.push( fn.call( obj[ key ], obj[ key ], key ) );
+                }
+            }
+
+            return result;
+        }
+
+        console.log(map(obj, function (val, key) {
+            console.log(val, key, this);
+//            return val / 100;
+        }));
+
+    </script>
+</body>
+</html>

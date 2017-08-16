@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <script>
+
+        // 字符串 ==> String.prototype.toString
+        var a="ddd";
+        console.log(a.toString());
+        var e= new String();
+        console.log(e.toString());
+        var e= new String('string');
+        console.log(e.toString());
+
+        // 数组 ==> Array.prototype.toString
+        var b=[1,2,3,4,5,6];
+        console.log(b.toString());
+        var b=[];
+        console.log(b.toString());
+        var d=new Array();
+        console.log(d.toString());
+
+        // 对象  ==> Object.prototype.toString
+        var c={};
+        console.log(c.toString());
+
+        // 函数 ==> Function.prototype.toString
+        console.log(Function.toString());
+        console.log(Array.toString());
+        console.log(RegExp.toString());
+        function fn() {
+            console.log('我写的');
+        }
+        console.log(fn.toString());
+    </script>
+</body>
+</html>

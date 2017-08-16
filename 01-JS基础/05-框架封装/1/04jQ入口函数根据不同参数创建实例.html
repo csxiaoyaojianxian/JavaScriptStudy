@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="jquery-2.2.0.js"></script>
+</head>
+<body>
+    <div>
+        <a class="a">1</a>
+        <a class="a">2</a>
+        <a class="a">3</a>
+        <a class="a">4</a>
+    </div>
+    <script>
+
+        /*
+        * JQ入口函数根据不同参数创建实例的样式：
+        *
+        * 测试用例：
+        * 1、传入null、undefined、0、NaN、''
+        * 2、选择器
+        * 3、html片段
+        * 4、数组
+        * 5、伪数组
+        * 6、对象
+        * 7、其他基本数据类型
+        * 8、DOM
+        * */
+
+        // 统一返回空的实例
+        /*console.log($());
+        console.log($(null));
+        console.log($(undefined));
+        console.log($(0));
+        console.log($(NaN));
+        console.log($(''));*/
+
+        // 如果传入的是选择器，那么会把获取到的元素，
+        // 按照下标存储起来，同时添加一个length属性代表数量
+        // { 0:div, 1:div, length:2 }
+        /*console.log($('.a'));
+        console.log($('div'));
+        console.log($('li'));*/
+
+        // 如果传入的是html片段，那么会根据这些片段创建DOM对象，
+        // 然后按照下标存储起来，同时添加一个length属性代表数量
+        // { 0:span, 1:span, 2,span, length:3 }
+        /*console.log($('<span></span>'));
+        console.log($('<span><a>a1</a></span><span><a>a2</a></span><span><a>a3</a></span>'));
+        // 测试JQ传入html片段，得到是Dom对象
+        document.body.appendChild( $('<span>span</span>')[0] );*/
+
+        /*
+        * 如果传入的是数组，那么会把数组中的每一项分别添加到实例身上，同时把length也加过来。
+        * */
+        console.log($(['abc', 'cba']));
+        console.log($(['1', '2', '3']));
+
+        /*
+        * 如果传入的是伪数组，那么会把数组中的每一项分别添加到实例身上，同时把length也加过来。
+        * */
+        var as = document.querySelectorAll('a');
+        console.log($(as));
+
+        /*
+        * 如果传入的是对象，那么直接把这个对象按照下标添加到实例身上，同时添加一个length属性代表数量
+        * */
+        console.log($( new Date() ));
+        console.log($( { val: 0000 } ));
+
+        /*
+        * 如果传入的是基本数据类型，null、undefined除外，字符串除外，
+        * 那么直接把这个数据添加到实例身上，同时添加一个length属性代表数量。
+        * */
+        console.log($( 111 ));
+        console.log($( 'nba' ));
+
+        // 如果传入的是DOM，那么把这个DOM添加到实例身上，同时添加一个length属性代表数量。
+        console.log( $( document.body ) );
+
+    </script>
+</body>
+</html>

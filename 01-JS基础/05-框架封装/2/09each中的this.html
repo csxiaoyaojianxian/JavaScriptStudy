@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="jquery-2.2.0.js"></script>
+</head>
+<body>
+    <script>
+
+        var obj = { a: {val:1}, b: 222, c: 333, d: 444 };
+
+        /*$.each( obj, function( key, val ) {
+            console.log( key, val );
+            console.log( this ); // this指向val
+        } );*/
+
+
+        function each( obj, fn ) {
+            /*
+            * 1、先判断obj是不是数组或者伪数组，
+            * 2、如果是，则通过i的方式遍历这个对象
+            * 3、如果不是，则通过for in的方式遍历这个对象
+            * 4、在遍历的过程中，把每一次遍历到key和val分别传给回调。
+            * */
+            if( 'length' in obj ) {
+
+                for ( var i = 0, len = obj.length; i < len; i++ ) {
+
+                    // 指定fn执行时，this指向val
+                    fn.call( obj[ i ], i, obj[ i ] );
+                }
+
+            }else {
+
+                for ( var key in obj ) {
+
+                    // 指定fn执行时，this指向val
+                    fn.call( obj[ key ], key, obj[ key ] );
+                }
+
+            }
+        }
+
+        each( obj, function( key, val ) {
+            console.log( key, val, this );
+        } );
+
+    </script>
+</body>
+</html>

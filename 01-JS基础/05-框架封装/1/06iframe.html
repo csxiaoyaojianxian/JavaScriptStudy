@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="jquery-2.2.0.js"></script>
+</head>
+<body>
+    <iframe src="http://baidu.com"></iframe>
+    <iframe src="http://163.com"></iframe>
+    <script>
+        // window的length属性代表页面中iframe的数量
+        console.log( window.length );
+
+        // window对象有一个特点，就是window有一个window属性，指向自己
+        // 如果一个数据的window属性是自己，那么就认为它是window。
+        console.log( obj.window === obj );
+    </script>
+</body>
+</html>

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="jquery-2.2.0.js"></script>
+</head>
+<body>
+    <script>
+
+        var obj = { a: 111, b: 222, c: 333, d: 444 };
+        var arr = [ 'aaa', 'bbb', 'ccc', 'dddd' ];
+
+
+        /*
+        * jQ的each方法，变量对象或者数组时，
+        * 下标和值传入回调的顺序和数组的forEach相反。
+        * */
+        /*$.each( obj, function( key, val ) {
+            console.log( key, val );
+        } );
+
+        $.each( arr, function( index, val ) {
+            console.log( index, val );
+        } );*/
+
+        // 这是数组的forEach
+        /*arr.forEach( function( val, index ) {
+            console.log( val, index );
+        });*/
+
+
+        function each( obj, fn ) {
+            /*
+            * 1、先判断obj是不是数组或者伪数组，
+            * 2、如果是，则通过i的方式遍历这个对象
+            * 3、如果不是，则通过for in的方式遍历这个对象
+            * 4、在遍历的过程中，把每一次遍历到key和val分别传给回调。
+            * */
+            if( 'length' in obj ) {
+
+                for ( var i = 0, len = obj.length; i < len; i++ ) {
+                    fn( i, obj[ i ] );
+                }
+
+            }else {
+
+                for ( var key in obj ) {
+                    fn( key, obj[ key ] );
+                }
+
+            }
+        }
+
+        each( obj, function( key, val ) {
+            console.log( key, val );
+        } );
+
+        each( arr, function( index, val ) {
+            console.log( index, val );
+        } );
+
+    </script>
+</body>
+</html>
