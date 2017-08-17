@@ -51,8 +51,8 @@
         //                   <= new                        prototype    =>
         //                                                 <=  constructor
         //                               (isFunction)                         (alert)
-        // 构造函数搜索方法时，找不到会去其构造函数（Function）找
-        // 实例对象搜索方法时，找不到会去其构造函数（prototype）找
+        // new 一个实例对象时会根据构造函数的原型对象生成，因此实例访问不到构造函数中方法（isFunction）
+        // 实例对象搜索方法时，找不到会去其原型对象（prototype）找
         // alert 在构造函数的原型上，而 $$ 是 jQuery 的实例，与jQuery的原型无关，所以没有 alert 方法
 
     </script>
