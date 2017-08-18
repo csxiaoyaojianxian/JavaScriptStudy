@@ -39,21 +39,11 @@
         $$.alert( '实例调用' );
 
 
-
+        // 【 详情见图 】
         // 1. 构造函数不能使用自己原型中方法( Function例外 )
         // jQuery.alert( '构造函数能调用实例方法吗？' );
         // 2. 实例不能直接使用构造函数身上的静态方法
         // $$.isFunction('实例能不能直接调用静态方法');
-
-
-        // 【 我的理解 】
-        // Object(原型对象$$)      Function(构造函数jQuery)               Prototype(原型)
-        //                   <= new                        prototype    =>
-        //                                                 <=  constructor
-        //                               (isFunction)                         (alert)
-        // new 一个实例对象时会根据构造函数的原型对象生成，因此实例访问不到构造函数中方法（isFunction）
-        // 实例对象搜索方法时，找不到会去其原型对象（prototype）找
-        // alert 在构造函数的原型上，而 $$ 是 jQuery 的实例，与jQuery的原型无关，所以没有 alert 方法
 
     </script>
 </body>
