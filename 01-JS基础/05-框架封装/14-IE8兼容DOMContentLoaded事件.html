@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+
+// 为了防止获取不到页面的元素，所以要把函数传入到jQuery，
+// 然后在这个回调函数中编写代码。
+// 这个回调函数会在页面DOM解析完毕之后执行。
+$(function() {
+    // 可以获取到
+    console.log($('span'));
+});
+
+// 获取不到span，因为这个时候span还不存在呢
+console.log($('span'));
+
+
+window.onload = function() {
+    var spans = document.querySelectorAll( 'span' );
+    console.log( spans, 'onload' );
+};
+
+/*
+* 【 html5 】
+* 新增 DOMContentLoaded 事件，兼容IE9
+* 这个事件会在DOM解析完后触发，通常比 onload 快很多，即使发生例外也相差不大
+* 所以只监听 DOMContentLoaded 即可
+* */
+document.addEventListener( 'DOMContentLoaded', function() {
+    var spans = document.querySelectorAll( 'span' );
+    console.log( spans, 'DOMContentLoaded');
+} );
+
+/*
+* 【 IE8 】
+* 所有元素都有 onreadystatechange 事件，可代替 DOMContentLoaded 事件
+* */
+// IE8模拟 DOMContentLoaded 事件
+document.attachEvent( 'onreadystatechange', function() {
+    if ( document.readyState === 'complete' ) {
+        var spans = document.querySelectorAll( 'span' );
+        console.log( spans, 'DOMContentLoaded');
+    }
+} );
+
+</script>
+<div>
+    <span>123</span>
+    <span>456</span>
+</div>
+</body>
+</html>

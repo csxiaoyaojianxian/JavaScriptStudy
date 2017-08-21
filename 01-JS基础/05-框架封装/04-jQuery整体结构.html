@@ -6,8 +6,16 @@
 </head>
 <body>
     <script>
+        // 2.2.0的自调结构
+        /*
+        (function( w, factory ){
+            console.log('对模块化做了支持');
+            factory();
+        }( window, function() {
+            return jQuery;
+        }));*/
 
-        // 咱们的自调结构，沿用了1.7的版本
+        // 自调结构，沿用了1.7的版本
         (function( w ) {
 
             // 对外暴露的工厂函数
@@ -20,7 +28,7 @@
                 constrcutor: jQuery
             };
 
-            // init是jQuery中真正的构造函数 ==> 入口函数
+            // init是jQuery中真正的构造函数
             var init = jQuery.fn.init = function() {
 
             };

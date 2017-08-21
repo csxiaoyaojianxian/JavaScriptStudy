@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+
+/*
+* apply方法可以改变this指向，同时把数组或伪数组平铺传入函数，
+* 但IE8，apply只能平铺真数组或者内置的伪数组，自定义伪数组会报错
+* IE8中需要先把自定义伪数组转换为真数组，才能借用apply
+* */
+var arr = [];
+for ( var i = 0, len = obj.length; i < len; i++ ) {
+    arr.push( obj[ i ] );
+}
+[].push.apply( o, arr );
+/*
+* 简化版本
+* */
+// 借用数组的slice方法，通过一个伪数组得到一个真数组
+// [].slice.call( obj )
+[].push.apply( o, [].slice.call( obj ) );
+
+
+// array || likeArray
+if( jQuery.isLikeArray( selector ) ) {
+    [].push.apply( this, [].slice.call( selector ) );
+}
+</script>
+</body>
+</html>

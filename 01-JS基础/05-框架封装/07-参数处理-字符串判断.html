@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <div>
+        <a class="a">1</a>
+        <a class="a">2</a>
+        <a class="a">3</a>
+        <a class="a">4</a>
+    </div>
+<script>
+/*
+* 传入字符串
+* 1、HTML片段，创建对应的DOM添加到实例上
+* 2、选择器，获取页面中的DOM添加到实例上
+* */
+
+// 判断是不是html片段
+init.isHTML = function (html) {
+
+    // 如果是空类型的，直接返回false
+    if (!html) {
+        return false;
+    }
+
+    // 如果字符串的第一个字母是<,最后一个字母是>,并且length >= 3,就可以认为是html片段。
+    if (html.charAt(0) == '<' && html.charAt(html.length - 1) == '>' && html.length >= 3) {
+        return true;
+    }
+
+    return false;
+};
+
+// 传入字符串，那么需要判断是html片段 还是 其它
+if ( typeof selector == 'string' ) {
+    // 如果字符串的第一个字母是<,最后一个字母是>,并且length >= 3,就可以认为是html片段。
+    if ( init.isHTML( selector ) ) {
+        /*
+        * 创建的思路：
+        * 1、先创建一个临时的div容器
+        * 2、设置这个div的innerHTML为html片段，这些片段就自动转变为了div的子元素，
+        * 3、遍历div的子元素分别添加this身上，记住给实例补充length属性值，
+        *  可以使用数组的push来给实例添加，同时可以使用apply简化遍历过程。
+        * */
+        var tempDiv = document.createElement('div');
+        tempDiv.innerHTML = selector;
+        [].push.apply( this, tempDiv.childNodes );
+        return this;
+    }
+    // 否则按照选择器获取页面中的DOM，然后把获取到的DOM添加到实例身上
+    else {
+        /*
+        * 实现的思路：
+        * 1、使用querySelectorAll获取页面中的元素
+        * 2、然后遍历获取到所有元素分别添加this身上，记住给实例补充length属性值，
+        * 可以使用数组的push来给实例添加，同时可以使用apply简化遍历过程。
+        * */
+        try {
+            var nodes = document.querySelectorAll( selector );
+            [].push.apply( this, nodes );
+            return this;
+        }catch(e) {
+            this.length = 0;
+            return this;
+        }
+    }
+}
+
+</script>
+</body>
+</html>

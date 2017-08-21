@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="jquery-2.2.0.js"></script>
+</head>
+<body>
+    <div>
+        <a class="a">1</a>
+        <a class="a">2</a>
+        <a class="a">3</a>
+        <a class="a">4</a>
+    </div>
+<script>
+
+/*
+* JQ入口函数根据不同参数创建实例的样式：
+
+* 1、传入null、undefined、0、NaN、''返回空对象( 即空实例 )
+* 2、html片段，创建对应的DOM添加到实例上
+* 3、选择器，获取页面中的DOM添加到实例上
+* 4、数组，分拆添加到实例上
+* 5、伪数组，分拆添加到实例上
+* 6、对象
+* 7、其他基本数据类型
+* 8、DOM
+* 
+
+// 统一返回空的实例
+console.log($());
+console.log($(null));
+console.log($(undefined));
+console.log($(0));
+console.log($(NaN));
+console.log($(''));
+
+*/
+
+
+// 判断是不是函数
+init.isFunction = function (fn) {
+
+    if (typeof fn == 'function') {
+        return true;
+    }
+
+    return false;
+}
+
+function init( selector ) {
+
+    // 传入null、undefined、0、NaN、''返回空对象( 即空实例 )
+    if ( !selector ) {
+        return this;
+    }
+
+    // 传入字符串，那么需要判断是html片段 还是 其它
+    else if ( typeof selector == 'string' ) {
+
+        // 如果是片段，则创建对应的DOM，然后添加到实例身上，
+        // 如果字符串的第一个字母是<,最后一个字母是>,并且length >= 3,就可以认为是html片段。
+        if ( init.isHTML(selector) ) {
+
+        }
+
+        // 否则按照选择器获取页面中的DOM，然后把获取到的DOM添加到实例身上
+        else {
+
+        }
+
+    }
+
+    // 判断是伪数组
+    else if ( init.isLikeArray(selector) ) {
+
+    }
+    
+    else {
+
+    }
+
+}
+
+</script>
+</body>
+</html>

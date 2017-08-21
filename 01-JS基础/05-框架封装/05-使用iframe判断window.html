@@ -15,6 +15,17 @@
         // window对象有一个特点，就是window有一个window属性，指向自己
         // 如果一个数据的window属性是自己，那么就认为它是window。
         console.log( obj.window === obj );
+
+
+        // 判断是不是window
+        init.isWindow = function (w) {
+
+            if (w.window == w) {
+                return true;
+            }
+
+            return false;
+        }
     </script>
 </body>
 </html>

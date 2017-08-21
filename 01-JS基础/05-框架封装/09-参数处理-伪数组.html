@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div>
+    <a class="a">1</a>
+    <a class="a">2</a>
+    <a class="a">3</a>
+    <a class="a">4</a>
+</div>
+<script>
+
+/*
+* 数组的分类：
+*
+* 【 真数组 】
+* 创建方式：new Array 或字面量形式 [] 
+* 1、稀疏数组：数组中，某些下标不存在，即为稀疏数组。
+* 2、非稀疏数组：数组中没有缺失任何值。
+*
+* 【 伪数组 】
+* 1、必须要有length属性
+* 2、如果length属性值为0，那么这个对象有没有元素无所谓
+* 3、如果length属性值不为0，那么这个对象一定有 (length - 1) 为下标的属性值
+* */
+
+// 伪装组
+var obj = { length: 0 };
+var obj = { length: 4, 3: 'a' }; // 没有0，1，2可以认为0，1，2存的是undefined
+var obj = { length: 2, 0: 'a', 1: 'b' };
+
+// 非伪数组，因为没有 9(length - 1) 这个属性
+var obj = { length: 10, 0: 'a', 1: 'b', 2: 'c', 3: 'd', 4: 'e', 5: 'f' };
+
+// 借用数组的push方法给obj按照下标的方式添加属性值，并且会自动维护lenghth属性
+var obj = {};
+[].push.apply( obj, [ 1, 2, 3, 4 ] );
+console.log( obj );
+
+// 借用数组的pop方法删除obj最后一个属性值
+[].pop.call( obj );
+console.log( obj );
+
+// 判断是不是伪数组或真数组
+init.isLikeArray = function( arr ) {
+
+    // 过滤函数和window，以及非对象的其他数据
+    if ( init.isFunction( arr ) || init.isWindow( arr ) || typeof arr !== 'object' ) {
+        return false;
+    }
+
+    // 判断是不是真数组
+    if ( ({}).toString.call( arr ) == '[object Array]' ) {
+        return true;
+    }
+
+    // 判断是不是伪数组
+    // arr必须有length，在这个基础上，要么length为0，要么有length - 1这个属性值
+    if ( ('length' in arr) && ( (arr.length === 0) || (arr.length - 1 in arr) ) ) {
+        return true;
+    }
+
+    return false;
+};
+
+</script>
+</body>
+</html>

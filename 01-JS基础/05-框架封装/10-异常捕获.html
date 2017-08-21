@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+/*
+* 异常捕获
+* */
+try {
+    // console.log(a);
+    fn();
+}catch( e ) {
+    console.log(e);
+    console.log("出错了");
+}finally {
+    console.log('一定会执行');
+}
+console.log("后续");
+
+/*
+* 异常抛出
+* */
+function fn( obj ) {
+    if ( !obj ) {
+        throw '参数错误！';
+    }
+}
+// 参数错误！
+// 出错了
+// 一定会执行
+// 后续
+
+</script>
+</body>
+</html>

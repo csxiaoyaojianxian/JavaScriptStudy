@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+
+// 【 详情见图 pic03 】
+
+function jQuery() {
+
+}
+
+// 给传入的obj混入方法
+jQuery.extend = jQuery.prototype.extend = function( obj ) {
+    for ( var key in obj ) {
+        this[ key ] = obj[ key ];
+    }
+}
+
+// 添加静态方法
+jQuery.extend({
+    isFunction: function( fn ) {
+        return typeof fn === 'function';
+    }
+});
+
+// 添加实例方法
+jQuery.prototype.extend({
+    alert: function( msg ) {
+        alert( msg );
+    }
+});
+
+// 静态方法使用
+console.log(jQuery.isFunction([]));
+
+// 实例方法使用
+var $$ = new jQuery();
+$$.alert( '实例调用' );
+
+// 1. 构造函数不能使用自己原型中方法( Function例外 )
+jQuery.alert( '构造函数不能调用实例方法' );
+// 2. 实例不能直接使用构造函数身上的静态方法
+$$.isFunction('实例不能直接调用静态方法');
+
+</script>
+</body>
+</html>
