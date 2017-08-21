@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="jquery-2.2.0.js"></script>
+</head>
+<body>
+    <span>我是span</span>
+    <ul>
+        <li>11111</li>
+        <li>1222</li>
+        <li>133333</li>
+        <li>14444</li>
+    </ul>
+    <div></div>
+    <script>
+        /*
+        * appendTo:
+        * 传参方式有三种：
+        * 1、选择器
+        * 2、DOM
+        * 3、jQ对象
+        *
+        * 返回值：
+        * 统一为所有被添加的元素组成的新实例
+        * */
+
+        // 参数1，选择器
+        //$('span').appendTo( 'li' );
+        //console.log($('span').appendTo('li'));
+
+        // 参数2，DOM
+        /*var div = document.querySelector('div');
+        $('span').appendTo( div );
+        console.log($('span').appendTo(div));*/
+
+        // 参数3，jQ对象
+        // 返回值是被添加的所有元素共同组成的新实例
+        $('span').appendTo( $('li') );
+        //console.log($('span').appendTo($('li')));
+        //$('span').appendTo( $('li') ).attr( 'hei', 'ha' );
+    </script>
+</body>
+</html>

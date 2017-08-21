@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="jquery-2.2.0.js"></script>
+</head>
+<body>
+    <div>
+        <span>1111</span>
+        <span>2222</span>
+        <span>3333</span>
+        <span>4444</span>
+        <span>5555</span>
+    </div>
+    <script>
+        // 实现each方法
+        function each( obj, fn ) {
+
+            // 如果是数组或伪数组，按照顺序遍历
+            if ( 'length' in obj ) {
+
+                for ( var i = 0, len = obj.length; i < len; i++ ) {
+
+                    // 改变回调执行时内部的this为val，
+                    // 通过根据回调的返回值看看要不要中断遍历。
+                    if ( fn.call( obj[ i ], i, obj[ i ] ) === false ) {
+                        break;
+                    }
+                }
+
+            }else {
+
+                for ( var key in obj ) {
+
+                    // 改变回调执行时内部的this为val，
+                    // 通过根据回调的返回值看看要不要中断遍历。
+                    if ( fn.call( obj[ key ], key, obj[ key ] ) === false ) {
+                        break;
+                    }
+
+                }
+            }
+
+        }
+
+        var arr = [1,2,3];
+        each( arr, function( i, val ) {
+            console.log( i, val );
+        } );
+    </script>
+</body>
+</html>

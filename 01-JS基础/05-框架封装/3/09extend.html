@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <script>
+        /*
+        * extend
+        * */
+
+        function Person() {
+
+        }
+
+        // 这里是extend 即时静态方法，又是实例方法
+        Person.extend = Person.prototype.extend = function( obj ) {
+            for ( var key in obj ) {
+                this[ key ] = obj[ key ];
+            }
+        };
+
+        /*
+        * 预期，谁调用extend，就给谁混入内容；
+        * 那么这就和this相关了，内置的实现就要使用this。
+        * */
+
+        // 预期给Person自己添加静态成员
+        Person.extend({
+
+
+        });
+
+        // 预期给Person的实例自己添加实例成员
+        Person.prototype.extend({
+
+
+        });
+
+    </script>
+</body>
+</html>

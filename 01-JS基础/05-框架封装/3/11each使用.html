@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="jquery-2.2.0.js"></script>
+</head>
+<body>
+    <div>
+        <span>1111</span>
+        <span>2222</span>
+        <span>3333</span>
+        <span>4444</span>
+        <span>5555</span>
+    </div>
+    <script>
+        var str = '';
+
+        $('span').each( function() {
+            // 这里面的this指向遍历到的每一个span
+
+            // 如果遇到内容4444，那么就不加了
+            if ( this.innerHTML === '4444' ) {
+                return false;
+            }
+
+            str += this.innerHTML;
+        });
+
+        console.log( str );
+    </script>
+</body>
+</html>

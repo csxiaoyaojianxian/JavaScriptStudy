@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="core.js"></script>
+</head>
+<body>
+    <span>我是span
+        <a>我是a1</a>
+        <a>我是a2</a>
+    </span>
+    <ul>
+        <li>11111</li>
+        <li>1222</li>
+        <li>133333</li>
+        <li>14444</li>
+    </ul>
+    <div></div>
+    <script>
+        // 给jQ工厂传入一个jQ对象，会得到什么？
+        // 得到一个新的实例对象，可以认为是传入jQ对象的clone版本。
+        /*var $li = $('li');
+        var $$li = $( $li );
+        console.log($li === $$li);*/
+
+        // 给jQ工厂传入一个DOM对象，会得到什么？
+        // 得到一个新的实例，存储着这个DOM
+        /*var li = document.querySelector('li');
+        console.log($(li));*/
+
+        // 给jQ工厂传入一个选择器，会得到什么？
+        // 得到一个新的实例，存储着所有获取到的DOM元素
+        console.log($('li'));
+
+        /*
+        * 在appendTo方法中，先统一使用jQuery对传入的参数进行包装，
+        * 统一得到一个jQuery实例，然后统一处理。
+        * */
+    </script>
+</body>
+</html>

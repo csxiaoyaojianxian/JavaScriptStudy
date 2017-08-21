@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="jquery-2.2.0.js"></script>
+</head>
+<body>
+    <div>
+        <span>1111</span>
+        <span>2222</span>
+        <span>3333</span>
+        <span>4444</span>
+        <span>
+            <a>1</a>
+            <a>2</a>
+            <a>3</a>
+        </span>
+    </div>
+    <script>
+        /*
+        * DOM 操作:
+        * 1、empty ==> 清空所有元素的内容
+        * 2、remove ==> 删除所有的元素
+        * 3、html ==> 设置所有元素的内容，获取第一个元素的内容
+        * 4、text ==> 设置所有元素的文本内容，获取所有元素的文本内容
+        * */
+    </script>
+    <script>
+        // 清空所有元素的内容
+        function empty( likeArray ) {
+            /*
+            * 实现思路：
+            * 1、遍历likeArray（ 可以考虑使用for遍历，也可以考虑使用each遍历 ）
+            * 2、遍历到的每一个元素清除其内容（ 元素.innerHTML = '' ）
+            * */
+            for ( var i = 0, len = likeArray.length; i < len; i++ ) {
+                likeArray[ i ].innerHTML = '';
+            }
+        }
+
+        // 清空所有元素的内容
+        function _empty( likeArray ) {
+            /*
+             * 实现思路：
+             * 1、遍历likeArray（ 可以考虑使用for遍历，也可以考虑使用each遍历 ）
+             * 2、遍历到的每一个元素清除其内容（ 元素.innerHTML = '' ）
+             * */
+            [].forEach.call( likeArray, function( val, inex ) {
+                val.innerHTML = '';
+            } );
+        }
+
+        // 删除所有的元素
+        function remove( likeArray ) {
+            /*
+             * 实现思路：
+             * 1、遍历likeArray（ 可以考虑使用for遍历，也可以考虑使用each遍历 ）
+             * 2、遍历到的每一个元素要删除掉
+             * （ 通过parentNode获取该元素的父元素，然后父元素.removeChild( 被删除元素 ) ）
+             * */
+            for( var i = 0, len = likeArray.length; i < len; i++ ) {
+                likeArray[ i ].parentNode.removeChild( likeArray[ i ] );
+            }
+        }
+
+        // 删除所有的元素
+        function _remove( likeArray ) {
+            /*
+             * 实现思路：
+             * 1、遍历likeArray（ 可以考虑使用for遍历，也可以考虑使用each遍历 ）
+             * 2、遍历到的每一个元素要删除掉
+             * （ 通过parentNode获取该元素的父元素，然后父元素.removeChild( 被删除元素 ) ）
+             * */
+            [].forEach.call( likeArray, function( val, index ) {
+                val.parentNode.removeChild( val );
+            } );
+        }
+
+
+        // 设置所有元素的内容，获取第一个元素的内容
+        function html( likeArray, html ) {
+            /*
+            * 实现思路：
+            * 1、先通过arguments.length判断有没有传参
+            * 2、没有传，则获取第一个元素，然后返回这个元素的innnerTHML内容
+            * 3、如果传了，则遍历likeArray（ 可以考虑使用for遍历，也可以考虑使用each遍历 ）
+            * 4、再设置每一个元素的innerTHML为传入的参数。
+            * */
+
+            // 如果只传入的要操作的元素，那么就直接返回第一个元素的innerHTML
+            if ( arguments.length === 1 ) {
+                return likeArray[ 0 ].innerHTML;
+            }
+
+            // 如果参数个数大于2，那么遍历所以元素，分别设置其innerTHML值为传入的html
+            else if( arguments.length >= 2 ) {
+
+                for ( var i = 0, len = likeArray.length; i < len; i++ ) {
+                    likeArray[ i ].innerHTML = html;
+                }
+            }
+        }
+
+        // 设置所有元素的文本内容，获取所有元素的文本内容
+        function text( likeArray, text ) {
+            /*
+            * 实现思路：
+            * 1、先通过arguments.length判断有没有传参
+            * 2、没有传，则遍历likeArray（ 可以考虑使用for遍历，也可以考虑使用each遍历 ）
+            * 3、把每一个元素的innerText加在一起返回
+            * 4、则遍历likeArray（ 可以考虑使用for遍历，也可以考虑使用each遍历 ）
+            * 5、再设置每一个元素的innerText为传入的参数。
+            * */
+
+            var result = '';
+
+            // 传入一个参数，获取所有元素的所有文本
+            if ( arguments.length === 1 ) {
+
+                for ( var i = 0, len = likeArray.length; i < len; i++ ) {
+                    result += likeArray[ i ].innerText;
+                }
+
+            }
+
+            // 传入2个以上参数，那么设置所有元素的文本
+            else if ( arguments.length >= 2 ) {
+
+                for ( var i = 0, len = likeArray.length; i < len; i++ ) {
+                    likeArray[ i ].innerText = text;
+                }
+
+            }
+
+            return result;
+        }
+    </script>
+    <script>
+        var span = document.querySelectorAll( 'span' );
+        //_empty( span );
+
+        //_remove( span );
+
+        /*console.log (html( span ) );
+        console.log( html(span, 'hahaha') );*/
+
+        console.log(text(span));
+        console.log(text(span, '<a>我不会被解析!</a>'));
+    </script>
+</body>
+</html>

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="jquery-2.2.0.js"></script>
+</head>
+<body>
+    <div>
+        <span>1111</span>
+        <span>2222</span>
+        <span>3333</span>
+        <span>4444</span>
+        <span>5555</span>
+    </div>
+    <script>
+        /*
+        * slice为什么单独做了处理：
+        * slice的返回值是一个数组，jQ预期我们需要继续对这个数组进行进一步操作，
+        * 所以把这个数组又包装成新的实例对象了（这样可以调用Jq提供的那些方法）。
+        * 1、因为JQ处理了
+        * 2、处理的好处是可以链式编程
+        * */
+
+        $('span').slice(0, 2).css({
+            backgroundColor: 'blue',
+            display: 'block',
+            width: '50px',
+            height: '10px'
+        });
+
+        /*
+        * push没有做处理：
+        * push的返回值是一个新的长度，jQ可能为了不增加我们的负担，
+        * 所以沿用了push的返回值。
+        * 1、因为JQ没有处理
+        * */
+
+        console.log( 'push之后新的长度为:' + $('span').push(document.body) );
+
+        /*
+         * sort没有做处理：
+         * sort谁调用返回谁，如果是实例调用，那么返回的还是这个实例，
+         * 本身就不用做额外的处理，所以沿用了sort的返回值。
+         * 1、因为JQ没有处理
+         * */
+
+        console.log($('span').sort());
+
+        // sort返回值是一个实例，不用做额外处理
+        $('span').sort().attr( 'sort', 'OK' );
+
+        /*
+         * splice没有做处理：
+         * splice的返回值是被删除掉的元素，可能JQ认为这个被删除的元素，
+         * 已经没有价值了，包装也没啥用，所以沿用了splice的返回值。
+         * 1、因为JQ没有处理
+         * */
+
+        console.log($('span').splice( 0, 3 ));
+    </script>
+</body>
+</html>

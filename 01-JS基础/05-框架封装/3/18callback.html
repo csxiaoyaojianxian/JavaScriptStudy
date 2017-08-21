@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="jquery-2.2.0.js"></script>
+</head>
+<body>
+    <div>
+        <a>aaaa1111</a>
+        <a>aaaa2222</a>
+    </div>
+    <script>
+        function fn( f ) {
+            console.log( '调用f：' + f() );
+        }
+
+        fn( function() {
+            return 10;
+        } );
+    </script>
+</body>
+</html>

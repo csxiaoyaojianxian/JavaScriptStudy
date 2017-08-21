@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <div>
+        <a>aaaa1111</a>
+        <a>aaaa2222</a>
+    </div>
+    <script>
+        // 删除第二个a元素
+        /*
+        * 1、要获取第二个a元素
+        * 2、获取其父节点（ 元素.parentNode来获取 ）
+        * 3、利用父节点删除a节点（ 父元素.removeChild( a ) ）
+        * */
+
+        var a = document.querySelectorAll('a')[1];
+        var parentNode = a.parentNode;
+        parentNode.removeChild( a );
+    </script>
+</body>
+</html>

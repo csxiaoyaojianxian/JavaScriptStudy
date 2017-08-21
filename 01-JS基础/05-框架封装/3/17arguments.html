@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="jquery-2.2.0.js"></script>
+</head>
+<body>
+    <div>
+        <a>aaaa1111</a>
+        <a>aaaa2222</a>
+    </div>
+    <script>
+        /*
+        * arguments：
+        * 这是函数内的一个关键字，和this一样，
+        * arguments这个关键字存储的是一个代表实参的对象，
+        * 该对象以下标的方式存储了所有传进来的实参，
+        * 通过有一个length属性代表所有实参的数量。
+        * */
+
+        // 计算任意数量数的合
+        function add() {
+            var result = 0;
+            for ( var i = 0, len = arguments.length; i < len; i++ ) {
+                // 求所有实参的合
+                result += arguments[ i ];
+            }
+            console.log( result );
+        }
+
+        add(1, 10, 11, 212);
+
+
+        // 求任意数量数的最大值
+        function max() {
+            console.log(Math.max.apply(null, arguments));
+        }
+
+        max( 1, 2, 21, 85, 99, 323 );
+    </script>
+</body>
+</html>

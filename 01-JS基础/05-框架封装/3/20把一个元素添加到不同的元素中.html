@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <span>我是span
+        <a>我是a1</a>
+        <a>我是a2</a>
+    </span>
+    <ul>
+        <li>11111</li>
+        <li>1222</li>
+        <li>133333</li>
+        <li>14444</li>
+    </ul>
+    <div></div>
+    <script>
+        var span = document.querySelector('span');
+        var lis = document.querySelectorAll('li');
+
+        /*
+        * 遍历所有的li，
+        * 然后分别appendChild( span ),
+        * 但是需要注意，只有第一次添加的span是本体，
+        * 剩余添加的都是span的clone版本。( span.cloneNode( true ) )
+        * */
+
+        // 遍历所有li
+        for ( var i = 0, len = lis.length; i < len; i++ ) {
+
+            // 第一次给第一个li添加本体
+            if ( i === 0 ) {
+                lis[ i ].appendChild( span );
+            }
+            // 以后添加的都是span的clone版本
+            else {
+                lis[ i ].appendChild( span.cloneNode(true) );
+            }
+        }
+    </script>
+</body>
+</html>

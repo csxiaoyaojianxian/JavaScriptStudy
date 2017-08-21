@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="core.js"></script>
+</head>
+<body>
+    <div>
+        <span>1111</span>
+        <span>2222</span>
+        <span>3333</span>
+        <span>4444</span>
+        <span>
+            <a>1</a>
+            <a>2</a>
+            <a>3</a>
+        </span>
+    </div>
+    <script>
+        // 给原型扩展DOM操作方法，这样jQ实例就可以使用了
+        $.fn.extend( {
+
+            // 清空所有元素的内容
+            empty: function() {
+                /*
+                 * 实现思路：
+                 * 1、遍历likeArray（ 可以考虑使用for遍历，也可以考虑使用each遍历 ）
+                 * 2、遍历到的每一个元素清除其内容（ 元素.innerHTML = '' ）
+                 * */
+                for ( var i = 0, len = this.length; i < len; i++ ) {
+                    this[ i ].innerHTML = '';
+                }
+
+                // 为了链式编程
+                return this;
+            },
+
+            // 清空所有元素的内容
+            _empty: function() {
+                /*
+                 * 实现思路：
+                 * 1、遍历likeArray（ 可以考虑使用for遍历，也可以考虑使用each遍历 ）
+                 * 2、遍历到的每一个元素清除其内容（ 元素.innerHTML = '' ）
+                 * */
+                this.each( function() {
+                    // 这里面的this指向遍历到的每一个元素
+                    this.innerHTML = '';
+                } );
+
+                // 为了链式编程
+                return this;
+            },
+
+            // 删除所有的元素
+            remove: function() {
+                /*
+                 * 实现思路：
+                 * 1、遍历likeArray（ 可以考虑使用for遍历，也可以考虑使用each遍历 ）
+                 * 2、遍历到的每一个元素要删除掉
+                 * （ 通过parentNode获取该元素的父元素，然后父元素.removeChild( 被删除元素 ) ）
+                 * */
+                for( var i = 0, len = this.length; i < len; i++ ) {
+                    this[ i ].parentNode.removeChild( this[ i ] );
+                }
+
+                // 为了链式编程
+                return this;
+            },
+
+            // 删除所有的元素
+            _remove: function() {
+                /*
+                 * 实现思路：
+                 * 1、遍历likeArray（ 可以考虑使用for遍历，也可以考虑使用each遍历 ）
+                 * 2、遍历到的每一个元素要删除掉
+                 * （ 通过parentNode获取该元素的父元素，然后父元素.removeChild( 被删除元素 ) ）
+                 * */
+                this.each( function() {
+                    // 这里面的this指向遍历到的每一个元素
+                    this.parentNode.removeChild( this );
+                });
+
+                // 为了链式编程
+                return this;
+            },
+
+
+            // 设置所有元素的内容，获取第一个元素的内容
+            html: function( html ) {
+                /*
+                 * 实现思路：
+                 * 1、先通过arguments.length判断有没有传参
+                 * 2、没有传，则获取第一个元素，然后返回这个元素的innnerTHML内容
+                 * 3、如果传了，则遍历likeArray（ 可以考虑使用for遍历，也可以考虑使用each遍历 ）
+                 * 4、再设置每一个元素的innerTHML为传入的参数。
+                 * */
+
+                // 如果没有传参，那么就直接返回第一个元素的innerHTML
+                if ( arguments.length === 0 ) {
+                    return this[ 0 ].innerHTML;
+                }
+
+                // 如果传参了，那么遍历所以元素，分别设置其innerTHML值为传入的html
+                else if( arguments.length >= 1 ) {
+
+                    for ( var i = 0, len = this.length; i < len; i++ ) {
+                        this[ i ].innerHTML = html;
+                    }
+
+                }
+
+                // 为了链式编程
+                return this;
+            },
+
+            // 设置所有元素的内容，获取第一个元素的内容
+            _html: function( html ) {
+                /*
+                 * 实现思路：
+                 * 1、先通过arguments.length判断有没有传参
+                 * 2、没有传，则获取第一个元素，然后返回这个元素的innnerTHML内容
+                 * 3、如果传了，则遍历likeArray（ 可以考虑使用for遍历，也可以考虑使用each遍历 ）
+                 * 4、再设置每一个元素的innerTHML为传入的参数。
+                 * */
+
+                // 如果没有传参，那么就直接返回第一个元素的innerHTML
+                if ( arguments.length === 0 ) {
+                    return this.get(0).innerHTML;
+                }
+
+                // 如果传参了，那么遍历所以元素，分别设置其innerTHML值为传入的html
+                else {
+                    this.each( function() {
+                        // 这里面的this指向遍历到的每一个元素
+                        this.innerHTML = html;
+                    });
+                }
+
+                // 为了链式编程
+                return this;
+            },
+
+            // 设置所有元素的文本内容，获取所有元素的文本内容
+            text: function( text ) {
+                /*
+                 * 实现思路：
+                 * 1、先通过arguments.length判断有没有传参
+                 * 2、没有传，则遍历likeArray（ 可以考虑使用for遍历，也可以考虑使用each遍历 ）
+                 * 3、把每一个元素的innerText加在一起返回
+                 * 4、则遍历likeArray（ 可以考虑使用for遍历，也可以考虑使用each遍历 ）
+                 * 5、再设置每一个元素的innerText为传入的参数。
+                 * */
+
+                var result = '';
+
+                // 没有传参，获取所有元素的所有文本，然后返回
+                if ( arguments.length === 0 ) {
+
+                    for ( var i = 0, len = this.length; i < len; i++ ) {
+                        result += this[ i ].innerText;
+                    }
+
+                    return result;
+                }
+
+                // 如果传参数了，那么设置所有元素的文本
+                else {
+                    for ( var i = 0, len = this.length; i < len; i++ ) {
+                        this[ i ].innerText = text;
+                    }
+                }
+
+                // 为了链式编程
+                return this;
+            },
+
+            // 设置所有元素的文本内容，获取所有元素的文本内容
+            _text: function( text ) {
+                /*
+                 * 实现思路：
+                 * 1、先通过arguments.length判断有没有传参
+                 * 2、没有传，则遍历likeArray（ 可以考虑使用for遍历，也可以考虑使用each遍历 ）
+                 * 3、把每一个元素的innerText加在一起返回
+                 * 4、则遍历likeArray（ 可以考虑使用for遍历，也可以考虑使用each遍历 ）
+                 * 5、再设置每一个元素的innerText为传入的参数。
+                 * */
+
+                var result = '';
+
+                // 没有传参，获取所有元素的所有文本，然后返回
+                if ( arguments.length === 0 ) {
+
+                    this.each( function() {
+                        result += this.innerText;
+                    });
+
+                    return result;
+                }
+
+                // 如果传参数了，那么设置所有元素的文本
+                else {
+                    this.each( function() {
+                        this.innerText = text;
+                    });
+                }
+
+                // 为了链式编程
+                return this;
+            }
+        } );
+    </script>
+    <script>
+        // 清空所有元素的内容，返回值为实例
+        console.log($('span').empty());
+        $('span').empty().each(function( i ) {
+            if ( i % 2 === 0 ) {
+                this.innerHTML = '我是偶数个span';
+            }
+        });
+
+        // 删除所有的元素，返回值为实例
+        //console.log($('span').remove());
+        //document.body.appendChild( $('span').remove().get(2) );
+
+        // 获取第一个元素的内容，返回结果为第一个元素的内容
+        //console.log($('span').html());
+
+        // 设置所有元素的内容，返回值为实例
+        /*console.log($('span').html('统一设置新的内容<a>我是a标签</a>'));
+        console.log($('span').html('统一设置新的内容<a>我是a标签</a>').map(function () {
+            return 10;
+        }));*/
+
+        // 获取所有元素的文本
+        //console.log($('span').text());
+
+        // 设置所有元素的文本，返回值为实例
+        /*console.log($('span').text('统一设置新的内容<a>我是a标签</a>'));
+        console.log($('span').text('统一设置新的内容<a>我是a标签</a>').toArray());*/
+    </script>
+</body>
+</html>

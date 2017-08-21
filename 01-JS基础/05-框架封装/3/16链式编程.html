@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="jquery-2.2.0.js"></script>
+</head>
+<body>
+    <div>
+        <a>aaaa1111</a>
+        <a>aaaa2222</a>
+    </div>
+    <script>
+
+        // 对于html和text方法，
+        // 如果是获取操作，那么得到的是获取的值，
+        // 如果是设置操作，那么得到的是实例，可以继续链式编程。
+
+        // 对于empty和remove方法，
+        // 只是操作元素自己，并没有涉及到获取其他内容，
+        // 所以可以返回实例，继续链式编程。
+
+        console.log($('a').text('新值').last().html());
+    </script>
+</body>
+</html>
