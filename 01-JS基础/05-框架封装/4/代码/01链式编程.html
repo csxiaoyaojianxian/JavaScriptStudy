@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <script>
+        /*
+        * 链式编程：
+        * 调用一个方法，该方法返回一个对象，可以继续调用该对象的方法，
+        * 调用该对象的方法，可能仍然返回另一个对象，也可能原来的对象，
+        * 那么就可以再继续调用返回对象的方法，这样一直下去，直到方法没有返回对象为止。
+        * */
+
+        var o1 = {
+            o1Fn: function() {
+                console.log('我是o1');
+                return o2;
+            }
+        };
+
+        var o2 = {
+            o2Fn: function() {
+                console.log('我是o2');
+                return o2;
+            }
+        };
+
+        o1.o1Fn().o2Fn().o2Fn().o2Fn();
+    </script>
+</body>
+</html>

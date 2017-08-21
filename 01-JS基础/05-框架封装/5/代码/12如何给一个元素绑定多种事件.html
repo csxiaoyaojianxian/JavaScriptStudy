@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div>
+    <span>123</span>
+    <span>321</span>
+</div>
+<script>
+    var span = document.querySelector('span');
+
+    // 兼容绑定事件
+    function addEvent( ele, type, fn ) {
+        if( ele.addEventListener ) {
+            ele.addEventListener( type, fn);
+        }else {
+            ele.attachEvent( 'on' + type, fn );
+        }
+    }
+
+    /*---------------------------------------------------------------------*/
+
+    /*
+    * 如何给一个元素绑定多种事件：
+    * 1、只需多一个存储该事件的数组，
+    * 2、再绑定一个该事件的回调，在回调中执行事件数组中的每一个回调即可。
+    * */
+
+    // 存储所有点击事件回调的数组
+    span.clickCache = [
+        function( e ) {
+            //console.log(this);
+            console.log(e);
+        },
+        function( e ) {
+            //console.log(this);
+            console.log(e);
+        }
+    ];
+
+    addEvent( span, 'click', function( e ) {
+        // 只绑定一个事件回调，这个回调按照顺序调用存储在span身上的所有点击事件回调
+        for( var i = 0, len = span.clickCache.length; i < len; i++ ) {
+
+            // 解决回调函数内部的this为 绑定的DOM对象( 对方可能会使用 )
+            // 传入e，是为了让回调函数能够获取到事件对象( 对方可能会使用 )
+            span.clickCache[ i ].call( span, e );
+        }
+    } );
+
+    // 存储所有鼠标移除事件回调的数组
+    span.mouseoutCache = [
+        function( e ) {
+            console.log('鼠标移除1');
+        },
+        function( e ) {
+            console.log('鼠标移除2');
+        }
+    ];
+
+    // 绑定鼠标移除事件
+    addEvent( span, 'mouseout', function( e ) {
+        for( var i = 0, len = span.mouseoutCache.length; i < len; i++ ) {
+            span.mouseoutCache[ i ].call( span, e );
+        }
+    } );
+
+    // 该事件如果绑定多次，会重复执行事件数组中的回调，所以需要注意。
+    addEvent( span, 'mouseout', function( e ) {
+        for( var i = 0, len = span.mouseoutCache.length; i < len; i++ ) {
+            span.mouseoutCache[ i ].call( span, e );
+        }
+    } );
+
+</script>

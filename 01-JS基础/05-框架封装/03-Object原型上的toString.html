@@ -9,7 +9,7 @@
         /*
         * Object.prototype.toString
         * 作用：根据内部的this返回一个类似于这样的字符串'[object constructorName]'
-        * 这个方法有个缺点，不能获取用户自定义对象的具体类型，只能获取内置对象的类型。
+        * 这个方法有个缺点，不能获取用户自定义对象的具体类型，只能获取内置对象的类型
         * */
 
         // 测试
@@ -29,6 +29,38 @@
         function Person(){}
         var xiaofang = new Person();
         console.log(({}).toString.call( xiaofang ));
+
+
+
+
+        // 字符串 ==> String.prototype.toString
+        var a="ddd";
+        console.log(a.toString());
+        var e= new String();
+        console.log(e.toString());
+        var e= new String('string');
+        console.log(e.toString());
+
+        // 数组 ==> Array.prototype.toString
+        var b=[1,2,3,4,5,6];
+        console.log(b.toString());
+        var b=[];
+        console.log(b.toString());
+        var d=new Array();
+        console.log(d.toString());
+
+        // 对象  ==> Object.prototype.toString
+        var c={};
+        console.log(c.toString());
+
+        // 函数 ==> Function.prototype.toString
+        console.log(Function.toString());
+        console.log(Array.toString());
+        console.log(RegExp.toString());
+        function fn() {
+            console.log('我写的');
+        }
+        console.log(fn.toString());
 
     </script>
 </body>

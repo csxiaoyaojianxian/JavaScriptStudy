@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="jquery-2.2.0.js"></script>
+</head>
+<body>
+    <script>
+        $.ajax({
+            url: './test/test.json',
+            data: {
+                name: '张三',
+                age: 18
+            },
+            complete: function() {
+                console.log( '请求完成了' );
+            },
+            success: function( data ) {
+                console.log( data );
+                console.log( typeof data );
+            },
+            error: function() {
+                console.log( '发生错误了' );
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="jquery-2.2.0.js"></script>
+</head>
+<body>
+    <a a="aaa" index="0">aaaa1111</a>
+    <a>aaaa2222</a>
+    <div index="0">
+        <span>span1</span>
+    </div>
+    <div index="1">
+        <span>span1</span>
+        <span>span2</span>
+    </div>
+    <script>
+        var divs = $('div').toArray();
+
+        // 给DOM对象设置的属性节点值，如果为对象，那么会转换为字符串在赋值
+        // 而{}转换为了[object Object]
+        divs[0].setAttribute( 'o', { val: 1 } );
+
+        // 而new String('abc')转换为了'abc'
+        divs[1].setAttribute( 'o', new String('abc' )  );
+
+        /*-----------------------------------------------------------*/
+
+        // 预期给第一个div设置一个o属性节点为一个对象，发现不行
+        divs[0].setAttribute( 'o', getStr.call( { val: 1 } ) );
+
+        // 预期给第二个div设置一个o属性节点为一个字符串，发现可以
+        divs[1].setAttribute( 'o', getStr.call( 'abc' )  );
+
+        function getStr() {
+            return this;
+        }
+    </script>
+</body>
+</html>

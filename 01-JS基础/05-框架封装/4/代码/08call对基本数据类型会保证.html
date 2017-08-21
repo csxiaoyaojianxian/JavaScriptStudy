@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="jquery-2.2.0.js"></script>
+</head>
+<body>
+    <a a="aaa" index="0">aaaa1111</a>
+    <a>aaaa2222</a>
+    <div index="0">
+        <span>span1</span>
+    </div>
+    <div index="1">
+        <span>span1</span>
+        <span>span2</span>
+    </div>
+    <script>
+        function fn() {
+            console.log( this );
+        }
+
+        // fn里面的this，是包装过的对象
+        fn.call( 1 );
+        fn.call( 'abc' );
+    </script>
+</body>
+</html>

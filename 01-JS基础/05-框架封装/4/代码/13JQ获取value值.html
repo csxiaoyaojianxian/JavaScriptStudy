@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="jquery-2.2.0.js"></script>
+</head>
+<body>
+    <a a="aaa" index="0">aaaa1111</a>
+    <a>aaaa2222</a>
+    <input type="text" value="默认值"/>
+    <div index="0">
+        <span>span1</span>
+    </div>
+    <div index="1">
+        <span>span1</span>
+        <span>span2</span>
+    </div>
+    <script>
+        // 不传获取value值
+        console.log($('input').val());
+
+        // 传参设置value值
+        $('input').val( '新设置的' );
+
+        // 设置的话，返回this
+        console.log($('input').val('新设置的'));
+    </script>
+</body>
+</html>

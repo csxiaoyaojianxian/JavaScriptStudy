@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="jquery-2.2.0.js"></script>
+    <style>
+        .aaa{
+            height: 30px;
+            background-color: #d43f3a;
+        }
+        .ccc{
+            border:5px solid blue;
+        }
+    </style>
+</head>
+<body>
+    <a a="aaa" index="0">aaaa1111</a>
+    <a>aaaa2222</a>
+    <input type="text" value="默认值"/>
+    <div class="aaa" index="0">
+        <span>span1</span>
+    </div>
+    <div index="1">
+        <span>span1</span>
+        <span>span2</span>
+    </div>
+    <script>
+        /*---------------------------hasClass-------------------------------*/
+
+        // 只要有一个有，那么就返回true
+        console.log($('div').hasClass('aaa'));
+
+        // 都没有false
+        console.log($('span').hasClass('aaa'));
+
+        /*---------------------------addClass-------------------------------*/
+
+        // 给所有元素添加指定的class，有则忽略
+        //$('div').addClass( 'aaa' );
+
+        // 通过空白区分不同的class进行批量添加
+        //$('div').addClass( 'aaa bbb ccc' );
+
+        /*---------------------------removeClass-------------------------------*/
+
+        // 不传参，把所有元素的class清空
+        //$('div').removeClass( );
+
+        // 传参指定删除
+        //$('div').removeClass( 'aaa' );
+
+        /*---------------------------toggleClass-------------------------------*/
+
+        // 有则删除，没有则添加
+        $('div').toggleClass( 'aaa' );
+    </script>
+</body>
+</html>

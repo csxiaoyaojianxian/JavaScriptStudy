@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="./历史版本/core.js"></script>
+</head>
+<body>
+    <div>
+        <span>1</span>
+        <span>2</span>
+        <span>3</span>
+        <span>4</span>
+    </div>
+    <script>
+        /*
+        * 为什么实例.each遍历到的this是原生DOM?
+        * */
+        var $span = $('span');
+        var $span2 = $( $span );
+
+        $span2.each(function() {
+            // 我们的实例没有nodeType属性，原生的有
+            console.log( this.nodeType );
+            console.log( this.nodeName );
+        });
+    </script>
+</body>
+</html>

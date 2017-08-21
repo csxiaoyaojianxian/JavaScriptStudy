@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div>
+    <span>123</span>
+    <span>321</span>
+</div>
+<script>
+    var span = document.querySelector('span');
+
+    // 兼容绑定事件
+    function addEvent( ele, type, fn ) {
+        if( ele.addEventListener ) {
+            ele.addEventListener( type, fn);
+        }else {
+            ele.attachEvent( 'on' + type, fn );
+        }
+    }
+
+    /*
+    * 解决IE8执行顺序的问题：
+    * 1、只绑定一个事件回调，这个事件回调内部遍历调用那些真正的事件回调，
+    * 2、因为是按照顺序遍历的，所以执行顺序从不可控变为了可控。
+    * */
+
+    span.clickCache = [
+        function() {
+            console.log('1');
+        },
+        function() {
+            console.log('2');
+        },
+        function() {
+            console.log('3');
+        },
+        function() {
+            console.log('4');
+        }
+    ];
+
+    addEvent( span, 'click', function() {
+        for( var i = 0, len = span.clickCache.length; i < len; i++ ) {
+            span.clickCache[ i ]();
+        }
+    } );
+</script>

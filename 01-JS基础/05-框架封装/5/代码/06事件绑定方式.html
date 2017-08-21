@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div>
+    <span>123</span>
+</div>
+<script>
+    /*
+    * 事件绑定的方式：
+    * 1、DOM.on事件名 = function(){} ==> 无兼容性
+    * 2、DOM.addEventListner( 事件名, function(){} ) ==> IE8不支持
+    * IE8: DOM.attachEvent( on事件名, function(){} )
+    * */
+    var span = document.querySelector('span');
+
+    /*// 标准方式
+    span.addEventListener( 'click', function() {
+        alert('点击span');
+    });
+
+    // IE8方式
+    span.attachEvent( 'onclick', function() {
+        alert('点击span');
+    } );*/
+
+    // 兼容绑定事件
+    function addEvent( ele, type, fn ) {
+        if( ele.addEventListener ) {
+            ele.addEventListener( type, fn);
+        }else {
+            ele.attachEvent( 'on' + type, fn );
+        }
+    }
+
+    addEvent( span, 'click', function() {
+        alert('点击span');
+    } );
+
+</script>

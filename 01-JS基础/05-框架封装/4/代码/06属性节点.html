@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="jquery-2.2.0.js"></script>
+</head>
+<body>
+    <a a="aaa" index="0">aaaa1111</a>
+    <a>aaaa2222</a>
+    <div>
+        <span>span1</span>
+    </div>
+    <div>
+        <span>span1</span>
+        <span>span2</span>
+    </div>
+    <script>
+        /*
+        * 属性节点：
+        * 1、在html中编写的所有标签，里面的属性都是属性节点。
+        * 2、所有的DOM，都有一个attributes属性，
+        * 这个属性里面按照下标的方式存储了该DOM所有的属性节点。
+        * */
+
+        /*
+        * 属性：
+        * 1、属性就是对象身上的变量。
+        * 2、属性可以通过点的方式添加和获取(当然了，如果是数字或者变量，得使用中括号[])
+        * */
+
+        /*
+         * 属性节点和属性的区别：
+         * 1.属性节点只属于DOM对象，属性可以属于任意的对象。
+         * 2.属性节点有DOM对象的那些特点，比如有nodeType，nodeName；
+         * 而属性存储的东西没有共性。
+         * */
+
+        /*
+        * 如何获取属性节点值：
+        * 1、通过DOM的attributes属性得到所有的属性节点对象，
+        * 然后按照下标取出每一个属性节点对象，再通过nodeValue属性得到这个属性节点值
+        * 2、通过DOM的getAttribute( 属性节点名 )
+        *
+        * 如何设置属性节点值：
+        * 1、通过DOM的attributes属性得到所有的属性节点对象，
+        * 然后按照下标取出每一个属性节点对象，再通过nodeValue属性来设置
+        * 2、通过DOM的setAttribute( value值 )
+        *
+        * 如何获取设置属性值：
+        * 1、直接点或者[]获取和设置。
+        * */
+    </script>
+</body>
+</html>
