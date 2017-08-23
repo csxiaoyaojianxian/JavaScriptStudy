@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="core.js"></script>
+</head>
+<body>
+<input type="text" value="默认值" />
+<div>
+<span>1111</span>
+<span>2222</span>
+<span>3333</span>
+<span>4444</span>
+<span>
+    <a>1</a>
+    <a>2</a>
+    <a>3</a>
+</span>
+</div>
+<script>
+// val 获取或者设置元素的value属性值
+// 不传获取value值
+console.log($('input').val());
+// 传参设置value值，设置的话，返回this
+console.log($('input').val('新设置的'));
+
+var input = document.querySelector('input');
+// getAttribute获取的是默认的value值
+console.log(input.getAttribute('value'));
+// 要获取最新的value值，必须通过.或者[]的方式获取
+console.log(input.value);
+
+        
+// 给原型扩展属性和样式操作方法，这样jQ实例就可以使用了
+$.fn.extend( {
+
+    // 设置或者获取元素的value属性值
+    val: function( value ) {
+        /*
+        * 实现思路：
+        * 1、如果arguments.length === 0,则直接返回第一个元素的value属性值
+        * 2、否则，遍历所有的元素，分别设置对应的value属性值
+        * 3、链式编程返回this
+        * */
+
+        // 没有传参，返回第一个元素的value属性值
+        if( arguments.length === 0 ) {
+            return this[ 0 ].value;
+        }
+
+        // 否则给所有元素分别设置value值
+        else {
+            for( var i = 0, len = this.length; i < len; i++ ) {
+                this[ i ].value = value;
+            }
+        }
+
+        // 链式编程
+        return this;
+    },
+
+    // 设置或者获取元素的value属性值
+    _val: function( value ) {
+
+        /*
+         * 实现思路：
+         * 1、如果arguments.length === 0,则直接返回第一个元素的value属性值
+         * 2、否则，遍历所有的元素，分别设置对应的value属性值
+         * 3、链式编程返回this
+         * */
+
+        // 没有传参，返回第一个元素的value属性值
+        if( arguments.length === 0 ) {
+            return this[ 0 ].value;
+        }
+
+        // 否则给所有元素分别设置value值
+        else {
+            this.each( function() {
+                this.value = value;
+            });
+        }
+
+        // 链式编程
+        return this;
+    },
+
+    // 设置或者获取元素的value属性值
+    __val: function( value ) {
+
+        // 没有传参，借用prop获取第一个元素的value属性值
+        if( arguments.length === 0 ) {
+            return this.prop( 'value' );
+        }
+        // 传参了，借用prop给所有元素设置新的value属性值
+        else {
+            return this.prop( 'value', value );
+        }
+    }
+} );
+</script>
+<script>
+console.log($('input').__val());
+console.log($('input').__val( '新设置的' ));
+</script>
+</body>
+</html>

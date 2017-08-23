@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="core.js"></script>
+</head>
+<body>
+<div>
+    <span>1111</span>
+    <span>2222</span>
+    <span>3333</span>
+    <span>4444</span>
+    <span>
+        <a>1</a>
+        <a>2</a>
+        <a>3</a>
+    </span>
+</div>
+<script>
+
+// css 设置或者获取元素的样式
+
+var div = document.querySelector('div');
+// 设置样式
+div.style.height = '50px';
+div.style.backgroundColor = 'blue';
+// 获取样式(IE8不兼容)
+console.log(getComputedStyle(div).height);
+console.log(getComputedStyle(div).backgroundColor);
+// IE8获取样式
+console.log(div.currentStyle.height);
+console.log(div.currentStyle.backgroundColor);
+
+
+// 测试批量操作
+$('div').css({
+    marginTop: '5px',
+    height: '20px',
+    backgroundColor: 'pink'
+});
+// 获取第一个元素指定的样式
+console.log($('div').css('height'));
+// 给所有元素设置指定的样式，测试返回值
+console.log($('div').css('height', '100px'));
+
+
+// 添加静态方法
+$.extend({
+
+    // 获取样式，已经处理了兼容性
+    getStyle: function( dom, style ) {
+
+        // 优先判断支不支持现代样式的获取方式
+        if( window.getComputedStyle ) {
+            return window.getComputedStyle( dom )[ style ];
+        }
+
+        // IE8兼容处理
+        else {
+            return dom.currentStyle[ style ];
+        }
+    }
+});
+
+
+// 给原型扩展属性和样式操作方法，这样jQ实例就可以使用了
+$.fn.extend( {
+
+    // 设置或者获取样式
+    css: function( styleName, style ) {
+        /*
+        * 实现思路：
+        * 1、如果arguments.length为1
+        * 2、那么判断styleName是不是字符串，是则获取第一个元素指定的样式
+        * 3、判断styleName是不是对象。是则遍历这个对象得到所有的样式分别设置给所有的元素
+        * 4、如果arguments.length>=2,遍历所有元素分别设置指定的样式
+        * 5、链式编程返回this
+        * */
+        if( arguments.length === 1 ) {
+
+            if( jQuery.isString( styleName ) ) {
+                return jQuery.getStyle( this[ 0 ], styleName );
+            }
+
+            else if( jQuery.isObject( styleName ) ) {
+
+                // 遍历styleName得到所有的样式
+                for( var key in styleName ) {
+
+                    // 遍历得到所有的元素
+                    for( var i = 0, len = this.length; i < len; i++ ) {
+
+                        // 给所有的元素设置遍历到的所有样式
+                        this[ i ][ 'style' ][ key ] = styleName[ key ];
+
+                    }
+
+                }
+
+            }
+
+        }
+
+        else if( arguments.length >= 2 ) {
+
+            // 给所有元素设置指定的样式
+            for( var i = 0, len = this.length; i < len; i++ ) {
+                this[ i ][ 'style' ][ styleName ] = style;
+            }
+        }
+
+        // 链式编程
+        return this;
+    },
+
+    _css: function() {
+
+    }
+} );
+</script>
+
+</body>
+</html>

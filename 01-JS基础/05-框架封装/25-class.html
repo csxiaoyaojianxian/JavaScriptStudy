@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="jquery-2.2.0.js"></script>
+    <style>
+        .aaa{
+            height: 30px;
+            background-color: #d43f3a;
+        }
+        .ccc{
+            border:5px solid blue;
+        }
+    </style>
+</head>
+<body>
+<a a="aaa" index="0">aaaa1111</a>
+<a>aaaa2222</a>
+<input type="text" value="默认值"/>
+<div class="aaa" index="0">
+    <span>span1</span>
+</div>
+<div index="1">
+    <span>span1</span>
+    <span>span2</span>
+</div>
+<script>
+// * 1、addClass 给所有元素添加新的class
+// * 2、removeClass 删除所有元素指定的class
+// * 3、hasClass 判断所有元素有没有指定的class，只要有一个有就返回true
+// * 4、toggleClass 有则删除，没有则添加
+/*---------------------------hasClass-------------------------------*/
+// 只要有一个有，那么就返回true
+console.log($('div').hasClass('aaa'));
+// 都没有false
+console.log($('span').hasClass('aaa'));
+
+/*---------------------------addClass-------------------------------*/
+// 给所有元素添加指定的class，有则忽略
+$('div').addClass( 'aaa' );
+// 通过空白区分不同的class进行批量添加
+$('div').addClass( 'aaa bbb ccc' );
+
+/*---------------------------removeClass-------------------------------*/
+// 不传参，把所有元素的class清空
+$('div').removeClass( );
+// 传参指定删除
+$('div').removeClass( 'aaa' );
+
+/*---------------------------toggleClass-------------------------------*/
+// 有则删除，没有则添加
+$('div').toggleClass( 'aaa' );
+
+// 删除指定元素 class
+var div = document.querySelector('div');
+var divClassName = div.className;
+// 把指定的className替换为空格，最后整体trim
+div.className = divClassName.replace('p', ' ').trim();
+
+
+$.fn.extend( {
+    // 判断元素中是否含有指定的class
+    hasClass: function( className ) {
+        /*
+        * 实现思路：
+        * 1、遍历所有的元素
+        * 2、依次获取每一个元素的className，为了方便判断，首尾加空格
+        * 3、利用处理过的className字符串的indexOf方法判断有没有指定的className(这个className首尾也加空格)
+        * 4、如果有一个元素的判断结果不为-1，就返回true
+        * 5、否则返回false。
+        * */
+        for( var i = 0, len = this.length; i < len; i++ ) {
+
+            // 只要有一个元素存在指定的className，那么就可以true了
+            if ( (' ' + this[ i ].className + ' ').indexOf(' ' + className + ' ') > -1 ) {
+                return true;
+            }
+        }
+
+        // 所有的元素都没有，那么返回false
+        return false;
+    },
+
+    // 判断元素中是否含有指定的class
+    _hasClass: function( className ) {
+        /*
+         * 实现思路：
+         * 1、遍历所有的元素
+         * 2、依次获取每一个元素的className，为了方便判断，首尾加空格
+         * 3、利用处理过的className字符串的indexOf方法判断有没有指定的className(这个className首尾也加空格)
+         * 4、如果有一个元素的判断结果不为-1，就返回true
+         * 5、否则返回false。
+         * */
+
+        // 用来记录元素有没有指定的className，默认为没有
+        var has = false;
+
+        this.each( function() {
+
+            // 只要有一个元素存在指定的className，那么就修改has变量的值为true
+            if ( (' ' + this.className + ' ').indexOf(' ' + className + ' ') > -1 ) {
+                has = true;
+            }
+        });
+
+        // 返回has
+        return has;
+    },
+
+    // 判断元素中是否含有指定的class
+    __hasClass: function( className ) {
+        /*
+         * 实现思路：
+         * 1、遍历所有的元素
+         * 2、依次获取每一个元素的className，为了方便判断，首尾加空格
+         * 3、利用处理过的className字符串的indexOf方法判断有没有指定的className(这个className首尾也加空格)
+         * 4、如果有一个元素的判断结果不为-1，就返回true
+         * 5、否则返回false。
+         * */
+
+        // 用来记录元素有没有指定的className，默认为没有
+        var has = false;
+
+        this.each( function() {
+
+            // 只要有一个元素存在指定的className，那么就修改has变量的值为true
+            if ( (' ' + this.className + ' ').indexOf(' ' + className + ' ') > -1 ) {
+                has = true;
+
+                // 中断遍历
+                return false;
+            }
+        });
+
+        // 返回has
+        return has;
+    },
+
+    // 给所有的元素添加指定的class
+    addClass: function( classNames ) {
+        /*
+        * 实现思路：
+        * 1、遍历所有的元素
+        * 2、依次判断每一个元素有没有要添加的className，
+        * 3、有则忽略(防止重复)，没有则添加( className += ' ' + classNames )
+        * 4、处女座最后可以考虑trim一下
+        * 5、链式编程返回this
+        * */
+
+    },
+
+    // 删除所有的元素指定的class
+    removeClass: function( className ) {
+        /*
+        * 实现思路：
+        * 1、没有参数，遍历所有的元素，设置他们的className为空
+        * 2、有参数，遍历所有的元素，删除指定的className(元素.className.replace())
+        * 把指定的className替换为空格，最后整体trim一下。
+        * 3、链式编程返回this
+        * */
+    },
+
+    // 有则删除，没有则添加
+    toggleClass: function( className ) {
+        /*
+        * 实现思路：
+        * 1、遍历所有的元素，
+        * 2、判断每一个元素有则删除，没有则添加
+        * */
+    }
+} );
+</script>
+</body>
+</html>

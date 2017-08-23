@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="core.js"></script>
+</head>
+<body>
+<div>
+    <span>1111</span>
+    <span>2222</span>
+    <span>3333</span>
+    <span>4444</span>
+    <span>
+        <a>1</a>
+        <a>2</a>
+        <a>3</a>
+    </span>
+</div>
+<script>
+// attr 设置或者获取元素的属性节点值
+
+/*
+* 属性节点：
+* 1、在html中编写的所有标签，里面的属性都是属性节点。
+* 2、所有的DOM，都有一个attributes属性，这个属性里面按照下标的方式存储了该DOM所有的属性节点。
+* 
+* 属性节点和属性的区别：
+* 1.属性节点只属于DOM对象，属性可以属于任意的对象。
+* 2.属性节点有DOM对象的那些特点，比如有nodeType，nodeName；而属性存储的东西没有共性。
+* 
+* 如何获取属性节点值：
+* 1、通过DOM的attributes属性得到所有的属性节点对象，然后按照下标取出每一个属性节点对象，再通过nodeValue属性得到这个属性节点值
+* 2、通过DOM的getAttribute( 属性节点名 )
+*
+* 如何设置属性节点值：
+* 1、通过DOM的attributes属性得到所有的属性节点对象，然后按照下标取出每一个属性节点对象，再通过nodeValue属性来设置
+* 2、通过DOM的setAttribute( value值 )
+*
+* 如何获取设置属性值：
+* 1、直接点或者[]获取和设置。
+* */
+
+// 如果传入的第一个参数不是字符串或者不是对象，
+// 那么直接返回this。
+console.log($('div').attr(undefined));
+
+// 传入1个参数，获取第一个元素的属性节点值
+console.log($('div').attr('index'));
+
+// 传入2个参数，设置所有元素的属性节点值，返回this
+console.log($('div').attr('val', 10));
+
+// 传入一个对象，可以批量设置所有元素的属性节点值，返回this
+console.log($('div').attr({
+    a: 'aaaa',
+    b: 'bbbb',
+    c: 'cccc'
+}));
+
+
+var divs = $('div').toArray();
+// 给DOM对象设置的属性节点值，如果为对象，那么会转换为字符串再赋值
+// 而{}转换为了[object Object]
+divs[0].setAttribute( 'o', { val: 1 } );
+// 而new String('abc')转换为了'abc'
+divs[1].setAttribute( 'o', new String('abc' )  );
+// 预期给第一个div设置一个o属性节点为一个对象，发现不行
+divs[0].setAttribute( 'o', getStr.call( { val: 1 } ) );
+// 预期给第二个div设置一个o属性节点为一个字符串，发现可以
+/*
+function fn() {// fn里面的this，是包装过的对象
+    console.log( this );
+}
+fn.call( 1 ); // Number
+fn.call( 'abc' ); // String
+*/
+divs[1].setAttribute( 'o', getStr.call( 'abc' )  );
+function getStr() {
+    return this;
+}
+
+
+// 给原型扩展属性和样式操作方法，这样jQ实例就可以使用了
+$.fn.extend( {
+
+    // 设置或者获取元素的属性节点值
+    attr: function( attr, val ) {
+
+        /*
+        * 实现思路：
+        * 1、判断attr是不是字符串或者对象，不是直接return this。
+        * 2、如果是字符串，那么继续判断arguments的length
+        * 3、length为1，则获取第一个元素指定的属性节点值返回
+        * 4、length>=2，则遍历所有元素，分别给他们设置新的属性节点值( setAttribute )
+        * 5、如果不是字符串(是对象)，那么遍历这个对象，得到所有的属性节点值，
+        * 然后遍历所有的元素，把所有的属性节点分别添加到这些元素中。
+        * 6、return this。
+        * */
+
+        // 不是字符串也不是对象，直接返回this
+        if( !jQuery.isString( attr ) && !jQuery.isObject( attr ) ) {
+            return this;
+        }
+
+        // 如果是字符串
+        if( jQuery.isString( attr ) ) {
+
+            // 如果length为1，则直接返回第一个元素的属性节点值
+            if( arguments.length === 1 ) {
+                return this.get( 0 ).getAttribute( attr );
+            }
+
+            // 如果length为多个(2和及2个以上)
+            // 则遍历所有的元素，分别设置属性节点值
+            else {
+                for( var i = 0, len = this.length; i < len; i++ ) {
+                    this[ i ].setAttribute( attr, val );
+                }
+            }
+
+        }
+
+        // 如果是对象
+        // 遍历这个对象，和所有的元素，分别添加遍历到的属性节点值
+        else {
+
+            // 遍历得到所有的属性节点和属性节点值
+            for( var key in attr ) {
+
+                // 遍历得到所有的元素
+                for( var i = 0, len = this.length; i < len; i++ ) {
+
+                    this[ i ].setAttribute( key, attr[ key ] );
+                }
+
+            }
+        }
+
+        // 链式编程
+        return this;
+    },
+
+    // 设置或者获取元素的属性节点值
+    _attr: function( attr, val ) {
+
+        /*
+        * 实现思路：
+        * 1、判断arguments.length
+        * 2、如果为1
+        * 3、继续判断attr是不是字符串，如果是获取第一个元素指定的属性节点值返回
+        * 4、如果不是继续判断是不是对象，如果是遍历这个对象，得到所有的属性节点值，
+        * 然后遍历所有的元素，把所有的属性节点分别添加到这些元素中。
+        * 5、如果为多个(2及以上)，遍历所有元素分别设置属性节点值。
+        * 6、return this。
+        * */
+
+        // 把实例使用别称存储一下，为了在其他地方使用
+        var self = this;
+
+        // 如果参数个数为1
+        if( arguments.length === 1 ) {
+
+            // 如果是字符串,获取第一个元素指定的属性节点值返回
+            if( jQuery.isString( attr ) ) {
+                return this[ 0 ].getAttribute( attr );
+            }
+
+            // 如果是对象,把对象中所有的属性节点添加到所有的元素中
+            else if( jQuery.isObject( attr ) ) {
+
+                // 使用jQ静态each方法遍历attr对象
+                jQuery.each( attr, function( key, val ) {
+                    // 这里遍历到的val不是对象类型，是基本数据类型，
+                    // 我们要使用的就是基本数据类型，而this是基本数据类型的包装类型()，
+                    // 所以这里不能使用this。
+
+                    // 遍历所有的元素
+                    self.each( function() {
+
+                        // 给遍历到的每一个元素分别设置外面遍历到的属性节点
+                        this.setAttribute( key, val );
+
+                    } );
+                } );
+
+            }
+
+        }
+
+        // 如果参数个数为多个
+        else if( arguments.length >= 2 ) {
+
+            // 遍历所有元素分别设置对应的属性节点值
+            this.each( function() {
+                this.setAttribute( attr, val );
+            });
+        }
+
+        // 链式编程
+        return this;
+    }
+} );
+
+</script>
+</body>
+</html>
