@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        div {
+            width: 800px;
+            height: 200px;
+        }
+    </style>
+</head>
+<body>
+    <div></div>
+    <script src="core.js"></script>
+    <script src="attr&style.js"></script>
+    <script src="dom.js"></script>
+    <script src="event.js"></script>
+    <script src="ajax.js"></script>
+    <script src="pipe.js"></script>
+    <script>
+        // 饼图插件的使用方式
+        $('div').pipe([
+            {
+                val: 10,
+                msg: '米饭'
+            },
+            {
+                val: 30,
+                msg: '面条'
+            },
+            {
+                val: 50,
+                msg: '馒头'
+            },
+            {
+                val: 50,
+                msg: '豆腐脑'
+            },
+            {
+                val: 50,
+                msg: '饺子'
+            },
+            {
+                val: 90,
+                msg: '汤圆'
+            },
+        ]);
+    </script>
+</body>
+</html>

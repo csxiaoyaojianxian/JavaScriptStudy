@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+/*
+* 在js中，函数是一等公民
+* 
+* 【 普通函数 】
+* var fn = function() {};
+* function fn() {}
+*
+* 【 方法 】
+* 如果一个函数有了宿主，那么这个函数称作宿主的方法
+* var obj = {
+*   fn: function() {}
+* }
+*
+* 【 构造函数 】
+* 如果一个函数，被通过 new 创建出对象(实例)，这个函数叫构造函数
+*
+* 【 回调函数 】
+* 如果一个函数，被作为参数传递给另外一个函数，那么这个函数(指的是被传递的函数)称为回调函数
+* */
+function fn( f ) {
+    console.log( '调用f：' + f() );
+}
+fn( function() {
+    return 10;
+} );
+        
+/*
+* arguments：
+* 这是函数内的一个关键字，和this一样，
+* arguments这个关键字存储的是一个代表实参的对象，
+* 该对象以下标的方式存储了所有传进来的实参，
+* 通过有一个length属性代表所有实参的数量。
+* */
+// 计算任意数量数的合
+function add() {
+    var result = 0;
+    for ( var i = 0, len = arguments.length; i < len; i++ ) {
+        // 求所有实参的合
+        result += arguments[ i ];
+    }
+    console.log( result );
+}
+add(1, 10, 11, 212);
+// 求任意数量数的最大值
+function max() {
+    console.log(Math.max.apply(null, arguments));
+}
+max( 1, 2, 21, 85, 99, 323 );
+
+</script>
+</body>
+</html>

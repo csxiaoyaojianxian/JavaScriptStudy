@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="jquery-2.2.0.js"></script>
+</head>
+<body>
+<script>
+
+var obj = { a: {val:1}, b: 222, c: 333, d: 444 };
+var arr = [ 'aaa', 'bbb', 'ccc', 'dddd' ];
+/*
+* jQ的each方法，变量对象或者数组时，
+* 下标和值传入回调的顺序和数组的forEach相反。
+* */
+// 这是数组的forEach
+arr.forEach( function( val, index ) {
+    console.log( val, index );
+});
+
+
+function each( obj, fn ) {
+    /*
+    * 1、先判断obj是不是伪数组
+    * 2、如果是，则通过i的方式遍历对象
+    * 3、如果不是，则通过for in的方式遍历这个对象
+    * 4、在遍历的过程中，把每一次遍历到key和val分别传给回调。
+    * */
+    // likeArray
+    if( 'length' in obj ) {
+
+        for ( var i = 0, len = obj.length; i < len; i++ ) {
+            // fn( i, obj[ i ] );
+
+            // 指定fn执行时，this指向val
+            // fn.call( obj[ i ], i, obj[ i ] );
+            
+            // 添加中断，如果fn的返回值为false则break，跳出循环
+            if ( fn.call( obj[ i ], i, obj[ i ] ) === false ){
+                break;
+            }
+        }
+
+    }else {
+
+        for ( var key in obj ) {
+            // fn( key, obj[ key ] );
+        
+            // 指定fn执行时，this指向val
+            // fn.call( obj[ key ], key, obj[ key ] );
+
+            // 添加中断，如果fn的返回值为false则break，跳出循环
+            if ( fn.call( obj[ key ], key, obj[ key ] ) === false ) {
+                break;
+            }
+        }
+
+    }
+}
+
+each( obj, function( key, val ) {
+    console.log( key, val );
+} );
+
+each( arr, function( index, val ) {
+    console.log( index, val );
+} );
+
+/**
+ * this 的运用
+ */
+each( obj, function( key, val ) {
+    console.log( key, val, this );
+} );
+
+/**
+ * 中断的实现
+ */
+each( obj, function( key, val ) {
+    // 当 val 为 333 时，中断
+    if ( val == 333 ) {
+        return false;
+    }
+    console.log( key, val );
+} );
+
+
+/**
+ * 融合
+ */
+(function( w ) {
+
+    jQuery.fn = jQuery.prototype = {
+        // 遍历实例
+        each: function( fn ) {
+            return jQuery.each( this, fn );
+        }
+    }
+
+    // 给jQuery添加一些静态方法
+    jQuery.extend({
+        // 遍历对象或类数组
+        each: function( obj, fn ) {
+            var i, len, key;
+
+            if ( jQuery.isLikeArray( obj ) ) {
+                for ( i = 0, len = obj.length; i < len; i++ ) {
+                    if ( fn.call( obj[ i ], i, obj[ i ] ) === false ) {
+                        break;
+                    }
+                }
+            }else {
+                for ( key in obj ) {
+                    if ( fn.call( obj[ key ], key, obj[ key ] ) === false ) {
+                        break;
+                    }
+                }
+            }
+            return obj;
+        }
+    });
+
+}( window ));
+
+var result = $('a').each(function (index, a) {
+    console.log(index, a, this);
+});
+
+</script>
+</body>
+</html>

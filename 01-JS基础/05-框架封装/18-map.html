@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+
+// each返回的是原来的数组，并不会新创建一个数组
+// map方法会返回一个新的数组
+(function( w ) {
+
+    jQuery.fn = jQuery.prototype = {
+        // 通过实例得到一个新数组
+        map: function( fn ) {
+            return jQuery.map( this, fn );
+        }
+    }
+
+    // 给jQuery添加一些静态方法
+    jQuery.extend({
+
+        // map实现
+        map: function( obj, fn ) {
+
+            /*
+             * 1、先判断obj是不是伪数组，
+             * 2、如果是，则通过i的方式遍历这个对象
+             * 3、如果不是，则通过for in的方式遍历这个对象
+             * 4、在遍历的过程中，把每一次遍历到key和val分别传给回调。
+             * 5、在给回调传参的时候，需要收集回调的返回值，最后把所有的返回值构成新数组返回。
+             * */
+            var i, len, key, result = [];
+
+            if( 'length' in obj ) {
+                for ( i = 0, len = obj.length; i < len; i++ ) {
+                    result.push( fn.call( obj[ i ], obj[ i ], i ) );
+                }
+            }else {
+                for ( key in obj ) {
+                    result.push( fn.call( obj[ key ], obj[ key ], key ) );
+                }
+            }
+
+            return result;
+        }
+
+    });
+
+}( window ));
+
+// map
+var result = $('a').map(function() {
+    // 这里的this指向遍历到的每一个a
+    return this.innerHTML;
+});
+
+console.log( $.map( $('a'), function () {
+    return this.innerHTML;
+}));
+
+</script>
+    <div>
+        <a>11</a>
+        <a>22</a>
+        <a>33</a>
+    </div>
+</body>
+</html>
