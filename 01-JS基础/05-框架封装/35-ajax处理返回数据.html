@@ -1,3 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Title</title>
+<script src="core.js"></script>
+<script src="attr&style.js"></script>
+<script src="dom.js"></script>
+</head>
+<body>
+<input type="text" value="默认值" />
+<div>
+<span class="aaa no xx qq yy bbb">1111</span>
+<span class="o no">2222</span>
+<span class="qq">3333</span>
+<span>4444</span>
+<span>
+    <a>1</a>
+    <a>2</a>
+    <a>3</a>
+</span>
+</div>
+<script>
 // 添加静态方法
 $.extend({
 
@@ -59,7 +82,7 @@ $.extend({
     // ajax封装
     ajax: function( options ) {
 
-        var optionsNew, xhr, result, timer;
+        var optionsNew, xhr, result;
 
         // 加工得到一份处理好的配置项
         optionsNew = jQuery.processOptions( options );
@@ -77,10 +100,6 @@ $.extend({
 
             // 先判断请求是否完成，完成就执行complate方法
             if( xhr.readyState === 4 ) {
-
-                // 在指定时间内完成了请求，那么清除定时器
-                clearTimeout( timer );
-
                 optionsNew.complete();
 
                 // 判断请求是否成功，成功过就执行successs方法，失败执行error方法
@@ -109,23 +128,6 @@ $.extend({
                 }
             }
         };
-
-        // 如果设置了超时，那么开始一个定时器
-        if( optionsNew.timeout ) {
-
-            // 在指定的时间内，请求还没有完成，
-            // 那么直接调用error方法报错
-            timer = setTimeout( function() {
-
-                // 超时执行error
-                optionsNew.error( '超时' );
-
-                // error执行了，事件回调就没有必要执行了
-                xhr.onreadystatechange = null;
-
-            }, optionsNew.timeout);
-        }
-
         xhr.send( optionsNew.data );
     },
 
@@ -186,3 +188,42 @@ $.extend({
         });
     }
 });
+
+$.ajax( {
+    url: './test/test.css',
+    dataType: 'style',
+    data: {
+        name: '张三',
+        age: 18
+    },
+    success: function( data ) {
+        console.log( data );
+        console.log( typeof data );
+    }
+} );
+
+// 简洁get方式
+$.get('./test/test.json', function( data ) {
+    console.log( data );
+});
+
+// 简洁post方式
+$.post('./test/test.json', function( data ) {
+    console.log( data );
+});
+
+// 简洁加载js脚本方式
+$.getScript('./test/test.js', function( jsStr ) {
+    console.log( jsStr );
+});
+
+// 简洁加载css方式
+$.getStyle('./test/test.css', function( cssStr ) {
+    console.log( cssStr );
+});
+
+
+</script>
+
+</body>
+</html>

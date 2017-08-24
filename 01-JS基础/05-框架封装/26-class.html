@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="jquery-2.2.0.js"></script>
+    <style>
+        .aaa{
+            height: 30px;
+            background-color: #d43f3a;
+        }
+        .ccc{
+            border:5px solid blue;
+        }
+    </style>
+</head>
+<body>
+<a a="aaa" index="0">aaaa1111</a>
+<a>aaaa2222</a>
+<input type="text" value="默认值"/>
+<div class="aaa" index="0">
+    <span>span1</span>
+</div>
+<div index="1">
+    <span>span1</span>
+    <span>span2</span>
+</div>
+<script>
+
+// 【 删除指定元素 class 】
+var div = document.querySelector('div');
+var divClassName = div.className;
+// 把指定的className替换为空格，最后整体trim
+div.className = divClassName.replace('p', ' ').trim();
+
+// 【 使用 split 获取所有 class 】
+var className = ' aa bb cc ';
+// 先trim，再通过split劈开，就会得到一个数组，里面存储着所有的class
+console.log(className.trim().split(' '));
+
+// 【 动态创建正则 】
+var className = 'aa bb cc aabbcc ';
+//var reg = /\baa\b/;
+//console.log(className.replace(reg, ''));
+var removeClass = 'bb';
+// 因为\在字符串中也有特殊含义，我们传给RegExp构造函数的参数必须全部是字符串，
+// 为了传入的\是字符串，所以还需要另外一个\对\进行转义，转义为普通的字符串\。
+var reg = new RegExp( '\\b' + removeClass + '\\b' );
+console.log(className.replace(reg, ''));
+
+
+// * 1、addClass 给所有元素添加新的class
+// * 2、removeClass 删除所有元素指定的class
+// * 3、hasClass 判断所有元素有没有指定的class，只要有一个有就返回true
+// * 4、toggleClass 有则删除，没有则添加
+/*---------------------------hasClass-------------------------------*/
+// 只要有一个有，那么就返回true
+console.log($('div').hasClass('aaa'));
+// 都没有false
+console.log($('span').hasClass('aaa'));
+
+/*---------------------------addClass-------------------------------*/
+// 给所有元素添加指定的class，有则忽略
+$('div').addClass( 'aaa' );
+// 通过空白区分不同的class进行批量添加
+$('div').addClass( 'aaa bbb ccc' );
+
+/*---------------------------removeClass-------------------------------*/
+// 不传参，把所有元素的class清空
+$('div').removeClass( );
+// 传参指定删除
+$('div').removeClass( 'aaa' );
+
+/*---------------------------toggleClass-------------------------------*/
+// 有则删除，没有则添加
+$('div').toggleClass( 'aaa' );
+
+
+$.fn.extend( {
+    // 判断元素中是否含有指定的class
+    hasClass: function( className ) {
+        /*
+        * 实现思路：
+        * 1、遍历所有的元素
+        * 2、依次获取每一个元素的className，为了方便判断，首尾加空格
+        * 3、利用处理过的className字符串的indexOf方法判断有没有指定的className(这个className首尾也加空格)
+        * 4、如果有一个元素的判断结果不为-1，就返回true
+        * 5、否则返回false。
+        * */
+        for( var i = 0, len = this.length; i < len; i++ ) {
+
+            // 只要有一个元素存在指定的className，那么就可以true了
+            if ( (' ' + this[ i ].className + ' ').indexOf(' ' + className + ' ') > -1 ) {
+                return true;
+            }
+        }
+
+        // 所有的元素都没有，那么返回false
+        return false;
+    },
+
+    // 判断元素中是否含有指定的class
+    _hasClass: function( className ) {
+        /*
+         * 实现思路：
+         * 1、遍历所有的元素
+         * 2、依次获取每一个元素的className，为了方便判断，首尾加空格
+         * 3、利用处理过的className字符串的indexOf方法判断有没有指定的className(这个className首尾也加空格)
+         * 4、如果有一个元素的判断结果不为-1，就返回true
+         * 5、否则返回false。
+         * */
+
+        // 用来记录元素有没有指定的className，默认为没有
+        var has = false;
+
+        this.each( function() {
+
+            // 只要有一个元素存在指定的className，那么就修改has变量的值为true
+            if ( (' ' + this.className + ' ').indexOf(' ' + className + ' ') > -1 ) {
+                has = true;
+            }
+        });
+
+        // 返回has
+        return has;
+    },
+
+    // 判断元素中是否含有指定的class
+    __hasClass: function( className ) {
+        /*
+         * 实现思路：
+         * 1、遍历所有的元素
+         * 2、依次获取每一个元素的className，为了方便判断，首尾加空格
+         * 3、利用处理过的className字符串的indexOf方法判断有没有指定的className(这个className首尾也加空格)
+         * 4、如果有一个元素的判断结果不为-1，就返回true
+         * 5、否则返回false。
+         * */
+
+        // 用来记录元素有没有指定的className，默认为没有
+        var has = false;
+
+        this.each( function() {
+
+            // 只要有一个元素存在指定的className，那么就修改has变量的值为true
+            if ( (' ' + this.className + ' ').indexOf(' ' + className + ' ') > -1 ) {
+                has = true;
+
+                // 中断遍历
+                return false;
+            }
+        });
+
+        // 返回has
+        return has;
+    },
+
+    // 给所有的元素添加指定的class
+    addClass: function( classNames ) {
+        /*
+        * 实现思路：
+        * 1、遍历所有的元素
+        * 2、依次判断每一个元素有没有要添加的className，
+        * 3、有则忽略(防止重复)，没有则添加( className += ' ' + classNames )
+        * 4、处女座最后可以考虑trim一下
+        * 5、链式编程返回this
+        * */
+        this.each( function() {
+
+            // 包装遍历到的每一个元素，
+            // 然后复用hasClass判断这个元素有没有要添加的class
+            // 没有则添加，有则忽略
+            if( !jQuery( this ).hasClass( className ) ) {
+                this.className += ' ' + className;
+            }
+        });
+
+        // 链式编程返回this
+        return this;
+    },
+
+    // 给所有的元素添加指定的class
+    _addClass: function( classNames ) {
+        /*
+         * 实现思路：
+         * 1、先把classNames首尾空格去掉，然后使用split(' ')劈成数组
+         * 2、外层遍历所有的元素
+         * 3、内层遍历所有要添加的class
+         * 4、依次判断遍历到的每一个元素有没有遍历到的每一个要添加的class
+         * 5、有则忽略(防止重复)，没有则添加( className += ' ' + classNames )
+         * 6、处女座最后可以考虑trim一下
+         * 7、链式编程返回this
+         * */
+
+        // 参数转化为存储所有class的数组
+        classNames = jQuery.trim( classNames ).split(' ');
+
+        // 遍历所有的元素
+        this.each( function() {
+
+            // 这里的this是遍历到的每一个原生DOM，
+            // 为了复用hasClasss，所以先包装一下
+            var $self = jQuery( this );
+
+            // 遍历所有要添加的class
+            jQuery.each( classNames, function( i, val ) {
+
+                // 如果元素没有相应的class则进行添加
+                if( !$self.hasClass( val ) ) {
+
+                    // jQ实例没有className属性，
+                    // 得先通过实例得到原生DOM，再获取
+                    $self[ 0 ].className += ' ' + val;
+                }
+            });
+        });
+
+        // 链式编程返回this
+        return this;
+    },
+
+    // 删除所有的元素指定的class
+    removeClass: function( className ) {
+        /*
+        * 实现思路：
+        * 1、没有参数，遍历所有的元素，设置他们的className为空
+        * 2、有参数，遍历所有的元素，删除指定的className(删除方式和hasClass类似)
+        * 3、链式编程返回this
+        * */
+
+        // 没有传参，遍历所有元素清除他们的class
+        if( arguments.length === 0 ) {
+            this.each( function() {
+                this.className = '';
+            });
+        }
+
+        // 传参，遍历所有元素分别删除指定的class
+        else {
+            this.each( function() {
+                this.className = (' ' + this.className + ' ').replace(' ' + className  + ' ', ' ');
+            });
+        }
+
+        // 链式编程
+        return this;
+    },
+
+    // 删除所有的元素指定的class
+    _removeClass: function( classNames ) {
+        /*
+         * 实现思路：
+         * 1、没有参数，遍历所有的元素，设置他们的className为空
+         * 2、有参数，把classNames首尾空格去掉，然后使用split(' ')劈成数组
+         * 3、外层遍历所有的元素
+         * 4、内层遍历所有要删除的class
+         * 5、遍历到的每一个元素删除遍历到的class( 删除方式和hasClass类似 )
+         * 6、链式编程返回this
+         * */
+        if( arguments.length === 0 ) {
+            this.each( function() {
+                this.className = '';
+            });
+        }
+
+        else {
+
+            // 参数转化为存储所有class的数组
+            classNames = jQuery.trim( classNames ).split(' ');
+
+            // 遍历所有的元素
+            this.each( function() {
+                var self = this;
+
+                // 遍历所有要删除的class
+                jQuery.each( classNames, function( i, val ) {
+
+                    // 元素删除指定的class
+                    //self.className = (' ' + self.className + ' ').replace(' ' + val + ' ', ' ');
+                    self.className = self.className.replace(new RegExp( '\\b' + val + '\\b' ), '');
+                });
+            });
+        }
+
+        // 链式编程
+        return this;
+    },
+
+    // 有则删除，没有则添加
+    toggleClass: function( className ) {
+        /*
+        * 实现思路：
+        * 1、遍历所有的元素，
+        * 2、判断每一个元素有则删除，没有则添加
+        * 3、链式编程返回this
+        * */
+        this.each( function() {
+            // 这里的this是遍历到的每一个原生DOM，
+            // 先包装成JQ对象，就可以复用之前写好的方法了
+            var $this = jQuery( this );
+
+            // 有则删除，没有则添加
+            if( $this.hasClass( className ) ) {
+                $this.removeClass( className );
+            }else {
+                $this.addClass( className );
+            }
+        });
+
+        // 链式编程
+        return this;
+    },
+
+    // 有则删除，没有则添加
+    _toggleClass: function( classNames ) {
+        /*
+         * 实现思路：
+         * 1、先把classNames首尾空格去掉，然后使用split(' ')劈成数组
+         * 2、外层遍历所有的元素
+         * 3、内层遍历所有要删除的class
+         * 4、遍历到的每一个元素判断有没有遍历到的每一个class，有则删除，没有则添加
+         * 5、链式编程返回this
+         * */
+
+        // 参数转化为存储所有class的数组
+        classNames = jQuery.trim( classNames ).split(' ');
+
+        // 遍历所有的元素
+        this.each( function() {
+
+            // 这里的this是原生DOM，
+            // 为了复用前面封装好的方法，
+            // 所以包装成JQ对象
+            var $self = jQuery( this );
+
+            // 遍历所有的class
+            jQuery.each( classNames, function( i, val ) {
+
+                // 有则删除，没有则添加
+                if( $self.hasClass( val ) ){
+                    $self.removeClass( val );
+                }else {
+                    $self.addClass( val );
+                }
+            });
+        });
+
+        // 链式编程
+        return this;
+    }
+} );
+</script>
+</body>
+</html>

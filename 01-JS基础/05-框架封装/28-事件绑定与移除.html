@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+/*
+* 事件模块：
+* 1、on 事件绑定（相比jQ会阉割掉事件委托）
+* 2、off 事件移除
+* */
+
+/*
+* 事件绑定的方式：
+* 1、DOM.on事件名 = function(){} ==> 无兼容性
+* 2、DOM.addEventListner( 事件名, function(){} ) ==> IE8不支持
+* IE8: DOM.attachEvent( on事件名, function(){} )
+* */
+var span = document.querySelector('span');
+// 标准方式
+span.addEventListener( 'click', function() {
+    alert('点击span');
+});
+// IE8方式
+span.attachEvent( 'onclick', function() {
+    alert('点击span');
+} );
+
+// 兼容绑定事件
+function addEvent( ele, type, fn ) {
+    if( ele.addEventListener ) {
+        ele.addEventListener( type, fn);
+    }else {
+        ele.attachEvent( 'on' + type, fn );
+    }
+}
+addEvent( span, 'click', function() {
+    alert('点击span');
+} );
+
+
+/*-----------------------------------------------------------------------*/
+/*
+* 事件移除的方式：
+* 1、DOM.on事件名 = null ==> 无兼容性
+* 2、DOM.removeEventListener( 事件名, 绑定什么函数，就得传入什么函数 ) ==> IE8不支持
+* IE8: DOM.detachEvent( on事件名, function(){} )
+* */
+var clickHandle = function() {
+    alert('点击span');
+}
+// 绑定的事件回调
+addEvent( span, 'click', clickHandle);
+// 标准方式解除
+span.removeEventListener( 'click', clickHandle );
+// IE8方式解除
+span.detachEvent( 'onclick', clickHandle );
+// 事件解除兼容处理
+function removeEvent( ele, type, fn ) {
+    if( ele.removeEventListener ) {
+        ele.removeEventListener( type, fn );
+    }else {
+        ele.detachEvent( 'on' + type, fn );
+    }
+}
+removeEvent( span, 'click', clickHandle );
+
+/*---------------------------------------------------------------------*/
+function clickHandle() {
+    alert( 'span' );
+}
+function mouseoutHandle() {
+    alert( 'mouseout' );
+}
+$('span').on( 'click', clickHandle );
+$('span').on( 'mouseout', mouseoutHandle );
+// 如果传入事件类型和回调，那么解除指定事件类型的指定回调
+$('span').off( 'click', clickHandle );
+// 如果只传入事件类型，解除该事件类型所有的回调
+$('span').off( 'click' );
+// 不传参，删除所有事件类型的所有回调
+$('span').off();
+
+/*---------------------------------------------------------------------*/
+/*
+* 【 解决IE8执行顺序的问题 】
+* 1、只绑定一个事件回调，这个事件回调内部遍历调用那些真正的事件回调，
+* 2、因为是按照顺序遍历的，所以执行顺序从不可控变为了可控。
+* */
+// span.clickCache = [
+//     function() {
+//         console.log('1');
+//     },
+//     function() {
+//         console.log('2');
+//     },
+//     function() {
+//         console.log('3');
+//     }
+// ];
+// addEvent( span, 'click', function() {
+//     for( var i = 0, len = span.clickCache.length; i < len; i++ ) {
+//         span.clickCache[ i ]();
+//     }
+// } );
+span.clickCache = [
+    function( e ) {
+        //console.log(this);
+        console.log(e);
+    },
+    function( e ) {
+        //console.log(this);
+        console.log(e);
+    }
+];
+addEvent( span, 'click', function( e ) {
+    // 只绑定一个事件回调，这个回调按照顺序调用存储在span身上的所有点击事件回调
+    for( var i = 0, len = span.clickCache.length; i < len; i++ ) {
+        // 利用class解决回调函数内部的this为绑定的DOM对象( 对方可能会使用 )
+        // 同时传入e，是为了让回调函数能够获取到事件对象( 对方可能会使用 )
+        span.clickCache[ i ].call( span, e );
+    }
+} );
+
+/*
+* 移除点击事件回调：
+* 1、如果指定移除某个回调，则从span.clickCache里面删除即可
+* 2、如果不指定某个回调，那么认为是全部删除，只需要把span.clickCache重置赋值为空数组
+* */
+span.clickCache = [];
+
+
+/*
+* 给一个元素绑定多种事件：
+* 1、只需多一个存储该事件的数组，
+* 2、再绑定一个该事件的回调，在回调中执行事件数组中的每一个回调即可
+* */
+// 存储所有鼠标移除事件回调的数组
+span.mouseoutCache = [
+    function( e ) {
+        console.log('鼠标移除1');
+    },
+    function( e ) {
+        console.log('鼠标移除2');
+    }
+];
+
+// 绑定鼠标移除事件
+addEvent( span, 'mouseout', function( e ) {
+    for( var i = 0, len = span.mouseoutCache.length; i < len; i++ ) {
+        span.mouseoutCache[ i ].call( span, e );
+    }
+} );
+// 该事件如果绑定多次，会重复执行事件数组中的回调，所以需要注意
+addEvent( span, 'mouseout', function( e ) {
+    for( var i = 0, len = span.mouseoutCache.length; i < len; i++ ) {
+        span.mouseoutCache[ i ].call( span, e );
+    }
+} );
+
+/*---------------------------------------------------------------------*/
+// 批量添加事件
+// 得到存储所有事件的数组
+var events = "blur focus focusin focusout load resize scroll unload click dblclick " +
+        "mousedown mouseup mousemove mouseover mouseout mouseenter mouseleave " +
+        "change select submit keydown keypress keyup error contextmenu".split(' ');
+// 单独添加某事件的范例，这样是写死的，
+// 如果要绑定多个事件，太麻烦，需要一个一个写
+/*
+$.fn.click = function( fn ) {
+    return this.on( 'click', fn );
+}
+*/
+// 批量给原型添加事件，他们都复用了on方法
+jQuery.each( events, function( i, eventName ) {
+    // 给原型添加的方法，供实例使用，所以内部的this指向实例
+    $.fn[ eventName ] = function( fn ) {
+        // 实例可以调用on方法绑定事件
+        return this.on( eventName, fn );
+    }
+});
+
+</script>

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="jquery-2.2.0.js"></script>
+</head>
+<body>
+<script>
+/*
+* 如何解析JSON:
+* 1、JSON.parse
+* 2、eval
+* 3、Function
+* */
+
+var JSONStr = '{ "name": "张三", "age": 38, "alert":"alert(' + '哈哈!' + ')" }';
+var JSONStr2 = "{"+'alert:alert("哈哈")'+"}";
+
+// evel和Function具有安全隐患，会执行字符串代码，
+// JSON.parse只会解析JSON，不会执行字符串代码。
+
+console.log(JSON.parse( JSONStr2 ));
+console.log(eval('(' + JSONStr2 + ')'));
+console.log(Function('return ' + JSONStr2)());
+
+/*
+* JSON：
+* 1、parse
+* 2、stringify
+* */
+var obj = { name: '张三', age: 18, alert: 'alert(嘿！)' };
+console.log(JSON.stringify(obj));
+console.log(typeof JSON.stringify(obj));
+</script>
+</body>
+</html>

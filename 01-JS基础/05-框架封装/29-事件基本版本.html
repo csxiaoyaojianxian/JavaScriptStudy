@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="core.js"></script>
+</head>
+<body>
+    <input type="text" value="默认值" />
+    <div>
+        <span class="aaa no xx qq yy bbb">1111</span>
+        <span class="o no">2222</span>
+        <span class="qq">3333</span>
+        <span>4444</span>
+        <span>
+            <a>1</a>
+            <a>2</a>
+            <a>3</a>
+        </span>
+    </div>
+<script>
+// 添加静态方法
+$.extend({
+
+    // 兼容添加事件
+    addEvent: function( ele, type, fn ) {
+
+        // ele必须是DOM，type必须是字符串，fn必须是函数，
+        // 有一个不是，那就直接return
+        if( !ele.nodeType || !jQuery.isString( type ) || !jQuery.isFunction( fn ) ) {
+            return;
+        }
+
+        // 兼容绑定事件
+        if( ele.addEventListener ) {
+            ele.addEventListener( type, fn );
+        }else {
+            ele.attachEvent( 'on' + type, fn );
+        }
+    },
+
+    // 兼容移除事件
+    removeEvent: function( ele, type, fn ) {
+
+        // ele必须是DOM，type必须是字符串，fn必须是函数，
+        // 有一个不是，那就直接return
+        if( !ele.nodeType || !jQuery.isString( type ) || !jQuery.isFunction( fn ) ) {
+            return;
+        }
+
+        // 兼容移除事件
+        if( ele.removeEventListener ) {
+            ele.removeEventListener( type, fn );
+        }else {
+            ele.detachEvent( 'on' + type, fn );
+        }
+    }
+});
+
+// 扩展事件方法
+$.fn.extend({
+
+    // 绑定事件
+    on: function( type, fn ) {
+        /*
+        * 实现思路：
+        * 1、遍历所有的元素
+        * 2、依次绑定事件( 调用静态方法绑定 )
+        * 3、链式编程返回this
+        * */
+        this.each( function() {
+            jQuery.addEvent( this, type, fn );
+        });
+
+        return this;
+    },
+
+    // 移除事件
+    off: function( type, fn ) {
+        /*
+         * 实现思路：
+         * 1、遍历所有的元素
+         * 2、依次移除事件( 调用静态方法移除 )
+         * 3、链式编程返回this
+         * */
+        this.each( function() {
+            jQuery.removeEvent( this, type, fn );
+        });
+
+        return this;
+    }
+});
+
+/*
+* 基础版本的事件存在3个问题：
+* 1、事件回调函数中this，在IE8中指向window
+* 2、IE8事件回调函数触发的顺序和标准浏览器不一致
+* 3、off方法不能像jQ那样不传回调也能移除
+* */
+function clickHandle() {
+    alert('span');
+    console.log( this );
+}
+function clickHandle2() {
+    alert('spanspanspanspan');
+}
+// 事件绑定测试
+$('span').on( 'click', clickHandle ).on( 'click', clickHandle2 );
+// 事件移除测试
+$('span').off( 'click', clickHandle2 ).off( 'click', clickHandle );
+</script>
+</body>
+</html>

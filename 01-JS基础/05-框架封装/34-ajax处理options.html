@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Title</title>
+<script src="core.js"></script>
+</head>
+<body>
+<input type="text" value="默认值" />
+<div>
+<span class="aaa no xx qq yy bbb">1111</span>
+<span class="o no">2222</span>
+<span class="qq">3333</span>
+<span>4444</span>
+<span>
+    <a>1</a>
+    <a>2</a>
+    <a>3</a>
+</span>
+</div>
+<script>
+// 添加静态方法
+$.extend({
+
+    // 默认的配置
+    ajaxSettings: {
+        url: location.href,    // 默认的url为本地地址
+        type: "GET",           // 默认请求的方法为GET
+        async: true,           // 默认为异步请求
+        contentType: "application/x-www-form-urlencoded; charset=UTF-8",   // POST发送数据时设置头信息时候要使用
+        timeout: null,         // 默认不看延迟事件
+        success: function(){},
+        error: function(){},
+        complete: function(){},
+    },
+
+    // 把对象转换为url参数形式的字符串
+    urlStringify: function( data ) {
+        var result = '', key;
+
+        // 传入的不是对象，就直接返回空字符串
+        if( !jQuery.isObject( data ) ) {
+            return result;
+        }
+
+        for( key in data ) {
+            // 为了防止IE发送的汉字路乱码，所以需要统一编码一下
+            result += window.encodeURIComponent( key ) + '=' + window.encodeURIComponent( data[ key ] ) + '&';
+        }
+
+        // 从0截取到倒数第一个字符串返回
+        return result.slice( 0, -1 );
+    },
+
+    // 加工options
+    processOptions: function( options ) {
+        var optionsNew = {};
+
+        // 合并用户和默认的配置项，得到一份新的
+        optionsNew = {};
+        jQuery.extend( optionsNew, jQuery.ajaxSettings, options );
+
+        // 对data进行加工处理
+        optionsNew.data = jQuery.urlStringify( optionsNew.data );
+
+        // 把type统一转换为大写，防止意外
+        optionsNew.type = optionsNew.type.toUpperCase();
+
+        // 如果是GET请求，把数据加到URL中
+        if( optionsNew.type === 'GET' ) {
+            optionsNew.url += '?' + optionsNew.data;
+            optionsNew.data = null;
+        }
+
+        // 返回加工后的配置
+        return optionsNew;
+    },
+
+    // ajax封装
+    ajax: function( options ) {
+
+        var optionsNew, xhr;
+
+        // 加工得到一份处理好的配置项
+        optionsNew = jQuery.processOptions( options );
+
+        // 创建xhr对象，发送请求
+        xhr = new XMLHttpRequest();
+        xhr.open( optionsNew.type, optionsNew.url, optionsNew.async );
+
+        // 如果为post请求，添加一个请求头
+        if( optionsNew.type === 'POST' ) {
+            xhr.setRequestHeader( 'Content-Type', optionsNew.contentType );
+        }
+
+        xhr.onreadystatechange = function() {
+
+            // 先判断请求是否完成，完成就执行complate方法
+            if( xhr.readyState === 4 ) {
+                optionsNew.complete();
+
+                // 判断请求是否成功，成功过就执行successs方法，失败执行error方法
+                if( ( xhr.status >= 200 && xhr.status < 300 ) || xhr.status === 304 ) {
+                    optionsNew.success( xhr.responseText );
+                }else {
+                    optionsNew.error( xhr.status );
+                }
+            }
+        };
+        xhr.send( optionsNew.data );
+    }
+});
+
+$.ajax( {
+    url: './test/test.json',
+    type: 'post',
+    data: {
+        name: '张三',
+        age: 18
+    },
+    success: function( data ) {
+        console.log( data );
+    }
+} );
+
+</script>
+</body>
+</html>

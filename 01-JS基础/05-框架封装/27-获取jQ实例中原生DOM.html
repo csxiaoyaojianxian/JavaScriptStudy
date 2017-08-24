@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+/*
+* 获取jQ实例中原生DOM的方式:
+* 1、直接按照下标来取
+* 2、通过get方法
+* */
+
+// 实例.each遍历到的this是原生DOM
+var $span = $('span');
+var $span2 = $( $span );
+$span2.each(function() {
+    // 实例没有nodeType属性，原生的有
+    console.log( this.nodeType );
+    console.log( this.nodeName );
+});
+
+
+</script>

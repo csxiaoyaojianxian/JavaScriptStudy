@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+
+// 原生js
+var xhr = new XMLHttpRequest();
+xhr.open( 'get', './test/test.js' );
+xhr.onreadystatechange = function() {
+    // 等于4，证明请求完成了
+    if( xhr.readyState === 4 ) {
+        // status是200~299之间都算成功，
+        // 304走缓存也算成功。
+        if( (xhr.status >= 200 && xhr.status < 300) || xhr.status === 304 ) {
+            // 打印请求回来的数据(数据都是字符串)
+            console.log( xhr.responseText );
+            console.log( typeof xhr.responseText );
+        }
+        else {
+            console.log('请求失败了');
+        }
+    }
+};
+xhr.send();
+
+/*-----------------------------------------------------------------------*/
+// jQuery 方法
+$.ajax({
+    url: './test/test.json',
+    data: {
+        name: '张三',
+        age: 18
+    },
+    complete: function() {
+        console.log( '请求完成了' );
+    },
+    success: function( data ) {
+        console.log( data );
+        console.log( typeof data );
+    },
+    error: function() {
+        console.log( '发生错误了' );
+    }
+});
+
+/*-----------------------------------------------------------------------*/
+// 基础封装
+// 添加静态方法，此处extend见extend方法升级
+$.extend({
+    // 默认的配置
+    ajaxSettings: {
+        url: location.href,    // 默认的url为本地地址
+        type: "GET",           // 默认请求的方法为GET
+        async: true,           // 默认为异步请求
+        contentType: "application/x-www-form-urlencoded; charset=UTF-8",   // POST发送数据时设置头信息时候要使用
+        timeout: null,         // 默认不看延迟事件
+        success: function(){},
+        error: function(){},
+        complete: function(){},
+    },
+    // ajax封装
+    ajax: function( options ) {
+
+        var optionsNew, xhr;
+
+        // 合并用户和默认的配置项，得到一份新的
+        optionsNew = {};
+        jQuery.extend( optionsNew, jQuery.ajaxSettings, options );
+
+        // 创建xhr对象，发送请求
+        xhr = new XMLHttpRequest();
+        xhr.open( optionsNew.type, optionsNew.url, optionsNew.async );
+        xhr.onreadystatechange = function() {
+
+            // 先判断请求是否完成，完成就执行complate方法
+            if( xhr.readyState === 4 ) {
+                optionsNew.complete();
+
+                // 判断请求是否成功，成功过就执行successs方法，失败执行error方法
+                if( ( xhr.status >= 200 && xhr.status < 300 ) || xhr.status === 304 ) {
+                    optionsNew.success( xhr.responseText );
+                }else {
+                    optionsNew.error( xhr.status );
+                }
+            }
+        };
+        xhr.send();
+    }
+});
+$.ajax( {
+    url: './test/test.json',
+    success: function( data ) {
+        console.log( data );
+    }
+} );
+
+</script>
+</body>
+</html>

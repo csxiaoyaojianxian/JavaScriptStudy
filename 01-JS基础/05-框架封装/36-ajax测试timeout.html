@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Title</title>
+<script src="core.js"></script>
+<script src="attr&style.js"></script>
+<script src="dom.js"></script>
+<script src="ajax.js"></script>
+</head>
+<body>
+<input type="text" value="默认值" />
+<div>
+    <span class="aaa no xx qq yy bbb">1111</span>
+    <span class="o no">2222</span>
+    <span class="qq">3333</span>
+    <span>4444</span>
+    <span>
+        <a>1</a>
+        <a>2</a>
+        <a>3</a>
+    </span>
+</div>
+<script>
+    $.ajax( {
+        url: './test/test.css',
+        dataType: 'style',
+        timeout: 5,
+        success: function( data ) {
+            console.log( data );
+            console.log( typeof data );
+        },
+        error: function( msg ) {
+            console.log( msg );
+        }
+    } );
+
+</script>
+</body>
+</html>

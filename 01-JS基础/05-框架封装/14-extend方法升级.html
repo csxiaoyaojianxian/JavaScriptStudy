@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Title</title>
+<script src="jquery-2.2.0.js"></script>
+</head>
+<body>
+<script>
+function jQuery() {
+
+}
+jQuery.fn = jQuery.prototype = {};
+
+
+// 添加extend方法
+/*
+* 需求：
+* 1、传入一个参数，谁调用就给谁混入内容
+* 2、传入多个参数，把后面对象的内容混入到第一个对象中
+* */
+jQuery.extend = jQuery.fn.extend = function() {
+
+    // 被混入的目标，默认为第一个参数
+    var target = arguments[ 0 ];
+
+    // 传入一个参数，把这个参数的内容混入到this中
+    if( arguments.length === 1 ) {
+
+        // 传入一个参数，目标改为this
+        target = this;
+
+        // 给this混入内容
+        for( var key in arguments[ 0 ] )  {
+            target[ key ] = arguments[ 0 ][ key ];
+        }
+    }
+
+    // 传入多个参数，把后面对象的内容混入到第一个对象中
+    else if( arguments.length >= 2 ) {
+
+        // 遍历得到后面所有的对象
+        for( var i = 1, len = arguments.length; i < len; i++ ) {
+
+            // 遍历每一个对象所有的属性
+            for( var key in arguments[ i ] ) {
+
+                // 把后面对象的内容混入到第一个对象中
+                target[ key ] = arguments[ i ][ key ];
+            }
+        }
+    }
+
+    // 给谁混入返回谁
+    return target;
+}
+
+// 添加extend方法
+/*
+ * 需求：
+ * 1、传入一个参数，谁调用就给谁混入内容
+ * 2、传入多个参数，把后面对象的内容混入到第一个对象中
+ * */
+jQuery._extend = jQuery.fn._extend = function() {
+
+    var i = 1, key,
+        arg = arguments,
+        target = arg[ 0 ],
+        argLen = arg.length;
+
+    // 参数个数为1时，目标改为this，起始i改为0
+    if( argLen === 1 ) {
+        target = this;
+        i = 0;
+    }
+
+    // 遍历得到arguments中的对象
+    for( ; i < argLen; i++ ) {
+
+        // 遍历每一个对象所有的属性
+        for( key in arg[ i ] ) {
+            target[ key ] = arg[ i ][ key ];
+        }
+    }
+
+    // 给谁混入返回谁
+    return target;
+}
+</script>
+<script>
+/*console.log(jQuery.fn._extend({
+    val: 111,
+    value: 999
+}));
+console.log(jQuery.fn);*/
+
+var obj = {};
+jQuery._extend(obj, {
+    val1: 1111
+}, {
+    val2: 2222
+}, {
+    val3: 3333
+});
+console.log( obj );
+</script>
+</body>
+</html>
