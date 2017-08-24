@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+
+<script>
+/*
+* @Author: victorsun
+* @Date:   2017-08-24 14:34:31
+* @Last Modified by:   victorsun
+* @Last Modified time: 2017-08-24 14:48:26
+*/
+
+/**
+ * CommonJS & AMD
+ */
+
+/**
+ * 【 CommonJS 】
+ * node.js
+ * 问题：
+ * require('math') 必须等math.js加载完成之后运行
+ * 服务器端所有的模块都存放在本地硬盘，可以同步加载完成，等待时间就是硬盘的读取时间
+ * 浏览器，等待时间取决于网速的快慢，可能要等很长时间，浏览器处于"假死"状态
+ * 因此，浏览器端的模块，不能采用"同步加载"（synchronous），只能采用"异步加载"（asynchronous）
+ */
+// 假定加载一个数学模块math.js
+var math = require('math');
+math.add(2,3); // 5
+
+/**
+ * 【 AMD 】
+ * AMD "Asynchronous Module Definition" 异步模块定义
+ * 所有依赖某个模块的语句，都定义在回调函数中，等到加载完成后，回调函数才会运行
+ * require([module], callback);
+ * 主要有两个Javascript库实现了AMD规范：require.js和curl.js
+ */
+require(['math'], function (math) {
+	math.add(2, 3);
+});
+
+/**
+ * 【 AMD - require.js 】
+ * 1.实现js文件的异步加载，避免网页失去响应
+ * 2.管理模块之间的依赖性，便于代码的编写和维护
+ */
+
+
+</script>
+</body>
+</html>
