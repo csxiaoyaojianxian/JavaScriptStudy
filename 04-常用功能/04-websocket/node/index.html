@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	
+<script>
+var ws=new WebSocket("ws://127.0.0.1:8000");
+ws.onerror=function(e){
+  console.log(e);
+};
+ws.onopen=function(e){
+    console.log("握手成功");
+};
+</script>
+</body>
+</html>

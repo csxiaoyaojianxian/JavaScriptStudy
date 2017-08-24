@@ -1,0 +1,12 @@
+<script type="text/javascript">
+var ws = new WebSocket("ws://localhost:4000");
+ws.onopen = function(){
+	console.log("握手成功");
+}
+ws.onmessage = function(e){
+	console.log("message:" + e.data);
+}
+ws.onerror = function(){
+	console.log("error");
+}
+</script>

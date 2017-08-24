@@ -1,0 +1,25 @@
+<!doctype html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
+<title>HTML5 websocket 网页聊天室</title>
+<link rel="stylesheet" href="./css/chatroom.css">
+</head>
+
+<body>
+<div id="ltian">
+	<div id="us" class="jb"></div>
+	<div id="ct"></div>
+    <a href="javascript:;" class="qp" onClick="this.parentNode.children[1].innerHTML=''">清屏</a>
+</div>
+<div class="rin">
+    <button id="sd">发送</button>
+    <span><img src="./sk/t.png" title="表情" id="imgbq"><img src="./sk/e.png" title="上传图片"><form><input type="file" title="上传图片" id="upimg"></form></span>
+    <p><input id="nrong"></p>
+</div>
+<div id="ems"><p></p><p class="tc"></p></div>
+
+<script src="./js/websocket.js" type="text/javascript"></script>
+<script src="./js/chatroom.js"></script>
+</body>
+</html>
