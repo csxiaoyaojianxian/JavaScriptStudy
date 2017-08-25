@@ -4,39 +4,144 @@
 * @Last Modified by:   victorsun
 * @Last Modified time: 2017-08-24 21:35:48
 */
-//服务器程序
-var crypto = require('crypto');
-var WS = '258EAFA5-E914-47DA-95CA-C5AB0DC85B11';
-require('net').createServer(function(o){
-    var key;
-    o.on('data',function(e){
-        if(!key){
-            //握手
-            key = e.toString().match(/Sec-WebSocket-Key: (.+)/)[1];
-            key = crypto.createHash('sha1').update(key + WS).digest('base64');
-            o.write('HTTP/1.1 101 Switching Protocols\r\n');
-            o.write('Upgrade: websocket\r\n');
-            o.write('Connection: Upgrade\r\n');
-            o.write('Sec-WebSocket-Accept: ' + key + '\r\n');
-            o.write('\r\n');
-        }else{
-            // 输出之前解析帧
-            console.log(decodeDataFrame(e));
-        };
-    });
-}).listen(8000);
 
 // 【 协议 】
+//  0                   1                   2                   3
+//  0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
+// +-+-+-+-+-------+-+-------------+-------------------------------+
+// |F|R|R|R| opcode|M| Payload len |    Extended payload length    |
+// |I|S|S|S|  (4)  |A|     (7)     |             (16/64)           |
+// |N|V|V|V|       |S|             |   (if payload len==126/127)   |
+// | |1|2|3|       |K|             |                               |
+// +-+-+-+-+-------+-+-------------+ - - - - - - - - - - - - - - - +
+// |     Extended payload length continued, if payload len == 127  |
+// + - - - - - - - - - - - - - - - +-------------------------------+
+// |                               |Masking-key, if MASK set to 1  |
+// +-------------------------------+-------------------------------+
+// | Masking-key (continued)       |          Payload Data         |
+// +-------------------------------- - - - - - - - - - - - - - - - +
+// :                     Payload Data continued ...                :
+// + - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - +
+// |                     Payload Data continued ...                |
+// +---------------------------------------------------------------+
+// 
 // FIN      1bit 表示信息的最后一帧，flag，也就是标记符
 // RSV 1-3  1bit each 以后备用的 默认都为 0
-// Opcode   4bit 帧类型，稍后细说
-// Mask     1bit 掩码，是否加密数据，默认必须置为1 （这里很蛋疼）
+// Opcode   4bit 帧类型，见下表
+// Mask     1bit 掩码，是否加密数据，默认必须置为1 
 // Payload  7bit 数据的长度
 // Masking-key      1 or 4 bit 掩码
 // Payload data     (x + y) bytes 数据
 // Extension data   x bytes  扩展数据
 // Application data y bytes  程序数据
 
+// -+--------+-------------------------------------+-----------|
+//  |Opcode  | Meaning                             | Reference |
+// -+--------+-------------------------------------+-----------|
+//  | 0      | Continuation Frame                  | RFC 6455  |
+// -+--------+-------------------------------------+-----------|
+//  | 1      | Text Frame                          | RFC 6455  |
+// -+--------+-------------------------------------+-----------|
+//  | 2      | Binary Frame                        | RFC 6455  |
+// -+--------+-------------------------------------+-----------|
+//  | 8      | Connection Close Frame              | RFC 6455  |
+// -+--------+-------------------------------------+-----------|
+//  | 9      | Ping Frame                          | RFC 6455  |
+// -+--------+-------------------------------------+-----------|
+//  | 10     | Pong Frame                          | RFC 6455  |
+// -+--------+-------------------------------------+-----------|
+// 
+// 【 握手连接 】
+// +--------+    1.发送Sec-WebSocket-Key        +---------+
+// |        | --------------------------------> |        |
+// |        |    2.加密返回Sec-WebSocket-Accept  |        |
+// | client | <-------------------------------- | server |
+// |        |    3.本地校验                      |        |
+// |        | --------------------------------> |        |
+// +--------+                                   +--------+
+// 【 1. client => server 】
+/*
+GET /chat HTTP/1.1
+Host: server.example.com
+Upgrade: websocket
+Connection: Upgrade
+Sec-WebSocket-Key: dGhlIHNhbXBsZSBub25jZQ==
+Origin: http://example.com
+Sec-WebSocket-Protocol: chat, superchat
+Sec-WebSocket-Version: 13
+ */
+// 客户端发了一串 Base64 加密的密钥 Sec-WebSocket-Key
+// 【 2. server => client 】
+/*
+HTTP/1.1 101 Switching Protocols
+Upgrade: websocket
+Connection: Upgrade
+Sec-WebSocket-Accept: s3pPLMBiTxaQ9kYGzzhZRbK+xOo=
+Sec-WebSocket-Protocol: chat
+ */
+// Server 返回了 Sec-WebSocket-Accept 这个应答，这个应答内容是通过一定的方式生成的。生成算法是：
+// mask  = "258EAFA5-E914-47DA-95CA-C5AB0DC85B11";  // 这是算法中要用到的固定字符串
+// 【 accept = base64( sha1( key + mask ) ); 】
+// 分解动作：
+// 1. t = "GhlIHNhbXBsZSBub25jZQ==" + "258EAFA5-E914-47DA-95CA-C5AB0DC85B11"
+//    -> "GhlIHNhbXBsZSBub25jZQ==258EAFA5-E914-47DA-95CA-C5AB0DC85B11"
+// 2. s = sha1(t) 
+//    -> 0xb3 0x7a 0x4f 0x2c 0xc0 0x62 0x4f 0x16 0x90 0xf6 
+//       0x46 0x06 0xcf 0x38 0x59 0x45 0xb2 0xbe 0xc4 0xea
+// 3. base64(s) 
+//    -> "s3pPLMBiTxaQ9kYGzzhZRbK+xOo="
+// 上面 Server 端返回的 HTTP 状态码是 101，如果不是 101 ，就说明握手一开始就失败了
+
+
+//服务器程序
+var crypto = require('crypto');
+var WS = '258EAFA5-E914-47DA-95CA-C5AB0DC85B11'; // 算法中要用到的固定字符串
+require('net').createServer(function(o){
+    var key;
+    o.on('data',function(e){
+        //握手
+        if(!key){
+            key = e.toString().match(/Sec-WebSocket-Key: (.+)/)[1];
+            // 算法：accept = base64( sha1( key + mask ) );
+            key = crypto.createHash('sha1').update(key + WS).digest('base64');
+            o.write('HTTP/1.1 101 Switching Protocols\r\n');
+            o.write('Upgrade: websocket\r\n');
+            o.write('Connection: Upgrade\r\n');
+            o.write('Sec-WebSocket-Accept: ' + key + '\r\n');
+            o.write('\r\n');
+            console.log("建立连接");
+        }
+        // 接收数据
+        else{
+            // 输出之前解析帧
+            var frame=  decodeDataFrame(e);
+            console.log(frame);
+            // 关闭之前
+            if(frame.Opcode==8){
+                console.log("断开连接");
+                o.end(); // 断开连接
+            }else{
+                // 主动断开连接
+                // o.write(encodeDataFrame({
+                //     FIN:1,
+                //     Opcode:8,
+                //     PayloadData:"断开"
+                // }));
+            }
+        };
+    });
+}).listen(8000);
+
+
+// decodeDataFrame 解析客户端传来的二进制数据，得到的数据格式是：
+// {
+//     FIN: 1,
+//     Opcode: 1,
+//     Mask: 1,
+//     PayloadLength: 4,
+//     MaskingKey: [ 159, 18, 207, 93 ],
+//     PayLoadData: '握手成功'
+// }
 function decodeDataFrame(e){
   var i=0,j,s,frame={
     //解析前两个字节的基本数据
@@ -67,7 +172,6 @@ function decodeDataFrame(e){
   return frame;
 }
 
-//NodeJS
 function encodeDataFrame(e){
   var s=[],o=new Buffer(e.PayloadData),l=o.length;
   //输入第一个字节

@@ -1,28 +1,40 @@
 <?php
 class WS {
-	var $master;
-	var $sockets = array();
+	var $master; // 连接 server 的 client
+	var $sockets = array(); // 不同状态的 socket 管理
 	var $debug = false;
-	var $handshake = false;
+	var $handshake = false; // 判断是否握手
 
 	function __construct($address, $port){
+
+		/**
+		 * 建立一个 socket 套接字
+		 */
+		// $master = socket_create(AF_INET, SOCK_STREAM, SOL_TCP);
+		// socket_set_option($master, SOL_SOCKET, SO_REUSEADDR, 1);
+		// socket_bind($master, $address, $port);
+		// socket_listen($master);
 		$this->master=socket_create(AF_INET, SOCK_STREAM, SOL_TCP)     or die("socket_create() failed");
 		socket_set_option($this->master, SOL_SOCKET, SO_REUSEADDR, 1)  or die("socket_option() failed");
 		socket_bind($this->master, $address, $port)                    or die("socket_bind() failed");
 		socket_listen($this->master,20)                                or die("socket_listen() failed");
 		
 		$this->sockets[] = $this->master;
+		// debug
 		$this->say("Server Started : ".date('Y-m-d H:i:s'));
 		$this->say("Listening on   : ".$address." port ".$port);
 		$this->say("Master socket  : ".$this->master."\n");
 		
 		while(true){
+			//自动选择来消息的 socket 如果是握手 自动选择主机
 			$socketArr = $this->sockets;
 			$write = NULL;
 			$except = NULL;
-			socket_select($socketArr, $write, $except, NULL);  //自动选择来消息的socket 如果是握手 自动选择主机
+			socket_select($socketArr, $write, $except, NULL);
+
 			foreach ($socketArr as $socket){
-				if ($socket == $this->master){  //主机
+				//连接主机的 client 
+				if ($socket == $this->master){
 					$client = socket_accept($this->master);
 					if ($client < 0){
 						$this->log("socket_accept() failed");
@@ -39,9 +51,11 @@ class WS {
 					}
 					else{
 						if (!$this->handshake){
+							// 如果没有握手，先握手回应
 							$this->doHandShake($socket, $buffer);
 						}
 						else{
+							// 如果已经握手，直接接受数据，并处理
 							$buffer = $this->decode($buffer);
 							$this->send($socket, $buffer); 
 						}
@@ -51,6 +65,7 @@ class WS {
 		}
 	}
 	
+	// 返回数据
 	function send($client, $msg){
 		$this->log("> " . $msg);
 		$msg = $this->frame($msg);
@@ -70,6 +85,8 @@ class WS {
 			array_splice($this->sockets, $index, 1); 
 		}
 	}
+
+	// 应答 Sec-WebSocket-Accept
 	function doHandShake($socket, $buffer){
 		$this->log("\nRequesting handshake...");
 		$this->log($buffer);
@@ -101,6 +118,7 @@ class WS {
 		return $accept;
 	}
 
+	// 解析数据帧
 	function decode($buffer) {
 		$len = $masks = $data = $decoded = null;
 		$len = ord($buffer[1]) & 127;
@@ -123,6 +141,7 @@ class WS {
 		return $decoded;
 	}
 
+	// 返回帧信息处理
 	function frame($s){
 		$a = str_split($s, 125);
 		if (count($a) == 1){
