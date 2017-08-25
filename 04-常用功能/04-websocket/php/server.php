@@ -26,7 +26,7 @@ class WS {
 		$this->say("Master socket  : ".$this->master."\n");
 		
 		while(true){
-			//自动选择来消息的 socket 如果是握手 自动选择主机
+			//自动选择消息的 socket 如果是握手 自动选择主机
 			$socketArr = $this->sockets;
 			$write = NULL;
 			$except = NULL;
@@ -57,7 +57,7 @@ class WS {
 						else{
 							// 如果已经握手，直接接受数据，并处理
 							$buffer = $this->decode($buffer);
-							$this->send($socket, $buffer); 
+							$this->send($socket, "收到数据：".$buffer); 
 						}
 					}
 				}
@@ -112,6 +112,7 @@ class WS {
 		return array($r, $h, $o, $key);
 	}
 
+	// 加密 Sec-WebSocket-Key
 	function calcKey($key){
 		//基于websocket version 13
 		$accept = base64_encode(sha1($key . '258EAFA5-E914-47DA-95CA-C5AB0DC85B11', true));
@@ -153,7 +154,6 @@ class WS {
 		}
 		return $ns;
 	}
-
 	
 	function say($msg = ""){
 		echo $msg . "\n";
@@ -166,4 +166,4 @@ class WS {
 }
 	
 
-new WS('localhost', 4000);
+new WS('localhost', 8000);

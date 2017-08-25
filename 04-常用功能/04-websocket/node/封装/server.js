@@ -1,0 +1,15 @@
+﻿//服务器程序
+require('websocket').createServer(function(ws){
+  ws.on("message",function(e){
+    console.log("收到数据："+e);
+    if(/ping/.test(e))ws.ping();
+    if(/数据/.test(e))ws.send("你猜我发不发～");
+    if(/断开/.test(e))ws.close(1000,"是你叫我断开的！");
+  });
+  ws.on("pong",function(){
+    console.log("收到pong包");
+  });
+  ws.on("close",function(){
+    console.log("客户端断开");
+  });
+}).listen(8000,'127.0.0.1');

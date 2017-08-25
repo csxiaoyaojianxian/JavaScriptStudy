@@ -2,7 +2,7 @@
 * @Author: victorsun
 * @Date:   2017-08-24 21:19:43
 * @Last Modified by:   victorsun
-* @Last Modified time: 2017-08-24 21:35:48
+* @Last Modified time: 2017-08-25 15:59:31
 */
 
 // 【 协议 】
@@ -96,11 +96,12 @@ Sec-WebSocket-Protocol: chat
 //服务器程序
 var crypto = require('crypto');
 var WS = '258EAFA5-E914-47DA-95CA-C5AB0DC85B11'; // 算法中要用到的固定字符串
-require('net').createServer(function(o){
+
+require('net').createServer(function(o) {
     var key;
-    o.on('data',function(e){
+    o.on('data', function(e) {
         //握手
-        if(!key){
+        if (!key) {
             key = e.toString().match(/Sec-WebSocket-Key: (.+)/)[1];
             // 算法：accept = base64( sha1( key + mask ) );
             key = crypto.createHash('sha1').update(key + WS).digest('base64');
@@ -109,39 +110,54 @@ require('net').createServer(function(o){
             o.write('Connection: Upgrade\r\n');
             o.write('Sec-WebSocket-Accept: ' + key + '\r\n');
             o.write('\r\n');
-            console.log("建立连接");
+
+            // 握手成功后给客户端发送数据
+            // 【不分片】ping包
+            // o.write(encodeDataFrame({FIN:1,Opcode:9,PayloadData:"数据"}));
+            // 【分片】数据包
+            o.write(encodeDataFrame({ FIN: 0, Opcode: 1, PayloadData: "CS逍遥剑仙" }));
+            o.write(encodeDataFrame({ FIN: 0, Opcode: 0, PayloadData: " SUNSHINE-" }));
+            o.write(encodeDataFrame({ FIN: 1, Opcode: 0, PayloadData: "STUDIO" }));
+            console.log("connect");
         }
         // 接收数据
-        else{
-            // 输出之前解析帧
-            var frame=  decodeDataFrame(e);
-            console.log(frame);
-            // 关闭之前
-            if(frame.Opcode==8){
-                console.log("断开连接");
-                o.end(); // 断开连接
-            }else{
-                // 主动断开连接
-                // o.write(encodeDataFrame({
-                //     FIN:1,
-                //     Opcode:8,
-                //     PayloadData:"断开"
-                // }));
+        else {
+            var data = decodeDataFrame(e);
+
+            // 选择性断开连接：客户端 ws.close() 或返回数据为 close
+            if (data.Opcode == 8 || data.PayloadData == "close") {
+                // 可以发送结束包给客户端的onclose中带参数
+                // var buf = new Buffer('\0\0客户端断开连接');
+                // buf.writeUInt16BE(1000, 0);
+                // o.write(encodeDataFrame({ FIN: 1, Opcode: 8, PayloadData: buf }));
+                //断开连接
+                o.end();
+                console.log("disconnect");
+            }
+
+            //解析客户端传过来的数据帧并输出
+            else {
+                data.PayloadData = data.PayloadData.toString();
+                o.write(encodeDataFrame({ FIN: 1, Opcode: 1, PayloadData: "服务端收到数据：" + data.PayloadData }));
+                console.log("data from client:" + data.PayloadData);
             }
         };
     });
 }).listen(8000);
 
-
-// decodeDataFrame 解析客户端传来的二进制数据，得到的数据格式是：
-// {
-//     FIN: 1,
-//     Opcode: 1,
-//     Mask: 1,
-//     PayloadLength: 4,
-//     MaskingKey: [ 159, 18, 207, 93 ],
-//     PayLoadData: '握手成功'
-// }
+/**
+ * decodeDataFrame 解析客户端传来的二进制数据
+ * 
+ * 得到的数据格式：
+ * {
+ *     FIN: 1,
+ *     Opcode: 1,
+ *     Mask: 1,
+ *     PayloadLength: 4,
+ *     MaskingKey: [ 159, 18, 207, 93 ],
+ *     PayLoadData: '握手成功'
+ * }
+ */
 function decodeDataFrame(e){
   var i=0,j,s,frame={
     //解析前两个字节的基本数据
@@ -172,6 +188,28 @@ function decodeDataFrame(e){
   return frame;
 }
 
+/**
+ * encodeDataFrame 封装发送服务端数据
+ * 
+ * 【 不分片 】
+ * o.write(encodeDataFrame({FIN:1,Opcode:9,PayloadData:"数据"}));
+ * 【 分片 】
+ * 开始帧：FIN=0,Opcode>0;一个
+ * 传输帧：FIN=0,Opcode=0;零个或多个
+ * 终止帧：FIN=1,Opcode=0;一个
+ * 
+ * FIN是FINAL的缩写，它为1时表示一个数据传输结束
+ * 
+ * o.write(encodeDataFrame({
+ *   FIN:0,Opcode:1,PayloadData:"ABC"
+ * }));
+ * o.write(encodeDataFrame({
+ *   FIN:0,Opcode:0,PayloadData:"-DEF-"
+ * }));
+ * o.write(encodeDataFrame({
+ *   FIN:1,Opcode:0,PayloadData:"GHI"
+ * }));
+ */
 function encodeDataFrame(e){
   var s=[],o=new Buffer(e.PayloadData),l=o.length;
   //输入第一个字节

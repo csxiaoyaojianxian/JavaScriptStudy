@@ -1,0 +1,43 @@
+﻿<title>WebSocket兼容到低版本浏览器</title>
+<script src="WebSocket.js"></script>
+<script>
+onload=function(){
+  var ws=new WebSocket("ws://127.0.0.1:8000");
+  ws.onopen=function(){
+    //握手成功
+    send.removeAttribute("disabled");
+    send.value="发送";
+  };
+  ws.onmessage=function(e){
+    //收到消息，放到页面上
+    var dl,dt,dd,o=eval("("+e.data+")");
+    dl=document.createElement("dl");
+    dt=document.createElement("dt");
+    dd=document.createElement("dd");
+    dt.innerHTML=o.client;
+    dd.appendChild(document.createTextNode(o.content));
+    dl.appendChild(dt);
+    dl.appendChild(dd);
+    wall.appendChild(dl);
+    wall.scrollTop=1E8;
+  };
+  send.onclick=function(){
+    //发送消息
+    if(!message.value)return alert("请输入内容");
+    ws.send(message.value);
+    message.value="";
+  };
+};
+</script>
+<style>
+dl {margin:3px 10px;font:14px/20px Consolas,微软雅黑;}
+dt {color:blue;}
+#wall {
+  border:1px solid #CCC;width:200px;height:200px;
+  overflow-y:auto;margin-bottom:10px;
+}
+</style>
+<div id="wall"></div>
+<input id="message" />
+<input type="button" value="连接中···" id="send" disabled />
+

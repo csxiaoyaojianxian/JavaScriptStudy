@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+
+<input type="text" id="text" />
+<input type="button" onclick="sendMsg();" value="发送数据" />
+<input type="button" onclick="getState();" value="获取readyState状态" />
+
+<h1>服务端：node/server.js & php/server.js</h1>
+<h2>websocket 特性</h2>
+<p>
+1.建立在 TCP 协议之上，服务器端的实现比较容易<br>
+2.与 HTTP 协议有着良好的兼容性。websocket 把 80 端口作为默认连接端口，握手阶段采用 HTTP 协议，因此握手时不容易屏蔽，能通过各种 HTTP 代理服务器，而websocket的运行使用的是443端口<br>
+3.数据格式比较轻量，性能开销小，通信高效<br>
+4.可以发送文本，也可以发送二进制数据<br>
+5.没有同源限制，客户端可以与任意服务器通信<br>
+6.协议标识符是ws（如果加密，则为wss），服务器网址就是 URL<br>
+</p>
+
+<script>
+
+var ws=new WebSocket("ws://127.0.0.1:8000");
+
+/**
+ * 获取websocket状态
+ */
+function getState(){
+	/**
+	 * 【 readyState 】
+	 * CONNECTING：值为0，表示正在连接
+	 * OPEN：值为1，表示连接成功，可以通信了
+	 * CLOSING：值为2，表示连接正在关闭
+	 * CLOSED：值为3，表示连接已经关闭，或者打开连接失败
+	 */
+	switch (ws.readyState) {
+	  case WebSocket.CONNECTING:
+	    alert("state:CONNECTING");
+	    break;
+	  case WebSocket.OPEN:
+	    alert("state:OPEN");
+	    break;
+	  case WebSocket.CLOSING:
+	    alert("state:CLOSING");
+	    break;
+	  case WebSocket.CLOSED:
+	    alert("state:CLOSED");
+	    break;
+	  default:
+	    // this never happens
+	    break;
+	}
+}
+/**
+ * 【 API 】
+ * 两种事件定义方式
+ * ws.onopen = function(event){}
+ * ws.addEventListener('open', function (event) {
+ * 	  ws.send('Hello Server!');
+ * });
+ */
+ws.onopen=function(event){
+	console.log("Connection open ...");
+};
+
+ws.onmessage = function(event) {
+	console.log("Received data: " + event.data);
+
+	if(typeof event.data === String) {
+		console.log("Received data string: " + event.data);
+	}
+	if(event.data instanceof ArrayBuffer){
+		var buffer = event.data;
+		console.log("Received arraybuffer: " + buffer);
+	}
+	/**
+	 * 可以使用binaryType属性，显式指定收到的二进制数据类型
+	 * 
+	// 收到的是 blob 数据
+	ws.binaryType = "blob";
+	console.log(event.data.size);
+	// 收到的是 ArrayBuffer 数据
+	ws.binaryType = "arraybuffer";
+	console.log(event.data.byteLength);
+	 */
+};
+
+ws.onclose = function(event) {
+	console.log("Connection closed ...");
+	console.log("服务器断开代码："+event.code);
+	console.log("断开理由："+event.reason);
+	console.log("wasClean："+event.wasClean);
+	ws.close();
+};
+
+ws.onerror=function(event){
+	console.log(event);
+};
+
+function sendMsg(){
+	var content = document.getElementById("text").value;
+	/**
+	 * 1.发送文本
+	 */
+	ws.send(content);
+	/**
+	 * 2.发送 Blob 对象
+	 */
+	// var file = document.querySelector('input[type="file"]').files[0];
+	// ws.send(file);
+	/**
+	 * 3.发送 ArrayBuffer 对象
+	 * Sending canvas ImageData as ArrayBuffer
+	 * 实例对象的bufferedAmount属性，表示还有多少字节的二进制数据没有发送出去，可以用来判断发送是否结束
+	 */
+	// var img = canvas_context.getImageData(0, 0, 400, 320);
+	// var binary = new Uint8Array(img.data.length);
+	// for (var i = 0; i < img.data.length; i++) {
+	// 	binary[i] = img.data[i];
+	// }
+	// ws.send(binary.buffer);
+
+	// var data = new ArrayBuffer(10000000);
+	// socket.send(data);
+	// if (socket.bufferedAmount === 0) {
+	// 	// 发送完毕
+	// } else {
+	// 	// 发送还没结束
+	// }
+}
+
+</script>
+</body>
+</html>
