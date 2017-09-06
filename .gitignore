@@ -1,0 +1,32 @@
+#
+#/// MacOS
+#
+.DS_Store
+
+#
+#/// Windows
+#
+# Windows image file caches
+Thumbs.db
+ehthumbs.db
+
+# Folder config file
+Desktop.ini
+
+# Recycle Bin used on file shares
+$RECYCLE.BIN/
+node_modules
+build
+
+# Windows Installer files
+*.cab
+*.msi
+*.msm
+*.msp
+
+# Windows shortcuts
+*.lnk
+
+*.sublime-project
+*.sublime-workspace
+npm-debug.log

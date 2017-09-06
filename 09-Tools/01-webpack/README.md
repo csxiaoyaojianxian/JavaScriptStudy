@@ -1,6 +1,8 @@
 # Webpack学习总结
 
-[toc]
+[TOC]
+
+> 本文所有代码均已经在 macos 和 windows 中实践，并注明了系统的差异
 
 ## 1. Webpack 与 Gulp / Grunt 对比 
 
@@ -360,8 +362,6 @@ module.exports = {
   "presets": ["react", "es2015"]
 }
 ```
-
-到目前为止，我们已经知道了，对于模块，Webpack能提供非常强大的处理功能，那那些是模块呢。
 
 #### 4.3.3 实例3：配置 css-loader &  style-loader
 
@@ -822,6 +822,12 @@ module.exports = {
   }
 }
 ```
+
+> 注：此处 build 脚本合并了两条命令，是 Mac 的 bash / Linux 的 shell 中的独特操作，powershell / cmd 不支持这种操作，Windows 下拆分命令为：
+>
+> ```json
+> "build": "set NODE_ENV=production && webpack --config ./webpack.production.config.js --progress"
+> ```
 
 ### 6.3 优化插件
 
