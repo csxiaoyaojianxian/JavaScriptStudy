@@ -1,0 +1,26 @@
+.preloader {position: fixed;top: 0;left: 0;width: 100%;height: 100%;z-index: 99999;display: flex;flex-flow: row nowrap;justify-content: center;align-items: center;background: none repeat scroll 0 0 #464646;}
+/** 加载动画的静态样式 **/
+.csxiaoyao-loading{position:relative;width:52px;height:52px;margin:0 auto;border-radius:52px;border:2px solid #fff;overflow:hidden;}
+.csxiaoyao-loading .item{position:absolute;left:50%;top:0;width:20px;height:100%;margin-left:-10px;}
+.csxiaoyao-loading .item:nth-child(2){-webkit-transform:rotate(45deg);}
+.csxiaoyao-loading .item:nth-child(3){-webkit-transform:rotate(90deg);}
+.csxiaoyao-loading .item:nth-child(4){-webkit-transform:rotate(135deg);clip:rect(-26px,18px,26px,-18px);}
+.csxiaoyao-loading .item:nth-child(5){-webkit-transform:rotate(135deg);clip:rect(26px,37px,78px,2px);}
+.csxiaoyao-loading .item:before,.csxiaoyao-loading .item:after{content:'';position:absolute;left:0;width:18px;height:100%;}
+.csxiaoyao-loading .item:before{bottom:52%;border-left:2px solid #fff;-webkit-transform-origin:left bottom;-webkit-transform:translate(100%,0) rotate(-45deg);}
+.csxiaoyao-loading .item:after{top:52%;border-right:2px solid #fff;-webkit-transform-origin:right top;-webkit-transform:translate(-100%,0) rotate(-45deg);}
+.csxiaoyao-loading .item:nth-child(1):before{background:#48ec53;}
+.csxiaoyao-loading .item:nth-child(1):after{background:#f75e5a;}
+.csxiaoyao-loading .item:nth-child(2):before{background:#a6ea4b;}
+.csxiaoyao-loading .item:nth-child(2):after{background:#724dee;}
+.csxiaoyao-loading .item:nth-child(3):before{background:#e8d84b;}
+.csxiaoyao-loading .item:nth-child(3):after{background:#44abec;}
+.csxiaoyao-loading .item:nth-child(4):before{background:#fdc103;}
+.csxiaoyao-loading .item:nth-child(5):after{background:#51ddeb;}
+.csxiaoyao-loading .point{position:absolute;left:50%;top:50%;width:18px;height:18px;margin:-9px 0 0 -9px;border-radius:18px;border:2px solid #fff4c3;box-sizing:border-box;}
+/** 加载动画 **/
+@-webkit-keyframes load{
+    100%{-webkit-transform:rotate(360deg);}
+}
+.csxiaoyao-loading{-webkit-animation:load 1.8s linear infinite;}
+/* .csxiaoyao-loading{-webkit-animation:load 1.8s cubic-bezier(0.6, 0.4, 0.4, 0.6) infinite;} */

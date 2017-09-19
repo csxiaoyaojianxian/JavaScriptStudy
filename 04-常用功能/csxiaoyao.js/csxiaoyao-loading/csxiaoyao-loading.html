@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" Content="text/html; charset=utf-8;">
+<title>sunshine loading</title>
+<link rel="stylesheet" href="csxiaoyao-loading.css">
+<style>
+*{margin:0;padding:0;}
+</style>
+</head>
+
+<body>
+<div class="preloader">
+	<div class="csxiaoyao-loading">
+	    <div class="item"></div>
+	    <div class="item"></div>
+	    <div class="item"></div>
+	    <div class="item"></div>
+	    <div class="item"></div>
+	    <div class="point"></div>
+	</div>
+</div>
+<script type="text/javascript" src="https://cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+<script type="text/javascript">
+	$(window).load(function(){
+	  $('.preloader').fadeOut(1000); // set duration in brackets    
+	});
+</script>
+</body>
+</html>

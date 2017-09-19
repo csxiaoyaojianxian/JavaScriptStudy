@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+</head>
+<body>
+
+<script src="function-url.js"></script>
+<script src="function-cookie.js"></script>
+<script src="function-useragent.js"></script>
+<script src="function-response.js"></script>
+<script>
+/**
+ * url
+ */
+var Url = Url();
+// 获取url
+console.log(Url.url());//http://localhost/url/test.html?csxiaoyao=%E5%AD%99%E5%89%91%E5%B3%B0
+// 设置url
+console.log(Url.url("http//www.csxiaoyao.com/blog/index.php?csxiaoyao=CS逍遥剑仙"));//http//www.csxiaoyao.com/blog/index.php?csxiaoyao=CS逍遥剑仙
+// 获取get参数
+console.log(Url.$_GET);//Object {csxiaoyao: "CS逍遥剑仙"}
+console.log(Url.$_GET["csxiaoyao"]);//CS逍遥剑仙
+console.log(Url.get("csxiaoyao"));//CS逍遥剑仙
+// url编码解码
+console.log(Url.decodeUrl(Url.encodeUrl("CS逍遥剑仙")));//CS逍遥剑仙
+// 获取相对路径
+console.log(Url.getRelativePath());// /blog/index.php
+/**
+ * cookie
+ */
+var Cookie = Cookie();
+Cookie.setCookie("csxiaoyao","sunshine",3);//csxiaoyao:sunshine,有效期3天
+console.log(Cookie.getCookie("csxiaoyao"));//sunshine
+Cookie.clearCookie("csxiaoyao");
+/**
+ * userAgent
+ */
+var UserAgent = UserAgent();
+console.log(UserAgent.language);//zh-cn
+console.log(UserAgent.isMobile);//false
+/**
+ * response
+ */
+var res = responseCode(200);
+alert(res.msg);
+eval(res.act);
+
+</script>
+</body>
+</html>
