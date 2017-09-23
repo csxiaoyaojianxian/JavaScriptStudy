@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Document</title>
+
+</head>
+<body>
+
+<a href="https://aui.github.io/art-template/zh-cn/docs/">https://aui.github.io/art-template/zh-cn/docs/</a>
+<div id="content"></div>
+
+<!-- 1. 引入js文件 -->
+<script src="template-web.js"></script>
+<!-- 2. 定义模板 -->
+<script id="test" type="text/html">
+    <h1><%=title%></h1>
+    <ul>
+        <%for (var i =0;i<list.length;i++){%>
+            <li>索引<%=i+1%>:<%=list[i]%></li>
+        <% } %>
+    </ul>
+</script>
+
+<script>
+// 3. 定义数据对象
+var data ={
+	title:"artTemplate",
+	isTemplate:"true",
+	list:['读书', '听歌', '摄影', '旅行', '跑步', '爬山', '骑行']
+};
+
+// 4. 调用模板引擎
+/*  参数1：模板的id
+    参数2：对象（注意是 对象）*/
+var html = template('test',data);
+// 5. 找到并替换
+document.getElementById('content').innerHTML = html;
+
+</script>
+
+
+</body>
+</html>
