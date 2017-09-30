@@ -1,4 +1,4 @@
-# React-native 学习笔记
+# react-native 学习笔记
 
 ## 1 安卓和ios环境配置
 
@@ -63,16 +63,9 @@ $ npm install react-native-vector-icons@2.0.2 --save
 $ npm install rnpm@1.7.0 -g
 ```
 
-解决运行出错
+链接
 
-rnpm link react-native-vector-icons
-
-```shell
-# 方案1 推荐
-$ npm install rnpm -g
-$ npm install react-native-vector-icons --save
-$ rnpm link
-# 方案2 每次运行前link
-$ react-native link
-$ react-native run-ios
+```Shell
+$ rnpm link react-native-vector-icons
 ```
+

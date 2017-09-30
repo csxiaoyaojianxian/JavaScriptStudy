@@ -10,6 +10,10 @@ import {
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Icon from 'react-native-vector-icons/Ionicons';
 
+var List = require('./app/creation/index');
+var Edit = require('./app/edit/index');
+var Account = require('./app/account/index');
+
 class List extends Component {
   render(){
     return (
