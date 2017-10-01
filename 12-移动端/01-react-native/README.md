@@ -47,7 +47,17 @@ export PATH=$PATH:$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools
 
 `babel`、`sublimelinter-jsxhint` (view->syntax->babel->javascript)、`gitgutter`、`sublimelinter-contrib-eslint`
 
+**1.7 debugger-ui**
+
+呼出方式：`cmd`+`d`
+
+浏览器访问地址：http://localhost:8081/debugger-ui
+
+
+
 ## 2 实战开发 
+
+![react生命周期](pic/react生命周期.png)
 
 TabBarIOS组件
 
@@ -67,5 +77,46 @@ $ npm install rnpm@1.7.0 -g
 
 ```Shell
 $ rnpm link react-native-vector-icons
+```
+
+## 3 Mock 假数据
+
+**3.1 rap 配置返回数据规则**
+
+[http://rapapi.org](http://rapapi.org) rap 配置规则
+
+![rap-mock假数据](pic/rap-mock假数据.png)
+
+**3.2 解决 Image 网络图片不显示问题**
+
+IOS 9以上的设备因为`App Transport Security`会拒绝所有不通过HTTPS发送的HTTP请求，需要在`Info.plist`进行ATS设置，`App Transport Security Settings`下新建`Allow Arbitrary Loads`条目，并设置值为`YES`
+
+![解决Image网络图片不显示问题01](pic/解决Image网络图片不显示问题01.png)
+
+![解决Image网络图片不显示问题01](pic/解决Image网络图片不显示问题02.png)
+
+**3.3 mockjs**
+
+[http://mockjs.com](http://mockjs.com) 解析 json
+
+ 安装 mockjs
+
+```Shell
+$ npm install mockjs --save
+```
+
+**3.4 删除 mockjs 中 dataImage 方法**
+
+路径
+
+```
+node_modules/mockjs/dist/mock.js
+```
+
+**3.5 安装 query-string & lodash**
+
+```Shell
+$ npm install query-string --save
+$ npm install lodash --save
 ```
 

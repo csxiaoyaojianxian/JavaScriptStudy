@@ -10,9 +10,9 @@ import {
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Icon from 'react-native-vector-icons/Ionicons';
 
-import List from './app/creation/index';
-import Edit from './app/edit/index';
-import Account from './app/account/index';
+var List = require('./app/creation/index');
+var Edit = require('./app/edit/index');
+var Account = require('./app/account/index');
 
 class RNStudy extends Component {
   constructor(props) {
@@ -22,11 +22,10 @@ class RNStudy extends Component {
 
   render() {
     return (
-      <TabBarIOS tintColor="#ee735c">
+      <TabBarIOS tintColor="white">
         
         <Icon.TabBarItem
           iconName='ios-videocam-outline'
-          badge={5}
           selectedIconName='ios-videocam'
           selected={this.state.selectedTab === 'list'}
           onPress={() => {

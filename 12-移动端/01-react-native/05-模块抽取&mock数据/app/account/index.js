@@ -2,8 +2,7 @@ import React, { Component } from 'react';
 import {
   StyleSheet,
   Text,
-  View,
-  Image
+  View
 } from 'react-native';
   
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
@@ -14,6 +13,7 @@ class Account extends Component {
     return (
       <View style={styles.container}>
         <Text>Account</Text>
+        <FontAwesome name="address-book" size={80} color="#4F8EF7" />
       </View>
     )
   }

@@ -2,18 +2,18 @@ import React, { Component } from 'react';
 import {
   StyleSheet,
   Text,
-  View,
-  Image
+  View
 } from 'react-native';
   
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Icon from 'react-native-vector-icons/Ionicons';
 
-class Account extends Component {
+class List extends Component {
   render(){
     return (
       <View style={styles.container}>
-        <Text>Account</Text>
+        <Text>List</Text>
+        <FontAwesome name="address-book" size={80} color="#4F8EF7" />
       </View>
     )
   }
@@ -28,4 +28,4 @@ const styles = StyleSheet.create({
   },
 });
 
-module.exports = Account;
+module.exports = List;
