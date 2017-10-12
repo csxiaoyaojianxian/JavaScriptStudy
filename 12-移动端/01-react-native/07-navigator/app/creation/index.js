@@ -253,12 +253,12 @@ class List extends Component {
   }
 
   // 打开详情页
-  _loadPage(data){
+  _loadPage(row){
     this.props.navigator.push({
       name:'detail',
       component:Detail,
       params:{
-        data:data
+        row:row
       }
     })
   }

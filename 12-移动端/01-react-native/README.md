@@ -120,3 +120,25 @@ $ npm install query-string --save
 $ npm install lodash --save
 ```
 
+## 4 列表页开发
+
+**1 报错解决**
+
+`Navigator is deprecated and has been removed from this package. It can now be installed and import from ‘react-native-deprecated-custom-components’ instead of ‘react-native’.`
+
+```Shell
+$ npm i react-native-deprecated-custom-components --save
+```
+
+**2 navigator**
+
+通过 push 和 pop 页面，实现页面的跳转
+
+**3 视频播放插件**
+
+```Shell
+$ npm i -S react-native-video
+$ react-native link
+$ rnpm link react-native-video
+```
+
