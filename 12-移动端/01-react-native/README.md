@@ -142,3 +142,9 @@ $ react-native link
 $ rnpm link react-native-video
 ```
 
+**4 按钮**
+
+```Shell
+$ npm i react-native-button --save
+```
+
