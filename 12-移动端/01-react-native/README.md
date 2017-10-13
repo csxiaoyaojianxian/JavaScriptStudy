@@ -148,3 +148,11 @@ $ rnpm link react-native-video
 $ npm i react-native-button --save
 ```
 
+## 5 RN知识点
+
+```Shell
+$ git clone https://github.com/facebook/react-native.git
+$ git checkout 0.24-stable
+$ rm -rf node_modules && npm install
+```
+
