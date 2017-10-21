@@ -1,5 +1,7 @@
 # react-native 学习笔记
 
+By CS逍遥剑仙  2017.09.21
+
 ## 1 安卓和ios环境配置
 
 **1.1 安装 `watchman` 和 `flow`**
@@ -53,7 +55,19 @@ export PATH=$PATH:$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools
 
 浏览器访问地址：http://localhost:8081/debugger-ui
 
+**1.8 修改下载源**
 
+使用淘宝的 `NPM` 下载源, 可以加快下载速度
+
+```Shell
+$ npm config set registry=http://registry.npm.taobao.org/
+```
+
+配置地址在根目录的 `.npmrc` 中, 即
+
+```
+registry=http://registry.npm.taobao.org/
+```
 
 ## 2 实战开发 
 
@@ -148,11 +162,34 @@ $ rnpm link react-native-video
 $ npm i react-native-button --save
 ```
 
+**5 本地异步存储 - AsyncStorage**
+
 ## 5 RN知识点
 
 ```Shell
 $ git clone https://github.com/facebook/react-native.git
+$ cd react-native
 $ git checkout 0.24-stable
 $ rm -rf node_modules && npm install
 ```
+
+通过xcode启动Example/UIExplorer，查看组件
+
+> 新版本改名为 RNTester
+
+**常用组件**
+
+`View`、`Text`、`TextInput`、`Image`、`AlertIOS`、`Modal`、`ActivityIndicatorIOS`、`ProgressViewIOS`、`ListView`、`PickerIOS`、`DatePickerIOS`、`StatusBarIOS`、`Switch`、`Slider`、`MapView`、`Navigator`、`TabBarIOS`、`SegmentedControlIOS`、`Touchable`、`WebView`
+
+## 6 手机展示原型
+
+1. iPhone连接Mac，确保处在同一WiFi下
+
+2. 找到本地IP地址
+
+   ```Shell
+   $ ifconfig
+   ```
+
+   ​
 
