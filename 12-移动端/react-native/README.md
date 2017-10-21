@@ -4,11 +4,19 @@ By CS逍遥剑仙  2017.09.21
 
 ## 1 安卓和ios环境配置
 
-**1.1 安装 `watchman` 和 `flow`**
+**1.1 安装 `homebrew`、`watchman`、`flow`、`nodejs` 等**
+
+安装相关依赖包
 
 ```shell
-$ brew install watchman flow
+$ brew install watchman flow git gcc pkg-config cairo libpng jpeg gitlib mongodb
 ```
+
+watchman: 监视文件，记录改动情况
+
+flow: js静态类型检查器
+
+…...
 
 **1.2 安装 `xcode`**
 
@@ -25,7 +33,7 @@ $ npm install -g react-native-cli@0.1.10 -g
 **1.4 新建项目**
 
 ```Shell
-$ react-native init test
+$ react-native init RNStudy
 $ react-native run-ios
 $ react-native run-android
 ```
@@ -181,15 +189,45 @@ $ rm -rf node_modules && npm install
 
 `View`、`Text`、`TextInput`、`Image`、`AlertIOS`、`Modal`、`ActivityIndicatorIOS`、`ProgressViewIOS`、`ListView`、`PickerIOS`、`DatePickerIOS`、`StatusBarIOS`、`Switch`、`Slider`、`MapView`、`Navigator`、`TabBarIOS`、`SegmentedControlIOS`、`Touchable`、`WebView`
 
+
+
+版本回退
+
+```
+npm install --save react-native@0.24
+react-native upgrade
+```
+
+指定版本
+
+```
+npm i -g rninit
+```
+
+
+
+
+
 ## 6 手机展示原型
 
 1. iPhone连接Mac，确保处在同一WiFi下
 
-2. 找到本地IP地址
+2. 找到本地IP地址并修改ip地址
 
    ```Shell
    $ ifconfig
    ```
 
-   ​
+3. sign team
+
+   ![sign team](pic/sign team.png)
+
+
+## 7 页面开发
+
+**倒计时组件**
+
+```Shell
+$ npm install react-native-sk-countdown --save
+```
 
