@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <canvas id="cvs"></canvas>
+    <script>
+        var cvs = document.getElementById('cvs');
+        var ctx = cvs.getContext('2d');
+
+        /*
+        * 设置画线的时候空白部分和实线部分的大小。
+        * ctx.setLineDash( [ 5, 3 ] )
+        * */
+
+        ctx.lineDashOffset = 3;
+        ctx.setLineDash( [ 4, 3, 2 ] );
+        ctx.moveTo( 10, 10 );
+        ctx.lineTo( 310, 10 );
+        ctx.stroke();
+
+        /*
+         * 获取线条绘制规则。
+         * ctx.getLineDash()
+         * */
+        console.log(ctx.getLineDash());
+
+        /*
+        * 设置虚线绘制时的偏移量
+        * ctx.lineDashOffset = 3;
+        * */
+    </script>
+</body>
+</html>

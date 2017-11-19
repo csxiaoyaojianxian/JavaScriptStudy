@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        canvas {
+            border: 1px solid red;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="cvs" width="500" height="500"></canvas>
+    <script>
+        var cvs = document.getElementById('cvs');
+        var ctx = cvs.getContext('2d');
+
+        ctx.lineWidth = 2;
+
+        // 坐标轴距离画布上右下左的边距
+        var padding = {
+            top: 20,
+            right: 20,
+            bottom: 20,
+            left: 20
+        }
+
+        // 坐标轴中箭头的宽和高
+        var arrow = {
+            width: 12,
+            height: 20
+        }
+
+        // 求坐标轴上顶点的坐标
+        var vertexTop = {
+            x: padding.left,
+            y: padding.top
+        }
+
+        // 求坐标轴原点的坐标
+        var origin = {
+            x: padding.left,
+            y: cvs.height - padding.bottom
+        }
+
+        // 求坐标轴右顶点的坐标
+        var vertexRight = {
+            x: cvs.width - padding.right,
+            y: cvs.height - padding.bottom
+        }
+
+
+        // 画坐标轴中的两条线
+        ctx.moveTo( vertexTop.x, vertexTop.y );
+        ctx.lineTo( origin.x, origin.y );
+        ctx.lineTo( vertexRight.x, vertexRight.y );
+        ctx.stroke();
+
+        // 画上顶点箭头
+        ctx.beginPath();
+        ctx.moveTo( vertexTop.x, vertexTop.y );
+        ctx.lineTo( vertexTop.x - arrow.width / 2, vertexTop.y + arrow.height );
+        ctx.lineTo( vertexTop.x, vertexTop.y + arrow.height / 2 );
+        ctx.lineTo( vertexTop.x + arrow.width / 2, vertexTop.y + arrow.height );
+        ctx.closePath();
+        ctx.fill();
+
+        // 画右顶点箭头
+        ctx.beginPath();
+        ctx.moveTo( vertexRight.x, vertexRight.y );
+        ctx.lineTo( vertexRight.x - arrow.height, vertexRight.y - arrow.width / 2 );
+        ctx.lineTo( vertexRight.x - arrow.height / 2, vertexRight.y );
+        ctx.lineTo( vertexRight.x - arrow.height, vertexRight.y + arrow.width / 2 );
+        ctx.closePath();
+        ctx.fill();
+
+        // 求坐标轴默认可显示数据的最大值
+        coordMaxX = cvs.width - padding.left - padding.right - arrow.height;
+        coordMaxY = cvs.height - padding.top - padding.bottom - arrow.height;
+
+        /*
+        * 在坐标轴中指定位置画点，坐标算法：
+        * 点的x轴：原点x坐标 + 点到原点的水平距离
+        * 点的y轴：原点y坐标 - 点到原点的垂直距离
+        * */
+
+        // 需求，利用折线图的方式展示一下门口大爷酱香饼每日销售量
+        // [ 10, 20, 50, 80, 120, 300, 100, 50, 2 ];
+
+        var data = [ 100, 200, 400, 600, 1200, 1800, 1000, 500, 20 ];
+
+        // 求数据缩放的比例
+        var ratioX = coordMaxX / data.length;
+        var ratioY = coordMaxY / Math.max.apply( null, data );
+
+        // 根据比例，对元数据进行缩放
+        var ratioData = data.map( function( val, i ) {
+            return val * ratioY;
+        });
+
+        // 画点
+        ratioData.forEach( function( val, index ) {
+            ctx.fillRect( origin.x + ( index * ratioX) - 2, origin.y - val - 2, 4, 4 );
+        });
+
+        // 画折线
+        ctx.beginPath();
+        ratioData.forEach( function( val, index ) {
+            ctx.lineTo( origin.x + ( index * ratioX), origin.y - val );
+        });
+        ctx.stroke();
+    </script>
+</body>
+</html>

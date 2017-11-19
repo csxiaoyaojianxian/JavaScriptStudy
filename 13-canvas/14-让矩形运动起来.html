@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <canvas id="cvs" width="500" height="500"></canvas>
+    <script>
+        var cvs = document.getElementById('cvs');
+        var ctx = cvs.getContext('2d');
+
+        // 构造函数
+        function JuXing( ctx, startX, startY, width, height, lineWidth, strokeStyle ) {
+            this.ctx = ctx;
+            this.startX = startX;
+            this.startY = startY;
+            this.width = width;
+            this.height = height;
+            this.lineWidth = lineWidth;
+            this.strokeStyle = strokeStyle;
+        }
+
+        // 给原型添加一个绘制方法
+        JuXing.prototype.draw = function() {
+            this.ctx.beginPath();
+
+            this.ctx.moveTo( this.startX, this.startY );
+            this.ctx.lineTo( this.startX + this.width, this.startY );
+            this.ctx.lineTo( this.startX + this.width, this.startY + this.height );
+            this.ctx.lineTo( this.startX, this.startY + this.height );
+            this.ctx.closePath();
+
+            this.ctx.lineWidth = this.lineWidth;
+            this.ctx.strokeStyle = this.strokeStyle;
+
+            this.ctx.stroke();
+        }
+
+        // 创建一个实例
+        var juxing = new JuXing( ctx, 10, 10, 60, 60, 4, 'deeppink' );
+        juxing.draw();
+
+        // 不断的清除画布，绘制新的矩形，产生运动效果
+        setInterval(function() {
+            ctx.clearRect( 0, 0, cvs.width, cvs.height );
+            juxing.startX += 2;
+            juxing.draw();
+        }, 50);
+
+    </script>
+</body>
+</html>

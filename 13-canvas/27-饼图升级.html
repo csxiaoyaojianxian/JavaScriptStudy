@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        canvas {
+            border:1px solid red;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="cvs" width="500" height="500"></canvas>
+    <script src="pipe_new.js"></script>
+    <script>
+        var cvs = document.getElementById('cvs');
+        var ctx = cvs.getContext('2d');
+
+        // [ 10, 30, 50, 60, 20 ]
+        var pipe = new Pipe( 200, 200, 80, [
+            {
+                val: 10,
+                msg: '米饭'
+            },
+            {
+                val: 30,
+                msg: '面条'
+            },
+            {
+                val: 50,
+                msg: '馒头'
+            },
+            {
+                val: 50,
+                msg: '豆腐脑'
+            },
+            {
+                val: 50,
+                msg: '饺子'
+            },
+            {
+                val: 90,
+                msg: '汤圆'
+            },
+        ] );
+        pipe.draw();
+    </script>
+</body>
+</html>

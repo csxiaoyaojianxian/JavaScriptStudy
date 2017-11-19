@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        canvas {
+            border:1px solid red;
+        }
+        img {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="cvs" width="500" height="500"></canvas>
+    <img src="./images/NPC2.png">
+    <script src="person.js"></script>
+    <script>
+        var cvs = document.getElementById('cvs');
+        var ctx = cvs.getContext('2d');
+        var img = document.querySelector('img');
+
+        // 必须要在图片加载完毕之后，才能使用
+        img.onload = function() {
+            var person = new Person( ctx, img, 4, 4, 50, 50, 50, 50 );
+
+            setInterval( function() {
+
+                // 清除画布
+                ctx.clearRect( 0, 0, cvs.width, cvs.height );
+
+                // 绘制
+                person.draw();
+                person.currentFrame = ++person.currentFrame >= person.widthFrame? 0 : person.currentFrame;
+
+                // 计算下一次绘制时，小人的位置
+                person.update();
+
+            }, 50);
+        }
+    </script>
+</body>
+</html>

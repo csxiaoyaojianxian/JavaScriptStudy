@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        canvas {
+            border:1px solid red;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="cvs" width="500" height="500"></canvas>
+    <script>
+        var cvs = document.getElementById('cvs');
+        var ctx = cvs.getContext('2d');
+
+        // 第一个lineTo就相当于是moveTo
+        // 这里所谓的第一个，指的是当前路径的第一次
+        ctx.lineTo( 100, 10 );
+        ctx.lineTo( 200, 10 );
+        ctx.stroke();
+    </script>
+</body>
+</html>

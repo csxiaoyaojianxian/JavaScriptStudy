@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <canvas id="cvs" width="500" height="500"></canvas>
+    <script>
+        var cvs = document.getElementById('cvs');
+        var ctx = cvs.getContext('2d');
+
+        /*
+        * 设置线帽样式：
+        * ctx.lineCap = 'butt' 、'round'、'square'
+        * butt是默认值，
+        * round线头是圆的，
+        * square线头两段各增加线宽的一半。
+        * */
+
+        ctx.lineWidth = 10;
+
+        // 默认线头
+        ctx.moveTo( 10, 10 );
+        ctx.lineTo( 310, 10 );
+        ctx.stroke();
+
+        // 增长线头，两端各增长线宽的一半
+        ctx.beginPath();
+        ctx.lineCap = 'square';
+        ctx.moveTo( 10, 30 );
+        ctx.lineTo( 310, 30 );
+        ctx.stroke();
+
+        // 圆线头，两端的圆半径为线宽的一半
+        ctx.beginPath();
+        ctx.lineCap = 'round';
+        ctx.moveTo( 10, 50 );
+        ctx.lineTo( 310, 50 );
+        ctx.stroke();
+    </script>
+</body>
+</html>

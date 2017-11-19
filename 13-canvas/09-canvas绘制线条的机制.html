@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <canvas id="cvs"></canvas>
+    <script>
+        var cvs = document.getElementById('cvs');
+        var ctx = cvs.getContext('2d');
+
+        ctx.lineWidth = 9;
+
+        ctx.moveTo( 10, 10 );
+        ctx.lineTo( 410, 10 );
+        ctx.stroke();
+
+        /*
+        * canvas在绘制线条的时候，会向左向右偏移线宽的一半，然后进行绘制。
+        * 如果线宽为奇数，那么边缘的颜色值，会缩减一半。
+        * */
+    </script>
+</body>
+</html>

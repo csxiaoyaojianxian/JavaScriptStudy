@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        canvas {
+            border: 1px solid red;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="cvs" width="500" height="500"></canvas>
+    <script>
+        var cvs = document.getElementById('cvs');
+        var ctx = cvs.getContext('2d');
+
+        /*
+        * 设置描边色：
+        * ctx.strokeStyle = css任意的颜色表示
+        * */
+
+        // 绘制一个等腰三角形的路径
+        ctx.moveTo( 110, 10 );
+        ctx.lineTo( 160, 60 );
+        ctx.lineTo( 60, 60 );
+        ctx.lineTo( 110, 10 );
+        // 解决锯齿
+        ctx.lineTo( 160, 60 );
+
+        // 颜色设置，必须放在绘制之前
+        ctx.strokeStyle = 'blue';
+        // 线宽设置，必须放在绘制之前
+        ctx.lineWidth = 6;
+        ctx.stroke();
+    </script>
+</body>
+</html>

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        canvas {
+            border: 1px solid red;
+        }
+    </style>
+</head>
+<body>
+    
+    <!-- canvas是一个用来展示绘图效果的标签，它和img类似，都是行内块元素 -->
+    <!-- 同一个页面可以拥有多个canvas标签 -->
+    <!-- 画布默认300*150，要设置画布的宽高，需要借助canvas元素的属性 -->
+    <canvas id="cvs" width="500" height="500"></canvas>
+    <script>
+        var cvs = document.getElementById('cvs');
+
+        /*
+        * 上面的canvas只是用来展示绘图效果的，
+        * 那么这个图从哪里来的呢？
+        * 需要打开canvas（通过getContext方法来打开），然后在上面绘图图形，
+        * 最终就可以透过canvas标签看到。
+        * */
+        var ctx = cvs.getContext('2d');
+
+        /*
+        * canvas绘图的几个步骤：
+        * 1、先移动钢笔到指定的位置
+        * 2、开始画线条
+        * 3、描边路径
+        * */
+
+        // 1、先移动钢笔到指定的位置
+        // ctx.moveTo( x轴移动的坐标，y轴移动的坐标 )
+        ctx.moveTo( 10, 10 );
+
+        // 2、开始画线条
+        // ctx.lineTo( x轴移动的坐标，y轴移动的坐标 )
+        ctx.lineTo( 110, 10 );
+        ctx.lineTo( 110, 110 );
+        ctx.lineTo( 10, 110 );
+        ctx.lineTo( 10, 10 );
+
+        // 3、描边路径
+        // ctx.stroke()
+        ctx.stroke();
+    </script>
+</body>
+</html>

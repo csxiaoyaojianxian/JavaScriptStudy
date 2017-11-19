@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        canvas {
+            border:1px solid red;
+        }
+        img {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="cvs" width="500" height="500"></canvas>
+    <img src="./images/NPC1.png">
+    <script>
+        var cvs = document.getElementById('cvs');
+        var ctx = cvs.getContext('2d');
+        var img = document.querySelector('img');
+
+        img.onload = function() {
+
+            var i = 0;
+
+            setInterval( function() {
+
+                // 绘制新的图像时，需要先清除画布
+                ctx.clearRect( 0, 0, cvs.width, cvs.height );
+
+                // 绘图每一帧
+                /*
+                * 裁剪的x轴，用来控制每一排不同的帧，
+                * 裁剪的y轴，用来控制当前行走的方向(也就是绘制那一排)。
+                * */
+                ctx.drawImage( img,
+                    img.width / 4 * i, img.height / 4 * 3, img.width / 4, img.height / 4,
+                    10, 10, 200, 200 );
+
+                // i的最大值为3
+                if ( ++i >= 4 ) {
+                    i = 0;
+                }
+
+            }, 200);
+        };
+    </script>
+</body>
+</html>

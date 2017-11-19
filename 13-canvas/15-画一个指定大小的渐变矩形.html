@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <canvas id="cvs"></canvas>
+    <script>
+        var cvs = document.getElementById('cvs');
+        var ctx = cvs.getContext('2d');
+
+        // 需求，在50,50点绘制一个宽高各100的渐变矩形
+        var i = 0, len = 100;
+        for ( ; i < len; i++ ) {
+            // 为了防止重绘
+            ctx.beginPath();
+            ctx.moveTo( 50, 50 + i );
+            ctx.lineTo( 150, 50 + i );
+            // 红色通道值依次累加
+            ctx.strokeStyle = 'rgb(' + 0 + ', ' + Math.floor(255/99*i) + ', ' + 255 + ' )';
+            ctx.stroke();
+        }
+    </script>
+</body>
+</html>

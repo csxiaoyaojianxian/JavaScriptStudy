@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        canvas {
+            border:1px solid red;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="cvs" width="500" height="500"></canvas>
+    <script>
+        var cvs = document.getElementById('cvs');
+        var ctx = cvs.getContext('2d');
+
+        /*
+        * 平移坐标轴：
+        * ctx.translate( x轴平移量，y轴平移量 )
+        * 备注：已绘制的图形不会受到影响，平移会累加。
+        * */
+
+        ctx.fillRect( 10, 10, 50, 50 );
+
+        // 平移坐标轴之后，按照同样的坐标绘制一个填充矩形
+        ctx.translate( 100, 100 );
+        ctx.fillRect( 10, 10, 50, 50 );
+
+        // 再平移坐标轴，再按照同样的坐标绘制一个填充矩形
+        ctx.translate( 100, 100 );
+        ctx.fillRect( 10, 10, 50, 50 );
+    </script>
+</body>
+</html>

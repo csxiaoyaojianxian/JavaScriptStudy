@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>flappy_bird</title>
+    <style>
+        canvas {
+            border:1px solid red;
+        }
+        img {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="cvs" width="500" height="500"></canvas>
+    <script src="./js/util.js"></script>
+    <script src="./js/bird.js"></script>
+    <script src="./js/land.js"></script>
+    <script src="./js/pipe.js"></script>
+    <script src="./js/sky.js"></script>
+    <script src="./js/gameScene.js"></script>
+    <script src="./js/overScene.js"></script>
+    <script>
+        var cvs = document.querySelector( '#cvs' );
+        var ctx = cvs.getContext( '2d' );
+
+        util.loadImage({
+            bird: './img/bird.png',
+            land: './img/land.png',
+            pipeDown: './img/pipeDown.png',
+            pipeUp: './img/pipeUp.png',
+            sky: './img/sky.png'
+        }, function( imgObj ) {
+
+            // 根据背景的大小设置画布的大小
+            cvs.width = imgObj.sky.width;
+            cvs.height = imgObj.sky.height;
+
+            // 创建游戏场景
+            var gameScene = getGameScene( ctx, imgObj );
+
+            // 创建游戏结束场景
+            var overScene = getOverScene( ctx );
+
+            // 添加小鸟死亡的听众
+            gameScene.addListener( function() {
+                clearInterval( timer );
+                overScene.draw();
+            } );
+
+            // 让背景动起来
+            var timer = setInterval(function() {
+                // 开始表演
+                gameScene.draw();
+            }, 50);
+        });
+    </script>
+</body>
+</html>

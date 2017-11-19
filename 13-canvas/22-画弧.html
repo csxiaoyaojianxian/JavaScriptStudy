@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        canvas {
+            border:1px solid red;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="cvs" width="500" height="500"></canvas>
+    <script>
+        var cvs = document.getElementById('cvs');
+        var ctx = cvs.getContext('2d');
+
+        /*
+        * 画弧( 画的是路径 )
+        * ctx.arc( 圆心x轴坐标，圆心y轴坐标，半径, 起点弧度，结束点弧度，是否逆时针画(可选) )
+        * arc方法内部会先从路径结束点到弧的起点画一条路径线。
+        * 起点弧度、结束点弧度以及弧度的方向共同决定了弧的大小。
+        * */
+
+        // 把角度转换为弧度
+        function angleToRadian( angle ) {
+            return Math.PI / 180 * angle;
+        }
+
+        // 顺时针画一段弧
+        ctx.arc( 100, 100, 30, angleToRadian( 90 ), angleToRadian( 270 ) );
+        ctx.stroke();
+
+        // 逆时针画一段弧
+        ctx.beginPath();
+        ctx.arc( 200, 100, 30, angleToRadian( 90 ), angleToRadian( 270 ), true );
+        ctx.stroke();
+
+        // 一个圆
+        ctx.beginPath();
+        ctx.arc( 300, 100, 30, angleToRadian( 90 ), angleToRadian( 360 ) );
+        ctx.stroke();
+
+        /*
+        * 画扇形：
+        * 1、先设置路径起点为圆心
+        * 2、画弧
+        * 3、闭合路径
+        * */
+        ctx.beginPath();
+        ctx.moveTo( 100, 300 );
+        ctx.arc( 100, 300, 90, angleToRadian( 45 ), angleToRadian( 180 ) );
+        ctx.closePath();
+        ctx.stroke();
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <script>
+        function Person( name, age ) {
+            this.name = name;
+            this.age = age;
+        }
+
+        // 工厂
+        // 工厂模式相当于省去new关键字
+        function getPerson( name, age ) {
+            return new Person( name, age );
+        }
+
+        console.log(getPerson('女神', 18));
+    </script>
+</body>
+</html>

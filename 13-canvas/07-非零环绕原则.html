@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <canvas id="cvs"></canvas>
+    <script>
+        var cvs = document.getElementById('cvs');
+        var ctx = cvs.getContext('2d');
+
+        /*
+        * 非零环绕原则：
+        * 是用来判断哪些区域属于路径内( 计算结果非0，即为路径内 )。
+        * 在路径包围的区域中，随便找一点，向外发射一条射线，和所有围绕它的边相交，
+        * 然后开启一个计数器，从0计数，
+        * 如果这个射线遇到顺时针围绕，那么+1，
+        * 如果遇到逆时针围绕，那么-1，
+        * 如果最终值非0，则这块区域在路径内。
+        *
+        * 备注：奇数边的区域一定在路径内。
+        * */
+    </script>
+</body>
+</html>

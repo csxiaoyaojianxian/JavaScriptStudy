@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        canvas {
+            border:1px solid red;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="cvs" width="500" height="500"></canvas>
+    <script>
+        var cvs = document.getElementById('cvs');
+        var ctx = cvs.getContext('2d');
+
+        function angleToRadian( angle ) {
+            return Math.PI / 180 * angle;
+        }
+
+        var x = 200, y = 200, r = 90, pointAngle = 60;
+        ctx.arc( x, y, r, 0, Math.PI * 2 );
+        ctx.stroke();
+
+        /*
+        * 在圆60度的位置画一点，
+        * 求这个点的坐标：
+        * x = 圆心x + r * Math.cos( angleToRadian( pointAngle ) )
+        * y = 圆心y + r * Math.sin( angleToRadian( pointAngle ) )
+        * */
+        ctx.beginPath();
+        ctx.arc( x + r * Math.cos( angleToRadian( pointAngle ) ),
+                y + r * Math.sin( angleToRadian( pointAngle ) ),
+                6, 0, Math.PI * 2 );
+        ctx.fill();
+
+    </script>
+</body>
+</html>

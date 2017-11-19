@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <canvas id="cvs"></canvas>
+    <script>
+        var cvs = document.getElementById('cvs');
+        var ctx = cvs.getContext('2d');
+
+        // 封装一个绘制矩形的函数
+        function juXing( startX, startY, width, height, lineWidth, strokeStyle, fillStyle ) {
+            ctx.moveTo( startX, startY );
+            ctx.lineTo( startX + width, startY );
+            ctx.lineTo( startX + width, startY + height );
+            ctx.lineTo( startX, startY + height );
+            ctx.closePath();
+            ctx.lineWidth = lineWidth;
+            ctx.strokeStyle = strokeStyle;
+            ctx.fillStyle = fillStyle;
+
+            ctx.fill();
+            ctx.stroke();
+        }
+
+        /*
+        * 描边的时候，会占用原图形的一部分( 线宽的一半 )。
+        * 所以，日常开发中，为了让线宽符合要求，
+        * 最好先填充，再描边，防止填充时覆盖掉线宽的一半。
+        * */
+    </script>
+</body>
+</html>

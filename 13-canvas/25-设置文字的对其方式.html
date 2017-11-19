@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        canvas {
+            border:1px solid red;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="cvs" width="500" height="500"></canvas>
+    <script>
+        var cvs = document.getElementById('cvs');
+        var ctx = cvs.getContext('2d');
+
+        ctx.font = '2rem 微软雅黑';
+
+        /*
+        * 设置文字的水平对其方式：
+        * ctx.textAlign = 'left || start' 、 'right || end' 、 'center'
+        * 默认值为start。
+        * */
+
+        /*
+        * 设置文字的垂直对其方式：
+        * ctx.textBaseline = 'top' 、'bottom'、'middle'、'alphabetic'、'hanging'、'ideographic'
+        * 默认值为alphabetic。
+        * */
+
+        ctx.textAlign = 'left';
+        ctx.textBaseline = 'ideographic';
+        ctx.fillText( '咯咯咯咯咯咯', 100, 200 );
+
+        // 绘制文字的参考点
+        ctx.beginPath();
+        ctx.arc( 100, 200, 4, 0, Math.PI * 2 );
+        ctx.fill();
+    </script>
+</body>
+</html>

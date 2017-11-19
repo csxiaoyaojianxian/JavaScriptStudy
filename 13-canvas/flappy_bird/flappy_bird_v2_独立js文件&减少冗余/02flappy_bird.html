@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>flappy_bird</title>
+    <style>
+        canvas {
+            border:1px solid red;
+        }
+        img {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="cvs" width="500" height="500"></canvas>
+    <script src="./js/util.js"></script>
+    <script src="./js/bird.js"></script>
+    <script src="./js/land.js"></script>
+    <script src="./js/pipe.js"></script>
+    <script src="./js/sky.js"></script>
+    <script>
+        var cvs = document.querySelector( '#cvs' );
+        var ctx = cvs.getContext( '2d' );
+        util.loadImage({
+            bird: './img/bird.png',
+            land: './img/land.png',
+            pipeDown: './img/pipeDown.png',
+            pipeUp: './img/pipeUp.png',
+            sky: './img/sky.png'
+        }, function( imgObj ) {
+
+            // 根据背景的大小设置画布的大小
+            cvs.width = imgObj.sky.width;
+            cvs.height = imgObj.sky.height;
+
+            // 用来存储游戏所需的所有角色
+            var roles = [];
+
+            // 背景2个
+            roles.push( getSky( ctx, imgObj.sky, 3 ) );
+            roles.push( getSky( ctx, imgObj.sky, 3 ) );
+
+            // 管道6个
+            for ( var i = 0; i < 6; i++ ) {
+                roles.push( getPipe( ctx, imgObj.pipeDown, imgObj.pipeUp, 150, imgObj.land.height, 3 ) );
+            }
+
+            // 大地4个
+            for ( var i = 0; i < 4; i++ ) {
+                roles.push( getLand( ctx, imgObj.land, 3 ) );
+            }
+
+            // 创建鸟
+            roles.push( getBird( ctx, imgObj.bird, 3, 1, 10, 10 ) );
+
+            // 让背景动起来
+            var timer = setInterval(function() {
+
+                /*
+                * 每次绘制新的游戏画面时，
+                * 先判断小鸟有没有碰撞，
+                * 如果碰撞暂停定时器。
+                * */
+                var bird = getBird();
+                var birdCoreX = bird.x + bird.width / 2;
+                var birdCoreY = bird.y + bird.height / 2;
+
+                // 如果小鸟撞向管道，或者飞出天空，或者duang~duang~duang，那么游戏结束
+                if ( ctx.isPointInPath( birdCoreX, birdCoreY )
+                        || birdCoreY < 0
+                        || birdCoreY > (ctx.canvas.height - imgObj.land.height) )
+                {
+                    clearInterval( timer );
+                    ctx.fillStyle = 'rgba( 100, 100, 100, 0.8 )';
+                    ctx.fillRect( 0, 0, ctx.canvas.width, ctx.canvas.height );
+                    ctx.textAlign = 'center';
+                    ctx.textBaseline = 'middle';
+                    ctx.fillStyle = 'red';
+                    ctx.font = '900 40px 微软雅黑';
+                    ctx.fillText( 'GAME OVER!!!', ctx.canvas.width / 2, ctx.canvas.height / 2 );
+                    return;
+                }
+
+                // 先清除上一次绘制的6个管道路径，
+                // 然后再按照新的位置绘制新路径
+                ctx.beginPath();
+                roles.forEach( function( role ) {
+                    role.draw();
+                    role.update();
+                } );
+
+            }, 50);
+
+        });
+    </script>
+</body>
+</html>

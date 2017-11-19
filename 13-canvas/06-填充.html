@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <canvas id="cvs"></canvas>
+    <script>
+        var cvs = document.getElementById('cvs');
+        var ctx = cvs.getContext('2d');
+
+        // 封装一个绘制矩形的函数
+        function juXing( startX, startY, width, height, lineWidth, strokeStyle, fillStyle ) {
+            ctx.moveTo( startX, startY );
+            ctx.lineTo( startX + width, startY );
+            ctx.lineTo( startX + width, startY + height );
+            ctx.lineTo( startX, startY + height );
+            ctx.closePath();
+            ctx.lineWidth = lineWidth;
+            ctx.strokeStyle = strokeStyle;
+            ctx.fillStyle = fillStyle;
+
+            ctx.fill();
+            ctx.stroke();
+        }
+
+        /*
+        * 填充：
+        * 把当前路径环绕起来的区域进行填充。
+        * ctx.fill()
+        * */
+
+        /*
+         * 填充色：
+         * ctx.fillStyle = 颜色表示
+         * */
+
+        juXing( 20, 20, 40, 40, 6, 'red', 'green' );
+    </script>
+</body>
+</html>

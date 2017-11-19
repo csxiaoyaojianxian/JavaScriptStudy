@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        canvas {
+            border:1px solid red;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="cvs" width="500" height="500"></canvas>
+    <script>
+        var cvs = document.getElementById('cvs');
+        var ctx = cvs.getContext('2d');
+
+        /*
+        * 状态保存：
+        * ctx.save();
+        * 把当前的状态(绘制环境的所有属性)copy一份进行保存。
+        * */
+
+        /*
+        * 状态回滚：
+        * ctx.restore();
+        * 把最近保存的一次状态作为当前状态。
+        * */
+
+        ctx.save();
+
+        // 修改状态
+        ctx.lineWidth = 10;
+        ctx.strokeStyle = 'blue';
+        ctx.lineCap = 'round';
+
+        // 修改之后绘制一条线
+        ctx.moveTo( 10, 10 );
+        ctx.lineTo( 310, 10 );
+        ctx.stroke();
+
+        ctx.save();
+
+        // 修改状态
+        ctx.lineWidth = 3;
+        ctx.strokeStyle = 'pink';
+
+        // 修改之后再绘制一条线
+        ctx.beginPath();
+        ctx.moveTo( 10, 50 );
+        ctx.lineTo( 310, 50 );
+        ctx.stroke();
+
+        // 回滚
+        ctx.restore();
+
+        // 回滚之后再绘制一条线
+        ctx.beginPath();
+        ctx.moveTo( 10, 100 );
+        ctx.lineTo( 310, 100 );
+        ctx.stroke();
+
+        // 再回滚
+        ctx.restore();
+
+        // 再回滚之后再绘制一条线
+        ctx.beginPath();
+        ctx.moveTo( 10, 150 );
+        ctx.lineTo( 310, 150 );
+        ctx.stroke();
+
+
+        /*
+        * 状态的保存与回滚：
+        * 1、状态可以保存多份
+        * 2、回滚每次回滚到最近的状态保存
+        *
+        * 补充：状态的保存与回滚和路径无关。
+        * */
+        var cvs = document.querySelector( '#cvs' );
+        var ctx = cvs.getContext( '2d' );
+
+        ctx.rect( 10, 10, 50, 50 );
+        ctx.save();
+
+        // 清除当前路径
+        ctx.beginPath();
+
+        // 回滚上一次保存状态
+        ctx.restore();
+
+        ctx.stroke();// 不绘制
+    </script>
+</body>
+</html>

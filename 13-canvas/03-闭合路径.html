@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        canvas {
+            border: 1px solid red;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="cvs" width="500" height="500"></canvas>
+    <script>
+        var cvs = document.getElementById('cvs');
+        var ctx = cvs.getContext('2d');
+
+        /*
+        * 闭合路径：
+        * 从当前路径的起点点到结束点连一条路径。
+        * ctx.closePath()
+        * */
+
+        // 绘制一个等腰三角形的路径
+        ctx.moveTo( 110, 10 );
+        ctx.lineTo( 160, 60 );
+        ctx.lineTo( 60, 60 );
+        // 有了closePath，绘图直线图形时，最后一条边就可以省去了
+        ctx.closePath();
+
+        // 颜色设置，必须放在绘制之前
+        ctx.strokeStyle = 'yellow';
+        // 线宽设置，必须放在绘制之前
+        ctx.lineWidth = 6;
+        ctx.stroke();
+
+    </script>
+</body>
+</html>
