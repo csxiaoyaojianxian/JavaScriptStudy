@@ -1,8 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+loadImage({
+    img1: './images/sunshine.png',
+    img2: './images/NPC1.png'
+}, function( imgObj ) {
+    console.log( imgObj.img1.width );
+    console.log( imgObj.img2.width );
+    console.log( imgObj );
+});
+
 /*
-* function { loadImage } 加载图片资源
-* param { imgUrl: Object } 按照key，val形式存储要加载图片资源
-* param { fn: Function } 加载完毕之后，把资源传给这个回调
-* */
+ * function { loadImage } 加载图片资源
+ * param { imgUrl: Object } 按照key，val形式存储要加载图片资源
+ * param { fn: Function } 加载完毕之后，把资源传给这个回调
+ * */
 function loadImage( imgUrl, fn ) {
 
     var imgObj = {}; // 保存图片资源
@@ -29,3 +46,6 @@ function loadImage( imgUrl, fn ) {
     }
 
 }
+</script>
+</body>
+</html>
