@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+	<title>Document</title>
+
+	<style type="text/css">
+		li{
+			height: 20px;
+		}
+	</style>
+
+	<!-- zepto的基础模块  必须导入的-->
+	<script type="text/javascript" src='lib/zepto.js'></script>
+	
+	<!-- 如果使用事件 需要导入event -->
+	<script type="text/javascript" src='lib/event.js'></script>
+
+	<!-- 导入 animate的模块 -->
+	<script type="text/javascript" src='lib/fx.js'></script>
+
+	<!-- 移动端事件 需要导入touch.js -->
+	<script type="text/javascript" src='lib/touch.js'></script>
+
+	<script type="text/javascript">
+		$(function () {
+			// 获取li
+			// $('li').on('click',function(){
+			// 	console.log('click');
+			// })
+			$('li').click(function(){
+				console.log('li-click');
+				$('li').css('backgroundColor',"white");
+				$(this).css('backgroundColor','orange');
+				$(this).animate({
+					height:100
+				},2000,'ease');
+			}).longTap(function(){
+				$(this).animate({
+					'backgroundColor':'hotpink'
+				},500);
+			}).swipeLeft(function(){
+				$(this).text('swipeLeft');
+			}).swipeRight(function(){
+				$(this).text('swipeRight');
+			})
+
+			// 移动端很少
+			// $('li').doubleTap(function(){
+			// 	console.log('doubleTap');
+			// })
+
+		})
+	</script>
+</head>
+<body>
+	<ul>
+		<li>sunshine</li>
+		<li>sunshine</li>
+		<li>sunshine</li>
+		<li>sunshine</li>
+	</ul>
+</body>
+</html>
