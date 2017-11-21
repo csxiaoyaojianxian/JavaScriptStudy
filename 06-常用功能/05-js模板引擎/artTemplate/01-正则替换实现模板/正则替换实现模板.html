@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	
+</body>
+</html>
+<!-- 导入 模板插件  模板引擎 -->
+<script type="text/javascript" src='fox_template.js'></script>
+<script type="text/javascript">
+	//  挖好坑的 字符串
+	var str ='我是一只animal,我的毛色是color,我喜欢吃的食物是food,我喜爱的犬类是dog';
+
+	// 对象
+	var obj = {
+		animal:'泰迪',
+		color:'棕色',
+		food:'狗粮',
+		dog:'哈士奇'
+	}
+	// 调用模板插件中的 方法
+	/*
+		参数1:字符串
+		参数2:对象
+	*/
+	var resultStr = fox_template(str,obj);
+	console.log(resultStr);
+</script>
+<script type="text/javascript">
+	
+	var str ='我是一只{{animal}},我的毛色是{{color}}';
+
+	// 对象
+	var obj = {
+		animal:'taidi',
+		color:'棕色',
+	}
+
+	// 调用方法
+	var resultStr = fox_template_pro(str,obj);
+	console.log(resultStr);
+</script>

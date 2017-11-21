@@ -1,0 +1,17 @@
+[
+	{
+		"name":"sunshine",
+		"skill":"money",
+		"path":"images/1.jpg"
+	},
+	{
+		"name":"csxiaoyao",
+		"skill":"laugh",
+		"path":"images/2.jpg"
+	},
+	{
+		"name":"cs",
+		"skill":"cs",
+		"path":"images/3.jpg"
+	}
+]

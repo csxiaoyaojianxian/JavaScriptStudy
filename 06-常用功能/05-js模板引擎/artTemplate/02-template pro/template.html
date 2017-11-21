@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style type="text/css">
+		table{
+			margin: 100px auto;
+			width: 500px;
+		}
+		td{
+			border: 1px solid #0094ff;
+		}
+	</style>
+</head>
+<body>
+<h1>使用模板</h1>
+	<input type="button"  value="获取" id='getStars'>
+	<table id='tableBox'></table>
+</body>
+</html>
+
+<!-- 定义模板 -->
+<script type="text/template" id='template'>
+	<tr>
+		<td>{{name}}</td>
+		<td>{{skill}}</td>
+		<td><img src='{{path}}'></td>
+		<td><a href='#'>点击了解更多关于{{name}}的事</a></td>
+	</tr>
+</script>
+<!-- 导入模板插件(引擎) -->
+<script type="text/javascript" src='js/fox_template.js'></script>
+<!-- 自己写的js -->
+<script type="text/javascript">
+	document.querySelector("#getStars").onclick = function () {
+		var ajax = new XMLHttpRequest();
+
+		ajax.open('post','getData.php');
+
+		ajax.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+
+		ajax.send();
+
+		ajax.onreadystatechange = function () {
+			if (ajax.readyState==4&&ajax.status==200) {
+				console.log(ajax.responseText);
+
+				// 转化为 js对象 不管是 数组 还是 对象 都可以使用该方法转化
+				var starArr = JSON.parse(ajax.responseText);
+				
+				console.log(starArr);
+
+				// 获取 想要替换的文本
+				var templateStr = document.querySelector("#template").innerHTML;
+
+				// 将 每一次 获取的 字符串 拼接起来
+				var totalTr ='';
+				// 这里 获取到的 是一个数组
+				for (var i = 0; i < starArr.length; i++) {
+					// 获取 当前 循环的 这个 对象
+					var currentObj = starArr[i];
+
+					// 调用 封装的 模板方法 进行 替换
+					var resultStr = fox_template_pro(templateStr,currentObj);
+
+					// 测试 替换是否成功
+					console.log(resultStr);
+
+					totalTr+=resultStr;
+				}
+
+				// 循环完毕以后 tr 拼接完毕 直接设置给 页面中的 table即可
+				document.querySelector("#tableBox").innerHTML = totalTr;
+			}
+		}
+	}
+</script>
