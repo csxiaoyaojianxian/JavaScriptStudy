@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<input type="button"  value="测试get" id='ajax_get'>
+	<input type="button"  value="测试post" id='ajax_post'>
+</body>
+</html>
+<!-- 导入 封装的js -->
+<script type="text/javascript" src='ajax_tool.js'></script>
+<script type="text/javascript">
+	document.querySelector('#ajax_get').onclick = function () {
+		// 直接使用 封装的 工具函数即可
+		/*
+			参数1:url
+			参数2:数据
+			参数3:请求的方法
+		*/
+		var backData = ajax_tool('test_get.php','name=huluw&skill=saveyeye','get',function(data){
+			console.log(data);
+		});
+		// 测试
+		console.log(backData);
+	}
+
+	document.querySelector('#ajax_post').onclick = function () {
+		// 直接使用 封装的 工具函数即可
+		/*
+			参数1:url
+			参数2:数据
+			参数3:请求的方法
+			参数4:数据获取成功调用的方法
+		*/
+		var backData = ajax_tool('test_post.php','friend=好丽友','post',function(data){
+			console.log(data);
+		});
+		// 测试
+		console.log(backData);
+
+	}
+</script>

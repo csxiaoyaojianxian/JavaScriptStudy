@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<input type="button"  value="测试jq_get方法" id='jqGet'>
+</body>
+</html>
+<!-- 导入 -->
+<script type="text/javascript" src='../js/jquery.min.js'></script>
+
+<!-- 自己的代码 -->
+<script type="text/javascript">
+	$(function () {
+		/*
+			参数1:事件的名字 不需要on
+			参数2:绑定的 函数
+		*/ 
+		$("#jqGet").on('click',function () {
+			// 使用$.get发送ajax
+			/*
+				参数1:url
+				参数2:发送的数据 支持 直接写js对象的方式
+				参数3:回调函数
+				参数4:从服务端获取的 数据类型 可以不写,如果写为json jq内部 会帮我们进行一个 JSON.parse()的转化 
+				注意
+					如果type 为json 
+						并且服务端返回的就是 json 格式字符串
+						jq内部 会帮助我们自动转化
+						在回调函数中 获取的 实参 就是转化完成的 js对象 直接使用即可
+
+				参数的 顺序 是更换的
+					但是 如果 把data 放到后面 会出现 无法传递数据的问题,
+					所以 不要擅自更换 严格按照 jq文档中的 顺序 进行使用
+			*/
+			$.get('jq_get.php',{name:"csxiaoyao",age:18},function (data) {
+				// 直接打印结果
+				console.log(data);
+				// 打印属性值
+				console.log(data.name);
+			},'json');
+
+			$.get('jq_get.php',{name:"csxiaoyao",age:18},function (data) {
+				// 直接打印结果
+				console.log(data);
+				// 打印属性值
+				console.log(data.name);
+			});
+		})
+	})
+</script>

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<input type="button"  value="获取XMl数据" id='getXML'>
+</body>
+</html>
+<script type="text/javascript">
+
+	// json 字符串
+	// 如果是对象 使用{} 包裹
+	// 如果是 数组 使用[] 包裹
+	// 属性名 必须使用双引号包裹
+	// 属性名 跟属性值 之间 使用冒号分隔
+	// 属性值 也必须使用双引号包裹 (如果是数字 可以不包裹)
+	// 类型是 字符串
+	var str = '{"name":"jack","wife":"rose","friend":"iceMountain"}';
+
+	console.log(str);
+
+	// 变为js对象
+	var jsObj = JSON.parse(str);
+
+	// 转化为对象
+	console.log(jsObj);
+	console.log(jsObj.name);
+	console.log(jsObj.wife);
+	console.log(jsObj.friend);
+
+	
+	document.querySelector('#getXML').onclick = function () {
+		var ajax = new XMLHttpRequest();
+		ajax.open('get','XMl.php');
+		ajax.send();
+
+		ajax.onreadystatechange = function () {
+			if (ajax.readyState == 4 && ajax.status==200) {
+				// 1、返回 xml 文件 
+				console.log(ajax.responseText);
+				// 异步 对象中 有另外一个属性 用来专门获取 xml
+				// xml对象 在浏览器端就是一个 document 对象 
+				// 解析时 可以直接使用 querySelector 或者 getElementById 等 document对象的语法
+				console.log(ajax.responseXML);
+				console.log(ajax.responseXML.querySelector('name').innerHTML);
+				// 下面这个页面文档对象 如果要获取某个标签
+				console.log(window.document);
+
+
+				// 2、返回 json 字符串
+				console.log(ajax.responseText);
+				// 转化为 js对象
+				var jsObj = JSON.parse(ajax.responseText);
+				console.log(jsObj);
+
+			}
+		}
+	}
+</script>

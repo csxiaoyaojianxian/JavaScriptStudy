@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 最顶层 必须有一个 根节点  所有的内容 都写在 根节点中-->
+<!-- 标签名 是自己定义的  -->
+<person>
+	<name>csxiaoyao</name>
+	<skill>study</skill>
+	<company>SUNSHINE</company>
+</person>

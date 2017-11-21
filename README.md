@@ -38,6 +38,7 @@ CS逍遥剑仙 的 JavaScript的学习之路，持续更新
   + 01-react-native
 * 13-canvas
 * 14-H5游戏
+* 15-ajax
 
 
 **By CS逍遥剑仙**

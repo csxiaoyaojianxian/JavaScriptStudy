@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<h1>测试post方法</h1>
+	<input type="button"  value="测试Post" id='jqPost'>
+</body>
+</html>
+<script type="text/javascript" src='../js/jquery.min.js'></script>
+<script type="text/javascript">
+	$(function(){
+		$('#jqPost').click(function () {
+			// 跟$.get用法及其类似
+			/*
+				参数1:url
+				参数2:发送的数据 支持 直接写js对象的方式
+				参数3:回调函数
+				参数4:从服务端获取的 数据类型 可以不写,如果写为json jq内部 会帮我们进行一个 JSON.parse()的转化 
+			*/
+			$.post('jq_post.php',{name:"csxiaoyao",age:18},function(data){
+				console.log(data);
+			},'json')
+		})
+	})
+</script>
