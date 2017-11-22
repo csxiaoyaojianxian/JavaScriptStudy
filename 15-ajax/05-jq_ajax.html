@@ -26,6 +26,9 @@
 						可以return false 阻止该次请求
 						验证用户的数据 是否填了
 					error:请求失败以后 会调用
+					async: 默认是true
+						false为同步请求将整个浏览器锁死
+						true为异步
 			*/
 			$.ajax({
 				url:'jq_ajax.php',
