@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style type="text/css">
+    body {
+        background-color: hotpink;
+    }
+    </style>
+</head>
+
+<body>
+    <h1>外部页面</h1>
+    <iframe src="inner.html"></iframe>
+</body>
+
+</html>
+<script type="text/javascript">
+// 可以获取到iframe
+window.onload = function() {
+    var iframe = document.querySelector('iframe');
+    console.log(iframe);
+
+    // 获取 firame中的window
+    var iframeWindow = iframe.contentWindow;
+    console.log(iframeWindow);
+
+    // 获取 iframe中的 document对象
+    var iframeWindowDocument = iframe.contentWindow.document;
+    console.log(iframeWindowDocument);
+
+    // 修改 iframe中的页面演示
+    iframeWindowDocument.body.style.backgroundColor = 'orange';
+
+    // 为iframe中的 文本框绑定 一个 失去焦点事件
+    iframeWindowDocument.querySelector('input').onblur = function() {
+        console.log(this.value);
+        var ajax = new XMLHttpRequest();
+        ajax.open('get', 'test.php?name=' + this.value);
+        ajax.send();
+    }
+}
+</script>

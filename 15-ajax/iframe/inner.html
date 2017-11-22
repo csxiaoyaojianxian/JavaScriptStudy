@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style type="text/css">
+    body {
+        background-color: yellowgreen;
+    }
+    </style>
+</head>
+
+<body>
+    <h1>内部页面</h1>
+    <input type="text" placeholder="请输入用户名">
+    <script type="text/javascript">
+    // 可以获取到iframe
+    window.onload = function() {
+    	var parentWindow = window.parent;
+    	var parentDocument = window.parent.document;
+        var h1 = parentDocument.querySelector('h1').innerHTML;
+        parentDocument.body.style.backgroundColor = 'red';
+        console.log(parentWindow);
+        console.log(parentDocument);
+        console.log(h1);
+    }
+    </script>
+</body>
+
+</html>

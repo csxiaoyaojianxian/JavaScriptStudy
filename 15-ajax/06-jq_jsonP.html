@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<input type="button" value="jq发送jsonp" id='jqJsonp'>
+
+<!-- html标签的 src 属性 支持跨域 -->
+<img src="https://www.csxiaoyao.com/src/sunshine.jpg" alt="">
+
+<!-- jsonp 利用这个特性实现跨域 用script标签 -->
+<script type="text/javascript" src='jquery.min.js'></script>
+<script type="text/javascript">
+
+function myJsonPCallBack(data) {
+	console.log('自己写的 回调函数名'+data);
+}
+
+// 如果 使用jq发送jsonp，会自动拼接一个callback回调函数
+// 如果想要指定回调函数，可通过jsonpCallback设置
+/*
+	dataType:jsonp
+	jsonpCallback:functionName
+*/
+$(function () {
+	$('#jqJsonp').click(function () {
+		$.ajax({
+			url:'jq_jsonp.php',
+			success:function(data){
+				console.log(data);
+			},
+			dataType:'jsonp',
+			jsonpCallback:"myJsonPCallBack"
+		})
+	})
+});
+</script>
+
+</body>
+</html>
