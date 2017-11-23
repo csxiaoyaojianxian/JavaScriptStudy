@@ -28,6 +28,7 @@ CS逍遥剑仙 的 JavaScript的学习之路，持续更新
   + 02-AngularJS
   + 03-React
   + 04-zepto
+  + 05-lodash
 * 09-websocket
 * 10-构建工具
   + 01-webpack
