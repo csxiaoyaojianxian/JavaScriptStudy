@@ -40,6 +40,7 @@ CS逍遥剑仙 的 JavaScript的学习之路，持续更新
 * 13-canvas
 * 14-H5游戏
 * 15-ajax
+* 16-js探索
 
 
 **By CS逍遥剑仙**
