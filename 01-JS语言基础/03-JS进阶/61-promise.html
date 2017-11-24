@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+</head>
+<body>
+
+<script src="jquery-3.2.1.min.js"></script>
+<script src="babel.min.js"></script>
+<script type="text/babel">
+/**
+ * Promise 基本用法
+ */
+var promise = new Promise(function(resolve, reject) {
+	/* 异步操作成功 */ 
+	if (true){
+		const value = "success";
+		setTimeout(() => {
+			resolve(value);
+        }, 2000);
+	} else {
+		const error = "failed";
+		reject(error);
+	} 
+}); 
+promise.then(function(value) { 
+	// success 
+	console.log(value);
+}, function(value) { 
+	// failure
+	console.log(value);
+});
+
+/**
+ * Promise 链式调用
+ */
+let step1 = () => {
+    console.log("step 1 ...");
+    return new Promise((resolve,reject)=>{
+        if (true){
+			const value = "success";
+			resolve(value);
+		} else {
+			const error = "failed";
+			reject(error);
+		}
+    });
+}
+let step2 = () => {
+    console.log("step 2 ...");
+    return new Promise((resolve,reject)=>{
+		if (true){
+			const value = "success";
+			resolve(value);
+		} else {
+			const error = "failed";
+			reject(error);
+		} 
+    });
+}
+let step3 = () => {
+    console.log("step 3 ...");
+    return new Promise((resolve,reject)=>{
+		resolve();
+    });
+}
+// 多步骤链式调用
+step1()
+.then(()=>{return step2();},(error)=>{console.log(error)})
+.then(()=>{return step3();},(error)=>{console.log(error)});
+
+/**
+ * jQuery 中的 $.Deferred / promise / resolve / reject
+ */
+function runAsync1(){
+    var def = $.Deferred();
+    // 异步操作
+    setTimeout(function(){
+        console.log('runAsync1...');
+        def.resolve('ready to runAsync2...');
+    }, 2000);
+    /* 直接返回 def 有风险
+       如果在外部调用此 def 的promise方法，会在外部被结束，破坏执行顺序，如在外部执行：
+       var d = runAsync1();
+       d.resolve('end');
+       将不会执行 then
+    */
+    // return def;
+    /*
+       返回受限的 Deferred 对象，没有resolve和reject方法，不能从外部改变状态
+     */
+    return def.promise();
+}
+function runAsync2(){
+	var def = $.Deferred();
+    setTimeout(function(){
+        console.log('runAsync2...');
+        def.resolve('ready to runAsync3...');
+    }, 2000);
+    return def.promise();	
+}
+function runAsync3(){
+	var def = $.Deferred();
+    setTimeout(function(){
+        console.log('runAsync3...');
+        def.reject('runAsync3 reject...');
+    }, 2000);
+    return def.promise();	
+}
+// 链式调用
+/*
+var d1 = runAsync1();
+d1.then(function(data){
+    console.log(data);
+    return runAsync2();
+}).then(function(data){
+    console.log(data);
+    return runAsync3();
+}).then(function(data){
+    console.log(data);
+},function(err){
+	console.log(err);
+});
+*/
+
+/**
+ * jQuery 中的 $.Deferred / done / fail
+ * 此处的 done 和 fail 仅仅是对 then(function(){},function(){}) 的语法糖
+ */
+/*
+var d2 = runAsync3();
+d2.done(function(data){
+    console.log(data);
+}).fail(function(err){
+    console.log(err);
+});
+*/
+
+/**
+ * jQuery 中的 $.Deferred / always
+ * always 不管成功失败都会执行
+ */
+/*
+var d3 = runAsync3();
+d3.always(function(data){
+    console.log(data);
+});
+*/
+
+/**
+ * jQuery 中的 $.when
+ * $.when方法实现Promise，与ES6中的all方法功能一样，并行执行异步操作，在所有异步操作执行完后才执行回调函数，参数为多个Deferred对象
+ */
+function runAsync4(){
+    var def = $.Deferred();
+    setTimeout(function(){
+        console.log('runAsync4...');
+        def.resolve('runAsync4 finished...');
+    }, 2000);
+    return def.promise();
+}
+function runAsync5(){
+	var def = $.Deferred();
+    setTimeout(function(){
+        console.log('runAsync5...');
+        def.resolve('runAsync5 finished...');
+    }, 2000);
+    return def.promise();	
+}
+function runAsync6(){
+	var def = $.Deferred();
+    setTimeout(function(){
+        console.log('runAsync6...');
+        def.resolve('runAsync6 finished...');
+    }, 2000);
+    return def.promise();	
+}
+$.when(runAsync4(), runAsync5(), runAsync6())
+.then(function(data4, data5, data6){
+    console.log(data4, data5, data6);
+});
+
+/**
+ * jQuery 中的 ajax 与 Deferred 的关系
+ * jquery的ajax返回一个受限的Deferred对象(上述)
+ */
+/*
+req1 = function(){
+    return $.ajax();
+}
+req2 = function(){
+    return $.ajax();
+}
+req3 = function(){
+    return $.ajax();
+}
+req1().then(req2).then(req3).done(function(){
+    console.log('请求发送完毕');
+});
+*/
+
+/**
+ * jQuery 中的 ajax 的 success、error、complete
+ * 三种方法其实是语法糖，success对应done，error对应fail，complete对应always
+ */
+/*
+$.ajax()
+.success(function(){})
+.error(function(){})
+.complete(function(){})
+*/
+</script>
+
+</body>
+</html> 
