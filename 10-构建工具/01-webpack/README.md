@@ -10,6 +10,53 @@
 
 **Gulp/Grunt** : 前端开发流程优化工具，在配置文件中指明对某些文件进行编译、组合、压缩等任务的具体步骤并自动完成
 
+**webpack基本模板**
+```javascript
+const path = require('path')
+module.exports = {
+    entry:{
+        // main是默认入口,也可以是多入口
+        main:'./src/main.js'
+    },
+    output:{
+        filename:'./build.js',
+        // 最好是绝对路径，代表当前目录的上一级的dist
+        path: path.join(__dirname,'..','dist')
+    },
+    module:{
+        // 一样的功能rules，webpack2.x之后新加的
+        loaders:[
+            // require('./a.css||./a.js')
+            {
+                test:/\.css$/,
+                // 顺序是反过来的2!1
+                loader:'style-loader!css-loader'
+            },
+            {
+                test:/\.(jpg|svg)$/,
+                // 顺序是反过来的2!1
+                // [name].[ext]内置提供，因为本身先读这个文件
+                // 参数方式一
+                loader:'url-loader?limit=4096&name=[name].[ext]',
+                // 参数方式二
+                options:{
+                    limit:4096,
+                    name:'[name].[ext]'
+                }
+            }
+        ]
+    },
+
+    plugins:[
+        // 插件的执行顺序是依次执行的
+        // 将src下的template属性描述的文件根据当前配置的output.path，将文件移动到该目录
+        new htmlWebpackPlugin({
+            template:'./src/index.html',
+        })
+    ]
+}
+```
+
 ## 2. 安装
 
 ### 2.1 创建package.json文件
