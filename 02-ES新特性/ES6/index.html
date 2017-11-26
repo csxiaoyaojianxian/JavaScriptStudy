@@ -28,7 +28,18 @@ const data = [
 ];
 document.write(tmpl(data));
 
-
+// 对象属性的声明
+let name = 'abc';
+// let person = {name:name};
+let person = {name};
+let cal = {
+    // add:funtion(n1,n2){
+    //     return n1 + n2;
+    // },
+    add(n1,n2){
+        return n1 + n2;
+    }
+}
 </script>
 
 <!-- traceur -->
