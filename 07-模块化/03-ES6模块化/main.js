@@ -10,5 +10,10 @@ console.log(defaultObj,obj2,obj4);
 // 全体导入
 import * as obj from './cal.js';
 console.log(obj);
+// {
+// 	default:"默认导出结果",
+// 	obj1:"声明式导出1",
+// 	obj2:"声明式导出2"
+// }
 
 cal.add(1,2);
