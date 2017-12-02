@@ -18,4 +18,6 @@ $ npm i vue -S ; npm i vue-loader vue-template-compiler -D
 $ npm install mint-ui -S
 # 安装vue-router
 $ npm i vue-router -S
+# 安装Axios
+$ npm i axios -S
 ```

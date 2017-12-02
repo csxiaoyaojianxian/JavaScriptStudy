@@ -52,6 +52,7 @@
     "webpack-dev-server": "^2.7.1"
   },
   "dependencies": {
+    "axios": "^0.17.1",
     "expose-loader": "^0.7.3",
     "mint-ui": "^2.2.12",
     "react": "^15.6.1",
