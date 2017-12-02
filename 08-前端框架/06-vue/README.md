@@ -12,3 +12,10 @@ $ npm i vue -S ; npm i vue-loader vue-template-compiler -D
 }
 ```
 注意：vue-template-compiler是代码上的依赖，不需要配置
+## 3. 安装组件
+```
+# 安装mint-ui，如果打包出错，检查webpack的css相关loader
+$ npm install mint-ui -S
+# 安装vue-router
+$ npm i vue-router -S
+```

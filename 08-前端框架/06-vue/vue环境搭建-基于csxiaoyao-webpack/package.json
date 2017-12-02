@@ -53,9 +53,11 @@
   },
   "dependencies": {
     "expose-loader": "^0.7.3",
+    "mint-ui": "^2.2.12",
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
     "resolve-url-loader": "^2.2.0",
-    "vue": "^2.5.8"
+    "vue": "^2.5.8",
+    "vue-router": "^3.0.1"
   }
 }

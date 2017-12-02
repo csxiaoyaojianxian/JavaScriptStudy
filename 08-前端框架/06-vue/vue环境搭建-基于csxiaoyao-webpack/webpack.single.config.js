@@ -42,7 +42,7 @@ module.exports = {
             },
             {
                 test: /\.css$/,
-                include: /bootstrap/,
+                include: /bootstrap|mint-ui/,
                 loader: 'style-loader!css-loader'
             },
             {
