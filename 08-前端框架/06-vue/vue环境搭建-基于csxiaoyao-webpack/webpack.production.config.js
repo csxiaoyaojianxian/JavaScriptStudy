@@ -36,7 +36,7 @@ module.exports = {
             },
             {
                 test: /\.css$/,
-                exclude: /node_modules|bootstrap/,
+                exclude: /node_modules|bootstrap|mint-ui|mui/,
                 loader: 'style-loader!css-loader?minimize&modules!resolve-url-loader!postcss-loader'
                 // loader: ExtractTextPlugin.extract('style-loader','css-loader?minimize&modules!resolve-url-loader!postcss-loader')
             },
@@ -46,14 +46,19 @@ module.exports = {
             },
             {
                 test: /\.css$/,
-                include: /bootstrap|mint-ui/,
+                include: /bootstrap|mint-ui|mui/,
                 loader: 'style-loader!css-loader'
             },
             {
-              // 忽略bootstrap自带的字体文件
-              test: /\.(woff|woff2|svg|eot|ttf)$/,
-              include: /glyphicons/,
-              loader: 'null-loader',
+                test: /\.(woff|woff2|svg|eot|ttf)$/,
+                exclude: /glyphicons/,
+                loader: 'null-loader',
+            },
+            {
+                // 忽略bootstrap自带的字体文件
+                test: /\.(woff|woff2|svg|eot|ttf)$/,
+                include: /glyphicons/,
+                loader: 'null-loader',
             },
             {
                 test: /\.(jpe?g|png|gif|svg)$/i,

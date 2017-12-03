@@ -11,6 +11,7 @@ var cal = {
 // -- 默认导出
 // 导入方式 import xxx from './cal.js'
 export default cal;
+
 // -- 声明式导出
 // 导入方式 import {obj1,obj3} from './cal.js';
 // 方式1

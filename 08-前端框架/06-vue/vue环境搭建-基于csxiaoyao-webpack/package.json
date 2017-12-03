@@ -55,6 +55,7 @@
     "axios": "^0.17.1",
     "expose-loader": "^0.7.3",
     "mint-ui": "^2.2.12",
+    "moment": "^2.19.3",
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
     "resolve-url-loader": "^2.2.0",

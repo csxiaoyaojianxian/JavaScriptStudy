@@ -1,6 +1,7 @@
 # vue
 ## 1. 安装
 ```shell
+# 根据系统选择使用 && / ;
 $ npm i vue -S && npm i vue-loader vue-template-compiler -D
 $ npm i vue -S ; npm i vue-loader vue-template-compiler -D
 ```
@@ -20,4 +21,6 @@ $ npm install mint-ui -S
 $ npm i vue-router -S
 # 安装Axios
 $ npm i axios -S
+# 其他
+$ npm i vue-preview monent - S
 ```
