@@ -106,14 +106,8 @@ module.exports = {
             }
         }),
         new ExtractTextPlugin('css/style-[name]-[contenthash:6].css', { allChunks: true }),
-        // public sources
         new webpack.optimize.CommonsChunkPlugin({
-            // 与 entry 中的 vendor 对应
             names: ['vendors','manifest'],
-            // 输出的公共资源名称
-            // filename: 'common_[name].js',
-            // minChunks: Infinity
-            // minChunks: 3
         })
     ]
 };
