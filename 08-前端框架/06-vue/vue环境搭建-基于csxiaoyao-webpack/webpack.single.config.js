@@ -6,10 +6,14 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 process.env.NODE_ENV = 'production';
 
 module.exports = {
-    entry:  __dirname + '/app/main.js',
+    entry: {
+        main: __dirname + '/app/main.js',
+        vendors: ['vue','vue-router','moment','axios'],
+
+    },
     output: {
         path: __dirname + '/build',
-        filename: '[name]-[hash:8].js',
+        filename: 'js/[name]-[hash:6].js',
         chunkFilename:'chunk.[name].js'
     },
     devtool: 'none',
@@ -33,8 +37,11 @@ module.exports = {
             {
                 test: /\.css$/,
                 exclude: /node_modules|bootstrap|mint-ui|mui/,
-                loader: 'style-loader!css-loader?minimize&modules!resolve-url-loader!postcss-loader'
-                // loader: ExtractTextPlugin.extract('style-loader','css-loader?minimize&modules!resolve-url-loader!postcss-loader')
+                use: ExtractTextPlugin.extract({
+                    fallback: "style-loader",
+                    use: "css-loader?minimize&modules!resolve-url-loader!postcss-loader"
+                }),
+                // loader: 'style-loader!css-loader?minimize&modules!resolve-url-loader!postcss-loader'
             },
             {
                 test: /\.less$/,
@@ -72,7 +79,7 @@ module.exports = {
         ]
     },
     plugins: [
-        // 去除 react 压缩报错
+        // 去除 react / vue 压缩报错
         new webpack.DefinePlugin({
             "process.env": { 
                 NODE_ENV: JSON.stringify("production") 
@@ -98,6 +105,15 @@ module.exports = {
                 warnings: false
             }
         }),
-        // new ExtractTextPlugin('css/[name].css?[contenthash]', { allChunks: true })
+        new ExtractTextPlugin('css/style-[name]-[contenthash:6].css', { allChunks: true }),
+        // public sources
+        new webpack.optimize.CommonsChunkPlugin({
+            // 与 entry 中的 vendor 对应
+            names: ['vendors','manifest'],
+            // 输出的公共资源名称
+            // filename: 'common_[name].js',
+            // minChunks: Infinity
+            // minChunks: 3
+        })
     ]
 };

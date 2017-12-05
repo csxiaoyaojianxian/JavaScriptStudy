@@ -1,5 +1,7 @@
 # 上传功能实现整理
 ## 1. upload
+* **upload0.html**
+原生和jquery实现
 * **upload1.html**
 基本单选和多选上传功能的实现
 * **upload2.html**

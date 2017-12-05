@@ -1,0 +1,61 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>上传文件</title>
+</head>
+<body>       
+    <!-- 同步上传文件 必须写上 enctype="multipart/form-data" -->
+    <form enctype="multipart/form-data" action="/upload" method="post">
+        <input type="file" name="file" id="file">
+        <input type="submit" name="" value="提交">
+    </form>
+
+    <!-- 异步操作 -->
+    <form>
+        <input type="file" name="" id="file">
+        <input type="submit" name="" value="提交">
+    </form>
+    <script type="text/javascript" src="/node_modules/jquery/dist/jquery.js"></script>
+    <script type="text/javascript">
+        // 原生
+        document.querySelector('form').onsubmit = function(e){
+            e.preventDefault(); //取消默认事件
+            //错误代码的出现会导致return false不执行，不太好调试程序
+            var formData = new FormData();
+            //第一个参数key和表单中的name的值是一个意思
+            //第二个参数是文件的数据对象
+            formData.append('myFile',document.getElementById('file').files[0])
+            var xhr = new XMLHttpRequest();
+            xhr.open('post','/upload');
+            xhr.onreadystatechange = function(){
+                if(xhr.readyState === 4 && xhr.status === 200){
+                    alert('成功');
+                }
+            }
+            xhr.send(formData);
+            // return false;
+        }
+
+        // jquery
+        $('form').on('submit',function(e){
+        var formData = new FormData();
+        formData.append('myFile',document.getElementById('file').files[0]);
+           e.preventDefault();
+           //jq默认头是content-type: www-url..... 键值对
+           $.ajax({
+                url:'/upload',
+                type:'post',
+                data:formData,  //当传递formData的时候，会默认将该对象转换成键值对字符串
+                //jq上传文件必须要以下两个属性
+                contentType:false,//不需要头
+                processData:false,//不转换数据
+                success:function(){
+                    console.log('ok');
+                }
+            })
+
+        })
+    </script>
+
+</body>
+</html>
