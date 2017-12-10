@@ -1,0 +1,23 @@
+define('@weex-component/foo', function (require, exports, module) {
+
+;
+
+;module.exports.style = {
+  "title": {
+    "color": "#FF0000",
+    "fontSize": 48,
+    "fontWeight": "bold"
+  }
+}
+
+;module.exports.template = {
+  "type": "text",
+  "classList": [
+    "title"
+  ],
+  "attr": {
+    "value": "Hello World"
+  }
+}
+
+;})

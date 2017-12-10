@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/appframework/appframework.iml" filepath="$PROJECT_DIR$/appframework/appframework.iml" />
+      <module fileurl="file://$PROJECT_DIR$/templates.iml" filepath="$PROJECT_DIR$/templates.iml" />
+      <module fileurl="file://$PROJECT_DIR$/weexplugin/weexplugin.iml" filepath="$PROJECT_DIR$/weexplugin/weexplugin.iml" />
+    </modules>
+  </component>
+</project>

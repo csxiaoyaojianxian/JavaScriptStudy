@@ -1,0 +1,44 @@
+<element name="bar">
+  <template>
+    <container>
+      <image class="img" style="background-color: yellow;"></image>
+    </container>
+  </template>
+
+  <style>
+    .img {
+      width: 100px;
+      line-height: 100px;
+    }
+  </style>
+</element>
+
+<element name="baz">
+  <template>
+    <container>
+      <image class="img" style="background-color: green;"></image>
+    </container>
+  </template>
+
+  <style>
+    .img {
+      width: 50px;
+      line-height: 50px;
+    }
+  </style>
+</element>
+
+<template>
+  <container>
+    <image class="img" style="background-color: red;"></image>
+    <bar></bar>
+    <baz></baz>
+  </container>
+</template>
+
+<style>
+  .img {
+    width: 200px;
+    line-height: 200px;
+  }
+</style>
