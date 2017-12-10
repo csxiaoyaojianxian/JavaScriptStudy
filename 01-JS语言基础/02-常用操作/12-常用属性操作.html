@@ -5,13 +5,33 @@
 	<title>Document</title>
 </head>
 <body>
+	<input type="text" name="" data-id="1" data-app-name="sunshine"/>
 	<div id="box"></div>
 	<input type="text" value=""/>
 </body>
+<script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
 <script type="text/javascript">
+// 【 H5 data 】
+// 1. js原生
+var input = document.getElementsByTagName("input")[0];
+var appId = input.dataset.id;//获取data-id的值
+var appName = input.dataset.appName;//获取data-app-name的值
+input.dataset.id = 2;//设置data-id的值
+input.dataset.appName = "csxiaoyao";//设置data-app-name的值
+
+// 2. jquery
+var appId = $("input").eq(0).data("id");
+var appName = $("input").eq(0).data("app-name"); // csxiaoyao
+// 注意！属性赋值，data()不会影响DOM元素上的data-*属性的改变，data()是将一个"cache"附加到对象上，并使用一个特殊的属性名称
+$("input").eq(0).data("appName","sun");
+var appName = $("input").eq(0).data("app-name"); // sun
+// 如果要改变DOM元素上的data-*属性值，需要使用attr
+$("input").eq(0).attr("data-app-name","cs");
+var appName = $("input").eq(0).attr("data-app-name");// cs
+
 //【类控制】
 var div = document.getElementById("box");
-var inp = document.getElementsByTagName("input")[0];
+var inp = document.getElementsByTagName("input")[1];
 // 1.修改内容
 div.value = "sun";
 div.innerText = "sunshine";
