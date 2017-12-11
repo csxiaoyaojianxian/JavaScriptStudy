@@ -9,7 +9,6 @@ module.exports = {
     entry: {
         main: __dirname + '/app/main.js',
         vendors: ['vue','vue-router','moment','axios'],
-
     },
     output: {
         path: __dirname + '/build',
