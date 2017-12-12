@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+</head>
+<body>
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script type="text/javascript">
+/**
+ * Object 对象
+ */
+/**
+ * (一) 对象合并 & 遍历赋值
+ */
+var o1 = { a: 1 };
+var o2 = { b: 2 };
+var o3 = { c: 3 };
+
+// 方法1：使用JQuery的extend方法
+// jQuery.extend([deep], target, object1, [objectN])
+// 用一个或多个其他对象来扩展一个对象，返回被扩展的对象
+// 如果不指定target，则给jQuery命名空间本身进行扩展
+// 如果第一个参数设置为true，则jQuery返回一个深层次的副本，递归地复制找到的任何对象(递归合并)
+o = $.extend(o1, o2);  // 合并 o1 和 o2，将结果返回给 o，此时，o1 == o
+o = $.extend({}, o1, o2); // 合并 o1 和 o2，将结果返回给 o，此时，o1 ！= o
+
+// 方法2：用 Object.assign();
+var obj = Object.assign(o1, o2, o3);
+console.log(obj); // { a: 1, b: 2, c: 3 }
+console.log(o1);  // { a: 1, b: 2, c: 3 }, 第一个目标对象自身也会改变
+
+// 方法3：遍历赋值法 
+var extend=function(o,n){
+	for (var p in n){
+		if(n.hasOwnProperty(p) && (!o.hasOwnProperty(p) ))
+			o[p]=n[p];
+	}
+};   
+
+</script>
+</body>
