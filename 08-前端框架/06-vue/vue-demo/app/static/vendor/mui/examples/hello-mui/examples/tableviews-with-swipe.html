@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>Hello MUI</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+		<!--标准mui.css-->
+		<link rel="stylesheet" href="../css/mui.min.css">
+		<!--App自定义的css-->
+		<link rel="stylesheet" type="text/css" href="../css/app.css" />
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">滑动触发列表项菜单</h1>
+		</header>
+		<div class="mui-content">
+			<h5 class="mui-content-padded" style="margin: 35px 10px 15px 10px;">拖拽(滑动)显示功能按钮，点击按钮触发事件</h5>
+			<ul id="OA_task_1" class="mui-table-view">
+				<li class="mui-table-view-cell">
+					<div class="mui-slider-right mui-disabled">
+						<a class="mui-btn mui-btn-red">删除</a>
+					</div>
+					<div class="mui-slider-handle">
+						左滑显示删除按钮
+					</div>
+				</li>
+				<li class="mui-table-view-cell">
+					<div class="mui-slider-left mui-disabled">
+						<a class="mui-btn mui-btn-red">删除</a>
+					</div>
+					<div class="mui-slider-handle">
+						右滑显示删除按钮
+					</div>
+				</li>
+				<li class="mui-table-view-cell">
+					<div class="mui-slider-left mui-disabled">
+						<a class="mui-btn mui-btn-red">删除</a>
+					</div>
+					<div class="mui-slider-right mui-disabled">
+						<a class="mui-btn mui-btn-red">删除</a>
+					</div>
+					<div class="mui-slider-handle">
+						左右滑动均可显示删除按钮
+					</div>
+				</li>
+			</ul>
+			<h5 class="mui-content-padded" style="margin: 15px 10px;">拖拽(滑动)显示操作图标，释放后还原，自动触发事件</h5>
+			<ul id="OA_task_2" class="mui-table-view">
+				<li class="mui-table-view-cell">
+					<div class="mui-slider-right mui-disabled">
+						<a class="mui-btn mui-btn-red">删除</a>
+					</div>
+					<div class="mui-slider-handle mui-table">
+						<div class="mui-table-cell">
+							左滑自动触发删除
+						</div>
+
+					</div>
+				</li>
+				<li class="mui-table-view-cell">
+					<div class="mui-slider-left mui-disabled">
+						<a class="mui-btn mui-btn-red">删除</a>
+					</div>
+					<div class="mui-slider-handle">
+						右滑自动触发删除
+					</div>
+				</li>
+				<li class="mui-table-view-cell">
+					<div class="mui-slider-left mui-disabled">
+						<a class="mui-btn mui-btn-red">删除</a>
+					</div>
+					<div class="mui-slider-right mui-disabled">
+						<a class="mui-btn mui-btn-red">删除</a>
+					</div>
+					<div class="mui-slider-handle">
+						左右滑动均可自动触发删除
+					</div>
+				</li>
+			</ul>
+			<h5 class="mui-content-padded" style="margin: 15px 10px;">拖拽(滑动)显示多功能菜单</h5>
+			<ul id="OA_task_2" class="mui-table-view">
+				<li class="mui-table-view-cell">
+					<div class="mui-slider-right mui-disabled">
+						<a class="mui-btn mui-btn-grey mui-icon mui-icon-person"></a>
+						<a class="mui-btn mui-btn-yellow mui-icon mui-icon-phone"></a>
+						<a class="mui-btn mui-btn-red mui-icon mui-icon-email"></a>
+					</div>
+					<div class="mui-slider-handle">
+						<div class="mui-table-cell">
+							左滑显示多功能菜单
+						</div>
+					</div>
+				</li>
+				<li class="mui-table-view-cell">
+					<div class="mui-slider-left mui-disabled">
+						<a class="mui-btn mui-btn-red mui-icon mui-icon-email"></a>
+						<a class="mui-btn mui-btn-yellow mui-icon mui-icon-phone"></a>
+						<a class="mui-btn mui-btn-grey mui-icon mui-icon-person"></a>
+					</div>
+					<div class="mui-slider-handle">
+						右滑显示多功能菜单
+					</div>
+				</li>
+				<li class="mui-table-view-cell">
+					<div class="mui-slider-left mui-disabled">
+						<a class="mui-btn mui-btn-red mui-icon mui-icon-email"></a>
+						<a class="mui-btn mui-btn-yellow mui-icon mui-icon-phone"></a>
+						<a class="mui-btn mui-btn-grey mui-icon mui-icon-person"></a>
+					</div>
+					<div class="mui-slider-right mui-disabled">
+						<a class="mui-btn mui-btn-grey mui-icon mui-icon-person"></a>
+						<a class="mui-btn mui-btn-yellow mui-icon mui-icon-phone"></a>
+						<a class="mui-btn mui-btn-red mui-icon mui-icon-email"></a>
+					</div>
+					<div class="mui-slider-handle">
+						左右滑动均可显示多功能菜单
+					</div>
+				</li>
+			</ul>
+		</div>
+		<script src="../js/mui.min.js"></script>
+		<script>
+			mui.init();
+			(function($) {
+				//$.swipeoutOpen(el,direction)//打开指定列的滑动菜单，el:指定列的dom对象，direction：取值left|right，指定打开的是左侧或右侧滑动菜单
+				//$.swipeoutClose(el);//关闭指定列的滑动菜单，el:指定列的dom对象
+				//				setTimeout(function() {
+				//					$.swipeoutOpen(document.getElementById("OA_task_1").querySelector('li:last-child'), 'left');
+				//					setTimeout(function() {
+				//						$.swipeoutClose(document.getElementById("OA_task_1").querySelector('li:last-child'));
+				//					}, 1000);
+				//				}, 1000);
+				//第一个demo，拖拽后显示操作图标，点击操作图标删除元素；
+				$('#OA_task_1').on('tap', '.mui-btn', function(event) {
+					var elem = this;
+					var li = elem.parentNode.parentNode;
+					mui.confirm('确认删除该条记录？', 'Hello MUI', btnArray, function(e) {
+						if (e.index == 0) {
+							li.parentNode.removeChild(li);
+						} else {
+							setTimeout(function() {
+								$.swipeoutClose(li);
+							}, 0);
+						}
+					});
+				});
+				var btnArray = ['确认', '取消'];
+				//第二个demo，向左拖拽后显示操作图标，释放后自动触发的业务逻辑
+				$('#OA_task_2').on('slideleft', '.mui-table-view-cell', function(event) {
+					var elem = this;
+					mui.confirm('确认删除该条记录？', 'Hello MUI', btnArray, function(e) {
+						if (e.index == 0) {
+							elem.parentNode.removeChild(elem);
+						} else {
+							setTimeout(function() {
+								$.swipeoutClose(elem);
+							}, 0);
+						}
+					});
+				});
+				//第二个demo，向右拖拽后显示操作图标，释放后自动触发的业务逻辑
+				$('#OA_task_2').on('slideright', '.mui-table-view-cell', function(event) {
+					var elem = this;
+					mui.confirm('确认删除该条记录？', 'Hello MUI', btnArray, function(e) {
+						if (e.index == 0) {
+							elem.parentNode.removeChild(elem);
+						} else {
+							setTimeout(function() {
+								$.swipeoutClose(elem);
+							}, 0);
+						}
+					});
+				});
+			})(mui);
+		</script>
+	</body>
+
+</html>

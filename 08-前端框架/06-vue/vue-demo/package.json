@@ -1,0 +1,67 @@
+{
+  "name": "csxiaoyao-webpack",
+  "version": "1.0.0",
+  "description": "a webpack demo build by csxiaoyao",
+  "main": "index.js",
+  "scripts": {
+    "start": "webpack",
+    "test": "webpack --config ./webpack.config.js --progress",
+    "server": "webpack-dev-server --open",
+    "build": "set NODE_ENV=production && webpack --config ./webpack.production.config.js --progress",
+    "analyse": "set NODE_ENV=production && webpack --config ./webpack.production.config.js --profile --json > stats.json"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/csxiaoyaojianxian/csxiaoyao-webpack.git"
+  },
+  "keywords": [
+    "webpack",
+    "csxiaoyao",
+    "sunshine"
+  ],
+  "author": "csxiaoyao",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/csxiaoyaojianxian/csxiaoyao-webpack/issues"
+  },
+  "homepage": "https://github.com/csxiaoyaojianxian/csxiaoyao-webpack#readme",
+  "devDependencies": {
+    "autoprefixer": "^7.1.3",
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.2",
+    "babel-plugin-react-transform": "^2.0.2",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-react": "^6.24.1",
+    "bootstrap": "^3.3.7",
+    "css-loader": "^0.28.7",
+    "ejs-loader": "^0.3.0",
+    "extract-text-webpack-plugin": "^3.0.0",
+    "file-loader": "^0.11.2",
+    "html-webpack-plugin": "^2.30.1",
+    "html-withimg-loader": "^0.1.16",
+    "jquery": "^3.2.1",
+    "less": "^2.7.2",
+    "less-loader": "^4.0.5",
+    "null-loader": "^0.1.1",
+    "postcss-loader": "^2.0.6",
+    "react-transform-hmr": "^1.0.4",
+    "style-loader": "^0.18.2",
+    "url-loader": "^0.5.9",
+    "vue-loader": "^13.5.0",
+    "vue-template-compiler": "^2.5.11",
+    "webpack": "^3.8.1",
+    "webpack-dev-server": "^2.7.1"
+  },
+  "dependencies": {
+    "axios": "^0.17.1",
+    "expose-loader": "^0.7.3",
+    "mint-ui": "^2.2.13",
+    "moment": "^2.19.4",
+    "react": "^15.6.1",
+    "react-dom": "^15.6.1",
+    "resolve-url-loader": "^2.2.0",
+    "vue": "^2.5.11",
+    "vue-preview": "^1.0.5",
+    "vue-router": "^3.0.1"
+  }
+}

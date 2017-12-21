@@ -1,0 +1,30 @@
+# 保护htaccess
+<Files ~ "^.(htaccess|htpasswd)$">
+deny from all
+</Files>
+
+# 设置时区
+SetEnv TZ Asia/Shanghai
+
+# 隐藏目录
+Options -Indexes
+
+# 图片缓存
+<FilesMatch ".(gif|jpg|jpeg|png|ico)$">
+Header set Cache-Control "max-age=600"
+</FilesMatch>
+
+# URL重写 restful
+RewriteEngine on
+RewriteRule ^demo/(\S+)/([0-9]+)$   index.php/demo/$1?id=$2
+RewriteRule ^demo/(\S+)$   index.php/demo/$1
+# RewriteRule ^(.*) http://www.csxiaoyao.com/$1 [R=301,L]
+
+# 缺省页
+DirectoryIndex index.html index.htm index.php
+
+# 图片防盗链
+RewriteEngine on
+RewriteCond %{HTTP_REFERER} !^$
+RewriteCond %{HTTP_REFERER} !^http://(www\.)?csxiaoyao.com(/)?.*$     [NC]
+RewriteRule .*\.(gif|jpg|jpeg|bmp|png)$ http://www.csxiaoyao.cn/src/logo.png [R,NC,L]
