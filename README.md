@@ -4,6 +4,12 @@
 CS逍遥剑仙 的 JavaScript的学习之路，持续更新
 ![](https://img.shields.io/github/issues/csxiaoyaojianxian/JavaScriptStudy.svg)   ![](https://img.shields.io/github/forks/csxiaoyaojianxian/JavaScriptStudy.svg)   ![](https://img.shields.io/github/stars/csxiaoyaojianxian/JavaScriptStudy.svg)   ![](https://img.shields.io/github/license/csxiaoyaojianxian/JavaScriptStudy.svg)   ![](https://img.shields.io/twitter/url/https/github.com/csxiaoyaojianxian/JavaScriptStudy.svg?style=social)
 
+> Write By CS逍遥剑仙
+> 我的主页: [www.csxiaoyao.com](http://www.csxiaoyao.com)
+> GitHub: [github.com/csxiaoyaojianxian](https://github.com/csxiaoyaojianxian)
+> Email: sunjianfeng@csxiaoyao.com
+> QQ: [1724338257](wpa.qq.com/msgrd?uin=1724338257&site=qq&menu=yes)
+
 ## 目录
 * 01-JS语言基础
   + 01-基础语法
@@ -46,5 +52,7 @@ CS逍遥剑仙 的 JavaScript的学习之路，持续更新
 * 16-js探索
 
 
+
+![www.csxiaoyao.com](http://www.csxiaoyao.com/src/img/sign.jpg)
 **By CS逍遥剑仙**
 [http://www.csxiaoyao.com](http://www.csxiaoyao.com)
