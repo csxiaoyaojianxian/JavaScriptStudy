@@ -2,6 +2,7 @@
 **JavaScript 是世界上最好的语言！学好JavaScript，就等于征服了编程！**
 
 CS逍遥剑仙 的 JavaScript的学习之路，持续更新
+![](https://img.shields.io/github/issues/csxiaoyaojianxian/JavaScriptStudy.svg)   ![](https://img.shields.io/github/forks/csxiaoyaojianxian/JavaScriptStudy.svg)   ![](https://img.shields.io/github/stars/csxiaoyaojianxian/JavaScriptStudy.svg)   ![](https://img.shields.io/github/license/csxiaoyaojianxian/JavaScriptStudy.svg)   ![](https://img.shields.io/twitter/url/https/github.com/csxiaoyaojianxian/JavaScriptStudy.svg?style=social)
 
 ## 目录
 * 01-JS语言基础
