@@ -1,8 +1,8 @@
 # JavaScript 学习 - 完全整理
 **JavaScript 是世界上最好的语言！学好JavaScript，就等于征服了编程！**
 
-CS逍遥剑仙 的 JavaScript的学习之路，持续更新
-![](https://img.shields.io/github/issues/csxiaoyaojianxian/JavaScriptStudy.svg)   ![](https://img.shields.io/github/forks/csxiaoyaojianxian/JavaScriptStudy.svg)   ![](https://img.shields.io/github/stars/csxiaoyaojianxian/JavaScriptStudy.svg)   ![](https://img.shields.io/github/license/csxiaoyaojianxian/JavaScriptStudy.svg)   ![](https://img.shields.io/twitter/url/https/github.com/csxiaoyaojianxian/JavaScriptStudy.svg?style=social)
+CS逍遥剑仙 的 JavaScript的学习之路，持续更新   [![](
+https://img.shields.io/badge/author-csxiaoyao-brightgreen.svg)](http://www.csxiaoyao.com)  [![](https://img.shields.io/github/issues/csxiaoyaojianxian/JavaScriptStudy.svg)](https://github.com/csxiaoyaojianxian/JavaScriptStudy/issues)   [![](https://img.shields.io/github/forks/csxiaoyaojianxian/JavaScriptStudy.svg)](https://github.com/csxiaoyaojianxian/JavaScriptStudy/fork)   [![](https://img.shields.io/github/stars/csxiaoyaojianxian/JavaScriptStudy.svg)](https://github.com/csxiaoyaojianxian/JavaScriptStudy/star)   [![](https://img.shields.io/github/license/csxiaoyaojianxian/JavaScriptStudy.svg)](https://github.com/csxiaoyaojianxian/JavaScriptStudy/blob/master/LICENSE)
 
 > Write By CS逍遥剑仙
 > 我的主页: [www.csxiaoyao.com](http://www.csxiaoyao.com)
