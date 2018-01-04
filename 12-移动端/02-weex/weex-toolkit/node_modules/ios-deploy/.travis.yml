@@ -1,0 +1,9 @@
+language: objective-c
+sudo: false
+install:
+- npm install
+script:
+- npm test
+notifications:
+  slack:
+    secure: ZJtWH/UQ+AdzakirR0gg7EL1SJg2hd+HWJPk/Gn5fibFh05P7qYdFu056fjQyVM2Kbv+39bnv+fg4lxb3OeewSDCSYgbJ7JzYFSwCb/ERwtJgoUJIDZiNzsTodJ4mCFnddgA0DEIFPhK2ntNa71VnKrVbWDJTY4+Kl+GBtmPplk=

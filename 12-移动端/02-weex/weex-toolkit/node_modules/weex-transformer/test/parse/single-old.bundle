@@ -1,0 +1,10 @@
+register('foo', {
+
+style: {}
+, template: {
+  "type": "text",
+  "attr": {
+    "value": "Hello World"
+  }
+}
+})

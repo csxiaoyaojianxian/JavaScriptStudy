@@ -1,7 +1,7 @@
 ---
 style: ocean
 ---
-# weex 学习笔记
+# weex 踩坑笔记
 [toc]
 > Write By CS逍遥剑仙
 > 我的主页: [www.csxiaoyao.com](http://www.csxiaoyao.com)
@@ -16,6 +16,7 @@ Playground：
 [http://dotwe.org/vue](http://dotwe.org/vue)
 
 ## 2. weex-toolkit
+### 2.1 基本命令
 > 【默认配置的 npm script】
 init: 初始化weex项目
 build: 源码打包，生成 JS Bundle
@@ -24,35 +25,68 @@ serve: 开启静态服务器
 debug: 调试模式
 ```
 $ npm install -g weex-toolkit
-$ weex init awesome-project
+$ weex init weexdemo
+$ cd weexdemo
+$ npm install
 # 开启 watch 模式和静态服务器，进入 http://localhost:8080/index.html
 $ npm run dev & npm run serve
 # 调试
 $ weex debug
-# 打包
+# 安装ios平台和依赖
 $ weex platform add ios
+$ cd platforms/ios
+$ pod install
+# 运行并启动模拟器
+$ cd ../..
 $ weex run ios
 $ weex platform add android
 $ weex run android
 ```
-## 3. 其他
+### 2.2 配置入口js文件
+weex-toolkit脚手架会根据src下的index.vue文件产生一个对应的js文件放到demo目录下，但传统的vue开发一般有个入口文件(main.js或entry.js)用来导入其他模块，进行页面总体配置等操作，可以通过修改webpack.config.js文件实现
+1. 添加入口文件配置
+```
+const entry = {index:pathTo.resolve('src','entry.js?entry=true')};
+const weexEntry = {index:pathTo.resolve('src','entry.js?entry=true')};
+```
+2. 删除多余配置
+删除`getEntryFileContent`函数、`walk`函数、`walk()`
+3. 在src目录下添加 App.vue
+4. 在src目录下添加入口文件`entry.js`，并删除temp目录
+```
+import App from './App.vue'
+new Vue(Vue.util.extend({
+	el:'#root'
+},App))
+```
+5. 解决页面无法覆盖整个屏幕，简单修改`WXDemoViewController`原生代码
+```
+// _weexHeight = self.view.frame.size.height - 64;
+_weexHeight = self.view.frame.size.height;
+```
+## 3. 集成SDK
 ### 3.1 集成 iOS SDK
-两种方式：1、源码依赖，在github上下载weex源码迁移到工程中；2、安装cocoapods依赖(简单)
+#### 3.1.1 使用 ios/playground
 ```
-# (可选)更换ruby源
-$ gem sources --remove https://rubygems.org/
-$ gem sources -a https://ruby.taobao.org/
-$ gem sources -l
-# 安装CocoaPods
-$ sudo gem install cocoapods
+$ pod install --no-repo-update
 ```
-使用 Xcode 打开 WeexDemo.xcworkspace，搜索 `DemoDefine.h` 并修改 `CURRENT_IP`
-```objective-c
-#define CURRENT_IP @"your computer device ip"
-// 修改端口号
-#define DEMO_URL(path) [NSString stringWithFormat:@"http://%@:8080/%s", DEMO_HOST, #path]
-// 修改 JS 文件路径
-#define HOME_URL [NSString stringWithFormat:@"http://%@:8080/app.weex.js", DEMO_HOST]
+#### 3.1.2 修改DemoDefine.h文件
+1. 修改
+```
+#define HOME_URL [NSString stringWithFormat:@"http://%@:12580/examples/build/index.js", DEMO_HOST]
+```
+为
+```
+#define HOME_URL @"file:///Users/sunshine/Downloads/bundlejs/index.js"
+```
+2. 修改IP
+```
+#define CURRENT_IP @"192.168.0.1"
+```
+#### 3.1.3 去掉navigatebar
+在WXDemoViewController.m中添加
+```
+self.navigationController.navigationBar.hidden = YES;
 ```
 ### 3.2 集成 Android SDK
 #### 3.2.1 配置adb，`vi ~/.bash_profile`
@@ -127,12 +161,15 @@ compile 'com.squareup.picasso:picasso:2.5.2'
 打包菜单选项：`Build->Build APK`
 apk文件路径：`app/build/outputs/apk/app-debug.apk`
 
-### 3.3 安卓应用签名
+# 4. 其他
+### 4.1 安卓应用签名
 1. 使用jdk的keytool命令生成keystore，参数-validity为证书有效天数
 ```bash
 keytool -genkey -alias android.keystore -keyalg RSA -validity 100 -keystore android.keystore
 ```
 2. 使用360签名工具签名，使用360加固宝加固
 3. 上传到应用市场
+
+### 4.2 vue和we
 
 ![www.csxiaoyao.com](http://www.csxiaoyao.com/src/img/sign.jpg)
