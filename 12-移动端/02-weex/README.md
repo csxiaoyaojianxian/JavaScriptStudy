@@ -55,11 +55,78 @@ $ sudo gem install cocoapods
 #define HOME_URL [NSString stringWithFormat:@"http://%@:8080/app.weex.js", DEMO_HOST]
 ```
 ### 3.2 集成 Android SDK
-配置adb，`vi ~/.bash_profile`
+#### 3.2.1 配置adb，`vi ~/.bash_profile`
 ```config
 export ANDROID_HOME=/Users/sunshine/Library/Android/sdk
 export PATH=${PATH}:$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools:$ANDROID_HOME/build-tools
 ```
+#### 3.2.2 基于wxsample打包jsbundle
+1. 下载wxsample，`import project`根据错误提示修复(下载的时候注意关闭代理)
+2. 直接`run`
+3. 引入新的jsbundle
+jsbundle文件路径：`app/src/main/assets/`
+修改`LocalActivity.java`中的`hello.js`
+4. 默认显示jsbundle的内容
+默认页提供了本地加载、网络加载、framework三种方式，修改`AndroidManifest.xml`
+```
+<activity android:name=".IndexActivity">
+</activity>
+<activity android:name=".LocalActivity">
+    <intent-filter>
+        <action android:name="android.intent.action.MAIN"/>
+        <category android:name="android.intent.category.LAUNCHER"/>
+    </intent-filter>
+</activity>
+<activity android:name=".NetworkActivity">
+</activity>
+```
+5. 去掉顶部的ActionBar
+修改`AndroidManifest.xml`
+```
+android:theme="@style/AppTheme.NoActionBar"
+```
+6. 允许下载图片
+修改`ImageAdapter`，使用`alt+enter`修复找不到的包
+```java
+public class ImageAdapter implements IWXImgLoaderAdapter {
+  public ImageAdapter() {
+  }
+  @Override
+  public void setImage(final String url, final ImageView view,
+                       WXImageQuality quality, WXImageStrategy strategy) {
+    WXSDKManager.getInstance().postOnUiThread(new Runnable() {
+      @Override
+  public void run() {
+        if(view==null||view.getLayoutParams()==null){
+          return;
+        }
+        if (TextUtils.isEmpty(url)) {
+          view.setImageBitmap(null);
+          return;
+        }
+        String temp = url;
+        if (url.startsWith("//")) {
+          temp = "http:" + url;
+        }
+        if (view.getLayoutParams().width <= 0 || view.getLayoutParams().height <= 0) {
+          return;
+        }
+        Picasso.with(WXEnvironment.getApplication())
+                .load(temp)
+                .into(view);
+      }
+    },0);
+  }
+}
+```
+其中`Picasso`需要在app的`build.gradle`中添加依赖
+```
+compile 'com.squareup.picasso:picasso:2.5.2'
+```
+7. 打包apk
+打包菜单选项：`Build->Build APK`
+apk文件路径：`app/build/outputs/apk/app-debug.apk`
+
 ### 3.3 安卓应用签名
 1. 使用jdk的keytool命令生成keystore，参数-validity为证书有效天数
 ```bash
