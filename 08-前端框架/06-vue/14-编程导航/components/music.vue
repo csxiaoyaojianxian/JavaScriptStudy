@@ -21,8 +21,8 @@
             },
             goback(){
                 this.$router.go(-1); //后退
-            }
-            ,go(){
+            },
+            go(){
                 this.$router.go(1);//前进
             }
         }

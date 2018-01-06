@@ -6,10 +6,12 @@
 
     <div v-bind:class="isRed?'red':'green'">单个class</div>
     <div :class="{'red':true,'big':true}">多个class(样式:key，值:true/flase)</div>
+
     复杂情况，通过遍历，根据当前对象的key匹配样式value
     <ul>
       <li v-for="style in styles" :class="{'key1':'red','key2':'green'}[style.key]">
         {{style.value}}
+        <span v-once>这个值将不会改变: {{ style.value }}</span>
       </li>
     </ul>
   </div>

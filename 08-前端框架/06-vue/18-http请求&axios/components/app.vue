@@ -9,7 +9,8 @@
             return {
                 data:[]
             }
-        },created(){
+        },
+        created(){
            // get
            this.$axios.get('getData',{
                 params:{

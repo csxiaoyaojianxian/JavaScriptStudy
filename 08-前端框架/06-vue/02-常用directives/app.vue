@@ -19,6 +19,14 @@
 
     v-if:
     <div v-if="isShow" style="height:100px;background-color:red;"></div>
+
+    <div v-if="Math.random() > 0.5">Yes</div>
+    <div v-else>No</div>
+
+    <div v-if="type === 'A'">A</div>
+    <div v-else-if="type === 'B'">B</div>
+    <div v-else-if="type === 'C'">C</div>
+    <div v-else>Not A/B/C</div>
     <hr/>
 
     v-show:

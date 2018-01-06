@@ -8,6 +8,9 @@
             
         <div v-bind:class="isRed?'red':'green'">单个class</div>
         <div :class="{'red':true,'big':true}">多个class</div>
+        <div class="xxx" :class="isRed?'red':'green'">class和v-bind:class合并</div>
+        <div v-bind:class="[isRed?'red':'', { 'red': isRed }, 'red']">支持数组，数组支持三值表达式、对象、变量、常量等</div>
+
         <ul>
             <li v-for="stu in stus" :class="{'A':'red','B':'green'}[stu.score]">
                 {{stu.name}}
@@ -16,6 +19,10 @@
 
         <!-- <button v-on:click="isRed = !isRed">change</button> -->
         <button @click="change">change</button>
+
+
+        <div :style="{ display: ['-webkit-box', '-ms-flexbox', 'flex'] }">这样写只会渲染数组中最后一个被浏览器支持的值</div>
+
     </div>
 </template>
 <script>

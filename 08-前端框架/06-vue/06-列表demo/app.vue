@@ -1,5 +1,6 @@
 <template>
     <div>
+        事件细节参考： https://cn.vuejs.org/v2/guide/events.html
         <ul>
             <li v-for="(hero,index) in heros" :key="index" :class="{'A':'red','B':'blue','C':'green','D':'pink'}[hero.score]">
               {{hero.name}},{{hero.score}}

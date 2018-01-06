@@ -15,7 +15,9 @@ computed(计算属性)：可以监视多个this相关属性值的改变，并且
       单价:<input type="text" name="" v-model="price"> * 
       件数:<input type="text" name="" v-model="num"> *
       折扣:<input type="text" name="" v-model="rate"> =
-      {{sum.name}}:{{sum.price}}      
+      {{sum.name}}:{{sum.price}}
+
+      <div>{{ fullName }}</div>   
     </div>
 </template>
 <script>
@@ -25,7 +27,10 @@ computed(计算属性)：可以监视多个this相关属性值的改变，并且
           text:'',
           persons:[{name:'jack'},{name:'rose'}],
 
-          price:0,num:0,rate:100
+          price:0,num:0,rate:100,
+
+          firstName: 'Foo',
+          lastName: 'Bar'
         }
       },
       created(){},
@@ -56,6 +61,20 @@ computed(计算属性)：可以监视多个this相关属性值的改变，并且
             name:'商品价格',
             price:this.price * this.num * (this.rate/100)
           }
+        },
+        fullName: {
+          // getter
+          get: function () {
+            return this.firstName + ' ' + this.lastName
+          },
+          // setter
+          set: function (newValue) {
+            var names = newValue.split(' ')
+            this.firstName = names[0]
+            this.lastName = names[names.length - 1]
+          }
+          // vm.fullName = 'John Doe' 时，setter 会被调用，vm.firstName 和 vm.lastName 也会相应地被更新(vm是当前vue实例)
+
         }
       }
     }

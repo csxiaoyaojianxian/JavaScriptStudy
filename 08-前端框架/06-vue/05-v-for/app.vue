@@ -1,6 +1,7 @@
 <template>
     <div>
         v-for  2.2.0+版本，key是必须的
+        in 可以用 of 替代，v-for="item of items"
         <ul>
 
           操作数组 (item,index)
