@@ -16,6 +16,8 @@ weex工作流程
 [http://weex.apache.org/cn/](http://weex.apache.org/cn/)
 Playground：
 [http://dotwe.org/vue](http://dotwe.org/vue)
+WeexUI
+[https://github.com/alibaba/weex-ui](https://github.com/alibaba/weex-ui)
 
 ## 2. weex-toolkit的使用
 weex-toolkit是官方提供的weex开发脚手架工具(新版已经整合weexpack)，可以实现构建项目、调试、打包等全套操作
@@ -26,7 +28,7 @@ weex-toolkit脚手架会根据src下的index.vue文件产生一个对应的js文
 const entry = {index:pathTo.resolve('src','entry.js?entry=true')};
 const weexEntry = {index:pathTo.resolve('src','entry.js?entry=true')};
 ```
-2. 删除多余配置
+2. 删除多余配置(可选)
 删除`getEntryFileContent`函数、`walk`函数、`walk()`
 3. 在src目录下添加 App.vue
 4. 在src目录下添加入口文件`entry.js`，并删除temp目录
@@ -181,11 +183,34 @@ compile 'com.squareup.picasso:picasso:2.5.2'
 打包菜单选项：`Build->Build APK`
 apk文件路径：`app/build/outputs/apk/app-debug.apk`
 
-# 4. 其他
-### 4.1 vue和we
+## 4. 使用weex-ui
+```
+$ npm i weex-ui -S
+$ npm i babel-plugin-component -D
+$ weex update weexpack
+$ npm i babel-preset-stage-0 babel-plugin-component -D
+```
+修改 `.babelrc`
+```
+{
+  "presets": ["es2015", "stage-0"],
+  "plugins": [
+    [
+      "component",
+      {
+        "libraryName": "weex-ui",
+        "libDir": "packages",
+        "style": false
+      }
+    ]
+  ]
+}
+```
+## 5. 其他
+### 5.1 vue和we
 新版本的weex使用vue开发，最终得到vue文件，we文件是老版本的源码文件，推荐使用vue2.0开发
 
-### 4.2 使用vue开发weex和传统vue开发的区别
+### 5.2 使用vue开发weex和传统vue开发的区别
 [官方文档：Weex 和 Web 平台的差异](http://weex.apache.org/cn/references/platform-difference.html)
 
 总结一下：
@@ -202,7 +227,7 @@ apk文件路径：`app/build/outputs/apk/app-debug.apk`
 * **能够调用移动设备原生 API**
   + 通过模块调用设备原生 API，如 clipboard 、 navigator 、storage 等
 
-### 4.3 Weex 对 CSS 样式的支持情况
+### 5.3 Weex 对 CSS 样式的支持情况
 [官方说明](http://weex.apache.org/cn/references/web-standards.html)
 
 简单概括：
@@ -215,7 +240,7 @@ apk文件路径：`app/build/outputs/apk/app-debug.apk`
   + 不支持样式继承（因为有作用域隔离）
   + 考虑到样式的数据绑定，样式属性暂不支持简写
 
-### 4.4 weex对比react-native
+### 5.4 weex对比react-native
 1. react的JSX语法学习使用有一定的成本，vue更接近常用的web开发方式
 2. 调试，weex支持在chrome中预览页面dom节点，ReactNative不支持
 3. 页面开发，weex提供了一个playground，可以方便的预览正在开发的页面
@@ -223,7 +248,7 @@ apk文件路径：`app/build/outputs/apk/app-debug.apk`
 4. ReactNative官方只能将ReactNative基础js库和业务js一起打成一个js bundle，没有提供分包的功能，需要制作分包打包工具，weex默认打的js bundle只包含业务js代码，体积小很多，基础js库包含在weex sdk中
 5. RN统一了IOS和Android两端，weex统一了IOS、Android、Web三端
 
-### 4.5 安卓应用签名
+### 5.5 安卓应用签名
 打包的安卓apk还需要进行签名才能发布安装
 1. 使用jdk的keytool命令生成keystore，参数-validity为证书有效天数
 ```bash
