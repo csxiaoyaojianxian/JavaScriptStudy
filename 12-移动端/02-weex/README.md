@@ -76,6 +76,7 @@ $ weex run android
 $ npm run dev & npm run serve
 ```
 ![浏览器实时刷新调试](doc/02.png)
+> 注意：weex默认宽度750px，所以需要调整窗口宽度为750px
 
 3. 使用移动端官方App-WeexPlayground扫码进入移动端远程调试模式
 
