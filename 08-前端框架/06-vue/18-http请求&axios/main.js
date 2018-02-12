@@ -3,6 +3,8 @@ import App from './components/app.vue';
 
 import Axios from 'axios';
 
+// npm i axios -S
+// 
 // options: headers、baseURL、params
 // 默认全局设置
 Axios.defaults.baseURL = 'http://www.csxiaoyao.com/api/';
