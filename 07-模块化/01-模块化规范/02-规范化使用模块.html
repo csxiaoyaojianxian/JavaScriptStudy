@@ -10,8 +10,8 @@
 /*
 * @Author: victorsun
 * @Date:   2017-08-24 14:34:31
-* @Last Modified by:   victorsun
-* @Last Modified time: 2017-08-24 14:48:26
+ * @Last Modified by: csxiaoyao
+ * @Last Modified time: 2018-04-15 14:25:56
 */
 
 /**
@@ -27,9 +27,23 @@
  * 浏览器，等待时间取决于网速的快慢，可能要等很长时间，浏览器处于"假死"状态
  * 因此，浏览器端的模块，不能采用"同步加载"（synchronous），只能采用"异步加载"（asynchronous）
  */
-// 假定加载一个数学模块math.js
+// 在模块中对外输出变量(任意对象、函数、数组等)  module.exports = variable;  module.exports = function(){}; module.exports = { hello: fun1, greet: fun2 };
+// 引入其他模块输出的对象  var foo = require('other_module');
+// 变量隔离使用闭包 (function () { var a = XXX; })();
+
+// 例1：假定加载一个数学模块math.js
 var math = require('math');
 math.add(2,3); // 5
+
+// 例2：
+// 模块定义文件 hello.js
+function greet(name) {
+	console.log('hello,' + name + '~');
+}
+module.exports = greet;
+// 引用模块 main.js
+var greet = require('./hello');
+greet('csxiaoyao'); // hello,csxiaoyao~
 
 /**
  * 【 AMD 】
