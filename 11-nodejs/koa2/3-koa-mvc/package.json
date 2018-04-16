@@ -1,10 +1,9 @@
 {
-  "name": "hello-koa",
+  "name": "koa-mvc",
   "version": "1.0.0",
-  "description": "koa study",
-  "main": "03-views.js",
+  "description": "koa-mvc study",
+  "main": "app.js",
   "scripts": {
-    "start": "node 03-views.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "csxiaoyao",
@@ -13,6 +12,8 @@
     "koa": "^2.5.0",
     "koa-bodyparser": "^4.2.0",
     "koa-router": "^7.4.0",
+    "mime": "^2.3.1",
+    "mz": "^2.7.0",
     "nunjucks": "^3.1.2"
   }
 }
