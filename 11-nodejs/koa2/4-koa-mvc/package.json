@@ -1,0 +1,19 @@
+{
+  "name": "koa-mvc",
+  "version": "1.0.0",
+  "description": "koa-mvc study",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "csxiaoyao",
+  "license": "ISC",
+  "dependencies": {
+    "koa": "^2.5.0",
+    "koa-bodyparser": "^4.2.0",
+    "koa-router": "^7.4.0",
+    "mime": "^2.3.1",
+    "mz": "^2.7.0",
+    "nunjucks": "^3.1.2"
+  }
+}

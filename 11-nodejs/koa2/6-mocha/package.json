@@ -1,0 +1,22 @@
+{
+  "name": "hello-test",
+  "version": "1.0.0",
+  "description": "",
+  "main": "start.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "mocha"
+  },
+  "author": "csxiaoyao",
+  "license": "ISC",
+  "dependencies": {
+    "koa": "^2.5.0",
+    "mz": "^2.7.0",
+    "supertest": "^3.0.0"
+  },
+  "devDependencies": {
+    "mocha": "^5.1.0"
+  }
+}

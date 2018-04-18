@@ -1,0 +1,5 @@
+
+create database nodejs;
+
+grant all privileges on nodejs.* to 'root'@'%' identified by 'root';
+grant all privileges on test.* to 'root'@'%' identified by 'root';

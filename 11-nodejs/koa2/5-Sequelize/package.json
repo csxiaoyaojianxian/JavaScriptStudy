@@ -1,0 +1,19 @@
+{
+  "name": "sequelize-study",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "csxiaoyao",
+  "license": "ISC",
+  "devDependencies": {
+    "mysql": "^2.15.0",
+    "mysql2": "^1.5.3",
+    "sequelize": "^4.37.6"
+  },
+  "dependencies": {
+    "node-uuid": "^1.4.8"
+  }
+}
