@@ -54,3 +54,5 @@ Desktop.ini
 
 # Windows shortcuts
 *.lnk
+
+node_modules/
