@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+</head>
+<body>
+<script type="text/javascript">
+// Array可以使用下标，Map和Set不能使用下标，ES6引入了iterable类型，Array,Map,Set都属于iterable类型，它们可以使用for...of循环来遍历：
+var a = ['A', 'B', 'C'];  
+var s = new Set(['A', 'B', 'C']);  
+var m = new Map([[1, 'x'], [2, 'y'], [3, 'z']]);  
+for (var x of a) { // 遍历Array  
+    console.log(x);  
+}  
+for (var x of s) { // 遍历Set  
+    console.log(x);  
+}  
+for (var x of m) { // 遍历Map  
+    console.log(x[0] + '=' + x[1]);  
+}  
+
+// 【 for...of 与 for...in 的区别 】
+// for ... in循环由于历史遗留问题，它遍历的实际上是对象的属性名称。一个Array数组实际上也是一个对象，它的每个元素的索引被视为一个属性。当手动给Array对象添加了额外的属性后，for ... in 循环将带来意想不到的意外效果
+var a = ['A', 'B', 'C'];  
+a.name = 'Hello';  
+for (var x in a) {  
+    console.log(x); // '0', '1', '2', 'name'  
+}  
+
+var a = ['A', 'B', 'C'];  
+a.name = 'Hello';  
+for (var x of a) {  
+    console.log(x); // 'A', 'B', 'C'  
+}  
+
+// 更好的方式：iterable内置的forEach方法：
+var a = ['A', 'B', 'C'];  
+a.name = 'Hello';
+a.forEach(function (element, index, array) {  
+    // element: 指向当前元素的值  
+    // index: 指向当前索引
+    // array: 指向Array对象本身
+    console.log(element);//'A','B','C'  
+});  
+
+var s = new Set(['A', 'B', 'C']);
+s.forEach(function (element, sameElement, set) {  
+    console.log("参数1="+element+",参数2="+sameElement);  
+});  
+//参数1=A,参数2=A  
+//参数1=B,参数2=B  
+//参数1=C,参数2=C  
+
+var m = new Map([[1, 'x'], [2, 'y'], [3, 'z']]);  
+m.forEach(function (value, key, map) {  
+    console.log("参数1="+value+",参数2="+key);  
+});  
+//参数1=x,参数2=1  
+//参数1=y,参数2=2  
+//参数1=z,参数2=3  
+
+</script>
+</body>
