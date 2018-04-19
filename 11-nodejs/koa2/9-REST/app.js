@@ -4,12 +4,16 @@
 const Koa = require('koa');
 const bodyParser = require('koa-bodyparser');
 
+const rest = require('./rest');
 const controller = require('./controller');
 
 const app = new Koa();
 
 // parse request body:
 app.use(bodyParser());
+
+// bind .rest() for ctx:
+app.use(rest.restify());
 
 // add controller:
 app.use(controller());

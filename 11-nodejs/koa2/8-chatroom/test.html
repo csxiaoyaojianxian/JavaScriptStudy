@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>websocket test</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+<script>
+var wsUrl = 'ws://localhost:3000/ws/chat';
+
+(function(w, wsUrl){
+
+    var ws = null;
+
+    function connect() { 
+        console.log('connect');
+        ws = new WebSocket(wsUrl);
+        ws.onopen = onOpen;
+        ws.onmessage = onMessage;
+        ws.onclose = onClose;
+        ws.onerror = onError;
+    }
+    function onOpen(event) {
+        heartCheck.start();
+    };
+    function onMessage(event) {
+        var data = JSON.parse(event.data);
+        if(data){
+            switch(data.type){
+                case 'conn':
+                    // 重置重连次数，否则只能尝试一轮重连
+                    heartCheck.resetTryTimes();
+                    console.log('连接成功');
+                    break;
+                case 'hb':
+                    console.log(data.data);
+                    break;
+                default:
+                    console.log(data);
+            }
+        }
+    };
+    function onClose() { 
+        console.log('onclose');
+        heartCheck.reconnect();
+    };
+    function onError() { 
+        console.log('onerror');
+        heartCheck.reconnect();
+    };
+    
+    // 心跳保活
+    var heartCheck = {
+        timeout: 30,
+        tryInterval: 3,
+        timeoutObj: null,
+        tryCount : 0,
+        maxTryCount : 3,
+        reconnect: function() {
+            if( this.tryCount++ < this.maxTryCount){
+                console.log('第'+ this.tryCount + '次重连');
+                setTimeout(function() {
+                    connect();
+                }, this.tryInterval * 1000);
+            }else{
+                this.resetTimer();
+            }
+        },
+        resetTimer: function(){
+            clearTimeout(this.timeoutObj);
+            console.log('连接失败');
+        },
+        resetTryTimes: function() {
+            // 只有在确认打开连接成功后才能调用，否则会不断重置进行重连，造成死循环
+            this.tryCount = 0;
+        },
+        start: function(){
+            clearTimeout(this.timeoutObj);
+            this.timeoutObj = setInterval(function() {
+                console.log('heartCheck');
+                ws.send('hb:');
+            },this.timeout * 1000);
+        }
+    }
+
+    connect();
+
+    w.ws = w.websocket = ws;
+})(window, wsUrl);
+
+
+</script>
+</body>
+</html>

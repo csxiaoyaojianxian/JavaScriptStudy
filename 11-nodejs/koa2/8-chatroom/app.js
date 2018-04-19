@@ -2,8 +2,10 @@
  * @Author: csxiaoyao 
  * @Date: 2018-04-18 17:53:40 
  * @Last Modified by: csxiaoyao
- * @Last Modified time: 2018-04-18 23:18:48
+ * @Last Modified time: 2018-04-19 23:12:16
  */
+
+ // 只接受 ws://localhost:3000/ws/chat 用于区别其他http请求
 
 const url = require('url');
 const ws = require('ws');
@@ -22,11 +24,11 @@ app.use(async (ctx, next) => {
     await next();
 });
 
-// parse user from cookie:
-app.use(async (ctx, next) => {
-    ctx.state.user = parseUser(ctx.cookies.get('name') || '');
-    await next();
-});
+// 从cookie中取登录态，存到 ctx.state，非ws方式
+// app.use(async (ctx, next) => {
+//     ctx.state.user = checkAuth(ctx.cookies.get('name') || '');
+//     await next();
+// });
 
 // parse request body:
 app.use(bodyParser());
@@ -34,13 +36,181 @@ app.use(bodyParser());
 // add controller middleware:
 app.use(controller());
 
+// 启动http服务器监听3000端口
 let server = app.listen(3000);
 
-function parseUser(obj) {
+// 创建 websocket server
+function createWebSocketServer(server, onConnection, onMessage, onClose, onError) {
+    let wss = new WebSocketServer({
+        server: server
+    });
+
+    // 广播
+    wss.broadcast = function broadcast(data) {
+        wss.clients.forEach(function each(client) {
+            client.send(data);
+        });
+    };
+
+    // 指定用户名单播
+    wss.unicast = function unicast(data, userName) {
+        wss.clients.forEach(function each(client) {
+            if(client.auth.name === userName){
+                client.send(data);
+            }
+        });
+    };
+
+    // 设置生命周期函数
+    onConnection = onConnection || function () { console.log('[WebSocket-default] connected.'); };
+    onMessage = onMessage || function (msg) { console.log('[WebSocket-default] message received: ' + msg); };
+    onClose = onClose || function (code, message) { console.log(`[WebSocket-default] closed: ${code} - ${message}`); };
+    onError = onError || function (err) { console.log('[WebSocket-default] error: ' + err); };
+
+    // websocket连接配置
+    wss.on('connection', function (ws,req) {
+        let location = url.parse(req.url, true);
+        console.log('[WebSocketServer] connection: ' + location.href);
+        // 从cookie中读取用户信息
+        let auth = checkAuth(req);
+        if (!auth) {
+            // 登录态错误
+            ws.close(4001, 'Invalid auth');
+            console.log('Invalid auth');
+        } else if (location.pathname !== '/ws/chat') {
+            // 只接受 ws://localhost:3000/ws/chat 用于区别其他非ws请求
+            ws.close(4000, 'Invalid URL');
+            console.log('Invalid URL');
+        } else {
+            // 用户身份信息
+            ws.auth = auth;
+            // 绑定生命周期函数
+            ws.on('message', onMessage);
+            ws.on('close', onClose);
+            ws.on('error', onError);
+
+            ws.wss = wss;
+            // 执行自定义的connection
+            onConnection.apply(ws);
+        }   
+    });
+    console.log('WebSocketServer was attached.');
+
+    // 心跳
+    // wss.heartbeat = function heartbeat(data) {
+    //     wss.clients.forEach(function each(client) {
+    //         client.send(data);
+    //     });
+    // };
+    setInterval(()=>{
+        wss.clients.forEach(function each(client) {
+            // console.log(client.auth);
+            wss.unicast(createMessage('msg', null, `hello sunshine`),"sunshine");
+        })
+        let connList = getConnList(wss.clients);
+        console.log(connList);
+        // console.log(getLength(connList));
+        // console.log(Object.getOwnPropertyNames(connList).length);
+    },5000);
+
+    return wss;
+}
+
+// 创建websocket服务
+try{
+    app.wss = createWebSocketServer(server, onConnect, onMessage, onClose);
+}catch(e){
+    console.log(e);
+}
+console.log('app started at port 3000...');
+
+// 消息模板
+var messageIndex = 0;
+function createMessage(type, auth, data) {
+    messageIndex++;
+    return JSON.stringify({
+        id: messageIndex,   // id
+        type: type,         // 消息类型
+        auth: auth,         // 用户
+        data: data          // 数据
+    });
+}
+
+// 获取当前用户列表 Map，传入 wss.clients
+function getConnList(clients) {
+    let connList = new Map();
+    clients.forEach(function (client) {
+        console.log(client.auth);
+        // 键值格式未定义
+        connList.set(client.auth.name, "userInfo");
+    });
+    return connList;
+}
+
+// 获取在线人数
+function getLength(map) {
+    var count = 0;
+    for (var i in map) {
+        if (map.hasOwnProperty(i)) {
+            count++;
+        }
+　　}
+　　return count;
+}
+
+// 自定义生命周期函数
+function onConnect() {
+    // 获取用户信息，在connection中获取
+    let auth = this.auth;
+    let connList = getConnList(this.wss.clients);
+    console.log(connList);
+    // 单发消息，确认连接成功
+    this.send(createMessage('conn', auth, `${auth.name} success login`));
+    // 群发消息，通知其他用户
+    this.wss.broadcast(createMessage('msg', auth, `other people ${auth.name} connect success`));
+    // 单发消息，发送用户列表
+    this.send(createMessage('list', auth, connList));
+
+}
+
+function onMessage(message) {
+    if(message.length <= 2){
+        this.send(createMessage('error', null, 'msg error'));
+        return;
+    }
+    const msgType = message.substring(0, 2);
+    const msgData = message.substring(3);
+    switch (msgType){
+        // 心跳
+        case 'hb':
+            this.send(createMessage('hb', null, 'ok'));
+            break;
+        // 聊天消息
+        case 'ch':
+            // 收到消息后群发 ch:XXX
+            console.log(msgData);
+            if (msgData && msgData.trim()) {
+                let msg = createMessage('chat', this.auth, msgData.trim());
+                this.wss.broadcast(msg);
+            }
+            break;
+        // 其他消息
+        default:
+            console.log(msgData);
+    }
+}
+
+function onClose() {
+    let auth = this.auth;
+    // 群发消息
+    this.wss.broadcast(createMessage('close', auth, 'close'));
+}
+
+// ws方式取登录态
+function checkAuth(obj) {
     if (!obj) {
         return;
     }
-    console.log('try parse: ' + obj);
     let s = '';
     if (typeof obj === 'string') {
         s = obj;
@@ -50,103 +220,14 @@ function parseUser(obj) {
     }
     if (s) {
         try {
-            let user = JSON.parse(Buffer.from(s, 'base64').toString());
-            console.log(`User: ${user.name}, ID: ${user.id}`);
-            return user;
+            let auth = JSON.parse(Buffer.from(s, 'base64').toString());
+            console.log(`checkAuth: ${auth.name}`);
+            return auth;
         } catch (e) {
-            // ignore
+            console.log('checkAuth failed');
         }
     }
 }
-
-function createWebSocketServer(server, onConnection, onMessage, onClose, onError) {
-    let wss = new WebSocketServer({
-        server: server
-    });
-    wss.broadcast = function broadcast(data) {
-        wss.clients.forEach(function each(client) {
-            client.send(data);
-        });
-    };
-    onConnection = onConnection || function () {
-        console.log('[WebSocket] connected.');
-    };
-    onMessage = onMessage || function (msg) {
-        console.log('[WebSocket] message received: ' + msg);
-    };
-    onClose = onClose || function (code, message) {
-        console.log(`[WebSocket] closed: ${code} - ${message}`);
-    };
-    onError = onError || function (err) {
-        console.log('[WebSocket] error: ' + err);
-    };
-    wss.on('connection', function (ws,req) {
-        ws.upgradeReq = req;
-        let location = url.parse(ws.upgradeReq.url, true);
-        console.log('[WebSocketServer] connection: ' + location.href);
-        ws.on('message', onMessage);
-        ws.on('close', onClose);
-        ws.on('error', onError);
-        if (location.pathname !== '/ws/chat') {
-            // close ws:
-            ws.close(4000, 'Invalid URL');
-        }
-        // check user:
-        let user = parseUser(ws.upgradeReq);
-        if (!user) {
-            ws.close(4001, 'Invalid user');
-        }
-        ws.user = user;
-        ws.wss = wss;
-        onConnection.apply(ws);
-    });
-    console.log('WebSocketServer was attached.');
-    return wss;
-}
-
-var messageIndex = 0;
-
-function createMessage(type, user, data) {
-    messageIndex++;
-    return JSON.stringify({
-        id: messageIndex,
-        type: type,
-        user: user,
-        data: data
-    });
-}
-
-function onConnect() {
-    let user = this.user;
-    let msg = createMessage('join', user, `${user.name} joined.`);
-    this.wss.broadcast(msg);
-    // build user list:
-    let users = this.wss.clients.forEach(function (client) {
-        return client.user;
-    });
-    console.log(users);
-    this.send(createMessage('list', user, users));
-}
-
-function onMessage(message) {
-    console.log(message);
-    if (message && message.trim()) {
-        let msg = createMessage('chat', this.user, message.trim());
-        this.wss.broadcast(msg);
-    }
-}
-
-function onClose() {
-    let user = this.user;
-    let msg = createMessage('left', user, `${user.name} is left.`);
-    this.wss.broadcast(msg);
-}
-
-app.wss = createWebSocketServer(server, onConnect, onMessage, onClose);
-
-console.log('app started at port 3000...');
-
-
 
 /*
 配置nginx反向代理
@@ -178,3 +259,4 @@ server {
 }
 
 */
+
