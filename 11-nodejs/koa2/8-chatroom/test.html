@@ -24,6 +24,7 @@ var wsUrl = 'ws://localhost:3000/ws/chat';
         ws.onerror = onError;
     }
     function onOpen(event) {
+        console.log('onopen');
         heartCheck.start();
     };
     function onMessage(event) {
@@ -54,7 +55,7 @@ var wsUrl = 'ws://localhost:3000/ws/chat';
     
     // 心跳保活
     var heartCheck = {
-        timeout: 30,
+        timeout: 50,
         tryInterval: 3,
         timeoutObj: null,
         tryCount : 0,

@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+<script>
+'use strict';
+
+var m = new Map();
+var s= new Set();
+
+// 【 1.Map 】
+// Map 键值对，查找速度快 （Key, Value），各种类型的值（包括对象）都可以当作键
+// 初始化为二维数组或空，注意：一个键只能有一个值
+// undefined和null是两个不同的键，虽然NaN不严格相等于自身，但 Map 将其视为同一个键
+var m1 = new Map([['Bob', 100], ['Jhon', 85], ['Mike', 66]]);
+m1.get('Bob'); // 100
+var m2 = new Map();
+m2.set('Adam', 67); // Map(1) {"Adam" => 67}
+m2.get('Adam'); // 67
+m2.has('Adam'); // true
+m2.delete('Adam');
+m2.get('Adam'); // undefined
+
+let m3 = new Map();  
+m3.set(-0, 123);  
+m3.get(+0) // 123  
+  
+m3.set(true, 1);  
+m3.set('true', 2);  
+m3.get(true) // 1  
+  
+m3.set(undefined, 3);  
+m3.set(null, 4);  
+m3.get(undefined) // 3 
+  
+m3.set(NaN, 123);  
+m3.get(NaN) // 123 
+
+// 获取Map长度
+var map_es5 = {1:'1', 2:'2', 3:'3'};
+// es5
+console.log(Object.getOwnPropertyNames(map_es5).length);
+// es6   size属性
+console.log(m1.size); // 3  
+
+// 【 遍历 】
+// keys()、values()、entries() 键值对遍历器，Map 的遍历顺序就是插入顺序
+// forEach() 回调遍历
+for (let key of m1.keys()) {  
+	console.log(key);  
+}
+for (let value of m1.values()) {  
+	console.log(value);  
+}
+for (let item of m1.entries()) {  
+	console.log(item[0], item[1]);  
+}
+for (let [key, value] of m1.entries()) {  
+	console.log(key, value);  
+}
+for (let [key, value] of m1) {  
+	console.log(key, value);  
+}
+
+// 使用数组的 map 和 filter 方法
+const map0 = new Map().set(1, 'a').set(2, 'b').set(3, 'c');  
+const map1 = new Map(  
+	[...map0].filter(([k, v]) => k < 3) // 产生 Map 结构 {1 => 'a', 2 => 'b'}  
+);  
+const map2 = new Map(  
+	[...map0].map(([k, v]) => [k * 2, '_' + v]) // 产生 Map 结构 {2 => '_a', 4 => '_b', 6 => '_c'}  
+); 
+
+// 【 转换 】
+// Map => Array    扩展运算符（...）
+var array1 = [...m1.keys()] 
+var array2 = [...m1.values()] 
+var array3 = [...m1.entries()]
+var array4 = [...m1]
+
+// Array => Map
+new Map([[true, 7], [{foo: 3}, ['abc']]])
+
+// Map => Object
+function strMapToObj(strMap) {
+	let obj = Object.create(null);
+	for (let [k,v] of strMap) {
+		obj[k] = v;
+	}
+	return obj;
+}
+let myMap1 = new Map().set('yes', true).set('no', false);
+console.log(strMapToObj(myMap1)); // {yes: true, no: false}
+
+// Object => Map
+function objToStrMap(obj) {
+	let strMap = new Map();
+	for (let k of Object.keys(obj)) {
+		strMap.set(k, obj[k]);
+	}
+	return strMap;
+}
+var obj = {yes: true, no: false}
+console.log(objToStrMap(obj)) // Map(2) {"yes" => true, "no" => false}
+
+// Map => 对象JSON    Map的键名都是字符串
+function strMapToObjJson(strMap) {  
+  return JSON.stringify(strMapToObj(strMap));  
+}  
+let strMap3 = new Map().set('yes', true).set('no', false);  
+console.log(strMapToObjJson(strMap3)); // {"yes":true,"no":false}
+
+// Map => 数组JSON    Map的键名有非字符串
+function mapToArrayJson(arrMap) {  
+	return JSON.stringify([...arrMap]);  
+}
+let myMap4 = new Map().set(true, 7).set({foo: 3}, ['abc']);
+console.log(mapToArrayJson(myMap4)); // [[true,7],[{"foo":3},["abc"]]]
+
+// 对象JSON => Map   所有键名为字符串
+function jsonToStrMap(jsonStr) {  
+  return objToStrMap(JSON.parse(jsonStr));  
+}  
+console.log(jsonToStrMap('{"yes": true, "no": false}')); // Map(2) {"yes" => true, "no" => false}
+
+// 数组JSON => Map
+function jsonToMap(jsonStr) {  
+  return new Map(JSON.parse(jsonStr));  
+}  
+console.log(jsonToMap('[[true,7],[{"foo":3},["abc"]]]')); // Map(2) {true => 7, {…} => Array(1)}
+
+
+/**
+ * 【 2.Set 】
+ * 
+ */
+// 只存储不重复的key，不存value
+// 可以向Set中重复添加相同的元素，但是不会有效果
+var s1 = new Set(); // 空Set
+var s2 = new Set([1, 2, 3, 3, '3']); // Set(3) {1, 2, "3"}
+s2.add(3); // {1, 2, 3, "3"}
+s2.has(3);
+s2.delete(3); // {1, 2, "3"}
+s2.clear(); // Set(0) {}
+// 快速去除重复元素
+function dedupe(array) {  
+	return Array.from(new Set(array));
+}
+console.log(dedupe([1, 1, 2, 3])); // [1, 2, 3]
+// 获取Set长度
+console.log(dedupe([1, 1, 2, 3]).length); // [1, 2, 3] 
+
+// 【 遍历 】
+// keys()、values()、entries() 键值对遍历器，对Set，keys() = values()
+// forEach() 回调遍历
+let s3 = new Set(['red', 'green', 'blue']);  
+console.log(s3.keys()); // SetIterator {"red", "green", "blue"}
+for (let item of s3.keys()) {  
+	console.log(item);  // red green blue
+}  
+for (let item of s3.values()) {  
+	console.log(item);  // red green blue
+}
+for (let item of s3.entries()) {  
+	console.log(item);  // ["red", "red"]  ["green", "green"]  ["blue", "blue"]
+}  
+for (let item of s3) {  
+	console.log(item);     // red green blue
+}
+let s4 = new Set([1, 2, 3]); 
+s4.forEach((value, key) => console.log(value * 2) ) // 2 4 6
+
+// 【 遍历的应用 】
+// 扩展去重：扩展运算符（...）内部使用for...of循环，所以也可以用于 Set 结构，还能够去重
+let s5 = new Set(['red', 'green', 'blue', 'red']);  
+let unique = [...s5];  // ['red', 'green', 'blue']  
+
+// 数组的map和filter方法可用于 Set
+let s6 = new Set([1, 2, 3]);  
+s6 = new Set([...s6].map(x => x * 2)); // Set(3) {2, 4, 6}
+let s7 = new Set([1, 2, 3, 4, 5]);  
+s7 = new Set([...s7].filter(x => (x % 2) == 0)); // Set(2) {2, 4}
+
+// 使用 Set 实现并集（Union）、交集（Intersect）和差集（Difference）
+let a = new Set([1, 2, 3]);  
+let b = new Set([4, 3, 2]);  
+// 并集  
+let union = new Set([...a, ...b]); // Set {1, 2, 3, 4}  
+// 交集  
+let intersect = new Set([...a].filter(x => b.has(x))); // set {2, 3}  
+// 差集  
+let difference = new Set([...a].filter(x => !b.has(x))); // Set {1}  
+
+// 如果想在遍历操作中，同步改变原来的 Set 结构，目前没有直接的方法，但有两种变通方法
+// 一种是利用原 Set 结构映射出一个新的结构，然后赋值给原来的 Set 结构
+// 另一种是利用Array.from方法
+
+
+</script>
+</body>
+</html>

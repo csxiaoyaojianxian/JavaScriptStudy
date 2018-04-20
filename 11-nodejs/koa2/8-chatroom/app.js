@@ -2,7 +2,7 @@
  * @Author: csxiaoyao 
  * @Date: 2018-04-18 17:53:40 
  * @Last Modified by: csxiaoyao
- * @Last Modified time: 2018-04-19 23:12:16
+ * @Last Modified time: 2018-04-20 16:51:55
  */
 
  // 只接受 ws://localhost:3000/ws/chat 用于区别其他http请求
@@ -96,22 +96,19 @@ function createWebSocketServer(server, onConnection, onMessage, onClose, onError
     });
     console.log('WebSocketServer was attached.');
 
-    // 心跳
-    // wss.heartbeat = function heartbeat(data) {
-    //     wss.clients.forEach(function each(client) {
-    //         client.send(data);
-    //     });
-    // };
+    // 心跳  定期清理断开的客户端，3min清理一次，判定超时时间为60s，因为客户端心跳时间为50s
     setInterval(()=>{
         wss.clients.forEach(function each(client) {
-            // console.log(client.auth);
-            wss.unicast(createMessage('msg', null, `hello sunshine`),"sunshine");
+            let timeDiff = Date.now() - client.timestamp;
+            if(timeDiff > 60 * 1000){
+                client.close();
+            }
+            // wss.unicast(createMessage('msg', null, `hello sunshine`),"sunshine");
         })
-        let connList = getConnList(wss.clients);
-        console.log(connList);
-        // console.log(getLength(connList));
-        // console.log(Object.getOwnPropertyNames(connList).length);
-    },5000);
+        let connNum = Array.from(new Set(wss.clients)).length;
+        let connList = Array.from(new Set(getConnList(wss.clients)));
+        console.log('当前连接数：' + connNum + '\n当前在线人数：' + connList.length);
+    }, 3 * 60 * 1000);
 
     return wss;
 }
@@ -160,6 +157,9 @@ function getLength(map) {
 
 // 自定义生命周期函数
 function onConnect() {
+    // 获取时间戳绑定到当前client，用户判断客户端是否失联 （onConnect、onMessage）
+    this.timestamp = Date.now();
+    
     // 获取用户信息，在connection中获取
     let auth = this.auth;
     let connList = getConnList(this.wss.clients);
@@ -174,6 +174,9 @@ function onConnect() {
 }
 
 function onMessage(message) {
+    // 获取时间戳绑定到当前client，用户判断客户端是否失联 （onConnect、onMessage）
+    this.timestamp = Date.now();
+    
     if(message.length <= 2){
         this.send(createMessage('error', null, 'msg error'));
         return;
