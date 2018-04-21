@@ -1,0 +1,15 @@
+{
+"resources":
+	[
+		{"name":"bgImage","type":"image","url":"assets/bg.jpg"},
+		{"name":"egretIcon","type":"image","url":"assets/egret_icon.png"},
+        {"name":"description","type":"json","url":"config/description.json"},
+	    {"name":"btn","type":"image","url":"assets/mybtn.png"}
+	],
+
+"groups":
+	[
+        {"name":"preload","keys":"bgImage,egretIcon"},
+	    {"name":"button","keys":"btn"}
+	]
+}
