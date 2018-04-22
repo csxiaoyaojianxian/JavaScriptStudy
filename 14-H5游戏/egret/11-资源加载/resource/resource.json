@@ -1,0 +1,19 @@
+{
+"resources":
+	[
+		{"name":"bgImage","type":"image","url":"assets/bg.jpg"},
+		{"name":"egretIcon","type":"image","url":"assets/egret_icon.png"},
+        {"name":"description","type":"json","url":"config/description.json"},
+	    {"name":"yaotou","type":"image","url":"assets/yaotou.png"},
+	    {"name":"toolt","type":"image","url":"assets/toolt.png"},
+	    {"name":"logo","type":"sheet","url":"assets/logo.json"}
+	],
+
+"groups":
+	[
+        {"name":"preload","keys":"bgImage,egretIcon"},
+	    {"name":"yt","keys":"yaotou"},
+	    {"name":"tt","keys":"toolt"},
+	    {"name":"lg","keys":"logo"}
+	]
+}
