@@ -2,7 +2,7 @@
  * @Author: csxiaoyao 
  * @Date: 2018-04-18 17:53:40 
  * @Last Modified by: csxiaoyao
- * @Last Modified time: 2018-04-20 16:51:55
+ * @Last Modified time: 2018-04-23 14:23:14
  */
 
  // 只接受 ws://localhost:3000/ws/chat 用于区别其他http请求
@@ -18,9 +18,14 @@ const WebSocketServer = ws.Server;
 
 const app = new Koa();
 
+// 是否需要验证用户信息
+const isTest = true;
+// 用于测试，作为用户ID
+let userIndexForTest = 0;
+
 // log request URL:
 app.use(async (ctx, next) => {
-    console.log(`Process ${ctx.request.method} ${ctx.request.url}...`);
+    // console.log(`Process ${ctx.request.method} ${ctx.request.url}...`);
     await next();
 });
 
@@ -71,13 +76,12 @@ function createWebSocketServer(server, onConnection, onMessage, onClose, onError
     wss.on('connection', function (ws,req) {
         let location = url.parse(req.url, true);
         console.log('[WebSocketServer] connection: ' + location.href);
-        // 从cookie中读取用户信息
-        let auth = checkAuth(req);
+        let auth = checkAuth(req, isTest);
         if (!auth) {
             // 登录态错误
             ws.close(4001, 'Invalid auth');
             console.log('Invalid auth');
-        } else if (location.pathname !== '/ws/chat') {
+        } else if (location.pathname !== '/ws/chat' && !isTest) {
             // 只接受 ws://localhost:3000/ws/chat 用于区别其他非ws请求
             ws.close(4000, 'Invalid URL');
             console.log('Invalid URL');
@@ -92,7 +96,7 @@ function createWebSocketServer(server, onConnection, onMessage, onClose, onError
             ws.wss = wss;
             // 执行自定义的connection
             onConnection.apply(ws);
-        }   
+        }
     });
     console.log('WebSocketServer was attached.');
 
@@ -137,7 +141,7 @@ function createMessage(type, auth, data) {
 function getConnList(clients) {
     let connList = new Map();
     clients.forEach(function (client) {
-        console.log(client.auth);
+        // console.log(client.auth);
         // 键值格式未定义
         connList.set(client.auth.name, "userInfo");
     });
@@ -165,11 +169,11 @@ function onConnect() {
     let connList = getConnList(this.wss.clients);
     console.log(connList);
     // 单发消息，确认连接成功
-    this.send(createMessage('conn', auth, `${auth.name} success login`));
+    // this.send(createMessage('conn', auth, `${auth.name} success login`));
     // 群发消息，通知其他用户
-    this.wss.broadcast(createMessage('msg', auth, `other people ${auth.name} connect success`));
+    // this.wss.broadcast(createMessage('msg', auth, `other people ${auth.name} connect success`));
     // 单发消息，发送用户列表
-    this.send(createMessage('list', auth, connList));
+    // this.send(createMessage('list', auth, connList));
 
 }
 
@@ -177,6 +181,12 @@ function onMessage(message) {
     // 获取时间戳绑定到当前client，用户判断客户端是否失联 （onConnect、onMessage）
     this.timestamp = Date.now();
     
+    // 用于测试
+    if (message == "1"){
+        this.send(createMessage('test', null, 'ok'));
+        return;
+    }
+
     if(message.length <= 2){
         this.send(createMessage('error', null, 'msg error'));
         return;
@@ -206,11 +216,20 @@ function onMessage(message) {
 function onClose() {
     let auth = this.auth;
     // 群发消息
-    this.wss.broadcast(createMessage('close', auth, 'close'));
+    // this.wss.broadcast(createMessage('close', auth, 'close'));
 }
 
 // ws方式取登录态
-function checkAuth(obj) {
+function checkAuth(obj,istest) {
+    // 用于测试，生成auth
+    if (istest){
+        let auth = {
+            name: "anonymous-user" + ++userIndexForTest
+        };
+        // console.log(`Test checkAuth: ${auth.name}`);
+        return auth;
+    }
+    // 提取登录信息
     if (!obj) {
         return;
     }
