@@ -16,8 +16,6 @@ https://img.shields.io/badge/author-csxiaoyao-brightgreen.svg)](http://www.csxia
   + 02-常用操作
   + 03-JS进阶
 * 02-ES新特性
-  + ES6
-  + TypeScript
 * 03-JS数据结构算法
 * 04-设计模式
 * 05-特效
@@ -49,7 +47,9 @@ https://img.shields.io/badge/author-csxiaoyao-brightgreen.svg)](http://www.csxia
 * 13-canvas
 * 14-H5游戏
 * 15-ajax
-* 16-js探索
+* 16-TypeScript
+* 17-tensorflow.js
+* 18-js探索
 
 
 
