@@ -194,6 +194,31 @@ console.log(sentence);// studio shinesun
  */
 console.log(++[[]][+[]]+[+[]]); // 10
 
+/**
+ * 删除数组中的指定元素（此处为2）
+ */
+// 方法1: 删除后调整 i 的值
+(function() {
+    var arr = [1, 2, 2, 3, 4, 5];
+    for (var i = 0; i < arr.length; i++) {
+        if (arr[i] == 2) {
+            // 删除元素后调整i的值
+            arr.splice(i--, 1);
+        }
+    }
+    console.log(arr);
+})();
+// 方法2: 从后向前删除
+(function() {
+    var arr = [1, 2, 2, 3, 4, 5];
+    for (var i = arr.length - 1; i >= 0; i--) {
+        if (arr[i] == 2) {
+            arr.splice(i, 1);
+        }
+    }
+    console.log(arr);
+})();
+
 </script>
 
 </body>
