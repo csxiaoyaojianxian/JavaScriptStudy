@@ -63,7 +63,7 @@
     var dt = event.dataTransfer;
     // dt.effectAllowed = 'none'; // 不允许拖拽
     // 拖放的数据类型和值
-    dt.setData("Text", event.target.id);
+    dt.setData("csxiaoyaoData", event.target.id);
     console.log("ondragstart 拖动开始");
   }
 
@@ -79,10 +79,10 @@
 
   function drop(event) {
     event.preventDefault();
-    event.stopPropagation;
+    event.stopPropagation();
     // 保存在dataTransfer对象中的数据只能在drop事件处理程序中读取
     var dt = event.dataTransfer;
-    var data = dt.getData("Text");
+    var data = dt.getData("csxiaoyaoData");
     event.target.appendChild(document.getElementById(data).cloneNode());
                 
     console.log("ondrop 拖放成功");
