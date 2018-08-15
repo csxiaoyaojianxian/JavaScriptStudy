@@ -67,6 +67,12 @@
     console.log("ondragstart 拖动开始");
   }
 
+  function dragend(event) {
+    console.log("ondragend 拖放停止");
+  }
+
+  ///////////
+
   function dragenter(event) {
     event.preventDefault();
     console.log("ondragenter 进入目标区");
@@ -79,6 +85,7 @@
 
   function drop(event) {
     event.preventDefault();
+    // 阻止冒泡，解决foxfire下弹出新窗口
     event.stopPropagation();
     // 保存在dataTransfer对象中的数据只能在drop事件处理程序中读取
     var dt = event.dataTransfer;
@@ -90,10 +97,6 @@
 
   function dragleave(event) {
     console.log("ondragleave 离开目标区");
-  }
-
-  function dragend(event) {
-    console.log("ondragend 拖放停止");
   }
 
 </script>
