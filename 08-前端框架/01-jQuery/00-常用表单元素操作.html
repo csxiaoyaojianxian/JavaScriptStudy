@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+</head>
+<body>
+
+<h3>checkbox</h3>
+<input id="check1" type="checkbox" name="cs-checkbox" checked="on" value=1>
+<label for="check1">复选1</label>
+<input id="check2" type="checkbox" name="cs-checkbox" checked="check" value=2>
+<label for="check2">复选2</label>
+<input id="check3" type="checkbox" name="cs-checkbox" checked>
+<label for="check3">复选3</label>
+<br>
+<button id="btn1">设置选中</button>
+<button id="btn2">判断选中状态</button>
+<button id="btn3">获取选中元素</button>
+<pre id="p1"></pre>
+
+<h3>radio</h3>
+<input type="radio" name="cs-radio" value=1 />单选1
+<input type="radio" name="cs-radio" value=2 />单选2
+<input type="radio" name="cs-radio" value=3 />单选3
+<br>
+<button id="btn4">设置选中</button>
+<button id="btn5">判断选中状态</button>
+<button id="btn6">获取选中元素</button>
+<pre id="p2"></pre>
+
+<h3>select</h3>
+<select class="select" value="1">
+    <option value="csxiaoyao">csxiaoyao</option>
+    <option value="sunshine">sunshine</option>
+    <option value="victorsun">victorsun</option>
+</select>
+<br>
+<button id="btn7">设置选中</button>
+<button id="btn8">判断选中状态</button>
+<button id="btn9">获取选中元素和索引</button>
+<pre id="p3"></pre>
+
+<script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.0.0-alpha1/jquery.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+    /**
+     *   checkbox
+     */
+    // 设置选中
+    $("#btn1").click(function(){
+        // js设置check1选中，jq设置check2不选中
+        document.getElementById("check1").checked = true
+        $("#check2").prop("checked", false)
+        $("#p1").html(
+`
+<b>JavaScript: 设置id=check1选中</b>
+document.getElementById('check1').checked = true
+<br>
+<b>jQuery: 设置id=check2不选中</b>
+$("#check2").prop("checked", false)
+`
+        );
+    });
+    // 判断选中状态
+    $("#btn2").click(function(){
+        // js判断check1状态，jq判断check2状态
+        var checked1 = document.getElementById("check1").checked // true
+        var checked2 = $("#check2").prop('checked') // true
+        $("#p1").html(
+`
+<b>JavaScript: 判断id=check1状态</b>
+document.getElementById("check1").checked // ${checked1}
+<br>
+<b>jQuery: 判断id=check2状态</b>
+$("#check2").prop('checked') // ${checked2}
+`
+        );
+    });
+    // 获取选中元素
+    $("#btn3").click(function(){
+        var selector = "input[type=checkbox][name='cs-checkbox']:checked"
+        var resultArray1 = document.querySelectorAll(selector) 
+        var resultArray2 = $(selector)
+        $("#p1").html(
+`
+var selector = "input[type=checkbox][name='cs-checkbox']:checked"
+<br>
+<b>JavaScript: </b>
+document.querySelectorAll(selector) 
+<br>
+<b>jQuery: </b>
+$(selector)
+`
+        );
+    });
+
+    /**
+     *   radio
+     */
+    // 设置选中 
+    $("#btn4").click(function(){
+        // radio，js设置value=1选中，jq prop设置value=2不选中，jq attr设置value=3选中
+        document.querySelector("input[type='radio'][name='cs-radio'][value='1']").checked = true
+        $("input[type=radio][name='cs-radio'][value=2]").prop("checked", false)
+        $("input[type=radio][name='cs-radio'][value=3]").attr("checked",true)
+        $("#p2").html(
+`
+<b>JavaScript: 设置value=1选中</b>
+document.querySelector("input[type='radio'][name='cs-radio'][value='1']").checked = true
+<br>
+<b>jQuery: prop设置value=2不选中，attr设置value=3选中</b>
+$("input[type=radio][name='cs-radio'][value=2]").prop("checked", false)
+$("input[type=radio][name='cs-radio'][value=3]").attr("checked",true)
+`
+        );
+    });
+    // 判断选中状态
+    $("#btn5").click(function(){
+        // js判断value=1状态
+        var result1 = document.querySelector("input[type='radio'][name='cs-radio'][value='1']").checked
+        // jq判断value=2状态
+        var result2 = $("input[type=radio][name=cs-radio][value=2]").prop('checked')
+
+        $("#p2").html(
+`
+<b>JavaScript: 判断value=1状态</b>
+document.querySelector("input[type='radio'][name='cs-radio'][value='1']").checked // ${result1}
+<br>
+<b>jQuery: 判断value=2状态</b>
+$("input[type=radio][name=cs-radio][value=2]").prop('checked') // ${result2}
+`
+        );
+    });
+    // 获取选中元素
+    $("#btn6").click(function(){
+        var selector = "input[type='radio'][name='cs-radio']:checked"
+        var result1 = document.querySelector(selector)
+        var result2 = $(selector)
+        $("#p2").html(
+`
+var selector = "input[type='radio'][name='cs-radio']:checked"
+<br>
+<b>JavaScript: </b>
+document.querySelector(selector)
+<br>
+<b>jQuery: </b>
+$(selector)
+`
+        );
+    });
+
+    /**
+     *   select
+     */
+    // 设置选中
+    $("#btn7").click(function(){
+        // 选择value="csxiaoyao"
+        document.querySelector("select.select option[value='csxiaoyao']").selected = true
+        // 选择value="sunshine"
+        $("select.select option[value='sunshine']").attr("selected", true)
+        $("#p3").html(
+`
+var selector = "input[type='radio'][name='cs-radio']:checked"
+<br>
+<b>JavaScript: 选择value="csxiaoyao"</b>
+document.querySelector("select.select option[value='csxiaoyao']").selected = true
+<br>
+<b>jQuery: 选择value="sunshine"</b>
+$("select.select option[value='sunshine']").attr("selected", true)
+`
+        );
+    });
+    // 判断选中状态
+    $("#btn8").click(function(){
+        // 判断第二个元素是否选中，csxiaoyao是否选中
+        var result1 = document.querySelector("select.select").options[1].selected
+        var result2 = document.querySelector("select.select option[value='csxiaoyao']").selected
+        var result3 = $("select.select option[value='sunshine']").prop("selected")
+        $("#p3").html(
+`
+<b>JavaScript: 判断第2个元素是否选中，判断csxiaoyao是否选中</b>
+document.querySelector("select.select").options[1].selected // ${result1}
+document.querySelector("select.select option[value='csxiaoyao']").selected // ${result2}
+<br>
+<b>jQuery: 判断sunshine是否选中</b>
+$("select.select option[value='sunshine']").prop("selected") // ${result3}
+`
+        );
+
+    });
+    // 获取选中元素和索引
+    $("#btn9").click(function(){
+        var dom = document.querySelector("select.select")
+        var index1 = dom.selectedIndex
+        var result1 = dom.options[index1]
+        
+        var result2 = $("select.select").val()
+        var result3 = $("select.select").find('option:selected')
+        var result4 = $("select.select option:selected")
+        var result5 = $("select.select option:last")
+
+        $("#p3").html(
+`
+<b>JavaScript: </b>
+var dom = document.querySelector("select.select")
+var index1 = dom.selectedIndex
+result = dom.options[index1]
+<br>
+<b>jQuery: </b>
+$("select.select").val()
+$("select.select").find('option:selected')
+$("select.select option:selected")
+$("select.select option:last")
+`
+        );
+    });
+    
+});
+</script>
+</head>
+<body>
+
+</script>
+</body>
+</html>
