@@ -55,16 +55,16 @@
 </body>
 
 <script type="text/javascript">
-  function drag(event) {
-    console.log("ondrag持续拖动");
-  }
-
   function dragstart(event) {
     var dt = event.dataTransfer;
     // dt.effectAllowed = 'none'; // 不允许拖拽
     // 拖放的数据类型和值
     dt.setData("csxiaoyaoData", event.target.id);
     console.log("ondragstart 拖动开始");
+  }
+
+  function drag(event) {
+    console.log("ondrag持续拖动");
   }
 
   function dragend(event) {
