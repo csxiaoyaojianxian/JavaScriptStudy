@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>jQuery UI 拖动（Draggable） + 排序（Sortable）</title>
+  <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
+  <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+  <script src="http://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+  <link rel="stylesheet" href="http://jqueryui.com/resources/demos/style.css">
+  <style>
+  ul { list-style-type: none; margin: 0; padding: 0; margin-bottom: 10px; }
+  li { margin: 5px; padding: 5px; width: 150px; }
+  </style>
+  <script>
+  $(function() {
+    $( "#sortable" ).sortable({
+      revert: true
+    });
+    $( "#draggable" ).draggable({
+      connectToSortable: "#sortable",
+      helper: "clone",
+      revert: "invalid"
+    });
+    $( "ul, li" ).disableSelection();
+  });
+  </script>
+</head>
+<body>
+ 
+<ul>
+  <li id="draggable" class="ui-state-highlight">请拖拽我</li>
+</ul>
+ 
+<ul id="sortable">
+  <li class="ui-state-default">Item 1</li>
+  <li class="ui-state-default">Item 2</li>
+  <li class="ui-state-default">Item 3</li>
+  <li class="ui-state-default">Item 4</li>
+  <li class="ui-state-default">Item 5</li>
+</ul>
+ 
+ 
+</body>
+</html>
+

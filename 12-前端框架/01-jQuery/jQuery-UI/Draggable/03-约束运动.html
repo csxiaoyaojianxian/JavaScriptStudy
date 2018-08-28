@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>jQuery UI 拖动（Draggable） - 约束运动</title>
+  <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
+  <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+  <script src="http://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+  <link rel="stylesheet" href="http://jqueryui.com/resources/demos/style.css">
+  <style>
+  .draggable { width: 90px; height: 90px; padding: 0.5em; float: left; margin: 0 10px 10px 0; }
+  #draggable, #draggable2 { margin-bottom:20px; }
+  #draggable { cursor: n-resize; }
+  #draggable2 { cursor: e-resize; }
+  #containment-wrapper { width: 95%; height:150px; border:2px solid #ccc; padding: 10px; }
+  h3 { clear: left; }
+  </style>
+  <script>
+  $(function() {
+    $( "#draggable" ).draggable({ axis: "y" });
+    $( "#draggable2" ).draggable({ axis: "x" });
+ 
+    $( "#draggable3" ).draggable({ containment: "#containment-wrapper", scroll: false });
+    $( "#draggable5" ).draggable({ containment: "parent" });
+  });
+  </script>
+</head>
+<body>
+ 
+<p>通过定义 draggable 区域的边界来约束每个 draggable 的运动。设置 axis 选项来限制 draggable 的路径为 x 轴或者 y 轴，或者使用 containment 选项来指定一个父级的 DOM 元素或者一个 jQuery 选择器，比如 'document.'</p>
+
+<h3>沿着轴约束运动：</h3>
+ 
+<div id="draggable" class="draggable ui-widget-content">
+  <p>只能垂直拖拽</p>
+</div>
+ 
+<div id="draggable2" class="draggable ui-widget-content">
+  <p>只能水平拖拽</p>
+</div>
+ 
+<h3>或者在另一个 DOM 元素中约束运动：</h3>
+<div id="containment-wrapper">
+  <div id="draggable3" class="draggable ui-widget-content">
+    <p>我被约束在盒子里</p>
+  </div>
+ 
+  <div class="draggable ui-widget-content">
+    <p id="draggable5" class="ui-widget-header">我被约束在父元素内</p>
+  </div>
+</div>
+ 
+ 
+</body>
+</html>

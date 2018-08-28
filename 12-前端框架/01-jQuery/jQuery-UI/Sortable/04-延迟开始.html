@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>jQuery UI 排序（Sortable） - 延迟开始</title>
+  <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
+  <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+  <script src="http://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+  <link rel="stylesheet" href="http://jqueryui.com/resources/demos/style.css">
+  <style>
+  #sortable1, #sortable2 { list-style-type: none; margin: 0; padding: 0; margin-bottom: 15px;zoom: 1; }
+  #sortable1 li, #sortable2 li { margin: 0 5px 5px 5px; padding: 5px; font-size: 1.2em; width: 95%; }
+  </style>
+  <script>
+  $(function() {
+    $( "#sortable1" ).sortable({
+      delay: 300
+    });
+ 
+    $( "#sortable2" ).sortable({
+      distance: 15
+    });
+ 
+    $( "li" ).disableSelection();
+  });
+  </script>
+</head>
+<body>
+<p>通过时间延迟和距离延迟来防止意外的排序。通过 delay 选项设置开始排序之前必须拖拽的毫秒数。通过 distance 选项设置开始排序之前必须拖拽的像素数</p>
+<h3 class="docs">时间延迟 300ms：</h3>
+ 
+<ul id="sortable1">
+  <li class="ui-state-default">Item 1</li>
+  <li class="ui-state-default">Item 2</li>
+  <li class="ui-state-default">Item 3</li>
+  <li class="ui-state-default">Item 4</li>
+</ul>
+ 
+<h3 class="docs">距离延迟 15px：</h3>
+ 
+<ul id="sortable2">
+  <li class="ui-state-default">Item 1</li>
+  <li class="ui-state-default">Item 2</li>
+  <li class="ui-state-default">Item 3</li>
+  <li class="ui-state-default">Item 4</li>
+</ul>
+ 
+ 
+</body>
+</html>

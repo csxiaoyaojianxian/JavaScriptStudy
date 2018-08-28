@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>jQuery UI 拖动（Draggable） - 光标样式</title>
+  <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
+  <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+  <script src="http://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+  <link rel="stylesheet" href="http://jqueryui.com/resources/demos/style.css">
+  <style>
+  #draggable, #draggable2, #draggable3 { width: 100px; height: 100px; padding: 0.5em; float: left; margin: 0 10px 10px 0; }
+  </style>
+  <script>
+  $(function() {
+    $( "#draggable" ).draggable({ cursor: "move", cursorAt: { top: 56, left: 56 } });
+    $( "#draggable2" ).draggable({ cursor: "crosshair", cursorAt: { top: -5, left: -5 } });
+    $( "#draggable3" ).draggable({ cursorAt: { bottom: 0 } });
+  });
+  </script>
+</head>
+<body>
+
+<p>当拖拽对象时定位光标。默认情况下，光标是出现在被拖拽对象的中间。使用 cursorAt 选项来指定相对于 draggable 的另一个位置（指定一个相对于 top、right、bottom、left 的像素值）。通过提供一个带有有效的 CSS 光标值的 cursor 选项，来自定义光标的外观。有效的 CSS 光标值包括：default、move、pointer、crosshair，等等</p>
+ 
+<div id="draggable" class="ui-widget-content">
+  <p>我总是在中间（相对于鼠标）</p>
+</div>
+ 
+<div id="draggable2" class="ui-widget-content">
+  <p>我的光标是在 left -5 和 top -5</p>
+</div>
+ 
+<div id="draggable3" class="ui-widget-content">
+  <p>我的光标位置只控制了 'bottom' 值</p>
+</div>
+ 
+ 
+</body>
+</html>

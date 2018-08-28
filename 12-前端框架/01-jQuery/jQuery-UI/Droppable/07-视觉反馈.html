@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>jQuery UI 放置（Droppable） - 视觉反馈</title>
+  <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
+  <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+  <script src="http://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+  <link rel="stylesheet" href="http://jqueryui.com/resources/demos/style.css">
+  <style>
+  #draggable, #draggable2 { width: 90px; height: 90px; padding: 0.5em; float: left; margin: 10px 10px 10px 0; }
+  #droppable, #droppable2 { width: 120px; height: 120px; padding: 0.5em; float: left; margin: 10px; }
+  h3 { clear: left; }
+  </style>
+  <script>
+  $(function() {
+    $( "#draggable" ).draggable();
+    $( "#droppable" ).droppable({
+      hoverClass: "ui-state-hover",
+      drop: function( event, ui ) {
+        $( this )
+          .addClass( "ui-state-highlight" )
+          .find( "p" )
+            .html( "Dropped!" );
+      }
+    });
+ 
+    $( "#draggable2" ).draggable();
+    $( "#droppable2" ).droppable({
+      accept: "#draggable2",
+      activeClass: "ui-state-default",
+      drop: function( event, ui ) {
+        $( this )
+          .addClass( "ui-state-highlight" )
+          .find( "p" )
+            .html( "Dropped!" );
+      }
+    });
+  });
+  </script>
+</head>
+<body>
+
+<p>当悬停在 droppable 上时，或者当 droppable 被激活（即一个可接受的 draggable 被放置在 droppable 上）时，改变 droppable 的外观。使用 hoverClass 或 activeClass 选项来分别指定 class</p>
+<h3>当悬停在 droppable 上时的反馈：</h3>
+ 
+<div id="draggable" class="ui-widget-content">
+  <p>请拖拽我到目标</p>
+</div>
+ 
+<div id="droppable" class="ui-widget-header">
+  <p>请放置在这里</p>
+</div>
+ 
+<h3>当激活 draggable 时的反馈：</h3>
+ 
+<div id="draggable2" class="ui-widget-content">
+  <p>请拖拽我到目标</p>
+</div>
+ 
+<div id="droppable2" class="ui-widget-header">
+  <p>请放置在这里</p>
+</div>
+ 
+ 
+</body>
+</html>

@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>jQuery UI 拖动（Draggable） - 事件</title>
+  <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
+  <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+  <script src="http://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+  <link rel="stylesheet" href="http://jqueryui.com/resources/demos/style.css">
+  <style>
+  #draggable { width: 16em; padding: 0 1em; }
+  #draggable ul li { margin: 1em 0; padding: 0.5em 0; } * html #draggable ul li { height: 1%; }
+  #draggable ul li span.ui-icon { float: left; }
+  #draggable ul li span.count { font-weight: bold; }
+  </style>
+  <script>
+  $(function() {
+    var $start_counter = $( "#event-start" ),
+      $drag_counter = $( "#event-drag" ),
+      $stop_counter = $( "#event-stop" ),
+      counts = [ 0, 0, 0 ];
+ 
+    $( "#draggable" ).draggable({
+      create: function(event,ui){
+        //创建的时候，执行的方法, 比如添加css或是别的。 
+        //ui.position 表示相对当前对象，鼠标的坐标值对象{top,left}       
+        //ui.offset 表示相对于当前页面，鼠标的坐标值对象{top,left}        
+      },
+      start: function(event, ui) {
+        counts[ 0 ]++;
+        updateCounterStatus( $start_counter, counts[ 0 ] );
+      },
+      drag: function(event, ui) {
+        counts[ 1 ]++;
+        updateCounterStatus( $drag_counter, counts[ 1 ] );
+      },
+      stop: function(event, ui) {
+        counts[ 2 ]++;
+        updateCounterStatus( $stop_counter, counts[ 2 ] );
+      }
+    });
+ 
+    function updateCounterStatus( $event_counter, new_count ) {
+      // 首先更新视觉状态...
+      if ( !$event_counter.hasClass( "ui-state-hover" ) ) {
+        $event_counter.addClass( "ui-state-hover" )
+          .siblings().removeClass( "ui-state-hover" );
+      }
+      // ...然后更新数字
+      $( "span.count", $event_counter ).text( new_count );
+    }
+  });
+  </script>
+</head>
+<body>
+ 
+<p>draggable 上的 start、drag 和 stop 事件。拖拽开始时触发 start 事件，拖拽期间触发 drag 事件，拖拽停止时触发 stop 事件</p>
+
+<div id="draggable" class="ui-widget ui-widget-content">
+ 
+  <p>请拖拽我，触发一连串的事件。</p>
+  
+  <ul class="ui-helper-reset">
+    <li id="event-start" class="ui-state-default ui-corner-all"><span class="ui-icon ui-icon-play"></span>"start" 被调用 <span class="count">0</span>x</li>
+    <li id="event-drag" class="ui-state-default ui-corner-all"><span class="ui-icon ui-icon-arrow-4"></span>"drag" 被调用 <span class="count">0</span>x</li>
+    <li id="event-stop" class="ui-state-default ui-corner-all"><span class="ui-icon ui-icon-stop"></span>"stop" 被调用 <span class="count">0</span>x</li>
+  </ul>
+</div>
+ 
+ 
+</body>
+</html>

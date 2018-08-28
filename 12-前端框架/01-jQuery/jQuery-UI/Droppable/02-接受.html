@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>jQuery UI 放置（Droppable） - 接受</title>
+  <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
+  <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+  <script src="http://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+  <link rel="stylesheet" href="http://jqueryui.com/resources/demos/style.css">
+  <style>
+  #droppable { width: 150px; height: 150px; padding: 0.5em; float: left; margin: 10px; }
+  #draggable, #draggable-nonvalid { width: 100px; height: 100px; padding: 0.5em; float: left; margin: 10px 10px 10px 0; }
+  </style>
+  <script>
+  $(function() {
+    $( "#draggable, #draggable-nonvalid" ).draggable();
+    $( "#droppable" ).droppable({
+      accept: "#draggable",
+      activeClass: "ui-state-hover",
+      hoverClass: "ui-state-active",
+      drop: function( event, ui ) {
+        $( this )
+          .addClass( "ui-state-highlight" )
+          .find( "p" )
+            .html( "Dropped!" );
+      }
+    });
+  });
+  </script>
+</head>
+<body>
+
+<p>
+使用 accept 选项指定目标 droppable 接受哪一个元素（或元素组）
+</p>
+
+<div id="draggable-nonvalid" class="ui-widget-content">
+  <p>我是不能被放置的 draggable</p>
+</div>
+ 
+<div id="draggable" class="ui-widget-content">
+  <p>请拖拽我到目标</p>
+</div>
+ 
+<div id="droppable" class="ui-widget-header">
+  <p>accept: '#draggable'</p>
+</div>
+ 
+ 
+</body>
+</html>

@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>jQuery UI 排序（Sortable） - 处理空列表</title>
+  <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
+  <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+  <script src="http://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+  <link rel="stylesheet" href="http://jqueryui.com/resources/demos/style.css">
+  <style>
+  #sortable1, #sortable2, #sortable3 { list-style-type: none; margin: 0; padding: 0; float: left; margin-right: 10px; background: #eee; padding: 5px; width: 143px;}
+  #sortable1 li, #sortable2 li, #sortable3 li { margin: 5px; padding: 5px; font-size: 1.2em; width: 120px; }
+  </style>
+  <script>
+  $(function() {
+    $( "ul.droptrue" ).sortable({
+      connectWith: "ul"
+    });
+ 
+    $( "ul.dropfalse" ).sortable({
+      connectWith: "ul",
+      dropOnEmpty: false
+    });
+ 
+    $( "#sortable1, #sortable2, #sortable3" ).disableSelection();
+  });
+  </script>
+</head>
+<body>
+<p>通过把 选项设置为 false，来阻止一个列表中的所有条目被放置到一个单独的空列表中。默认情况下，sortable 条目可被放置到空的列表中</p>
+<ul id="sortable1" class="droptrue">
+  <li class="ui-state-default">可被放置到..</li>
+  <li class="ui-state-default">..一个空列表中</li>
+  <li class="ui-state-default">Item 3</li>
+  <li class="ui-state-default">Item 4</li>
+  <li class="ui-state-default">Item 5</li>
+</ul>
+ 
+<ul id="sortable2" class="dropfalse">
+  <li class="ui-state-highlight">不可被放置到..</li>
+  <li class="ui-state-highlight">..一个空列表中</li>
+  <li class="ui-state-highlight">Item 3</li>
+  <li class="ui-state-highlight">Item 4</li>
+  <li class="ui-state-highlight">Item 5</li>
+</ul>
+ 
+<ul id="sortable3" class="droptrue">
+</ul>
+ 
+<br style="clear:both">
+ 
+ 
+</body>
+</html>
+

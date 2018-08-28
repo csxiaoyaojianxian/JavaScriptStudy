@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>jQuery UI 拖动（Draggable） - Handles</title>
+  <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
+  <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+  <script src="http://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+  <link rel="stylesheet" href="http://jqueryui.com/resources/demos/style.css">
+  <style>
+  #draggable, #draggable2 { width: 100px; height: 100px; padding: 0.5em; float: left; margin: 0 10px 10px 0; }
+  #draggable p { cursor: move; }
+  </style>
+  <script>
+  $(function() {
+    $( "#draggable" ).draggable({ handle: "p" });
+    $( "#draggable2" ).draggable({ cancel: "p.ui-widget-header" });
+    $( "div, p" ).disableSelection();
+  });
+  </script>
+</head>
+<body>
+
+<p>
+只有当光标在 draggable 上指定部分时才允许拖拽。使用 handle 选项来指定用于拖拽对象的元素（或元素组）的 jQuery 选择器。
+或者当光标在 draggable 内指定元素（或元素组）上时不允许拖拽。使用 handle 选项来指定取消拖拽功能的 jQuery 选择器。
+</p>
+
+<div id="draggable" class="ui-widget-content">
+  <p class="ui-widget-header">您只可以在这个范围内拖拽我</p>
+</div>
+ 
+<div id="draggable2" class="ui-widget-content">
+  <p>您可以把我向四周拖拽&hellip;</p>
+  <p class="ui-widget-header">&hellip;但是您不可以在这个范围内拖拽我</p>
+</div>
+ 
+ 
+</body>
+</html>

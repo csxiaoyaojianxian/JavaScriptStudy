@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>jQuery UI 拖动（Draggable） - 延迟开始</title>
+  <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
+  <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+  <script src="http://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+  <link rel="stylesheet" href="http://jqueryui.com/resources/demos/style.css">
+  <style>
+  #draggable, #draggable2 { width: 120px; height: 120px; padding: 0.5em; float: left; margin: 0 10px 10px 0; }
+  </style>
+  <script>
+  $(function() {
+    $( "#draggable" ).draggable({ distance: 20 });
+    $( "#draggable2" ).draggable({ delay: 1000 });
+    $( ".ui-draggable" ).disableSelection();
+  });
+  </script>
+</head>
+<body>
+
+<p>通过 delay 选项设置延迟开始拖拽的毫秒数。通过 distance 选项设置光标被按下且拖拽指定像素后才允许拖拽</p>
+
+<div id="draggable" class="ui-widget-content">
+  <p>只有把我拖拽了 20 像素后，拖拽才开始</p>
+</div>
+ 
+<div id="draggable2" class="ui-widget-content">
+  <p>不管 distance 是多少，您都必须拖拽并等待 1000ms 后拖拽才开始</p>
+</div>
+ 
+ 
+</body>
+</html>

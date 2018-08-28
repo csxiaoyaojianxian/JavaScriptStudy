@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>jQuery UI 拖动（Draggable） - 自动滚动</title>
+  <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
+  <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+  <script src="http://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+  <link rel="stylesheet" href="http://jqueryui.com/resources/demos/style.css">
+  <style>
+  #draggable, #draggable2, #draggable3 { width: 100px; height: 100px; padding: 0.5em; float: left; margin: 0 10px 10px 0; }
+  </style>
+  <script>
+  $(function() {
+    $( "#draggable" ).draggable({ scroll: true });
+    $( "#draggable2" ).draggable({ scroll: true, scrollSensitivity: 100 });
+    $( "#draggable3" ).draggable({ scroll: true, scrollSpeed: 100 });
+  });
+  </script>
+</head>
+<body>
+<p>当 draggable 移动到视区外时自动滚动文档。设置 scroll 选项为 true 来启用自动滚动，当滚动触发时进行微调，滚动速度是通过 scrollSensitivity 和 scrollSpeed 选项设置的。</p>
+<div id="draggable" class="ui-widget-content">
+  <p>Scroll 设置为 true，默认设置</p>
+</div>
+ 
+<div id="draggable2" class="ui-widget-content">
+  <p>scrollSensitivity 设置为 100</p>
+</div>
+ 
+<div id="draggable3" class="ui-widget-content">
+  <p>scrollSpeed 设置为 100</p>
+</div>
+ 
+<div style="height: 5000px; width: 1px;"></div>
+ 
+ 
+</body>
+</html>

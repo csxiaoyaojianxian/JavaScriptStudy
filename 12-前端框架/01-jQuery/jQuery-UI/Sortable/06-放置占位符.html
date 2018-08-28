@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>jQuery UI 排序（Sortable） - 放置占位符</title>
+  <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
+  <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+  <script src="http://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+  <link rel="stylesheet" href="http://jqueryui.com/resources/demos/style.css">
+  <style>
+  #sortable { list-style-type: none; margin: 0; padding: 0; width: 60%; }
+  #sortable li { margin: 0 5px 5px 5px; padding: 5px; font-size: 1.2em; height: 1.5em; }
+  html>body #sortable li { height: 1.5em; line-height: 1.2em; }
+  .ui-state-highlight { height: 1.5em; line-height: 1.2em; }
+  </style>
+  <script>
+  $(function() {
+    $( "#sortable" ).sortable({
+      placeholder: "ui-state-highlight"
+    });
+    $( "#sortable" ).disableSelection();
+  });
+  </script>
+</head>
+<body>
+<p>当拖拽一个 sortable 条目到一个新的位置时，其他条目将为该条目腾出空间。向 placeholder 选项传递一个 class 来定义可视化的空白的样式。使用布尔值的 forcePlaceholderSize 选项来设置占位符的尺寸</p>
+<ul id="sortable">
+  <li class="ui-state-default">Item 1</li>
+  <li class="ui-state-default">Item 2</li>
+  <li class="ui-state-default">Item 3</li>
+  <li class="ui-state-default">Item 4</li>
+  <li class="ui-state-default">Item 5</li>
+  <li class="ui-state-default">Item 6</li>
+  <li class="ui-state-default">Item 7</li>
+</ul>
+ 
+ 
+</body>
+</html>

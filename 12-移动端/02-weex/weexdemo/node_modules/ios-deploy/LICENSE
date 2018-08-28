@@ -1,8 +1,0 @@
-ios-deploy is available under the provisions of the GNU General Public License,
-version 3 (or later), available here: http://www.gnu.org/licenses/gpl-3.0.html
-
-
-Error codes used for error messages were taken from SDMMobileDevice framework,
-originally reverse engineered by Sam Marshall. SDMMobileDevice is distributed
-under BSD 3-Clause license and is available here:
-https://github.com/samdmarshall/SDMMobileDevice

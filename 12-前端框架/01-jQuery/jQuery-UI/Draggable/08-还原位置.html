@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>jQuery UI 拖动（Draggable） - 还原位置</title>
+  <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
+  <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+  <script src="http://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+  <link rel="stylesheet" href="http://jqueryui.com/resources/demos/style.css">
+  <style>
+  #draggable, #draggable2 { width: 100px; height: 100px; padding: 0.5em; float: left; margin: 0 10px 10px 0; }
+  </style>
+  <script>
+  $(function() {
+    $( "#draggable" ).draggable({ revert: true });
+    $( "#draggable2" ).draggable({ revert: true, helper: "clone" });
+  });
+  </script>
+</head>
+<body>
+
+<p>当带有布尔值 revert 选项的 draggable 停止拖拽时，返回 draggable（或它的助手）到原始位置</p>
+
+<div id="draggable" class="ui-widget-content">
+  <p>还原</p>
+</div>
+ 
+<div id="draggable2" class="ui-widget-content">
+  <p>还原助手</p>
+</div>
+ 
+ 
+</body>
+</html>
