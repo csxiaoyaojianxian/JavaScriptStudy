@@ -10,6 +10,8 @@ https://img.shields.io/badge/author-csxiaoyao-brightgreen.svg)](http://www.csxia
 > Email: sunjianfeng@csxiaoyao.com  
 > QQ: [1724338257](wpa.qq.com/msgrd?uin=1724338257&site=qq&menu=yes)
 
+![](https://raw.githubusercontent.com/csxiaoyaojianxian/ImageHosting/master/img/01.jpg)
+
 ## 目录
 * 01-JS语言基础
   + 01-基础语法
