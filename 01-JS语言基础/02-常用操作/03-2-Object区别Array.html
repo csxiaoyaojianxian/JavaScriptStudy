@@ -28,6 +28,25 @@ o = $.extend({}, o1, o2); // 合并 o1 和 o2，将结果返回给 o，此时，
 var obj = Object.assign(o1, o2, o3);
 console.log(obj); // { a: 1, b: 2, c: 3 }
 console.log(o1);  // { a: 1, b: 2, c: 3 }, 第一个目标对象自身也会改变
+// ! Object.assign() 只能实现对一维对象的深拷贝
+var obj1 = {x: 1, y: 2}, obj2 = Object.assign({}, obj1);
+console.log(obj1) // {x: 1, y: 2}
+console.log(obj2) // {x: 1, y: 2}
+obj2.x = 2;
+console.log(obj1) // {x: 1, y: 2}
+console.log(obj2) // {x: 2, y: 2}
+var obj1 = {
+	x: 1, 
+	y: {
+		m: 1
+	}
+};
+var obj2 = Object.assign({}, obj1);
+console.log(obj1) // {x: 1, y: {m: 1}}
+console.log(obj2) // {x: 1, y: {m: 1}}
+obj2.y.m = 2;
+console.log(obj1) // {x: 1, y: {m: 2}}
+console.log(obj2) // {x: 2, y: {m: 2}}
 
 // 方法3：遍历赋值法 
 var extend=function(o,n){

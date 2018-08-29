@@ -1,7 +1,7 @@
 <?php
 /**
  * 【vsf core】
- * @Author: victorsun
+ * @Author: csxiaoyao
  * @Date:   2017-07-11 17:17:34
  * @Last Modified by:   sunshine
  * @Last Modified time: 2017-12-19 23:49:51

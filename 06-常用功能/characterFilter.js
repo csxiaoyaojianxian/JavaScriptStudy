@@ -1,21 +1,21 @@
 /*
-* @Author: victorsun
+* @Author: csxiaoyao
 * @Date:   2017-09-07 14:12:02
-* @Last Modified by:   victorsun
+* @Last Modified by:   csxiaoyao
 * @Last Modified time: 2017-09-09 14:12:02
 */
 
 
 /*
-url×ªÏòÑéÖ¤
-ÃèÊö£º¶ÔÍ¨¹ıjavascriptÓï¾äÔØÈë£¨»ò×ªÏò£©µÄÒ³Ãæ½øĞĞÑéÖ¤£¬·ÀÖ¹×ªµ½µÚÈı·½ÍøÒ³ºÍ¿çÕ¾½Å±¾¹¥»÷
-·µ»ØÖµ£ºtrue -- ºÏ·¨£»false -- ·Ç·¨
-Àı£º
-ºÏ·¨µÄÖµ
+urlè½¬å‘éªŒè¯
+æè¿°ï¼šå¯¹é€šè¿‡javascriptè¯­å¥è½½å…¥ï¼ˆæˆ–è½¬å‘ï¼‰çš„é¡µé¢è¿›è¡ŒéªŒè¯ï¼Œé˜²æ­¢è½¬åˆ°ç¬¬ä¸‰æ–¹ç½‘é¡µå’Œè·¨ç«™è„šæœ¬æ”»å‡»
+è¿”å›å€¼ï¼štrue -- åˆæ³•ï¼›false -- éæ³•
+ä¾‹ï¼š
+åˆæ³•çš„å€¼
     http://xxx.csxiaoyao.com/hi/redirect.html?url=http://www.csxiaoyao.com
     http://xxx.csxiaoyao.com/hi/redirect.html?url=a.html
     http://xxx.csxiaoyao.com/hi/redirect.html?url=/a/1.html
-·Ç·¨µÄÖµ
+éæ³•çš„å€¼
     http://xxx.csxiaoyao.com/hi/redirect.html?url=http://www.baidu.com
     http://xxx.csxiaoyao.com/hi/redirect.html?url=javascript:codehere
     http://xxx.csxiaoyao.com/hi/redirect.html?url=//www.csxiaoyao.com
@@ -25,7 +25,7 @@ function VaildURL(sUrl)
 	return (/^(https?:\/\/)?[\w\-.]+\.(csxiaoyao|sunshinestudio)\.(com|cn)($|\/|\\)/i).test(sUrl)||(/^[\w][\w\/\.\-_%]+$/i).test(sUrl)||(/^[\/\\][^\/\\]/i).test(sUrl) ? true : false;
 }
 
-//htmlÕıÎÄ±àÂë£º¶ÔĞèÒª³öÏÖÔÚHTMLÕıÎÄÀï(³ıÁËHTMLÊôĞÔÍâ)µÄ²»ĞÅÈÎÊäÈë½øĞĞ±àÂë
+//htmlæ­£æ–‡ç¼–ç ï¼šå¯¹éœ€è¦å‡ºç°åœ¨HTMLæ­£æ–‡é‡Œ(é™¤äº†HTMLå±æ€§å¤–)çš„ä¸ä¿¡ä»»è¾“å…¥è¿›è¡Œç¼–ç 
 function HtmlEncode(sStr)
 {
 	sStr = sStr.replace(/&/g,"&amp;");
@@ -36,7 +36,7 @@ function HtmlEncode(sStr)
 	return sStr;
 }
 
-//htmlÕıÎÄ½âÂë£º¶ÔHtmlEncodeº¯ÊıµÄ½á¹û½øĞĞ½âÂë
+//htmlæ­£æ–‡è§£ç ï¼šå¯¹HtmlEncodeå‡½æ•°çš„ç»“æœè¿›è¡Œè§£ç 
 function HtmlUnEncode(sStr)
 {
 	sStr = sStr.replace(/&amp;/g,"&");
@@ -48,11 +48,11 @@ function HtmlUnEncode(sStr)
 }
 
 /*
-htmlÊôĞÔ±àÂë£º¶ÔĞèÒª³öÏÖÔÚHTMLÊôĞÔÀïµÄ²»ĞÅÈÎÊäÈë½øĞĞ±àÂë
-×¢Òâ:
-(1)¸Ãº¯Êı²»ÊÊÓÃÓÚÊôĞÔÎªÒ»¸öURLµØÖ·µÄ±àÂë.ÕâĞ©±ê¼Ç°üÀ¨:a/img/frame/iframe/script/xml/embed/object...
-ÊôĞÔ°üÀ¨:href/src/lowsrc/dynsrc/background/...
-(2)¸Ãº¯Êı²»ÊÊÓÃÓÚÊôĞÔÃûÎª style="[Un-trusted input]" µÄ±àÂë
+htmlå±æ€§ç¼–ç ï¼šå¯¹éœ€è¦å‡ºç°åœ¨HTMLå±æ€§é‡Œçš„ä¸ä¿¡ä»»è¾“å…¥è¿›è¡Œç¼–ç 
+æ³¨æ„:
+(1)è¯¥å‡½æ•°ä¸é€‚ç”¨äºå±æ€§ä¸ºä¸€ä¸ªURLåœ°å€çš„ç¼–ç .è¿™äº›æ ‡è®°åŒ…æ‹¬:a/img/frame/iframe/script/xml/embed/object...
+å±æ€§åŒ…æ‹¬:href/src/lowsrc/dynsrc/background/...
+(2)è¯¥å‡½æ•°ä¸é€‚ç”¨äºå±æ€§åä¸º style="[Un-trusted input]" çš„ç¼–ç 
 */
 function HtmlAttributeEncode(sStr)
 {
@@ -68,11 +68,11 @@ function HtmlAttributeEncode(sStr)
 
 
 /*
-¶ÔĞèÒª³öÏÖÔÚÒ»¸öURIµÄÒ»²¿·ÖµÄ²»ĞÅÈÎÊäÈë½øĞĞ±àÂë 
-ÀıÈç:
+å¯¹éœ€è¦å‡ºç°åœ¨ä¸€ä¸ªURIçš„ä¸€éƒ¨åˆ†çš„ä¸ä¿¡ä»»è¾“å…¥è¿›è¡Œç¼–ç  
+ä¾‹å¦‚:
 <a href="http://search.msn.com/results.aspx?q1=[Un-trusted-input]& q2=[Un-trusted-input]">Click Here!</a>
-ÒÔÏÂ×Ö·û½«»á±»±àÂë: 
-³ı[a-zA-Z0-9.-_]ÒÔÍâµÄ×Ö·û¶¼»á±»Ìæ»»³ÉURL±àÂë
+ä»¥ä¸‹å­—ç¬¦å°†ä¼šè¢«ç¼–ç : 
+é™¤[a-zA-Z0-9.-_]ä»¥å¤–çš„å­—ç¬¦éƒ½ä¼šè¢«æ›¿æ¢æˆURLç¼–ç 
 */
 function UriComponentEncode(sStr)
 {
@@ -89,21 +89,21 @@ function UriComponentEncode(sStr)
 }
 
 
-//ÓÃ×ö¹ıÂËHTML±êÇ©ÀïÃæµÄ ±ÈÈçÕâ¸öÀı×ÓÀïµÄ<input value="XXXX">  XXXX¾ÍÊÇÒª¹ıÂËµÄ
+//ç”¨åšè¿‡æ»¤HTMLæ ‡ç­¾é‡Œé¢çš„ æ¯”å¦‚è¿™ä¸ªä¾‹å­é‡Œçš„<input value="XXXX">  XXXXå°±æ˜¯è¦è¿‡æ»¤çš„
 String.prototype.escHtmlEp = function() { return this.replace(/[&'"<>\/\\\-\x00-\x1f\x80-\xff]/g, function(r){ return "&#"+r.charCodeAt(0)+";" }); };
 
-//ÓÃ×ö¹ıÂËÖ±½Ó·Åµ½HTMLÀïµÄ
+//ç”¨åšè¿‡æ»¤ç›´æ¥æ”¾åˆ°HTMLé‡Œçš„
 String.prototype.escHtml = function() { return this.replace(/[&'"<>\/\\\-\x00-\x09\x0b-\x0c\x1f\x80-\xff]/g, function(r){ return "&#"+r.charCodeAt(0)+";" }).replace(/\r\n/g, "<BR>").replace(/\n/g, "<BR>").replace(/\r/g, "<BR>").replace(/ /g, "&nbsp;"); };
 
-//ÓÃ×ö¹ıÂËÖ±½Ó·Åµ½HTMLÀïjsÖĞµÄ
+//ç”¨åšè¿‡æ»¤ç›´æ¥æ”¾åˆ°HTMLé‡Œjsä¸­çš„
 String.prototype.escScript = function() { return this.replace(/[\\"']/g, function(r){ return "\\"+r; }).replace(/%/g, "\\x25").replace(/\n/g, "\\n").replace(/\r/g, "\\r").replace(/\x01/g, "\\x01"); };
 
-//ÓÃ×ö¹ıÂËÖ±½ÓURL²ÎÊıÀïµÄ  ±ÈÈç http://show8.qq.com/abc_cgi?a=XXX  XXX¾ÍÊÇÒª¹ıÂËµÄ
+//ç”¨åšè¿‡æ»¤ç›´æ¥URLå‚æ•°é‡Œçš„  æ¯”å¦‚ http://show8.qq.com/abc_cgi?a=XXX  XXXå°±æ˜¯è¦è¿‡æ»¤çš„
 String.prototype.escUrl = function() { return escape(this).replace(/\+/g, "%2B"); };
 
-//ÓÃ×ö¹ıÂËÖ±½Ó·Åµ½<a href="javascript:XXXX">ÖĞµÄ
+//ç”¨åšè¿‡æ»¤ç›´æ¥æ”¾åˆ°<a href="javascript:XXXX">ä¸­çš„
 String.prototype.escHrefScript = function() { return this.escScript().escMiniUrl().escHtmlEp(); };
 
-//ÓÃ×ö¹ıÂËÖ±½Ó·Åµ½ÕıÔò±í´ïÊ½ÖĞµÄ
+//ç”¨åšè¿‡æ»¤ç›´æ¥æ”¾åˆ°æ­£åˆ™è¡¨è¾¾å¼ä¸­çš„
 String.prototype.escRegexp = function() { return this.replace(/[\\\^\$\*\+\?\{\}\.\(\)\[\]]/g, function(a,b){ return "\\"+a; }); };
 

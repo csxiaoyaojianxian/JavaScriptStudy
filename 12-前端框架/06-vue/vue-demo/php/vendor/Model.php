@@ -1,7 +1,7 @@
 <?php
 /**
  * 【数据库连接组件】
- * @Author: victorsun
+ * @Author: csxiaoyao
  * @Date:   2017-07-11 19:17:34
  * @Last Modified by:   sunshine
  * @Last Modified time: 2017-12-18 14:55:31
