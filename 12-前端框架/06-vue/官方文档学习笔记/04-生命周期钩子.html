@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Vue Study</title>
+  <script src="https://unpkg.com/vue"></script>
+</head>
+<body>
+
+<script>
+/*
+生命周期钩子的 this 上下文指向调用它的 Vue 实例
+【 不要在选项属性或回调上使用箭头函数 】
+如 created: () => console.log(this.a) 
+或 vm.$watch('a', newValue => this.myMethod())
+因为箭头函数是和父级上下文绑定在一起的，this 不会指向 Vue 实例
+*/
+new Vue({
+  data: {
+    a: 1
+  },
+  created: function () {
+    // `this` 指向 vm 实例
+    console.log('a is: ' + this.a)
+  }
+})
+// => "a is: 1"
+</script>
+
+<style>
+
+</style>
+
+</body>
+</html>

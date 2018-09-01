@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Vue Study</title>
+  <script src="https://unpkg.com/vue"></script>
+</head>
+<body>
+<!--
+  属性可以用 v-bind 处理
+  v-bind 用于 class 和 style 时，Vue.js 做了专门的增强
+  表达式结果的类型除了字符串之外，还可以是对象或数组
+  v-bind:class 指令可以与普通的 class 属性共存
+
+  CSS 属性名可以用驼峰式 (camelCase) 
+  或短横线分隔 (kebab-case，记得用单引号括起来) 来命名
+-->
+<div id="app">
+    <!-- 
+      v-bind:class 
+    -->
+    <!-- <div class="static active"></div> -->
+    <div class="static" v-bind:class="{ active: isActive, 'text-danger': hasError }"></div>
+    <!-- <div class="active"></div> -->
+    <div v-bind:class="classObject"></div>
+    <!-- <div class="active text-danger"></div> -->
+    <div v-bind:class="[activeClass, errorClass]"></div>
+    <!-- <div class="active text-danger"></div> -->
+    <div v-bind:class="[isActive ? activeClass : '', errorClass]"></div>
+    <!-- <div class="active text-danger"></div> -->
+    <div v-bind:class="[{ active: isActive }, errorClass]"></div>
+
+    <!-- 
+      v-bind:style
+      JavaScript对象，使用需要添加浏览器引擎前缀的 CSS 属性时，如 transform，会自动侦测并添加相应的前缀
+    -->
+    <!-- <div style="color: red; font-size: 30px;"></div> -->
+    <div v-bind:style="{ color: activeColor, fontSize: fontSize + 'px' }"></div>
+    <!-- <div style="color: red; font-size: 13px;"></div> -->
+    <div v-bind:style="styleObject"></div>
+    <!-- 绑定多个样式对象 -->
+    <!-- <div style="color: yellow; font-size: 13px;"></div> -->
+    <div v-bind:style="[baseStyles, overridingStyles]"></div>
+    <!-- 多重值，只会渲染数组中最后一个被浏览器支持的值 -->
+    <div :style="{ display: ['-webkit-box', '-ms-flexbox', 'flex'] }"></div>
+</div>
+
+<script>
+var vm = new Vue({
+  el: "#app",
+  data: {
+    isActive: true,
+    hasError: null,
+    // classObject: {
+    //   active: true,
+    //   'text-danger': false
+    // },
+    activeClass: 'active',
+    errorClass: 'text-danger',
+    activeColor: 'red',
+    fontSize: 30,
+    styleObject: {
+      color: 'red',
+      fontSize: '13px'
+    },
+    baseStyles: {
+      color: 'blue',
+      'font-size': '13px'
+    },
+    overridingStyles: {
+      color: 'yellow'
+    } 
+  },
+  computed: {
+    classObject: function () {
+      return {
+        active: this.isActive && !this.error,
+        'text-danger': this.error && this.error.type === 'fatal'
+      }
+    }
+  }
+})
+
+</script>
+</body>
+</html>

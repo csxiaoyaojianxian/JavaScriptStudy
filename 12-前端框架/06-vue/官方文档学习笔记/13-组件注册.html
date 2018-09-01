@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Vue Study</title>
+  <script src="https://unpkg.com/vue"></script>
+</head>
+<body>
+
+<div id="components-demo" :style="{ fontSize: postFontSize + 'em' }">
+  <p>通过事件向父级组件发送消息</p>
+  <button-counter title="普通消息传递" v-on:enlarge-text="postFontSize += 0.3"></button-counter>
+  <!-- 当父级组件监听事件时可以通过 $event 访问到被抛出的值 -->
+  <button-counter title="$event抛出值" v-on:enlarge-text="postFontSize += $event"></button-counter>
+  <button-counter title="method事件响应" v-on:enlarge-text="onEnlargeText"></button-counter>
+</div>
+
+<script>
+/*
+组件是可复用的 Vue 实例
+组件选项与vue实例相似，如 data、computed、watch、methods 以及生命周期钩子等
+唯一不同的是 vue 实例有 el 根实例选项
+*/
+
+// 定义名为 button-counter 的新组件
+Vue.component('button-counter', {
+  // 组件的 data 选项必须是一个函数，每个实例可以维护一份被返回对象的独立的拷贝
+  data: function () {
+    return {
+      count: 0,
+      postFontSize: 1
+    }
+  },
+  // 通过 Prop 向子组件传递数据
+  props: ['title'],
+  template: `<div>
+              <button v-on:click="count++">
+                clicked {{ count }} times.
+               </button>
+              <button v-on:click="$emit('enlarge-text',0.1)"> 
+                {{title}} 
+              </button>
+            </div>`
+})
+
+new Vue({ 
+  el: '#components-demo',
+  data: {
+    postFontSize:1 
+  },
+  methods: {
+    onEnlargeText: function (enlargeAmount) {
+      this.postFontSize += enlargeAmount
+    }
+  }
+})
+
+
+
+</script>
+
+<style>
+
+</style>
+
+</body>
+</html>

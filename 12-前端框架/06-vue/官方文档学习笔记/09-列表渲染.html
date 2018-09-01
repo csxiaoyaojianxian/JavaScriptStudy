@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Vue Study</title>
+  <script src="https://unpkg.com/vue"></script>
+</head>
+<body>
+
+<!-- 
+  v-for 
+  使用key影响性能，但能跟踪每个节点的身份，从而重用和重新排序现有元素，建议使用key
+
+  vue可以检测到数组操作函数对数组的改变
+  由于 JavaScript 的限制，Vue 不能检测 利用索引直接设置项和直接修改数组长度导致的数组的变化
+  1. vm.items[indexOfItem] = newValue
+  解决方法：
+  Vue.set(vm.items, indexOfItem, newValue) / vm.$set(vm.items, indexOfItem, newValue)
+  vm.items.splice(indexOfItem, 1, newValue)
+  2. vm.items.length = newLength
+  解决方法：
+  vm.items.splice(newLength)
+-->
+<div id="app">
+  <ul id="example-1">
+    <!-- array -->
+    <li v-for="item in items">
+      {{ item.message }}
+    </li>
+    <li v-for="(item, index) in items" :key="index">
+      {{ index }} - {{ item.message }}
+    </li>
+    <!-- 可用 of 代替 in -->
+    <li v-for="item of items">
+      {{ item.message }}
+    </li>
+
+    <!-- object -->
+    <li v-for="value in userProfile">
+      {{ value }}
+    </li>
+    <li v-for="(value,key) in userProfile" :key="key">
+      {{ key }} : {{ value }}
+    </li>
+    <li v-for="(value,key,index) in userProfile">
+      {{index}} : {{ key }} : {{ value }}
+    </li>
+  </ul> 
+  <!-- v-for 也可取整数，重复多次模板 -->
+  <span v-for="n in 10">{{ n }} </span>
+  
+  <p>{{objectData.age}}</p>
+
+</div>
+
+<script>
+var vm = new Vue({
+  el: "#app",
+  data: {
+    items: [
+      { message: 'Foo' },
+      { message: 'Bar' }
+    ],
+    userProfile: {
+      firstName: 'John',
+      lastName: 'Doe',
+      age: 30
+    }
+  }
+})
+
+// `vm.userProfile` 是响应式的
+vm.userProfile = {
+  firstName: 'cs',
+  lastName: 'xiaoyao',
+  age: 25
+}
+// `vm.objectData` 不是响应式的
+vm.objectData = {
+  firstName: 'cs',
+  lastName: 'xiaoyao'
+} 
+
+// Vue.set(object, key, value) // 向嵌套对象添加响应式属性
+// vm.$set 实例方法是全局 Vue.set 的别名
+Vue.set(vm.userProfile, 'age', 27)
+vm.$set(vm.userProfile, 'age', 25)
+
+</script>
+</body>
+</html>

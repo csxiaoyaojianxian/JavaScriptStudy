@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Vue Study</title>
+  <script src="https://unpkg.com/vue"></script>
+</head>
+<body>
+
+<div id="app">
+  <p>{{ foo }}</p>
+  <!-- 这里的 `foo` 不会更新！ -->
+  <button v-on:click="foo = 'baz'">Change it</button>
+</div>
+
+<div id="example"></div>
+
+<script>
+// 数据对象
+var data = { a: 1 }
+// 该对象被加入到一个 Vue 实例中
+var vm = new Vue({
+  data: data
+})
+vm.a == data.a // => true
+// 设置属性也会影响到原始数据
+vm.a = 2
+data.a // => 2
+// 反之亦然
+data.a = 3
+vm.a // => 3
+
+// 例外：使用 Object.freeze() 会阻止修改现有的属性，也意味着响应系统无法再追踪变化
+var obj = {
+  foo: 'bar'
+}
+Object.freeze(obj)
+new Vue({
+  el: '#app',
+  data: obj
+})
+
+// 除数据属性，Vue 实例还暴露了一些有用的实例属性与方法，都有前缀 $ 以便与用户定义属性区分
+var data = { a: 1 }
+var vm = new Vue({
+  el: '#example',
+  data: data
+})
+vm.$data === data // => true
+vm.$el === document.getElementById('example') // => true
+vm.$watch('a', function (newValue, oldValue) {
+  // 回调将在 `vm.a` 改变后调用
+})
+
+</script>
+
+<style>
+
+</style>
+
+</body>
+</html>

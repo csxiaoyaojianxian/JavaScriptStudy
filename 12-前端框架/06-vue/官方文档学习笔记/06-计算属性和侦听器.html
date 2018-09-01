@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Vue Study</title>
+  <script src="https://unpkg.com/vue"></script>
+</head>
+<body>
+
+<div id="example">
+  <!-- 计算属性，新建一个属性，依赖于其他属性值的变化 -->
+  <p>Original message: "{{ message }}"</p>
+  <p>Computed reversed message: "{{ reversedMessage }}"</p>
+  <p>{{ fullName }}</p>
+  <!-- 侦听属性，用于监听属性变化，用于数据变化时执行异步或开销较大的操作时 -->
+  <p>
+    Ask a yes/no question:
+    <input v-model="question">
+  </p>
+  <p>{{ answer }}</p>
+</div>
+
+<script>
+var vm = new Vue({
+  el: '#example',
+  data: {
+    message: 'Hello',
+    firstName: 'Foo',
+    lastName: 'Bar',
+    question: '',
+    answer: 'I cannot give you an answer until you ask a question!'
+  },
+  // 计算属性 
+  computed: {
+    // 计算属性的  `this` 指向 vm 实例
+    reversedMessage: function () {
+      return this.message.split('').reverse().join('')
+    },
+    // 计算属性默认只有 getter ，可以在需要时提供一个 setter
+    fullName: {
+      // getter
+      get: function () {
+        return this.firstName + ' ' + this.lastName
+      },
+      // setter
+      set: function (newValue) {
+        var names = newValue.split(' ')
+        this.firstName = names[0]
+        this.lastName = names[names.length - 1]
+      }
+    }
+  },
+  // 侦听属性
+  watch: {
+    question: function (newQuestion, oldQuestion) {
+      this.answer = 'Waiting for you to stop typing...'
+    }
+  },
+})
+
+// 调用计算属性 vm.reversedMessage 的 getter 函数
+console.log(vm.reversedMessage) // => 'olleH'
+vm.message = 'Goodbye'
+console.log(vm.reversedMessage) // => 'eybdooG'
+// 调用计算属性 vm.fullName 的 setter 函数，vm.firstName 和 vm.lastName 也会相应地被更新
+vm.fullName = 'John Doe'
+console.log(vm.firstName) // John
+console.log(vm.lastName) // Doe
+
+</script>
+</body>
+</html>

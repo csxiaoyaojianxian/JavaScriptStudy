@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Vue Study</title>
+  <script src="https://unpkg.com/vue"></script>
+</head>
+<body>
+
+<div id="app">
+  <!-- 普通文本 -->
+  <span>Message: {{ msg }}</span><br>
+  <!-- 
+    使用 v-once 指令执行一次性插值
+    当数据改变时，插值处的内容不会更新
+    注意这会影响到该节点上的其它数据绑定 
+  -->
+  <span v-once>Message v-once: {{ msg }}</span>
+
+  <!-- 双大括号会将数据解释为普通文本，而非 HTML 代码 -->
+  <p>Using mustaches: {{ rawHtml }}</p>
+  <!-- v-html 直接作为HTML会忽略解析属性值中的数据绑定，容易造成XSS攻击 -->
+  <p>Using v-html directive: <span v-html="rawHtml"></span></p>
+
+  <!-- v-bind 指令 -->
+  <div v-bind:id="dynamicId"></div>
+  <button v-bind:disabled="isButtonDisabled">Button</button>
+
+  <!-- 
+    使用 JavaScript 表达式
+    每个绑定都只能包含单个表达式
+    模板表达式运行在沙盒中，只能访问全局变量白名单（如 Math、Date）
+    不要在模板表达式中访问用户定义的全局变量
+  -->
+  {{ number + 1 }}
+  {{ ok ? 'YES' : 'NO' }}
+  {{ msg.split('').reverse().join('') }}
+  <div v-bind:id="'list-' + id"></div>
+  <!-- 这是语句，不是表达式 -->
+  <!-- {{ var a = 1 }} -->
+  <!-- 流控制也不会生效，请使用三元表达式 -->
+  <!-- {{ if (ok) { return message } }} -->
+  <!-- 全局变量访问不到 -->
+  <!-- {{outer}} -->
+
+  <!-- 
+    指令 (Directives) 是带有 v- 前缀的特殊特性
+    指令特性的值预期是单个 JavaScript 表达式
+  -->
+  <p v-if="seen">现在你看到我了</p>
+  <!-- 
+    一些指令能够接收一个“参数”
+    v-bind 指令用于响应式地更新 HTML 特性 
+    v-on 指令用于监听 DOM 事件
+  -->
+  <a v-bind:href="url">...</a>
+  <a :href="url">...</a> <!-- 缩写 -->
+  <a v-on:click="doSomething">...</a>
+  <a @click="doSomething">...</a> <!-- 缩写 -->
+  <!-- 
+    修饰符 (Modifiers) 用于指出一个指令应该以特殊方式绑定
+    .prevent 修饰符表示 v-on 指令对于触发的事件调用 event.preventDefault()
+  -->
+  <form v-on:submit.prevent="onSubmit">...</form>
+
+</div>
+
+<script>
+var outer = 1
+var app = new Vue({
+  el: "#app",
+  data: {
+    msg: "sunshine",
+    rawHtml: '<span style="color: red">This should be red.</span>',
+    dynamicId: 1,
+    isButtonDisabled: null, // null、undefined、false
+    number: 1,
+    seen: true
+  }
+})
+app.msg = "csxiaoyao"
+</script>
+
+<style>
+
+</style>
+
+</body>
+</html>

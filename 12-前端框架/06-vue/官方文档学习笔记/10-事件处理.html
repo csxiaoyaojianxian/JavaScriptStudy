@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Vue Study</title>
+  <script src="https://unpkg.com/vue"></script>
+</head>
+<body>
+<!-- v-on @ -->
+<div id="app">
+  <button v-on:click="counter += 1">Add 1</button>
+  <p>The button above hasbeen clicked {{ counter }} times.</p>
+  <button @click="count">count</button>
+  <button @click="warn('warn clicked.', $event)">warn</button>
+
+  <!-- 事件修饰符 stop prevent capture self once passive -->
+  <a v-on:click.stop="func"></a> <!-- event.stopPropagation() 阻止单击事件继续传播 -->
+  <form v-on:submit.prevent="func"></form> <!-- event.preventDefault() 提交事件不再重载页面 -->
+  <form v-on:submit.prevent></form> <!-- 只有修饰符 -->
+  <a v-on:click.stop.prevent="func"></a> <!-- 修饰符可以串联 -->
+  <div v-on:click.capture="func">...</div> <!-- 添加事件监听器时使用事件捕获模式，即元素自身触发的事件先在此处理，然后才交由内部元素进行处 -->
+  <div v-on:click.self="func">...</div> <!-- 保证事件不是从内部元素触发的，只当在 event.target 是当前元素自身时触发处理函数 -->
+  <a v-on:click.once="func"></a> <!-- 点击事件将只会触发一次 -->
+  <div v-on:scroll.passive="onScroll">...</div> <!-- 滚动事件的默认行为 (即滚动行为) 将会立即触发，而不会等待 `onScroll` 完成，包含 `event.preventDefault()` 的情况，能够提升移动端的性能 -->
+  <!-- 
+    ！顺序很重要
+    v-on:click.prevent.self 会阻止所有的点击
+    v-on:click.self.prevent 只阻止对元素自身的点击
+  -->
+
+  <!-- 按键修饰符 enter esc space up down left right delete (捕获“删除”和“退格”键) -->
+  <!-- 只有在 `keyCode` 是 13 时调用 `vm.func()` -->
+  <input v-on:keyup.13="func">
+  <!-- 缩写语法 -->
+  <input @keyup.enter="func">
+  <!-- 自动匹配按键修饰符 见文档 -->
+  <!-- 系统修饰键 ctrl alt shift meta -->
+  <!-- Alt + C -->
+  <input @keyup.alt.67="func">
+  <!-- Ctrl + Click -->
+  <div @click.ctrl="func">Do something</div>
+  
+  <!-- exact 修饰符 -->
+  <!-- 即使 Alt 或 Shift 被一同按下时也会触发 -->
+  <button @click.ctrl="func">A</button>
+  <!-- 有且只有 Ctrl 被按下的时候才触发 -->
+  <button @click.ctrl.exact="func">B</button>
+  <!-- 没有任何系统修饰符被按下的时候才触发 -->
+  <button @click.exact="func">C</button>
+
+  <!-- 鼠标按钮修饰符 left right middle -->
+</div>
+
+<script>
+var vm = new Vue({
+  el: "#app",
+  data: {
+    counter: 0
+  },
+  methods: {
+    count: function (event) {
+      // `this` 在方法里指向当前 Vue 实例
+      alert('clicked ' + this.counter + ' times!')
+      // `event` 是原生 DOM 事件
+      if (event) {
+        alert(event.target.tagName)
+      }
+    },
+    warn: function (message, event) {
+      // 现在我们可以访问原生事件对象
+      if (event) {
+        event.preventDefault()
+        alert(message)
+      }
+    },
+    func: function(){
+      alert("do")
+    },
+    onScroll: function(){
+      alert("scroll")
+    }
+  }
+})
+
+// 也可以用 JavaScript 直接调用方法
+vm.count()
+
+// 可以通过全局 config.keyCodes 对象自定义按键修饰符别名
+Vue.config.keyCodes.f1 = 112 // 可以使用 `v-on:keyup.f1`
+
+</script>
+</body>
+</html>

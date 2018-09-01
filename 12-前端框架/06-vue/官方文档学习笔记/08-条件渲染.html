@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Vue Study</title>
+  <script src="https://unpkg.com/vue"></script>
+</head>
+<body>
+
+<div id="app">
+  <!-- v-if 惰性渲染 -->
+  <div v-if="type === 'A'">A</div>
+  <div v-else-if="type === 'B'">B</div>
+  <div v-else-if="type === 'C'">C</div>
+  <div v-else>Not A/B/C</div>
+
+  <!-- 用 key 管理可复用的元素 -->
+  <!-- 不添加key会复用 -->
+  <div v-if="loginType === 'username'">
+    <label>Username</label>
+    <input placeholder="Enter your username">
+  </div>
+  <div v-else>
+    <label>Email</label>
+    <input placeholder="Enter your email address">
+  </div>
+  <!-- 添加key，input不被复用，label仍被复用 -->
+  <div v-if="loginType === 'username'">
+    <label>Username</label>
+    <input placeholder="Enter your username" key="username-input">
+  </div>
+  <div v-else>
+    <label>Email</label>
+    <input placeholder="Enter your email address" key="email-input">
+  </div>
+
+  <!-- v-show 仅控制display -->
+  <!-- 带有 v-show 的元素始终会被渲染并保留在 DOM 中
+  v-show 不支持 <template> 元素，也不支持 v-else -->
+  <h1 v-show="ok">Hello!</h1>
+
+</div>
+
+<script>
+var vm = new Vue({
+  el: "#app",
+  data: {
+    type: 'B',
+    loginType: 'username',
+    ok: true
+  }
+})
+
+</script>
+</body>
+</html>

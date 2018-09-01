@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Vue Study</title>
+  <script src="https://unpkg.com/vue"></script>
+</head>
+<body>
+
+<div id="app">
+  <input v-model="message" placeholder="edit me">
+  <p>Message is: {{ message }}</p>
+  
+  <input type="checkbox" id="jack" value="Jack" v-model="checkedNames">
+  <label for="jack">Jack</label>
+  <input type="checkbox" id="john" value="John" v-model="checkedNames">
+  <label for="john">John</label>
+  <input type="checkbox" id="mike" value="Mike" v-model="checkedNames">
+  <label for="mike">Mike</label>
+  <br>
+  <span>Checked names: {{ checkedNames }}</span>
+  <br>
+  <input
+    id="checkToggle"
+    type="checkbox"
+    v-model="toggle"
+    true-value="yes"
+    false-value="no"
+  >
+  <label for="checkToggle">checkToggle</label>
+  <br>
+  <span>Checked toggle: {{ toggle }}</span>
+
+
+  <br>
+  <input type="radio" id="one" value="One" v-model="picked">
+  <label for="one">One</label>
+  <input type="radio" id="two" value="Two" v-model="picked">
+  <label for="two">Two</label>
+  <br>
+  <span>Picked: {{ picked }}</span>
+
+  <br>
+  <select v-model="selected">
+    <option disabled value="">请选择</option>
+    <option value="1">A</option>
+    <option>B</option>
+    <option v-for="option in options" v-bind:value="option.value">
+      {{ option.text }}
+    </option>
+  </select>
+  <span>Selected: {{ selected }}</span>
+
+  <br>
+  <!-- 修饰符 lazy number trim -->
+  <input v-model.lazy="message" > <!-- 在“change”时而非“input”时更新 -->
+  <input v-model.number="age" type="number">
+  <input v-model.trim="message">
+
+</div>
+
+<script>
+var vm = new Vue({
+  el: "#app",
+  data: {
+    message: "csxiaoyao",
+    checkedNames: [],
+    toggle: '',
+    picked: '',
+    selected: '',
+    options: [
+      { text: 'One', value: 'C' },
+      { text: 'Two', value: 'D' },
+      { text: 'Three', value: 'E' }
+    ],
+    age: 25
+  }
+})
+
+// checkToggle选中时
+vm.toggle === 'yes'
+// checkToggle没有选中时
+vm.toggle === 'no'
+
+</script>
+</body>
+</html>
