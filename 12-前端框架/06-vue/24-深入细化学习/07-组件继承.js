@@ -26,11 +26,24 @@ const compoent = {
     }
   }
 }
+const CompVue = Vue.extend(compoent) // 继承方式1
+new CompVue({
+  el: '#root',
+  propsData: { // 传递参数给compoent的props，不能直接用props
+    propOne: 'xxx'
+  },
+  data: {
+    text: '123'
+  },
+  mounted () {
+    console.log('instance mounted')
+  }
+})
+
 
 const parent = new Vue({
   name: 'parent'
 })
-
 const componet2 = {
   extends: compoent,
   data () {
@@ -42,28 +55,12 @@ const componet2 = {
     console.log(this.$parent.$options.name)
   }
 }
-
-// const CompVue = Vue.extend(compoent)
-
-// new CompVue({
-//   el: '#root',
-//   propsData: { // 传递参数给props
-//     propOne: 'xxx'
-//   },
-//   data: {
-//     text: '123'
-//   },
-//   mounted () {
-//     console.log('instance mounted')
-//   }
-// })
-
 new Vue({
-  parent: parent,
+  parent: parent, // 继承方式2
   name: 'Root',
   el: '#root',
   mounted () {
-    console.log(this.$parent.$options.name)
+    console.log(this.$parent.$options.name) // 输出父组件的内容
   },
   components: {
     Comp: componet2
