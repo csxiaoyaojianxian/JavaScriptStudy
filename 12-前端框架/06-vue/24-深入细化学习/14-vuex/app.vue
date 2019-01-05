@@ -1,5 +1,8 @@
 <template>
-  <div id="app"></div>
+  <div id="app">
+    {{count}}
+    {{textPlus}}
+  </div>
 </template>
 
 <script>
@@ -13,34 +16,48 @@ import {
 export default {
   methods: {
     // mapMutations
-    ...mapMutations(['updateCount']),
+    ...mapMutations(['updateCount', 'updateText', 'a/updateText']),
     // mapActions
-    ...mapActions(['updateCountAsync'])
+    ...mapActions(['updateCountAsync', 'a/add'])
   },
   computed: {
     /**
      * 获取state
      */
     // 不使用mapState，不推荐
-    count () {
+    count1 () {
       return this.$store.state.count
     },
     // 使用mapState，推荐
     ...mapState(['count']), // 同名，不设置别名
     ...mapState({
       counter1: 'count', // 设置别名1
-      counter2: (state) => state.count  // 设置别名2
+      counter2: (state) => state.count // 设置别名2
     }),
     /**
      * 获取getter
      */
     // 不使用mapGetters，不推荐
-    fullName () {
+    fullName1 () {
       return this.$store.getters.fullName
     },
     // 使用mapGetters，推荐
     ...mapGetters({
       'fullName': 'fullName'
+    }),
+
+    /**
+     * 使用模块
+     */
+    // 获取 a 模块中state的 text
+    testA1 () {
+      return this.$store.state.a.text
+    },
+    ...mapState({
+      testA2: (state) => state.a.text
+    }),
+    ...mapGetters({
+      'textPlus': 'a/textPlus'
     })
   },
   mounted () {
@@ -77,6 +94,13 @@ export default {
       num: 3,
       time: 1000
     })
+
+    /**
+     * 使用模块
+     */
+    this.updateText('test') // 不设置namespace
+    this['a/updateText']('test') // 设置namespace
+    this['a/add']() // 设置namespace
   }
 }
 </script>

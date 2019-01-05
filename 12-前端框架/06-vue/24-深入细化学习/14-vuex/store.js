@@ -17,70 +17,97 @@ export default () => {
     state: defaultState, // state
     mutations, // mutations
     getters, // getters
-    actions // actions
+    actions, // actions
+
+    /**
+     * vuex 模块
+     * 在项目非常大时使用
+     * 模块可以嵌套，但逻辑会变复杂，不推荐
+     */
+    modules: {
+      // 模块a
+      a: {
+        // 使用了命名空间，允许不同模块mutations和actions重复
+        // 如果为false，则调用mutations和actions不需要指定模块
+        namespaced: true,
+        state: {
+          text: 1
+        },
+        mutations: {
+          // 如果不设置namespace，此处的state指向模块中的state，不需要指定模块
+          // 否则区分命名空间
+          updateText (state, text) {
+            console.log('a.state', state)
+            state.text = text
+          }
+        },
+        getters: {
+          // getters 全局getter
+          // rootState 全局state
+          textPlus (state, getters, rootState) {
+            return state.text + rootState.b.text // 获取模块b数据
+          }
+        },
+        actions: {
+          add ({ state, commit, rootState }) {
+            // root: true 才会搜索全局mutation
+            commit('updateText', rootState.count, { root: true })
+            // 调用全局 mutation
+            commit('updateCount', { num1: 1, num: 2 }, { root: true })
+          }
+        }
+      },
+      // 模块b
+      b: {
+        namespaced: true,
+        state: {
+          text: 2
+        },
+        actions: {
+          testAction ({ commit }) {
+            // 模块间调用
+            commit('a/updateText', 'test', { root: true })
+          }
+        }
+      }
+    },
     
-    // plugins: [
-    //   (store) => {
-    //     console.log('my plugin invoked')
-    //   }
-    // ]
-    // modules: {
-    //   a: {
-    //     namespaced: true,
-    //     state: {
-    //       text: 1
-    //     },
-    //     mutations: {
-    //       updateText (state, text) {
-    //         console.log('a.state', state)
-    //         state.text = text
-    //       }
-    //     },
-    //     getters: {
-    //       textPlus (state, getters, rootState) {
-    //         return state.text + rootState.b.text
-    //       }
-    //     },
-    //     actions: {
-    //       add ({ state, commit, rootState }) {
-    //         commit('updateCount', { num: 56789 }, { root: true })
-    //       }
-    //     }
-    //   },
-    //   b: {
-    //     namespaced: true,
-    //     state: {
-    //       text: 2
-    //     },
-    //     actions: {
-    //       testAction ({ commit }) {
-    //         commit('a/updateText', 'test text', { root: true })
-    //       }
-    //     }
-    //   }
-    // }
+    /**
+     * vuex 插件
+     * 数组形式，一个插件就是一个数组元素
+     */
+    plugins: [
+      (store) => {
+        // 可以调用 store.subscribe ... 自定义功能
+        console.log('my plugin invoked')
+      }
+    ]
   })
 
-  // if (module.hot) {
-  //   module.hot.accept([
-  //     './state/state',
-  //     './mutations/mutations',
-  //     './actions/actions',
-  //     './getters/getters'
-  //   ], () => {
-  //     const newState = require('./state/state').default
-  //     const newMutations = require('./mutations/mutations').default
-  //     const newActions = require('./actions/actions').default
-  //     const newGetters = require('./getters/getters').default
+  /**
+   * 为vuex添加热更新功能
+   * 否则每次更新代码会自动刷新一次页面
+   */
+  if (module.hot) {
+    module.hot.accept([
+      './state/state',
+      './mutations/mutations',
+      './actions/actions',
+      './getters/getters'
+    ], () => {
+      const newState = require('./state/state').default
+      const newMutations = require('./mutations/mutations').default
+      const newActions = require('./actions/actions').default
+      const newGetters = require('./getters/getters').default
 
-  //     store.hotUpdate({
-  //       state: newState,
-  //       mutations: newMutations,
-  //       getters: newGetters,
-  //       actions: newActions
-  //     })
-  //   })
-  // }
+      store.hotUpdate({
+        state: newState,
+        mutations: newMutations,
+        getters: newGetters,
+        actions: newActions
+      })
+    })
+  }
 
   return store
 }
