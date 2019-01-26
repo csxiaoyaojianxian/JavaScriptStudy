@@ -19,9 +19,42 @@
 5.没有同源限制，客户端可以与任意服务器通信<br>
 6.协议标识符是ws（如果加密，则为wss），服务器网址就是 URL<br>
 </p>
+<p>
 
+Socket.bufferedAmount  
+
+【事件】
+Socket.onopen		连接建立时触发
+Socket.onmessage	客户端接收服务端数据时触发
+Socket.onerror		通信发生错误时触发
+Socket.onclose		连接关闭时触发
+
+【方法】
+Socket.send()	使用连接发送数据
+Socket.close()	关闭连接
+<pre>
+function WebSocketTest(){
+	if ("WebSocket" in window){
+		var ws = new WebSocket("ws://localhost:8080/echo");
+		ws.onopen = function(){
+			ws.send("发送数据");
+		};
+		ws.onmessage = function (evt) { 
+			var received_msg = evt.data;
+		};
+		ws.onclose = function(){ 
+			alert("连接已关闭..."); 
+		};
+	}
+	else{
+		alert("您的浏览器不支持 WebSocket!");
+	}
+}
+</pre>
+</p>
 <script>
-
+// 【 websocket创建 】
+// var Socket = new WebSocket(url, [protocol]);
 var ws=new WebSocket("ws://127.0.0.1:8000");
 
 /**
@@ -29,9 +62,9 @@ var ws=new WebSocket("ws://127.0.0.1:8000");
  */
 function getState(){
 	/**
-	 * 【 readyState 】
-	 * CONNECTING：值为0，表示正在连接
-	 * OPEN：值为1，表示连接成功，可以通信了
+	 * 【 readyState 】只读，表示连接状态
+	 * CONNECTING：值为0，连接尚未建立，表示正在连接
+	 * OPEN：值为1，表示连接成功，可以通信
 	 * CLOSING：值为2，表示连接正在关闭
 	 * CLOSED：值为3，表示连接已经关闭，或者打开连接失败
 	 */
@@ -114,6 +147,7 @@ function sendMsg(){
 	 * 3.发送 ArrayBuffer 对象
 	 * Sending canvas ImageData as ArrayBuffer
 	 * 实例对象的bufferedAmount属性，表示还有多少字节的二进制数据没有发送出去，可以用来判断发送是否结束
+	 * bufferedAmount只读，表示已被 send() 放入队列中等待传输但还没发出的 UTF-8 文本字节数
 	 */
 	// var img = canvas_context.getImageData(0, 0, 400, 320);
 	// var binary = new Uint8Array(img.data.length);
