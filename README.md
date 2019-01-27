@@ -47,8 +47,8 @@ https://img.shields.io/badge/author-csxiaoyao-brightgreen.svg)](http://www.csxia
   + 04-zepto
   + 05-lodash
   + 06-vue
-* 13-svg
-* 14-canvas
+* 13-mock数据
+* 14-监控
 * 15-数据可视化 
   + 01-echarts
   + 02-d3
@@ -63,8 +63,9 @@ https://img.shields.io/badge/author-csxiaoyao-brightgreen.svg)](http://www.csxia
   + 01-react-native
   + 02-weex
   + 03-miniprogram
-* 20-tensorflow.js
-* 21-js探索
+* 20-PWA
+* 21-tensorflow.js
+* 22-js探索
 
 ![www.csxiaoyao.com](https://raw.githubusercontent.com/csxiaoyaojianxian/ImageHosting/master/img/sign.jpg)
 **By CS逍遥剑仙**
