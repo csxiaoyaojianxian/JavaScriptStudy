@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>d3</title>
+    <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+</head>
+<body>
+<p>hello world!</p>
+<script>
+/*
+    在 D3 中，用于选择元素的函数有两个
+     d3.select()：是选择所有指定元素的第一个
+     d3.selectAll()：是选择指定元素的全部
+    这两个函数返回的结果称为选择集
+*/
+var p = d3.select("body").selectAll("p").text("www.csxiaoyao.com");
+// 修改段落的颜色和字体大小
+p.style("color","red").style("font-size","72px");
+
+</script>
+</body>
+</html>

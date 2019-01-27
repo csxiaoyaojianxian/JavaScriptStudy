@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>d3</title>
+    <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+</head>
+<body>
+<script>
+
+var width = 300;	//画布的宽度
+var height = 300;	//画布的高度
+
+var svg = d3.select("body")				//选择文档中的body元素
+            .append("svg")				//添加一个svg元素
+            .attr("width", width)		//设定宽度
+            .attr("height", height);	//设定高度
+
+var index = [0, 1, 2, 3, 4];
+var color = ["red", "blue", "green", "yellow", "black"];
+
+// 将 dataset 中最小的值，映射成 0；将最大的值，映射成 250
+var ordinal = d3.scale.ordinal()
+        .domain(index)
+        .range(color);
+
+console.log(ordinal(0)); //返回 red
+console.log(ordinal(2)); //返回 green
+console.log(ordinal(4)); //返回 black
+
+</script>
+</body>
+</html>

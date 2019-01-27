@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>d3</title>
+    <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+</head>
+<body>
+
+<p>Apple</p>
+<p>Pear</p>
+<p>Banana</p>
+
+<script>
+var body = d3.select("body");
+var p = body.selectAll("p");
+/*
+    D3 中是通过以下两个函数来绑定数据的
+     datum()：绑定一个数据到选择集上
+     data()：更常用，绑定一个数组到选择集上，数组的各项值分别与选择集的各元素绑定
+*/
+/* datum */
+var str = "China";
+p.datum(str);
+p.text(function(d, i){
+    return "第 "+ i + " 个元素绑定的数据是 " + d;
+});
+
+/* data */
+var dataset = ["I like dog","I like cat","I like snake"];
+p.data(dataset).text(function(d, i){
+    return d;
+});
+</script>
+</body>
+</html>

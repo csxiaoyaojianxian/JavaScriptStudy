@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>d3</title>
+    <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+</head>
+<body>
+
+<p>test</p>
+<p id="myid">test id=myid</p>
+<p>test</p>
+
+<script>
+/*
+    append()：在选择集末尾插入元素
+    insert()：在选择集前面插入元素
+    remove()：删除元素
+*/
+var body = d3.select("body");
+body.append("p").text("append p element");
+body.insert("p","#myid").text("insert p element");
+
+var p = body.select("#myid");
+p.remove();
+
+</script>
+</body>
+</html>
