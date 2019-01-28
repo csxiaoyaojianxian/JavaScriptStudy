@@ -1,0 +1,161 @@
+<html>
+
+<head>
+    <meta charset="utf-8">
+	<title></title>
+	<style>
+	.axis path,
+	.axis line{
+		fill: none;
+		stroke: black;
+		shape-rendering: crispEdges;
+	}
+	.axis text {
+		font-family: sans-serif;
+		font-size: 11px;
+	}
+	.MyText {
+		fill: white;
+		text-anchor: middle;
+	}
+	</style>
+</head>
+<body>
+<script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+<script>
+// 用户用于交互的工具一般有三种：鼠标、键盘、触屏
+
+/*
+在 D3 中，每一个选择集都有 on() 函数，用于添加事件监听器
+
+【 鼠标常用的事件 】
+click：鼠标单击某元素时，相当于 mousedown 和 mouseup 组合在一起
+mouseover：光标放在某元素上
+mouseout：光标从某元素上移出来时
+mousemove：鼠标被移动的时候
+mousedown：鼠标按钮被按下
+mouseup：鼠标按钮被松开
+dblclick：鼠标双击
+
+【 键盘常用的事件 】
+keydown：当用户按下任意键时触发，按住不放会重复触发此事件。该事件不会区分字母的大小写，例如“A”和“a”被视为一致
+keypress：当用户按下字符键（大小写字母、数字、加号、等号、回车等）时触发，按住不放会重复触发此事件，该事件区分字母的大小写
+keyup：当用户释放键时触发，不区分字母的大小写
+
+【 触屏常用的事件 】
+touchstart：当触摸点被放在触摸屏上时
+touchmove：当触摸点在触摸屏上移动时
+touchend：当触摸点从触摸屏上拿开时
+
+【 d3.event 】
+当某个事件被监听到时，D3 会把当前的事件存到 d3.event 对象，里面保存了当前事件的各种参数
+circle.on("click", function(){
+    console.log(d3.event);
+});
+
+*/
+//画布大小
+var width = 400;
+var height = 400;
+
+//在 body 里添加一个 SVG 画布	
+var svg = d3.select("body")
+	.append("svg")
+	.attr("width", width)
+	.attr("height", height);
+
+//画布周边的空白
+var padding = {left:30, right:30, top:20, bottom:20};
+
+//定义一个数组
+var dataset = [10, 20, 30, 40, 33, 24, 12, 5];
+	
+//x轴的比例尺
+var xScale = d3.scale.ordinal()
+	.domain(d3.range(dataset.length))
+	.rangeRoundBands([0, width - padding.left - padding.right]);
+
+//y轴的比例尺
+var yScale = d3.scale.linear()
+	.domain([0,d3.max(dataset)])
+	.range([height - padding.top - padding.bottom, 0]);
+
+//定义x轴
+var xAxis = d3.svg.axis()
+	.scale(xScale)
+	.orient("bottom");
+	
+//定义y轴
+var yAxis = d3.svg.axis()
+	.scale(yScale)
+	.orient("left");
+
+//矩形之间的空白
+var rectPadding = 4;
+
+//添加矩形元素
+var rects = svg.selectAll(".MyRect")
+	.data(dataset)
+	.enter()
+	.append("rect")
+	.attr("class","MyRect")
+	.attr("transform","translate(" + padding.left + "," + padding.top + ")")
+	.attr("x", function(d,i){
+		return xScale(i) + rectPadding/2;
+	} )
+	.attr("y",function(d){
+		return yScale(d);
+	})
+	.attr("width", xScale.rangeBand() - rectPadding )
+	.attr("height", function(d){
+		return height - padding.top - padding.bottom - yScale(d);
+	})
+	.attr("fill","steelblue")		//填充颜色不要写在CSS里
+	.on("mouseover",function(d,i){
+		d3.select(this)
+			.attr("fill","yellow");
+	})
+	.on("mouseout",function(d,i){
+		d3.select(this)
+			.transition()
+			.duration(500)
+			.attr("fill","steelblue");
+	});
+
+//添加文字元素
+var texts = svg.selectAll(".MyText")
+	.data(dataset)
+	.enter()
+	.append("text")
+	.attr("class","MyText")
+	.attr("transform","translate(" + padding.left + "," + padding.top + ")")
+	.attr("x", function(d,i){
+		return xScale(i) + rectPadding/2;
+	} )
+	.attr("y",function(d){
+		return yScale(d);
+	})
+	.attr("dx",function(){
+		return (xScale.rangeBand() - rectPadding)/2;
+	})
+	.attr("dy",function(d){
+		return 20;
+	})
+	.text(function(d){
+		return d;
+	});
+
+//添加x轴
+svg.append("g")
+	.attr("class","axis")
+	.attr("transform","translate(" + padding.left + "," + (height - padding.bottom) + ")")
+	.call(xAxis); 
+	
+//添加y轴
+svg.append("g")
+	.attr("class","axis")
+	.attr("transform","translate(" + padding.left + "," + padding.top + ")")
+	.call(yAxis);
+</script>
+</body>
+</html>

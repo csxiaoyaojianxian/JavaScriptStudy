@@ -1,0 +1,50 @@
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title></title>
+</head>
+<body>
+<p>1</p>
+<p>2</p>
+<p>3</p>
+<script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+<script>
+/*
+svg.selectAll("rect")   //选择svg内所有的矩形
+    .data(dataset)      //绑定数组
+    .enter()            //指定选择集的enter部分
+    .append("rect")     //添加足够数量的矩形元素
+ */
+// 当数组的长度与元素数量不一致（数组长度 > 元素数量 or 数组长度 < 元素数量）
+// 如果数组为 [3, 6, 9, 12, 15]
+// 将此数组绑定到三个 p 元素的选择集上
+// 会有两个数据没有元素与之对应，这时候 D3 会建立两个空的元素与数据对应，这一部分就称为 Enter
+// 而有元素与数据对应的部分称为 Update
+// 如果数组为 [3]
+// 则会有两个元素没有数据绑定，那么没有数据绑定的部分被称为 Exit
+// update 部分的处理办法一般是：更新属性值
+// enter 部分的处理办法一般是：添加元素后，赋予属性值
+
+var dataset = [ 3 , 6 , 9 , 12 , 15 ];
+
+//选择body中的p元素
+var p = d3.select("body").selectAll("p");
+//获取update部分
+var update = p.data(dataset);
+console.log(JSON.stringify(update)) // [[{"__data__":3},{"__data__":6},{"__data__":9},null,null]]
+//获取enter部分
+var enter = update.enter();
+console.log(JSON.stringify(enter)) // [[null,null,null,{"__data__":12},{"__data__":15}]]
+//update部分的处理：更新属性值
+update.text(function(d){
+    return "update " + d;
+});
+//enter部分的处理：添加元素后赋予属性值
+enter.append("p")
+    .text(function(d){
+        return "enter " + d;
+    });
+</script>
+</body>
+</html>
