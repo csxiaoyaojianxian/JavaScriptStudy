@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>JavaScript</title>
+</head>
+<body>
+<pre>
+
+</pre>
+<script>
+/**
+ * 数据类型转换
+ */
+/**
+ *【 string => number 】
+ */
+// parseInt()  
+console.log(parseInt("123abc123")); // 123 含非数字字符,将前面的数字字符转换成数字
+console.log(parseInt("a123"));      // NaN
+console.log(parseInt("012"));       // 12 去首部0
+console.log(parseInt("0x10"));      // 16 以十六进制计算
+// parseFloat()  整数字符串仍转换为整数
+console.log(parseFloat("3.14"));    // 3.14
+console.log(parseFloat("3"));       // 3
+console.log(parseFloat("sun"));     // NaN
+
+/**
+ *【 number => string 】
+ */
+// toString() 把数字转换成指定进制形式的字符串，默认十进制
+var num = 10;                       // 十进制	
+var str = num.toString(2);          // 二进制
+console.log(str);                   // 1010
+console.log(typeof str);            // string
+
+/**
+ *【 Object => String 】
+ */
+// 1. 转换场景
+// console.log();
+// alert();
+// "" + obj; //字符串拼接
+
+// 2. 转换方法
+// Object.prototype.toString() 返回一个表示该对象的字符串
+// Object.prototype.valueOf() 返回指定对象的原始值
+
+// 3. 转换规则
+//   1. 设原始值为调用 ToPrimitive 的结果
+//   2. 调用 toString 方法返回原始值
+//   (3). 若 toString 未返回原始值，调用 valueOf 返回原始值
+//   (4). 若 valueOf 仍未返回原始值，报错
+
+// 4. 案例
+var testObj = {
+    toString: function() {
+        console.log('use obj.toString');
+        return {}; // 返回非原始类型
+    },
+    valueOf: function() {  
+        console.log('use obj.valueOf')
+        return 'sun'; // 返回原始类型
+    }
+}
+console.log(testObj); //use obj.toString //use obj.valueOf //sun
+// 说明：先调用 toString 方法，如果得不到原始类型数据，继续调用 valueOf 方法
+// 如果不重写 toString 方法，obj.toString() 返回 "[object Object]"，为字符串原始类型
+
+/**
+ * Object => Number
+ */
+// 1. 转换场景
+// Number() //强制转换
+// Math
+// obj == 1 //比较
+// obj + 1 //数值运算
+// +obj
+
+// 2. 转换方法
+// Object.prototype.valueOf() 返回指定对象的原始值
+// Object.prototype.toString() 返回一个表示该对象的字符串
+
+// 3. 转换规则
+//   1. 设原始值为调用 ToPrimitive 的结果
+//   2. 调用 valueOf 方法返回原始值
+//   (3). 若 valueOf 未返回原始值，调用 toString 返回原始值
+//   (4). 若 toString 仍未返回原始值，报错
+
+// 4. 案例，+ 类似与字符串的 .
+console.log(typeof(+[1])); //number
+console.log(+[]); // 0
+console.log(+[1,2]); // NaN
+console.log(+[undefined]); // 0
+console.log(+[undefined,undefined]); // NaN
+console.log(+Array(0)); // 0
+console.log(+Array(1)); // 0
+console.log(+Array(2)); // NaN
+console.log(+Array(017)); // NaN
+var obj = {
+    valueOf: function() {
+        console.log('use valueOf');
+        return {};
+    },
+    toString: function() {
+        console.log('use toString');
+        return 7;
+    }
+}
+console.log(obj + 1);//use valueOf //use toString //8
+// 说明：先调用 valueOf 方法，如果得不到原始类型数据，继续调用 toString 方法
+// 如果返回的原始类型为 "7"，结果为 "71"
+
+/**
+ * => Boolean
+ */
+// 1. 转换场景
+// Boolean //强制转换
+// if(obj) //布尔比较
+// while(obj) //布尔比较
+
+// 2. 转换规则
+// 只有以下为 false，其余为 true
+// undefined、null、-0、0、+0、NaN、''
+
+// 3. 案例
+// 说明：对象一定为 true
+if(new Object() && [0] && [] && "0"){
+	console.log("true"); // true
+}else{
+	console.log("false");
+}
+
+/**
+ * "==" 引起的类型转换
+ *    === 全等，类型和值都相同
+ *    == 等于，只比较值
+ */
+// 1. 存在 NaN 必为 false
+// 2. 【null】 == 【undefined】   不转换，始终为 true
+// 3. 【null / undefined】 == 【其他非 null / undefined】   不转换，始终为 false
+// 4. 【原始类型 string / number / boolean】 == 【Date对象】   原始类型 => number， Date对象 --> toString() / valueOf()
+// 5. 【原始类型 string / number / boolean】 == 【非Date对象】   原始类型 => number， 非Date对象 --> valueOf() / toString()
+// 6. 【原始类型 string / number / boolean】 == 【原始类型 string / number / boolean】   原始类型 => number
+
+console.log(NaN == NaN); // false
+console.log("sunshine" == NaN); // false   存在 NaN 必为 false
+console.log(1 == true); // true   true => 1
+console.log(true == "sun"); // false   true => 1  "sun" => NaN
+console.log("" == false); // true  "" => 0  false => 0
+
+var a = [0];
+if(a){ // 对象一定为 true
+	console.log(a == true); // false  a => Array[1]…   true => 1
+}
+console.log(a.valueOf()); // Array[1]…
+console.log(a.toString()); // 0
+
+//undefined 和 null
+console.log(undefined == null); // true
+console.log(undefined === null); // false
+
+</script>
+</body>
+</html>

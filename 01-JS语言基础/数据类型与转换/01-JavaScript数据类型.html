@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<pre>
+【 ECMAScript标准定义的7种数据类型 】
+
+【 6种基本数据类型 】（除String，占 8 bytes）首字母大写为构造函数
+Boolean    取值：[true、false]
+Null       取值：[null]
+Undefined  未赋值变量的默认值 [undefined]
+Number     整数&浮点数，基于IEEE 754标准的双精度 64 位二进制格式的值
+           注意：Number没有为整数给出一种特定的类型
+           取值：[浮点数、带符号的特定类型]
+              +Infinity / -Infinity：可配合使用常量 Number.MAX_VALUE 和 Number.MIN_VALUE 来检查值是否大于或小于 +/-Infinity
+              NaN：非数值，Not-a-Number
+           tips：es6中，可通过 Number.isSafeInteger() 方法或 Number.MAX_SAFE_INTEGER、Number.MIN_SAFE_INTEGER 来检查值是否在双精度浮点数取值范围内
+String     字符串(无字符类型)
+Symbol     ECMAScript6新定义，可以用作Object的key值，类似C语言的枚举类型
+
+【 1种复杂数据类型 】（引用类型）
+Object     基础对象
+    Array / Date / RegExp / String / Number / Boolean
+    Math / Arguments(函数参数集合) / Error(异常对象) / Function(函数构造器) / (null)(不完全算对象)
+
+【 两个空的类型 】
+null       表示"没有对象"，即该处不该有值，null表示"无"对象，转为数值时为0
+           变量默认不可能为null，除非手动设置
+           当要解除对象的占用(引用)时，给对象赋值为null
+undefined  表示"缺少值"，即此处该有值但未定义，undefined表示"无"的原始值，转为数值时为NaN
+
+【 值类型 & 引用类型 】
+值类型：数值、布尔值、null、undefined
+引用类型：对象、数组、函数
+</pre>
+</body>
+</html>

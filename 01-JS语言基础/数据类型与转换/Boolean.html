@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<script>
+
+// Boolean
+console.log(Boolean(0));//false
+console.log(Boolean(""));//false
+console.log(Boolean(null));//false
+console.log(Boolean(undefined));//false
+console.log(Boolean(NaN));//false
+console.log(Boolean());//false
+console.log(Boolean([]));//true
+
+// !!
+console.log(!!0);//false
+console.log(!!"");//false
+console.log(!!null);//false
+console.log(!!undefined);//false
+console.log(!!NaN);//false
+console.log(!![]);//true
+console.log(!!1);//true
+console.log(!!"abc");//true
+var date = new Date();
+console.log(!!date);//true
+
+//boolean
+console.log(true);//true
+console.log(TRUE);//报错 is not defined
+
+</script>
+</body>
+</html>

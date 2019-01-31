@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>JavaScript</title>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+</head>
+<body>
+<!-- 
+总览：
+    typeof
+    instanceof
+    constructor
+    prototype
+    $.type() / jquery.type()
+-->
+<script>
+/*
+    【 js判断数据类型 】
+    通常情况下用typeof判断
+    预知Object类型的情况可用instanceof或constructor方法
+*/
+var a = "csxiaoyao";
+var b = 1993;
+var c = true;
+var d = undefined;
+var e = null;
+var f = new Date();
+var g= [1,2,3];
+var h = function(){alert("sunshine");};
+
+// 【 typeof 】返回小写的值类型(string)
+// number / string / boolean / undefined / object / function
+// 注意：除function的引用类型对象都为object类型，返回的类型为字符串形式
+console.log(typeof a);  // "csxiaoyao" string
+console.log(typeof b);  // 1993 number
+console.log(typeof c);  // true boolean
+console.log(typeof d);  // undefined undefined
+console.log(typeof e);  // 【 null object 】
+console.log(typeof f);  // new Date() object
+console.log(typeof g);  // [1,2,3] object
+console.log(typeof h);  // function(){alert("sunshine");} function
+console.log(typeof a == "string");  // true
+console.log(typeof a == String);  // false
+console.log(typeof(typeof d))  // string
+console.log(typeof document);  //object
+
+console.log(typeof(Null)); // undefined
+console.log(typeof(null)); // object （null->object）
+console.log(typeof(Undefined)); // undefined
+console.log(typeof(Function)); // function
+console.log(typeof(Boolean)); // function
+console.log(typeof(Number)); // function
+console.log(typeof(String)); // function
+console.log(typeof(Symbol)); // function
+console.log(typeof(Object)); // function
+
+// 【 instanceof 】判断已知对象类型
+// console.log(e instanceof null); // e:null报错 Right-hand side of 'instanceof' is not an object
+console.log(f instanceof Date); // true
+console.log(g instanceof Array); // true
+console.log(h instanceof Function); // true
+
+// 【 constructor 】根据对象的构造函数constructor判断
+console.log(f.constructor === Date); // true
+console.log(g.constructor === Array); // true
+console.log(h.constructor === Function); // true
+// 注意：constructor 在类继承时会出错
+function A(){}; function B(){};
+A.prototype = new B(); // A继承自B
+var aObj = new A();
+console.log(aObj.constructor === A); // false
+console.log(aObj.constructor === B); // true
+// instanceof没有问题
+console.log(aObj instanceof A); // true
+console.log(aObj instanceof B); // true
+// 解决construtor的问题通常让对象的constructor手动指向自己
+aObj.constructor = A; //将自己的类赋值给对象的constructor属性
+console.log(aObj.constructor === A);// true
+console.log(aObj.constructor === B);// false
+
+// 【 prototype 】(通用但很繁琐的方法)
+// 区分大小写，比较麻烦，但胜在通用
+console.log(Object.prototype.toString.call(a) === '[object String]') // true
+console.log(Object.prototype.toString.call(b) === '[object Number]') // true
+console.log(Object.prototype.toString.call(c) === '[object Boolean]') // true
+console.log(Object.prototype.toString.call(d) === '[object Undefined]') // true
+console.log(Object.prototype.toString.call(e) === '[object Null]') // true
+console.log(Object.prototype.toString.call(f) === '[object Date]') // true
+console.log(Object.prototype.toString.call(g) === '[object Array]') // true
+console.log(Object.prototype.toString.call(h) === '[object Function]') // true
+
+// $.type() (万能方法)
+// 如果对象是undefined或null，则返回相应的"undefined"或"null"
+console.log(jQuery.type( undefined ) === "undefined") // true
+console.log(jQuery.type() === "undefined") // true
+console.log(jQuery.type( window.notDefined ) === "undefined") // true
+console.log(jQuery.type( null ) === "null") // true
+// 如果对象有一个内部的 [[Class]] 和一个浏览器的内置对象的 [[Class]] 相同，返回相应的 [[Class]] 名字
+console.log(jQuery.type( true ) === "boolean") // true
+console.log(jQuery.type( 3 ) === "number") // true
+console.log(jQuery.type( "test" ) === "string") // true
+console.log(jQuery.type( function(){} ) === "function") // true
+console.log(jQuery.type( [] ) === "array") // true
+console.log(jQuery.type( new Date() ) === "date") // true
+console.log(jQuery.type( new Error() ) === "error") // true // as of jQuery 1.9
+console.log(jQuery.type( /test/ ) === "regexp") // true
+// 注意：其他的类型返回"object"
+
+</script>
+</body>
+</html>

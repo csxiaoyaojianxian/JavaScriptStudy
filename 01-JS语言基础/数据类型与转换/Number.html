@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<script>
+// Number 对象
+/**
+ * 创建
+ */
+var myNum1 = new Number(77);
+var myNum2 = Number(77);
+
+/**
+ * 获取值
+ */
+// 获取 Number 原始值，使用 valueOf() 方法
+var iNumber1 = myNum1.valueOf();
+var iNumber2 = myNum2.toString();
+console.log(iNumber1);//77
+console.log(iNumber2);//77
+
+/**
+ * 属性
+ */
+// constructor	返回对创建此对象的 Number 函数的引用
+// MAX_VALUE	可表示的最大的数
+// MIN_VALUE	可表示的最小的数
+// NaN	        非数字值
+// NEGATIVE_INFINITY	负无穷大，溢出时返回该值
+// POSITIVE_INFINITY	正无穷大，溢出时返回该值
+// prototype	使您有能力向对象添加属性和方法
+
+// MAX_VALUE、MIN_VALUE、NEGATIVE_INFINITY、POSITIVE_INFINITY、NaN 是 Number构造函数的属性，而非Number对象的属性
+console.log(myNum1.MAX_VALUE);//undefined
+console.log(iNumber1.MAX_VALUE);//undefined
+console.log(Number.MAX_VALUE);//1.7976931348623157e+308
+console.log(Number.MIN_VALUE);//5e-324
+console.log(Number.NEGATIVE_INFINITY);//-Infinity
+console.log(Number.POSITIVE_INFINITY);//Infinity
+console.log(1/0);//Infinity
+console.log(-1/0);//-Infinity
+console.log(Number.NaN);//NaN
+console.log(Number.constructor);//function Function() { [native code] }
+console.log(Number.prototype);//Number {[[PrimitiveValue]]: 0}
+
+/**
+ * isNaN
+ */
+// (is not a muber)
+// 注意隐式类型转换
+console.log(isNaN(10));  // false
+console.log(isNaN(3.14));  // false
+console.log(isNaN(true));  // 【false】
+console.log(isNaN(null));  // 【false】
+// strings
+console.log(isNaN("37"));  // 【false】可以被转换成数值37
+console.log(isNaN("37.37"));  // 【false】可以被转换成数值37.37
+console.log(isNaN(""));  // 【false】空字符串被转换成0
+console.log(isNaN(" "));  // 【false】包含空格的字符串被转换成0
+// dates
+console.log(isNaN(new Date()));  // 【false】
+console.log(isNaN(new Date().toString()));  // true
+
+console.log(isNaN(undefined)); // true
+console.log(isNaN(NaN)); // true
+console.log(isNaN({})); // true
+console.log(isNaN("sun"));  //true
+
+/**
+ * 方法
+ */
+// toString	把数字转换为字符串，使用指定的基数
+// toLocaleString	把数字转换为字符串，使用本地数字格式顺序
+// toFixed	把数字转换为字符串，结果的小数点后有指定位数的数字
+// toExponential	把对象的值转换为指数计数法
+// toPrecision	把数字格式化为指定的长度
+// valueOf	返回一个 Number 对象的基本数字值
+console.log(myNum1.toFixed(2));// "77.00"
+var num = 3.14159;
+console.log(num.toFixed(2));// 保留两位小数 "3.14"
+console.log(myNum1.toExponential(2));//7.70e+1 参数代表小数位数
+console.log(Number(7777).toPrecision(2));//7.8e+3 出现四舍五入
+console.log(Number(7777).toPrecision(5));//7777.0
+var str = num.toString(2);          // 二进制
+console.log(str);                   // 11.00100100001111110011111000000011011100001100110111
+
+/**
+ * 类型转换，转换成数字
+ */
+console.log(undefined+10); // NaN
+console.log(null+10); // 10
+var str = "111";
+var bool = true;
+console.log(typeof (str-0)); // 111 number
+console.log(typeof (bool-0)); // 1 number
+console.log(typeof (str*1)); // 111 number
+console.log(typeof (bool*1)); // 1 number
+console.log(typeof (str/1)); // 111 number
+console.log(typeof (bool/1)); // 1 number
+var str2 = "12.34abc";
+var str3 = "12.34";
+console.log(parseInt(str2)); // 12
+console.log(parseFloat(str2)); // 12.34
+console.log(Number(str3)); // 12.34
+console.log(Number("")); // 0
+console.log("aaa" / 10); // NaN
+//NaN != NaN
+console.log(undefined-1);//NaN
+console.log(undefined-1 == NaN);//false
+
+/**
+ * 精度问题
+ */
+ var num1 = 0.1;
+var num2 = 0.2;
+console.log(num1+num2); // 0.30000000000000004
+console.log(0.07*100); // 7.000000000000001
+
+</script>
+</body>
+</html>

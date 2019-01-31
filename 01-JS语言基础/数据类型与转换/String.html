@@ -6,6 +6,7 @@
 </head>
 <body>
 <script>
+
 /*
     By CS逍遥剑仙
 
@@ -47,6 +48,13 @@
     /**
      * 【string & String】
      */
+    //string
+    var str1 = 'abc"def"ghi';
+    var str2 = "abc'def'ghi";
+    var str3 = "abc\"def";
+    console.log(str1);//abc"def"ghi
+    console.log("\n"+str2);//abc'def'ghi
+    console.log(str3);//abc"def
     // string简单数据类型无法绑定属性和方法
     var str = "abc";
     str.aaa = 111;
@@ -66,7 +74,20 @@
     // 比较
     var strObj2 = new String("abc");
     console.log("strObj1与strObj2是否相同："+(strObj1==strObj2));//false
-
+    //转换成字符串
+    var bool = true;
+    var num = 111;
+    var aaa;
+    var bbb = null;
+    console.log((aaa+""));//undefined
+    console.log(typeof(aaa+""));//string
+    console.log(typeof(bool+""));//string
+    console.log(String(bool));//true
+    console.log(typeof(String(bool)));//string
+    console.log(typeof(bbb+""));//string
+    // console.log(typeof(bbb.toString()));//报错 Cannot read property 'toString' of null
+    console.log(typeof(num+""));//string
+    console.log(typeof(num.toString()));//string
     
     /**
      * 【anchor(str);】锚点
