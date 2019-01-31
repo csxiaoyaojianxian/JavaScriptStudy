@@ -10,27 +10,30 @@
 // 数据传递常需要编码后传递，接收还需反编译，推荐使用encodeURIComponent
 var url = "http://www.csxiaoyao.com?username='CS逍遥剑仙'&password='19931128'";
 
-// 【escape & unescape】
+// 【 escape & unescape 】 !!!URL编码勿使用此方法
 console.log(escape(url));// 编码 http%3A//www.csxiaoyao.com%3Fusername%3D%27CS%u900D%u9065%u5251%u4ED9%27%26password%3D%2719931128%27
 console.log(unescape(escape(url)));// 解码 http://www.csxiaoyao.com?username='CS逍遥剑仙'&password='19931128'
 
-// 【encodeURIComponent & decodeURIComponent】【推荐】
+// 【 encodeURIComponent & decodeURIComponent 】【推荐】如果URI中含分隔符如 ? 和 #，应使用encodeURIComponent
 console.log(encodeURIComponent(url));// 编码  http%3A%2F%2Fwww.csxiaoyao.com%3Fusername%3D'CS%E9%80%8D%E9%81%A5%E5%89%91%E4%BB%99'%26password%3D'19931128'
 console.log(decodeURIComponent(encodeURIComponent(url)));// 解码  http://www.csxiaoyao.com?username='CS逍遥剑仙'&password='19931128'
 
-// 【encodeURI & decodeURI】
+// 【 encodeURI & decodeURI 】如果URI中含分隔符如 ? 和 #，应使用encodeURIComponent
 console.log(encodeURI(url));// 编码 http://www.csxiaoyao.com?username='CS%E9%80%8D%E9%81%A5%E5%89%91%E4%BB%99'&password='19931128'
 console.log(decodeURI(encodeURI(url)));// 解码 http://www.csxiaoyao.com?username='CS逍遥剑仙'&password='19931128'
 
 // 【区别】
 // 三种方法都不会对 ASCII 字母、数字和规定的特殊 ASCII 标点符号进行编码，其余都替换为十六进制转义序列
-// 【escape & unescape】
+
+// 【 escape & unescape 】
 // escape不编码字符有69个：*，+，-，.，/，@，_，0-9，a-z，A-Z
 // 对字符串全部进行转义编码，ECMAScript v3 反对使用该方法，对URL编码勿使用此方法
-// 【encodeURIComponent & decodeURIComponent】
+
+// 【 encodeURIComponent & decodeURIComponent 】
 // encodeURIComponent不编码字符有71个：!， '，(，)，*，-，.，_，~，0-9，a-z，A-Z
 // 传递参数时需使用encodeURIComponent，组合的url才不会被#等特殊字符截断
-// 【encodeURI & decodeURI】
+
+// 【 encodeURI & decodeURI 】
 // encodeURI不编码字符有82个：!，#，$，&，'，(，)，*，+，,，-，.，/，:，;，=，?，@，_，~，0-9，a-z，A-Z
 // 进行url跳转时可以整体使用encodeURI，如果URI中含分隔符如 ? 和 #，应使用encodeURIComponent
 
