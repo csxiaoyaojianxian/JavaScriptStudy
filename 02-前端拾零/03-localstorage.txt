@@ -1,1 +1,0 @@
-详见 csxiaoyaojianxian 的 html5 仓库，封装对localstorage的过期时间、容量溢出处理等

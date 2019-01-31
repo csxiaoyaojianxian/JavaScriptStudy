@@ -1,4 +1,4 @@
-# 系统学习javaweb-06-javascript
+# JavaScript学习总结
 ## 1 变量与数据类型
 声明变量时可省略var关键字，但不建议
 使用typeof查看变量的数据类型
