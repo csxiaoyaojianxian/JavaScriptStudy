@@ -14,26 +14,23 @@ https://img.shields.io/badge/author-csxiaoyao-brightgreen.svg)](http://www.csxia
 
 ## 目录
 * 01-JS语言基础
-  + 01-基础语法
-  + 02-常用操作
-  + 03-JS进阶
-* 02-前端拾零
-* 03-ES新特性
-* 04-特效
-* 05-ajax
-* 06-常用功能
+* 02-ES新特性
+* 03-JS数据结构算法
+* 04-常用功能
   + 01-upload
   + 02-dataURL-Blob-File-canvas
   + 03-强制竖屏
   + 04-js模板引擎
   + 05-jquery分页
   + ......
-* 07-JS数据结构算法
-* 08-设计模式
-* 09-模块化
+* 05-ajax
+* 06-设计模式
+* 07-模块化
   + 01-模块化规范
   + 02-框架封装
   + 03-ES6模块化
+* 08-前端安全
+* 09-PWA
 * 10-websocket
 * 11-构建工具
   + 01-webpack
@@ -63,9 +60,8 @@ https://img.shields.io/badge/author-csxiaoyao-brightgreen.svg)](http://www.csxia
   + 01-react-native
   + 02-weex
   + 03-miniprogram
-* 20-PWA
-* 21-tensorflow.js
-* 22-js探索
+* 20-tensorflow.js
+* 21-js探索
 
 ![www.csxiaoyao.com](https://raw.githubusercontent.com/csxiaoyaojianxian/ImageHosting/master/img/sign.jpg)
 **By CS逍遥剑仙**
