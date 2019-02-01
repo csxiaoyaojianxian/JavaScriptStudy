@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+</head>
+<body>
+
+<script>
+// 【封装】
+// 创建对象实现封装可以通过4种方式：
+// 1.对象字面量  {key:value,key:value...}
+// 只能创建一次对象，复用性较差，如果要创建多个对象，代码冗余度太高
+// 2.内置构造函数 var obj = new Object();obj.name = "csxiaoyao";
+// 3.简单工厂函数 function createObj(name,company){var obj =new Object();obj.name = name;return obj;}
+// 4.自定构造函数
+function Person(name, agei){ 
+	// public
+	this.name = name;// 可直接通过对象点语法调用
+	// private
+	var age = agei;// 不可通过对象点语法调用
+	this.getAge = function(){//getter
+		return age;
+	}
+	this.setAge = function(a){//setter
+		age = a;
+	}
+}
+Person.prototype.show = function(){
+	var str = this.name + " "+ this.getAge();
+	//报错分析： 1.不加this表示访问原型属性 2.原型不能访问所在类的私有属性和方法
+	// var str = name + " "+ age;
+	return str;
+}
+//必须使用new关键字创建对象，否则this指向window
+var p1 = new Person('csxiaoyao', 25);
+//调用对象公开属性和私有属性(undefined)
+console.log(p1.name + " " + p1.age);//csxiaoyao undefined
+//调用对象方法
+p1.setAge(20);
+console.log(p1.getAge());//20
+//调用原型方法
+console.log(p1.show());//csxiaoyao 20
+var p2 = new Person();
+//利用对象动态性添加属性
+p1.n = "sunshine";
+console.log(p1.n);//sunshine
+
+//【继承】
+// 实现继承可以通过4种方式：
+// 1.混入式继承 使用for in遍历对象1的属性，将所有的属性添加到另外一个对象2上
+// 2.经典继承
+// var 对象1 = Object.create(对象2); 创建的对象1继承自对象2，需要解决Object.create方法兼容性问题
+// 3.原型继承
+// * 利用对象的动态特性，为原型对象添加成员
+// * 直接替换原型对象
+//     1.替换前的对象，在替换之后，所有的成员都丢失
+//     2.替换原型对象的时候，需要手动去指定原型对象的construtor属性
+// * 利用混入给原型对象添加成员
+function Person(name, age){
+    this.name = name;
+    this.age = age;
+}
+//1.给原型对象中添加成员（通过对象的动态特性）不是严格意义上的继承
+Person.prototype.sayHello = function () {
+    console.log("sayHello1");
+}
+// p1对象继承原型
+var p1 = new Person("csxiaoyao",25);
+p1.sayHello();//sayHello1
+
+//2.直接替换原型对象
+var parent = {
+    sayHello : function () {
+        console.log("sayHello2");
+    }
+}
+Person.prototype = parent;
+var p2 = new Person("csxiaoyao",25);
+p2.sayHello();//sayHello2
+
+// 4.对象填充
+function Stu(name, age){
+	this.name = name;
+	this.age = age;
+	this.show = function(){
+		console.log(this.name + " " + this.age);
+	}
+}
+function MidStu(name, age, money) {
+	this.stu = Stu;//为当前对象创建Stu构造方法，赋值给stu属性
+	this.stu(name, age);//调用构造方法，为当前构造函数添加name、age、show
+	this.payFee = function(){//添加子类方法
+		console.log("缴费" + money * 0.8);
+	}
+}
+function Pupil(name, age, money) {
+	this.stu = Stu;
+	this.stu(name, age);
+	this.payFee = function(){
+		console.log("缴费" + money * 0.5);
+	}
+}
+var midStu = new MidStu("csxiaoyao", 13, 10000);
+var pupil = new Pupil("sunshine", 10, 10000);
+midStu.show();//csxiaoyao 13
+midStu.payFee();//缴费8000
+pupil.show();//sunshine 10
+pupil.payFee();//缴费5000
+
+// 5. call / apply （推荐）
+function Stu(name,age){
+	this.name=name;
+	this.age=age;
+	this.show=function(){
+		console.log(this.name+" "+this.age);
+	}
+}
+function MidStu(name,age){
+	Stu.call(this,name,age);//调用父类构造函数
+	//Stu.apply(this,[name,age]); 
+	this.pay=function(fee){
+		console.log("学费:"+fee*0.8);
+	}
+} 
+function Pupil(name,age){ 
+	Stu.call(this,name,age);
+	this.pay=function(fee){
+		console.log("学费:"+fee*0.5);
+	}
+}
+var midstu = new MidStu("csxiaoyao",15); 
+var pupil = new Pupil("sunshine",12); 
+midstu.show();// csxiaoyao 15
+midstu.pay(100);// 学费:80
+pupil.show();// sunshine 12
+pupil.pay(100);// 学费:50
+
+//【重载】
+//js通过判断参数个数、类型来实现重载
+function Person(){
+	this.test = function (){
+		if(arguments.length==1 && (typeof arguments[0])==="string"){
+			this.show1(arguments[0]);
+		}else if(arguments.length==1 && (typeof arguments[0])==="number"){
+			this.show2(arguments[0]);
+		}else if(arguments.length==2){
+			this.show3(arguments[0],arguments[1]);
+		}else if(arguments.length==3){
+			this.show4(arguments[0],arguments[1],arguments[2]);
+		}
+	}
+	this.show1=function(a){
+		console.log("function(string):"+a);
+	}
+	this.show2=function(a){
+		console.log("function(number):"+a);
+	}
+	this.show3=function(a,b){ 
+		console.log("function(a,b):"+a+","+b); 
+	}
+	function show4(a,b,c){ 
+		console.log("function(a,b,c):"+a+","+b+","+c); 
+	}
+} 
+var p1=new Person();
+p1.test("a");//function(string):a
+p1.test(1);//function(number):1
+p1.test("sun","shine");//function(a,b):sun,shine
+// p1.test("sun","shine","studio");//报错 is not a function
+
+//【多态】
+// Master类
+function Master(name){
+	this.nam=name;
+}
+//原型法添加成员函数
+Master.prototype.feed=function (animal,food){
+	console.log("给 "+animal.name+" 喂 "+ food.name);
+}
+// 食物
+function Food(name){
+	this.name=name;
+}
+function Fish(name){
+	this.food=Food;
+	this.food(name);
+}
+function Bone(name){
+	this.food=Food;
+	this.food(name);
+}
+// 动物
+function Animal(name){
+	this.name=name;
+}
+function Cat(name){
+	this.animal=Animal;
+	this.animal(name);
+}
+function Dog(name){
+	this.animal=Animal;
+	this.animal(name);
+}
+var cat=new Cat("猫");
+var fish=new Fish("鱼");
+var dog=new Dog("狗");
+var bone=new Bone("骨头");
+//创建一个主人
+var master=new Master("csxiaoyao"); 
+master.feed(dog,bone);//给 狗 喂 骨头
+master.feed(cat,fish);//给 猫 喂 鱼
+</script>
+</body>
+</html>

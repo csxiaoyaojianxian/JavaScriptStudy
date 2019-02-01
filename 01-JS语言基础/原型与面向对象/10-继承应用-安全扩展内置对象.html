@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Title</title>
+<script>
+// 安全扩展内置对象（给内置对象新增成员）
+// 如果直接修改内置对象的原型，会影响整个开发团队
+// var arr = new Array();
+var arr = [1, 2, 3];
+function MyArray() {
+    this.name = "我的数组";
+    this.sayHello = function () {
+        console.log("我的sayHello方法");
+    }
+}
+
+//继承后，MyArray中就有了原生数组对象的所有的属性和方法
+MyArray.prototype = arr;
+MyArray.prototype.fun =function () {
+
+}
+
+//另一个数组
+function MyArray2(){
+    this.sayhello = function () {
+        console.log("另一个sayHello方法");
+    }
+}
+MyArray2.prototype = arr;
+// myArr对象和myArr2对象继承自arr
+var myArr = new MyArray();
+myArr.push(4,5,6);
+console.log(myArr[1]);//2
+console.log(myArr[3]);//4
+myArr.sayHello();//我的sayHello方法
+
+var myArr2 = new MyArray2();
+console.log(myArr2[1]);//2
+console.log(myArr2[3]);//undefined
+myArr2.sayhello();//另一个sayHello方法
+
+</script>
+</head>
+<body>
+
+</body>
+</html>

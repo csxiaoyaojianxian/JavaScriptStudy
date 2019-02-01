@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Title</title>
+<script>
+
+// 【 原型的使用方法 】
+// 1. 利用对象的动态特性给原型对象添加成员
+function Person(name, status) {
+    this.name = name;
+    this.status = status;
+}
+Person.prototype.act = function () {
+    console.log("act");
+}
+var p1 = new Person("csxiaoyao", "single");
+p1.act();//sayHello
+
+// 2. 直接替换原型对象
+// 若替换前后原型对象不同
+function Person2(name, status) {
+    this.name = name;
+    this.status = status;
+}
+Person2.prototype.act = function () {
+    console.log("act");
+}
+// 替换原型对象
+Person2.prototype = {
+    msg : "替换原型对象"
+};
+var p2 = new Person2("sunshine","single");
+p2.act(); // 报错，找不到方法
+console.log(p2.msg); // 替换原型对象后
+
+</script>
+</head>
+<body>
+
+</body>
+</html>

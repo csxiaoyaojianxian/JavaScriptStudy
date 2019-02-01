@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<script>
+// var obj = new Object();
+// 【 new 】
+// 1.开辟内存空间，存储新创建的对象（ new Object() ）
+// 2.把this设置为当前对象
+// 3.执行内部代码，设置对象属性和方法
+// 4.返回新创建的对象
+
+// 【 this 】
+// 1.this只出现在函数中
+// 2.this指向函数调用者
+// 3.new People(); People中的this代指被创建的对象实例
+
+var a = new Student();
+console.log(a);//Student
+a.say();//undefined
+function Student(name){
+    this.name = name;
+    this.say = function () {
+        console.log(this.name);
+    }
+}
+var stu = new Student("csxiaoyao");
+console.log(stu);//Student
+stu.say();//csxiaoyao
+
+</script>
+</body>
+</html>

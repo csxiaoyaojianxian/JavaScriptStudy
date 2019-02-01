@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Title</title>
+<script>
+// 创建对象的方式
+//     1.字面量
+//     2.内置构造函数 new Object();
+//     3.简单工厂函数
+//     4.自定构造函数
+
+// 1. 对象字面量  {key:value,key:value...}
+// 只能创建一次对象，复用性较差，如果要创建多个对象，代码冗余度太高
+var obj = {
+    name:"sunshine",
+    company:"sunshine-studio"
+};
+
+// 2. 使用内置构造函数
+var obj = new Object();
+obj.name = "csxiaoyao";
+obj.company = "sunshine-studio";
+obj.run = function () {
+   console.log("使用内置构造函数");
+}
+
+// 3. 封装简单的工厂函数 (不推荐)
+function createObj(name,company){
+    var obj =new Object();
+    obj.name = name;
+    obj.company = company;
+    obj.run = function () {
+       console.log("使用内置构造函数");
+    }
+    return obj;
+}
+var obj = createObj("csxiaoyao","sunshine-studio");
+
+// 4. 自定义构造函数  Object Array
+//  执行过程
+//   1.使用new关键字创建对象
+//   2.调用构造函数，把新创建的对象赋值给构造函数内的this
+//   3.在构造函数内使用this为新创建出来的对象新增成员
+//   4.默认返回新创建的这个对象（普通的函数，如果不写返回语句，会返回undefined）
+//  构造函数的返回值
+//   1.如果不写返回值，默认返回的是新创建出来的对象（一般不写return语句）
+//   2.如果写return语句，return的是空值（return;），或是基本类型的值或null，都会默认返回新创建出来的对象
+//   3.如果返回的是object类型的值，将不会返回刚才新创建的对象，取而代之的是return后面的值
+function Person() {
+    this.name = "csxiaoyao";
+    this.age = 25;
+    this.sayHello = function () {
+        console.log("Hello World");
+    }
+    //这里写其他的代码也会执行
+    return null;
+}
+var p = new Person();//new Object();
+console.log(p);
+p.sayHello();
+
+// 注意：如果像使用正常的函数一样使用构造函数
+//   构造函数中的this将不再指向新创建出来的对象（因为根本就没有创建对象）
+//   构造函数中的this这个时候指向的就是window全局对象
+//    当使用this给对象添加成员的时候，全部都添加到了window上
+function Animal(name, type, barkWay) {
+    this.name = name;
+    this.type = type;
+    this.bark = barkWay;
+}
+var dog = new Animal("大黄","BYD",function () {
+    console.log("汪汪汪");
+});
+console.log(dog);
+var cat = new Animal("小花","BSM",function () {
+    console.log("喵喵喵");
+});
+console.log(typeof cat);//object
+console.log(cat);
+
+</script>
+</head>
+<body>
+
+</body>
+</html>

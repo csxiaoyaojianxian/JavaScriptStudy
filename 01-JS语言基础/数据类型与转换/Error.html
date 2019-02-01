@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script>
+        // 异常捕获语句  注意:语法异常 try catch 无法捕获
+        // try catch finally
+        // 手动抛出异常信息 使用 throw关键字 catch中会捕获到
+        // 一旦出现异常，后面的代码将不再执行
+
+        //语法：
+        try{
+            //可能会出现问题的代码
+            throw "error";
+            console.log("code");//不执行
+        }catch(e){
+            //出现异常后的处理代码
+            console.log(e);
+        }finally{
+            console.log("finally");
+            //释放资源操作
+        }
+
+
+        function sum(num1, num2){
+            if(num1 == undefined || num2 == undefined){
+                throw {
+                    errMsg: "接收参数失败",
+                    errCode: 10086
+                };
+            }else{
+                return num1 + num2;
+            }
+        }
+        try{
+            sum(0);
+        }
+        catch(e){
+            console.log(e.errMsg);//接收参数失败
+        }
+
+      
+    </script>
+</head>
+<body>
+
+</body>
+</html>

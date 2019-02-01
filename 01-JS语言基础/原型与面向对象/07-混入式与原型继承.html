@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Title</title>
+<script>
+//【 继承 】
+// 1 【 混入式继承 】
+// for in 将对象1的属性直接添加到对象2，称对象2继承自对象1
+var p = {}
+var obj = {
+    name :"csxiaoyao",
+    act :function () {
+        console.log("Hello world");
+    }
+}
+for(var k in obj){
+    p[k] = obj[k]; // p 继承自 obj
+}
+
+// 2 【 原型继承 】
+// * 利用对象的动态特性，为原型对象添加成员 xxx.xxx = xxx
+// * 直接替换原型对象
+//     1. 替换前的对象，在替换后，所有的成员都丢失
+//     2. 替换原型对象时，需手动指定原型对象的construtor属性
+// * 利用混入给原型对象添加成员
+
+// （1）利用对象动态特性
+function Person(name){
+    this.name = name;
+}
+Person.prototype.act = function () {
+    console.log("act");
+}
+var p1 = new Person("csxiaoyao"); // p1 对象继承原型
+p1.act(); // act
+
+// （2）直接替换原型对象
+var parent = {
+    act : function () {
+        console.log("act2");
+    }
+}
+Person.prototype = parent;
+var p2 = new Person("csxiaoyao");
+p2.act(); // act2
+
+</script>
+</head>
+<body>
+
+</body>
+</html>

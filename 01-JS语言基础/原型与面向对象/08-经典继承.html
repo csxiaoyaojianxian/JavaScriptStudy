@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Title</title>
+<script>
+//【 经典继承 】
+
+// 《JavaScript语言精粹》作者提出了一个方式来实现继承
+function jicheng(obj){
+    var o = {};
+    o.__proto__ = obj;
+    return o;
+}
+var o = jicheng({name:"sunshine"});
+console.log(o, o.name); // {} "sunshine"
+
+// var <对象1> = Object.create(<对象2>); // 创建的对象1继承自对象2
+// 解决Object.create方法存在的兼容性问题
+function create(obj) {
+    if(Object.create){
+        return Object.create(obj);
+    }else{
+        function F(){}
+        F.prototype = obj;
+        return new F();
+    }
+}
+
+</script>
+</head>
+<body>
+
+</body>
+</html>

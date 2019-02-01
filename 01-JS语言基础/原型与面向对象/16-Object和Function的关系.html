@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Title</title>
+<script>
+// Object构造函数 是通过 Function 构造函数实例化出来的
+// Function构造函数也是通过 Function 构造函数实例化出来的
+
+// instanceof
+// Object.prototype是否在Function原型链上
+//Function---->Function.prototype---->Object.prototype---->null
+console.log(Function instanceof Object);//true
+//Function.prototype是否在Function原型链上
+console.log(Function instanceof Function);//true
+//Object---->Function.prototype---->Object.prototype---->null
+console.log(Object instanceof Function);//true
+console.log(Object instanceof Object);//true
+
+</script>
+</head>
+<body>
+
+</body>
+</html>

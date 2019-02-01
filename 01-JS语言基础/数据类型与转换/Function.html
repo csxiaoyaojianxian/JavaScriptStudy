@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Function</title>
+<script>
+
+function Person(name, age){
+    this.name = name;
+    this.age = age;
+}
+var p = new Person("sunshine",25);
+
+// 函数声明时，里面的代码不会执行，只有在调用时，代码才会执行
+// 声明函数时的函数名，也是一个变量名，可通过这个变量名给其赋值
+// 【 函数声明三种方式 】
+// 1. 直接声明函数
+function funcName(/*参数列表*/){
+    //函数体
+}
+// 2. 函数表达式
+var funcName = function(){
+
+};
+// 3. new Function
+var func = new Function();
+
+//【 Function构造函数 】新建函数对象（即第三种函数声明方法）
+// Function接收的所有参数都是字符串类型的
+
+// （1）0个参数，创建的是一个空的函数
+// var 函数名 = new Function()
+
+// （2）1个参数，这个参数就是函数体
+//  var 函数名 = new Function("函数体")
+var func = new Function("console.log('动态创建函数');console.log(p.name);");
+func(); // 动态创建函数
+
+// （3）传多个参数，最后一个参数为函数体，前面的参数都是该函数的形参名
+// 利用 Function 创建一个求三个数中最大数的函数
+var max = new Function("a", "b", "c", "return (a > b ? a : b)> c ? (a > b? a : b):c;");
+console.log(max(34, 45, 11));//45
+//解决使用Funciton创建函数时代码过长的问题
+    // 1.可以使用字符串拼接让代码换行
+    // 2.使用模板的方式，将代码写在模板标签内，获取该标签的内容
+    // 3.使用反引号（`） 引住字符串，就可以换行了
+        //【1】字符串拼接
+        //利用 Function 创建一个求数组中最大数的函数
+        var max = new Function("arr",
+            "var maxNum = arr[0];" +
+            "for(var i = 1;i<arr.length;i++){" +
+                "if(maxNum < arr[i]){" +
+                    "maxNum = arr[i];" +
+                "}" +
+            "}" +
+            "return maxNum;"
+        )
+        console.log(max([1, 2, 3, 44, 5, 6]));//44
+        //【2】模板
+        window.onload =function () {
+            var script = document.getElementById("funcContent");
+            var str = script.innerHTML;
+            var max = new Function("arr", str);
+            console.log(max([1, 2, 3, 44, 5, 6]));//44 最后执行
+        }
+        //【3】反引号
+        var max = new Function("a", "b", "c", `return (a > b ? a : b)> c ?
+                                                        (a > b? a : b):c;`);
+        console.log(max(34, 45, 11));//45
+
+</script>
+<script type="text/template" id="funcContent">
+var maxNum = arr[0];
+for(var i = 1; i<arr.length; i++){
+    if(maxNum < arr[i]){
+        maxNum = arr[i];
+    }
+}
+return maxNum;
+</script>
+</head>
+<body>
+
+</body>
+</html>

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Title</title>
+<script>
+
+
+//获取具体类型的方式
+//var typeStr = Object.prototype.toString.call(想获取类型的对象)
+//typeStr = typeStr.slice(8, -1)
+
+var o = {};  //构造函数是Object
+var b = [];  //构造函数Array
+var c = /sdfa/;
+
+
+
+
+
+//构造函数调用模式的特征
+
+//1.构造函数的首字母要大写
+//2.一般情况下和new关键字一起使用
+//3.构造函数中的this指定的是new关键字创建出来的对象
+//4.默认返回new创建出来的这个对象
+
+function Person(){
+
+}
+var p = new Person();
+//构造函数的返回值：
+//默认返回new创建出来的对象，若是值类型的数据，没有影响
+//若是对象类型，则返回这个对象，不会返回原来创建出来的对象
+
+//1.工厂模式的构造函数
+//简单工厂模式的构造函数 创建出来的对象 跟该构造函数无关
+//简单工厂模式的构造函数，实际的调用模式是 函数模式 this-->window
+function Person(name,age){
+    var o = {
+        name:name,
+        age:age,
+        sayHello:function(){
+
+        }
+    }
+    return o;
+}
+var p = Person("csxiaoyao", 18);
+console.log(p);
+
+//2.寄生式构造函数(使用new操作符，实际无区别)
+function Person(name,age){
+    var o = {
+        name:name,
+        age:age,
+        sayHello:function(){
+
+        }
+    }
+    return o;
+}
+var p = new Person();// 和工厂模式没有区别
+// 通过new调用函数，会自动执行下面操作
+// 1 创建一个全新的对象
+// 2 这个对象会被执行[prototype]连接原型
+// 3 函数调用中的this会绑定到新对象
+// 4 如果函数没有返回其他对象，那么new 构造就会自动返回这个新对象
+</script>
+</head>
+<body>
+
+</body>
+</html>

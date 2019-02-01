@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Title</title>
+<script>
+
+function Person() {
+
+}
+
+// 1. 通过构造函数访问原型 Person.prototype
+Person.prototype.msg = "msg";
+
+// 2. 通过对象访问原型
+// __proto__ 属性是一个非标准的属性，为保证通用性不推荐使用，主要用来调试
+var p = new Person();
+console.log(p.__proto__); // object
+p.__proto__.act = function () {
+    console.log("act")
+}
+p.act();
+
+</script>
+</head>
+<body>
+
+</body>
+</html>

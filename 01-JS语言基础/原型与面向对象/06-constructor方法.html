@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title></title>
+<script>
+// 原型对象创建时，默认有一个constructor属性指向对应的构造函数
+// Person.prototype.constructor
+// 使用新的对象替换默认的原型对象之后，原型对象中的 constructor 属性会变成 Object
+
+// 为保证 （构造函数--原型--对象） 间关系的合理性，替换原型对象时，要在新原型对象中手动添加 constructor
+
+function Person(){
+
+}
+console.log(Person.prototype.constructor); // function Person(){}
+var p1 = new Person();
+var p2 = new p1.constructor(); // 相当于直接使用 new Person()
+
+// 替换原型对象
+Person.prototype = {
+    constructor : Person
+};
+Person.prototype.constructor = Person;
+
+</script>
+</head>
+<body>
+
+</body>
+</html>

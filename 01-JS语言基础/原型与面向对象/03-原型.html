@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>prototype</title>
+<script>
+// 【 传统构造函数存在的问题 】
+// 1. 全局变量增多，造成污染
+// 2. 代码结构混乱，不易维护
+function Person(name, status) {
+    this.name = name;
+    this.status = status;
+    this.act = function () {
+        console.log("act");
+    };
+}
+var p = new Person("csxiaoyao","single");
+
+// 【 原型 】
+// 构造函数创建时，系统会默认为构造函数创建并关联一个对象，这个对象就是原型
+// 原型默认是一个空的对象
+
+// 【 原型的作用 】
+// 原型中的属性和方法 可被使用该构造函数创建出来的对象使用
+
+// 【 访问构造函数的原型 】
+// [构造函数].prototype
+console.log(JSON.stringify(Person.prototype)); // Object {}
+console.log(p.prototype); // undefined
+// !!! 注意: prototype是构造函数的属性，跟对象没有关系
+
+// 【 给原型对象添加属性和方法 】使用对象的动态特性
+Person.prototype.exercise = function () {
+    console.log("prototype exercise");
+}
+p.exercise(); // prototype exercise
+
+//【 使用原型解决构造函数存在的问题 】
+// 方法：将构造函数中的函数放到原型对象中存储，可被该构造函数创建的所有对象共享访问
+function Person2(name, status, age) {
+    this.name = name;
+    this.status = status;
+    this.age = age;
+    // this.act = function () {
+    //     console.log(this.name + " act");
+    // };
+    // this.sing = function () {
+    //     console.log(this.name + " sing");
+    // };
+}
+Person2.prototype.age=18;
+Person2.prototype.act = function () {
+    console.log(this.name + " act");
+}
+Person2.prototype["sing"] = function () {
+    console.log(this.name + " sing");
+}
+
+var p2 =new Person2("csxiaoyao","single",20);
+console.log(p2.name); // csxiaoyao
+p2.sing(); // csxiaoyao sing
+for(var k in p2){
+    console.log(k,p2[k]); // 最终age返回20，而不是18
+}
+
+//【 使用原型的注意事项 】
+// 1. 对象访问属性和方法时，从自身向原型链逐层寻找，若原型链也找不到，属性返回undefined，方法报错
+// 2. 使用点语法赋值时，不会去原型修改，若对象中不存在该属性，则直接在该对象新增
+// 3. 若原型中属性为引用类型，所有对象共享该属性，当一个对象修改该引用类型属性中的成员，其他对象也受影响
+// 4. 一般不将属性放到原型对象中，只放需要共享的方法
+
+</script>
+</head>
+<body>
+
+</body>
+</html>

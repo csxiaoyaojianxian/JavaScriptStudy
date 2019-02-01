@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+<meta charset="UTF-8">
+<title></title>
+</head>
+<body>
+<script>
+// 构造函数原理
+var num1 = new Number(111);
+console.log(num1); // Number {[[PrimitiveValue]]: 111}
+var num2 = Number("111");
+console.log(num2); // 111
+
+var aaa = new Strings(222); // constructor
+console.log(aaa); // Strings {[[PrimitiveValue]]: 222}
+var bbb = Strings("222"); // constructor
+console.log(bbb); // 222
+
+function Strings(num){
+    this["[[PrimitiveValue]]"] = num;
+    console.log('constructor')
+    return num / 1;
+}
+</script>
+</body>
+</html>

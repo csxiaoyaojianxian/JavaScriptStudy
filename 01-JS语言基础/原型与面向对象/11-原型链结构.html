@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Title</title>
+<script>
+// 1.【 原型链概念 】
+// 每个构造函数都有原型对象
+// 每个对象都会有构造函数
+// 每个构造函数的原型都是一个对象
+// 那么这个原型对象也会有构造函数
+// 那么这个原型对象的构造函数也会有原型对象
+// 这样就会形成一个链式的结构，称为原型链
+
+// 2.【 对象和原型的成员关系 】
+// function Person(){};
+// var p = new Person();
+// p ---> Person.prototype ---> Object.prototype ---> null
+// p对象中包含的成员有：Person.prototype中的成员和自身拥有成员
+// Person.prototype中的成员有：Object.prototype的成员和自身的成员
+// p对象可以访问Person.prototype和Object.prototype中的所有成员
+
+// 3.【 原型继承概念 】
+// 通过修改原型链结构实现继承，叫做原型继承
+
+// 动物--->人--->老师--->坏老师
+function Animal(){
+    this.gender = "male";
+}
+function Human(){
+    this.actionWay = "走路";
+}
+function Teacher(){
+    this.skill = "教书";
+}
+function BadTeacher(){
+    this.name = "xxx";
+}
+Human.prototype = new Animal();
+Human.prototype.constructor = Human;
+
+Teacher.prototype = new Human();
+Teacher.prototype.constructor = Teacher;
+
+BadTeacher.prototype = new Teacher();
+BadTeacher.prototype.constructor = BadTeacher;
+
+var t = new BadTeacher();
+console.log(t);
+</script>
+</head>
+<body>
+</body>
+</html>
