@@ -1,0 +1,46 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+#app {
+    font-family: Avenir, Helvetica, Arial, sans-serif;
+    text-align: left;
+    color: #2c3e50;
+}
+#app .app-view {
+    position: absolute;
+    top: 52px;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+.app-header-wrapper {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    height: 52px;
+    background: #1976d2;
+    color: #fff;
+    padding: 0;
+    -webkit-box-shadow: 0 2px 4px -1px rgba(0, 0, 0, .2), 0 4px 5px rgba(0, 0, 0, .14), 0 1px 10px rgba(0, 0, 0, .12);
+            box-shadow: 0 2px 4px -1px rgba(0, 0, 0, .2), 0 4px 5px rgba(0, 0, 0, .14), 0 1px 10px rgba(0, 0, 0, .12);
+}
+.content {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    line-height: 2;
+    text-align: center;
+}
+.content h2 {
+    color: #1976d2;
+}

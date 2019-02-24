@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Home - PWA Lesson </title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+    <link rel="stylesheet" href="/static/styles/main.css">
+
+    <link rel="manifest" href="manifest.json">
+
+    <!-- 指定桌面icon -->
+    <link rel="apple-touch-icon" href="/static/img/apple-touch-icon-152x152.png">
+    <!-- 指定应用名称 -->
+    <meta name="apple-mobile-web-app-title" content="PWA Lesson">
+    <!-- 是否隐藏Safari地址栏等 -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <!-- 修改ios状态栏颜色 -->
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+</head>
+<body>
+    <div id="app">
+        <header class="app-header-wrapper">
+            <div class="app-header-left"></div>
+            <div class="app-header-middle"> PWA Lesson </div>
+            <div class="app-header-right"></div>
+        </header>
+     <!--    <div class="app-view">
+            <div class="content">
+                <h2> PWA Lesson Demo </h2>
+            </div>
+        </div> -->
+        <h1>manifest</h1>
+        <pre>
+【 name 】
+【 short_name 】
+【 display 】
+    fullscreen | standalone | minimal-ui | browser
+【 start_url 】 启动页
+    "/"
+        </pre>
+        <h1>添加图标</h1>
+        <pre>
+1. 主动添加
+2. 横幅提示添加（safari不支持）
+    部署manifest.json
+    注册service worker
+    支持https访问
+    用户在统一浏览器中至少访问两次，两次至少间隔5分钟
+        </pre>
+    </div>
+    <script>
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', function () {
+            navigator.serviceWorker.register('/sw.js', {scope: '/'})
+                .then(function (registration) {
+                    // 注册成功
+                    console.log('ServiceWorker registration successful with scope: ', registration.scope);
+                })
+                .catch(function (err) {
+                    // 注册失败:(
+                    console.log('ServiceWorker registration failed: ', err);
+                });
+        });
+    }
+  </script>
+</body>
+</html>

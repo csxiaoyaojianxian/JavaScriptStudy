@@ -1,0 +1,31 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Service Worker</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/main.css">
+</head>
+<body>
+    <div class="logo">
+        <img src="/img/logo.png">
+    </div>
+    <h1>电影热播榜单</h1>
+    <ul class="movie-list">
+        <!-- movie list -->
+    </ul>
+
+    <!-- javascript -->
+    <script src="https://cdn.bootcss.com/require.js/2.3.5/require.js"></script>
+    <script>
+        requirejs.config({
+            baseUrl: 'js',
+            paths: {
+                axios: '//cdn.bootcss.com/axios/0.18.0/axios'
+            }
+        });
+        require(['main']);
+    </script>
+</body>
+</html>

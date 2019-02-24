@@ -1,0 +1,17 @@
+{
+  "name": "pwa-lesson",
+  "version": "1.0.0",
+  "description": "PWA lesson",
+  "main": "index.html",
+  "scripts": {
+    "start": "webpack-dev-server",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "webpack": "^4.2.0",
+    "webpack-cli": "^3.2.3",
+    "webpack-dev-server": "^3.1.3"
+  }
+}

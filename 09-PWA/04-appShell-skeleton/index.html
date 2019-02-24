@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="apple-touch-fullscreen" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1">
+    <title>App Shell & Skeleton</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+
+<body>
+
+    <!-- App Shell start -->
+    <header class="header">
+        <section class="title">App Shell</section>
+    </header>
+
+    <nav class="nav">
+        <section class="nav-item active" data-id="index">首页</section>
+        <section class="nav-item" data-id="recommend">推荐</section>
+        <section class="nav-item" data-id="discovery">发现</section>
+        <section class="nav-item" data-id="user">我</section>
+    </nav>
+    <!-- App Shell end -->
+
+    <!-- skeleton start -->
+    <div class="skeleton">
+        <section class="skeleton-bar"></section>
+        <section class="skeleton-bar"></section>
+        <section class="skeleton-bar"></section>
+        <section class="skeleton-bar"></section>
+        <section class="skeleton-bar"></section>
+        <section class="skeleton-bar"></section>
+        <section class="skeleton-bar"></section>
+        <section class="skeleton-bar"></section>
+        <section class="skeleton-bar"></section>
+    </div>
+    <!-- skeleton end -->
+    
+    <main class="main">
+        <article id="article"></article>
+    </main>
+
+    <script src="app.js" async></script>
+    <script>
+    // 注册 service worker
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('/sw.js');
+    }
+    </script>
+</body>
+</html>

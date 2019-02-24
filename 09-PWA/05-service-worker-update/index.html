@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <img src="./cat.jpeg" width="100%" />
+  <script>
+    window.onload = function () {
+      var script = document.createElement('script')
+      var firstScript = document.getElementsByTagName('script')[0]
+      script.type = 'text/javascript'
+      script.async = true
+      // 未避免浏览器缓存，每次的sw-register保证是最新的，不使用缓存，但是具体注册的sw可以使用缓存
+      script.src = '/sw-register.js?v=' + Date.now()
+      firstScript.parentNode.insertBefore(script, firstScript)
+    }
+  </script>
+</body>
+</html>
