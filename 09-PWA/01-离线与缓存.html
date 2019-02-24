@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>PWA</title>
+</head>
+<body>
+<script>
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function () {
+        navigator.serviceWorker.register('/pwa.js', {scope: '/'})
+            .then(function (registration) {
+                // 注册成功
+                console.log('ServiceWorker registration successful with scope: ', registration.scope);
+            })
+            .catch(function (err) {
+                // 注册失败:(
+                console.log('ServiceWorker registration failed: ', err);
+            });
+    });
+}
+</script>
+</body>
+</html>
