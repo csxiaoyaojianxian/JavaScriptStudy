@@ -37,11 +37,21 @@
     【toUpperCase();】转大写
     ★【trim();】去除前后空格
 
-3.【简单综合应用1】字符串占位
+3.【 es6 】
+    【 字符的 Unicode 表示法 】
+    【 codePointAt() & String.fromCodePoint() 】
+    【 for...of 】
+    【 normalize() 】
+    【 includes(), startsWith(), endsWith() 】
+    【 repeat() 】
+    【 padStart(), padEnd() 】
+    【 matchAll() 】
 
-4.【简单综合应用2】统计字符串中出现次数最多的字符和次数
+4.【简单综合应用1】字符串占位
 
-5.【简单综合应用3】模拟jQuery选择器(div .div #div)
+5.【简单综合应用2】统计字符串中出现次数最多的字符和次数
+
+6.【简单综合应用3】模拟jQuery选择器(div .div #div)
 
  */
 
@@ -216,6 +226,71 @@
      */
     console.log("   a   b   c   ".trim());//a   b   c
 
+    /**
+     * 【 字符的 Unicode 表示法 】
+     */
+    '\z' === 'z'  // true
+    '\172' === 'z' // true
+    '\x7A' === 'z' // true
+    '\u007A' === 'z' // true
+    '\u{7A}' === 'z' // true，将码点放入大括号，就能正确解读该字符
+    /**
+     * 【 codePointAt() & String.fromCodePoint() 】
+     * codePointAt方法会正确返回 32 位的 UTF-16 字符的码点
+     * 对于两个字节储存的常规字符，返回结果与charCodeAt方法相同
+     */
+    let s = '𠮷a';
+    s.codePointAt(0) // 134071
+    s.codePointAt(1) // 57271
+    s.codePointAt(2) // 97
+    s.codePointAt(0).toString(16) // "20bb7"
+    /**
+     * 【 for...of 】
+     */
+    for (let i of s) {
+        console.log(i);
+    }
+    /**
+     * 【 normalize() 】
+     */
+    /**
+     * 【 includes(), startsWith(), endsWith() 】
+     * 返回布尔值
+     * 三个方法都支持第二个参数，表示开始搜索的位置
+     * endsWith的行为与其他两个方法有所不同
+     * 它针对前n个字符，而其他两个方法针对从第n个位置直到字符串结束
+     */
+    let ss = 'Hello world!';
+    ss.startsWith('world', 6) // true
+    ss.endsWith('Hello', 5) // true
+    ss.includes('Hello', 6) // false
+    /**
+     * 【 repeat() 】
+     * repeat方法返回一个新字符串，表示将原字符串重复n次
+     * 参数如果是小数，会被取整
+     */
+    'x'.repeat(3) // "xxx"
+    'hello'.repeat(2) // "hellohello"
+    'na'.repeat(0) // ""
+    /**
+     * 【 padStart(), padEnd() 】
+     * 字符串不够指定长度，在头部或尾部补全
+     */
+    'x'.padStart(4, 'ab') // 'abax'
+    'x'.padEnd(5, 'ab') // 'xabab'
+    'abc'.padStart(10, '0123456789') // '0123456abc'
+    'x'.padEnd(4) // 'x   '
+    /**
+     * 【 matchAll() 】
+     * 返回一个正则表达式在当前字符串的所有匹配
+     */
+    /**
+     * 【 模板字符串 】
+     */
+    `There are <b>${basket.count}</b> items
+    in your basket, <em>${basket.onSale}</em>
+    are on sale!`
+    
 
 //【简单综合应用1】字符串占位
     var str = "CS逍遥剑仙 www.csxiaoyao.com";
