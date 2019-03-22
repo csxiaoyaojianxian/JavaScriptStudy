@@ -47,6 +47,11 @@ console.log(Number.constructor);//function Function() { [native code] }
 console.log(Number.prototype);//Number {[[PrimitiveValue]]: 0}
 
 /**
+ * 属性 (es6)
+ */
+// Number.EPSILON 极小的常量，表示 1 与大于 1 的最小浮点数之间的差，实际上是 JavaScript 能够表示的最小精度
+
+/**
  * isNaN
  */
 // (is not a muber)
@@ -86,6 +91,37 @@ console.log(Number(7777).toPrecision(2));//7.8e+3 出现四舍五入
 console.log(Number(7777).toPrecision(5));//7777.0
 var str = num.toString(2);          // 二进制
 console.log(str);                   // 11.00100100001111110011111000000011011100001100110111
+
+/**
+ * 方法 (es6)
+ */
+// Number.isFinite() 检查一个数值是否为有限(finite)，即不是Infinity
+// Number.isNaN() 检查一个值是否为NaN
+// Number.parseInt()
+// Number.parseFloat()
+// Number.isInteger() 判断一个数值是否为整数
+// Number.isSafeInteger() 判断一个整数是否在安全范围内
+Number.isFinite(0.8); // true
+Number.isFinite(NaN); // false
+Number.isFinite(Infinity); // false
+Number.isFinite(-Infinity); // false
+Number.isFinite('15'); // false
+Number.isFinite(true); // false
+Number.isNaN(NaN) // true
+Number.isNaN(15) // false
+Number.isNaN('15') // false
+Number.isNaN(true) // false
+Number.isNaN(9/NaN) // true
+Number.isNaN('true' / 0) // true
+Number.isNaN('true' / 'true') // true
+Number.parseInt === parseInt // true
+Number.parseFloat === parseFloat // true
+
+/**
+ * 进制 (es6)
+ */
+0b111110111 === 503 // true 二进制0b
+0o767 === 503 // true 八进制0o
 
 /**
  * 类型转换，转换成数字

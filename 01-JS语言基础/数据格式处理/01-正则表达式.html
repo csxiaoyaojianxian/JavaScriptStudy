@@ -9,26 +9,28 @@
  * 【正则表达式】
  */
 /**
- * 【1 正则定义】
+ * 【 1 正则定义 】
  */
 //1.内置对象法 new RegExp("正则表达式",模式);
 // new RegExp(pattern, attributes);
 var reg1 = new RegExp(/abc/);
 var reg3 = new RegExp("abc","g");
 //2.字面量[]{}/a/
-var reg2 = /def/;
+var reg2 = /abc/;
 var reg4 = /abc/g;
-console.log(reg2);
-console.log(typeof reg2);
+console.log(reg2); // /abc/
+console.log(typeof reg2); // object
+// es6，允许RegExp构造函数第一个参数是一个正则对象，第二个参数为修饰符，而且会忽略原有的正则表达式修饰符，只使用新指定的修饰符
+new RegExp(/abc/ig, 'i').flags // i
 
 /**
- * 【2 常用方法】
+ * 【 2 常用方法 】
  */
-//test() 使用正则对象去匹配字符串，如果匹配成功返回ture，否则返回false
+// test() 使用正则对象去匹配字符串，如果匹配成功返回ture，否则返回false
 console.log(reg1.test("abc"));//true
 console.log(/abc/.test("sun"));//false
-//exec() 根据正则表达式去查找字符串符合规则的内容，返回数组，没有匹配项返回null
-//查找出三到四个字符组成的单词。
+// exec() 根据正则表达式去查找字符串符合规则的内容，返回数组，没有匹配项返回null
+// 查找出三到四个字符组成的单词。
 var str  ="sun jian feng sunshine studio";
 var reg = /\b[a-z]{3,4}\b/gi;
 var line ="";
@@ -36,11 +38,11 @@ while((line = reg.exec(str))!=null){
     document.write(line+"<br/>");//sun jian feng
 }
 console.log(reg.exec(str));// ["sun", index: 0, input: "sun jian feng sunshine studio"]
-//compile() 在脚本执行过程中编译正则表达式
+// compile() 在脚本执行过程中编译正则表达式
 reg=/abc/g;
 reg.compile(reg);
 
-// 【字符串方法】
+// 【 3 字符串方法 】
 // match() 根据正则表达式去查找字符串符合规则的内容，返回数组，没有匹配项返回null
 console.log(str.match(reg));// ["sun", "jian", "feng"]
 // replace()
@@ -74,6 +76,43 @@ console.log(str.match(reg));//["abc", "abc"]
 // g 全局模式（global）（全文查找出现的所有pattern）
 // i 不区分大小写（ease-insensitive）（忽略大小写）
 // m 执行多行匹配
+
+// u (es6) Unicode模式，正确处理大于\uFFFF的Unicode字符（四个字节的 UTF-16 编码）
+var s = '𠮷';
+/^.$/.test(s); // false
+/^.$/u.test(s); // true 对于码点大于0xFFFF的 Unicode 字符，点字符不能识别，必须加上u修饰符
+/\u{61}/.test('a'); // false 误认为是量词，61个u
+/\u{61}/u.test('a'); // true ES6新增使用大括号表示 Unicode 字符，加u才能识别当中的大括号，否则会被解读为量词
+/\u{20BB7}/u.test('𠮷'); // true
+/a{2}/.test('aa'); // true 使用u修饰符后，所有量词都会正确识别码点大于0xFFFF的 Unicode 字符
+/a{2}/u.test('aa'); // true
+/𠮷{2}/.test('𠮷𠮷'); // false
+/𠮷{2}/u.test('𠮷𠮷'); // true
+/^\S$/.test('𠮷'); // false \S是预定义模式，匹配所有非空白字符。只有加了u修饰符，它才能正确匹配码点大于0xFFFF的 Unicode 字符
+/^\S$/u.test('𠮷'); // true
+// y (es6) 粘连修饰符
+// s (es2018) 使.可以匹配任意单个字符(含行终止符)
+/foo.bar/s.test('foo\nbar') // true
+
+/**
+ * 【 属性 】
+ */
+// unicode 返回是否设置了u修饰符
+const r1 = /hello/;
+const r2 = /hello/u;
+r1.unicode // false
+r2.unicode // true
+// sticky 返回是否设置了y修饰符
+var r = /hello\d/y;
+r.sticky // true
+// dotAll
+const re = /foo.bar/s;
+re.dotAll // true
+
+// source (es5) 返回正则表达式的正文
+/abc/ig.source // "abc"
+// flags (es6) 返回正则表达式的修饰符
+/abc/ig.flags // 'gi'
 
 /**
  * 【4 使用一：五大内部类】
@@ -157,6 +196,17 @@ console.log("------------- 贪婪匹配/懒惰匹配 -------------");
 console.log("aabab".match(/a.*?b/g));       //["aab", "ab"] 懒惰匹配
 console.log("aabab".match(/a.*b/g));        //["aabab"] 贪婪匹配
 
+/**
+ * 【7 应用】
+ */
+// 正确返回字符串长度
+function codePointLength(text) {
+  var result = text.match(/[\s\S]/gu);
+  return result ? result.length : 0;
+}
+var s = '𠮷𠮷';
+s.length // 4
+codePointLength(s) // 2
 </script>
 </body>
 </html>
