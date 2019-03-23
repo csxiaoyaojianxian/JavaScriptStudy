@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>es6</title>
+</head>
+<body>
+<script>
+/**
+ * 【 Proxy 】
+ * 可对目标对象的读取、函数调用等操作进行拦截，然后进行操作处理
+ * 它不直接操作对象，而是像代理模式，通过对象的代理对象进行操作
+ */
+// Proxy 对象由两部分组成：target、handler
+let target = {
+    name: 'csxiaoyao',
+    age: 26
+}
+let handler = {
+    get: function(target, key) {
+        console.log('getting '+ key);
+        return target[key]; // 不是target.key
+    },
+    set: function(target, key, value) {
+        console.log('setting '+ key);
+        target[key] = value;
+    }
+}
+let proxy = new Proxy(target, handler)
+proxy.name     // getting name  实际执行 handler.get
+proxy.age = 25 // setting age   实际执行 handler.set
+ 
+// target 可为空对象
+let targetEpt = {}
+let proxyEpt = new Proxy(targetEpt, handler)
+// 调用 get 方法，此时目标对象为空，没有 name 属性
+proxyEpt.name // getting name
+// 调用 set 方法，向目标对象中添加了 name 属性
+proxyEpt.name = 'csxiaoyao' // setting name
+// 再次调用 get ，此时已经存在 name 属性
+proxyEpt.name // getting name "csxiaoyao"
+// 注意：通过构造函数新建实例时其实是对目标对象进行了浅拷贝，因此目标对象与代理对象会互相影响
+
+// handler 可为空对象
+// 相当于不设置拦截操作，直接访问目标对象
+let targetEmpty = {}
+let proxyEmpty = new Proxy(targetEmpty,{})
+proxyEmpty.name = "csxiaoyao" // Proxy {name: "csxiaoyao"}
+
+
+
+
+/**
+ * 【 Reflect 】
+ * 获取目标对象的行为
+ * 与 Object 类似，但是更易读
+ * 为操作对象提供了一种更优雅的方式，方法与 Proxy 是对应的
+ */
+</script>
+</body>
+</html>

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>es6</title>
+</head>
+<body>
+<script>
+/**
+ * 【 let 】
+ * 代码块内有效
+ * 不能重复声明
+ * 不存在变量提升
+ */
+for (let i = 0; i < 10; i++) {
+  setTimeout(function(){
+    console.log(i)
+  })
+}
+/**
+ * 【 const 】
+ * 声明后不允许改变（地址不变，复杂类型不可控）
+ * 一但声明必须初始化
+ * 不存在变量提升
+ * 暂时性死区
+ */
+var PI = "a";
+if(true){
+  console.log(PI);  // ReferenceError: PI is not defined
+  const PI = "3.1415926";
+}
+</script>
+</body>
+</html>

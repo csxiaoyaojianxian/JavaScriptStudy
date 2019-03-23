@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>es6</title>
+</head>
+<body>
+<script>
+/**
+ * Symbol 枚举，表示独一无二的值，可用来定义对象的唯一属性名
+ * 原始数据类型不能用 new 命令
+ * 可接受一个字符串作为参数，提供描述便于区分
+ */
+let sy1 = Symbol("csxiaoyao");
+let sy2 = Symbol("csxiaoyao"); 
+console.log(sy1);   // Symbol(csxiaoyao)
+typeof(sy1);        // "symbol"
+sy1 === sy2;        // false
+
+/**
+ * 用法：作为属性名
+ */
+let sy = Symbol("key1");
+// 写法1
+let syObject1 = {};
+syObject1[sy] = "csxiaoyao";
+// 写法2
+let syObject2 = {
+  [sy]: "csxiaoyao"
+};
+// 写法3
+let syObject3 = {};
+Object.defineProperty(syObject3, sy, {value: "csxiaoyao"});
+console.log(syObject1, syObject2, syObject3);    // {Symbol(key1): "csxiaoyao"}
+
+/**
+ * Symbol作为对象属性名时不能用.运算符，要用方括号
+ */
+// 因为.运算符后面是字符串，所以取到的是字符串 sy 属性，而不是 Symbol 值 sy 属性
+syObject1[sy];  // "csxiaoyao"
+syObject1.sy;   // undefined
+
+/**
+ * Symbol值作属性名时
+ * 该属性是公有属性不是私有属性，可以在类的外部访问
+ * 但是不会出现在 for...in 、 for...of 的循环中
+ * 也不会被 Object.keys() 、 Object.getOwnPropertyNames() 返回
+ * 如果要读取到一个对象的 Symbol 属性，可通过 Object.getOwnPropertySymbols() 和 Reflect.ownKeys() 取到
+ */
+for (let i in syObject1) {
+  console.log(i); // 无输出
+}
+Object.keys(syObject1);                     // []
+Object.getOwnPropertySymbols(syObject1);    // [Symbol(key1)]
+Reflect.ownKeys(syObject1);                 // [Symbol(key1)]
+
+/**
+ * 应用
+ */
+// 字符串不能保证常量唯一
+/*
+const COLOR_RED = "red";
+const COLOR_YELLOW = "yellow";
+const COLOR_BLUE = "blue";
+const MY_BLUE = "blue";
+*/
+// Symbol值唯一，可保证 switch 按预想的方式执行
+const COLOR_RED = Symbol("red");
+const COLOR_YELLOW = Symbol("yellow");
+const COLOR_BLUE = Symbol("blue");
+function getConstantName(color) {
+    switch (color) {
+        case COLOR_RED :
+            return "COLOR_RED";
+        case COLOR_YELLOW :
+            return "COLOR_YELLOW ";
+        case COLOR_BLUE:
+            return "COLOR_BLUE";
+        default:
+            throw new Exception('cannot find this color');
+    }
+}
+
+/**
+ * Symbol.for()
+ * 类似单例模式
+ * 首先全局搜索被登记的 Symbol 中是否存在该值
+ * 如果有即返回该 Symbol 值，若没有新建再返回并登记
+ */
+let yellow = Symbol("Yellow");                // 未登记
+let yellow1 = Symbol.for("Yellow");           // 登记
+console.log(yellow1, yellow === yellow1)      // Symbol(Yellow) false
+let yellow2 = Symbol.for("Yellow");           // 不用重复登记
+console.log(yellow2, yellow1 === yellow2)     // true
+
+/**
+ * Symbol.keyFor()
+ * 参数为symbol类型
+ * 返回已登记的 Symbol 类型值的 key，用于判断是否已经登记
+ */
+let yellow3 = Symbol.for("Yellow");           // Symbol(Yellow)
+Symbol.keyFor(yellow3);                       // "Yellow"
+</script>
+</body>
+</html>
