@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>es6</title>
+</head>
+<body>
+<script>
+/**
+ * 常用方法
+ */
+// Array.of()      将参数中所有值作为元素形成数组
+// Array.from()    将类数组对象或可迭代对象转化为数组
+// find()          查找数组中第一个符合条件的元素
+// findIndex()     查找数组中第一个符合条件的元素索引
+// fill() 】 将一定范围索引的数组元素内容填充为单个指定的值
+// copyWithin() 】 将一定范围索引的数组元素修改为此数组另一指定范围索引的元素
+
+/**
+ * es6 数组创建
+ */
+// 【 Array.of() 】 将参数中所有值作为元素形成数组
+console.log(Array.of(1, '2', true)); // [1, '2', true]
+console.log(Array.of()); // []
+
+// 【 Array.from() 】 将类数组对象或可迭代对象转化为数组
+//   Array.from(arrayLike[, mapFn[, thisArg]])
+//     arrayLike 必选，类数组对象，即一个对象必须含有length属性，且元素属性名必须是数值或者可转换为数值的字符
+//     mapFn 可选，map 函数，用于对每个元素进行处理，放入数组的是处理后的元素
+//     thisArg 可选，用于指定 map 函数执行时的 this 对象
+console.log(Array.from([1, , 3])); // [1, undefined, 3]
+console.log(Array.from([1, 2, 3], (n) => n * 2)); // [2, 4, 6]
+let arrayLike = {
+    0: '1',
+    1: '2',
+    2: 3,
+    length: 3
+};
+let map = {
+    do: function(n) {
+        return n * 2;
+    }
+}
+const retData = Array.from(arrayLike, function (n){
+    return this.do(n);
+}, map)
+console.log(retData); // [2, 4, 6]
+// 没有 length 属性,则返回空数组
+let array1 = Array.from({
+    0: '1',
+    1: '2',
+    2: 3
+});
+console.log(array1); // []
+// 元素属性名不为数值且无法转换为数值，返回长度为 length 元素值为 undefined 的数组
+let array2 = Array.from({
+    a: 1,
+    1: 2,
+    length: 2
+});
+console.log(array2); // [undefined, 2]
+//   Array.from 转换 map 为可迭代对象
+let map = new Map();
+map.set('key0', 'value0');
+map.set('key1', 'value1');
+console.log(Array.from(map)); // [['key0', 'value0'], ['key1', 'value1']]
+//   Array.from 转换 set 为可迭代对象
+let arr = [1, 2, 3];
+let set = new Set(arr);
+console.log(Array.from(set)); // [1, 2, 3]
+//   Array.from 转换字符串
+let str = 'abc';
+console.log(Array.from(str)); // ["a", "b", "c"]
+
+/**
+ * es6 数组查找
+ */
+// 【 find() 】 查找数组中符合条件的元素，若有多个则返回第一个元素
+let arr = Array.of(1, 2, 3, 4);
+console.log(arr.find(item => item > 2)); // 3
+console.log([, 1].find(n => true)); // undefined 数组空位处理为 undefined
+// 【 findIndex() 】 查找数组中符合条件的元素索引，若有多个则返回第一个元素索引
+//     参数2(可选)：指定回调函数中的 this 值
+let arr = Array.of(1, 2, 1, 3);
+console.log(arr.findIndex(item => item = 1)); // 0
+console.log([, 1].findIndex(n => true)); // 0 数组空位处理为 undefined
+
+/**
+ * es6 数组填充
+ */
+// 【 fill() 】 将一定范围索引的数组元素内容填充为单个指定的值
+//     参数1：用来填充的值
+//     参数2：被填充的起始索引
+//     参数3(可选)：被填充的结束索引，默认为数组末尾
+let arr = Array.of(1, 2, 3, 4);
+console.log(arr.fill(0,1,2)); // [1, 0, 3, 4]
+// 【 copyWithin() 】 将一定范围索引的数组元素修改为此数组另一指定范围索引的元素
+//     参数1：被修改的起始索引（负数表示倒数）
+//     参数2：被用来覆盖的数据的起始索引
+//     参数3(可选)：被用来覆盖的数据的结束索引，默认为数组末尾
+console.log([1, 2, 3, 4].copyWithin(0, 2, 4)); // [3, 4, 3, 4]
+console.log([1, 2, 3, 4].copyWithin(-2, 0)); // [1, 2, 1, 2]
+console.log([1, 2, ,4].copyWithin(0, 2, 4)); // [, 4, , 4]
+
+/**
+ * es6 数组遍历
+ */
+// 【 entries() 】 遍历键值对
+for(let [key, value] of ['a', 'b'].entries()){
+	console.log(key, value); // 0 "a"  1 "b"
+}
+// next 代替 for... of 循环
+let entries = ['a', 'b'].entries();
+console.log(entries.next().value); // [0, "a"]
+console.log(entries.next().value); // [1, "b"]
+console.log([...[,'a'].entries()]); // [[0, undefined], [1, "a"]] 数组含空位
+
+// 【 keys() 】 遍历键名
+for(let key of ['a', 'b'].keys()){
+    console.log(key); // 0 1
+}
+console.log([...[,'a'].keys()]); // [0, 1] 数组含空位
+// 【 values() 】 遍历键值
+for(let value of ['a', 'b'].values()){
+    console.log(value); // "a" "b"
+}
+console.log([...[,'a'].values()]); // [undefined, "a"] 数组含空位
+
+/**
+ * es6 数组包含
+ */
+// 【 includes() 】 数组是否包含指定值
+//     注意：与 Set 和 Map 的 has 方法区分：Set 的 has 方法用于查找值；Map 的 has 方法用于查找键名。
+//     参数1：包含的指定值
+//     参数2：可选，搜索的起始索引，默认为0
+[1, 2, 3].includes(1); // true
+[1, 2, 3].includes(1, 2); // false
+[1, NaN, 3].includes(NaN); // true
+
+/**
+ * es6 嵌套数组转一维数组
+ */
+// 【 flat() 】
+console.log([1 ,[2, 3]].flat()); // [1, 2, 3]
+console.log([1, [2, , 3]].flat()); // [1, 2, 3] 自动跳过空位
+//     指定转换的嵌套层数
+console.log([1, [2, [3, [4, 5]]]].flat(2)); // [1, 2, 3, [4, 5]]
+console.log([1, [2, [3, [4, 5]]]].flat(Infinity)); // [1, 2, 3, 4, 5]
+// 【 flatMap() 】 先对数组中每个元素进行处理，再对数组执行 flat() 方法
+//     参数1：遍历函数，该遍历函数可接受3个参数：当前元素、当前元素索引、原数组
+//     参数2：指定遍历函数中 this 的指向
+console.log([1, 2, 3].flatMap(n => [n * 2])); // [2, 4, 6]
+
+/**
+ * es6 数组缓冲区
+ */
+// 数组缓冲区是内存中的一段地址，定型数组的基础
+// 实际字节数在创建时确定，之后只可修改其中的数据，不可修改大小
+// 【 创建数组缓冲区 】
+let buffer = new ArrayBuffer(10); // 通过构造函数创建
+console.log(buffer.byteLength); // 10
+let buffer1 = buffer.slice(1, 3); // 分割已有数组缓冲区
+console.log(buffer1.byteLength); // 2
+// 【 视图 & DataView 】
+// 视图是用来操作内存的接口，可以操作数组缓冲区或缓冲区字节的子集
+// DataView 类型是一种通用的数组缓冲区视图,其支持所有8种数值型数据类型
+let buffer = new ArrayBuffer(10);
+dataView = new DataView(buffer); // 默认 DataView 可操作数组缓冲区全部内容
+dataView.setInt8(0,1);
+console.log(dataView.getInt8(0)); // 1
+let buffer1 = new ArrayBuffer(10);
+dataView1 = new DataView(buffer1, 0, 3); // 通过设定偏移量(参数2)与长度(参数3)指定 DataView 可操作的字节范围
+// dataView1.setInt8(5,1); // RangeError
+
+// 定型数组
+// 数组缓冲区的特定类型的视图。
+
+// 可以强制使用特定的数据类型，而不是使用通用的 DataView 对象来操作数组缓冲区。
+
+// 创建
+// 通过数组缓冲区生成
+
+// let buffer = new ArrayBuffer(10),
+// view = new Int8Array(buffer);
+// console.log(view.byteLength); // 10
+// 通过构造函数
+
+// let view = new Int32Array(10);
+// console.log(view.byteLength); // 40
+// console.log(view.length); // 10
+// // 不传参则默认长度为0
+// // 在这种情况下数组缓冲区分配不到空间，创建的定型数组不能用来保存数据
+// let view1 = new Int32Array();
+// console.log(view1.byteLength); // 0
+// console.log(view1.length); // 0
+// // 可接受参数包括定型数组、可迭代对象、数组、类数组对象
+// let arr = Array.from({
+// 0: '1',
+// 1: '2',
+// 2: 3,
+// length: 3
+// });
+// let view2 = new Int16Array([1, 2]),
+// view3 = new Int32Array(view2),
+// view4 = new Int16Array(new Set([1, 2, 3])),
+// view5 = new Int16Array([1, 2, 3]),
+// view6 = new Int16Array(arr);
+// console.log(view2 .buffer === view3.buffer); // false
+// console.log(view4.byteLength); // 6
+// console.log(view5.byteLength); // 6
+// console.log(view6.byteLength); // 6
+// 注意要点
+// length 属性不可写，如果尝试修改这个值，在非严格模式下会直接忽略该操作，在严格模式下会抛出错误。
+
+// let view = new Int16Array([1, 2]);
+// view.length = 3;
+// console.log(view.length); // 2
+// 定型数组可使用 entries()、keys()、values()进行迭代。
+
+// let view = new Int16Array([1, 2]);
+// for(let [k, v] of view.entries()){
+// console.log(k, v);
+// }
+// // 0 1
+// // 1 2
+// find() 等方法也可用于定型数组，但是定型数组中的方法会额外检查数值类型是否安全,也会通过 Symbol.species 确认方法的返回值是定型数组而非普通数组。concat() 方法由于两个定型数组合并结果不确定，故不能用于定型数组；另外，由于定型数组的尺寸不可更改,可以改变数组的尺寸的方法，例如 splice() ，不适用于定型数组。
+
+// let view = new Int16Array([1, 2]);
+// view.find((n) > 1); // 2
+// 所有定型数组都含有静态 of() 方法和 from() 方法,运行效果分别与 Array.of() 方法和 Array.from() 方法相似,区别是定型数组的方法返回定型数组,而普通数组的方法返回普通数组。
+
+// let view = Int16Array.of(1, 2);
+// console.log(view instanceof Int16Array); // true
+// 定型数组不是普通数组，不继承自 Array 。
+
+// let view = new Int16Array([1, 2]);
+// console.log(Array.isArray(view)); // false
+// 定型数组中增加了 set() 与 subarray() 方法。 set() 方法用于将其他数组复制到已有定型数组, subarray() 用于提取已有定型数组的一部分形成新的定型数组。
+
+// // set 方法
+// // 参数1：一个定型数组或普通数组
+// // 参数2：可选，偏移量，开始插入数据的位置，默认为0
+// let view= new Int16Array(4);
+// view.set([1, 2]);
+// view.set([3, 4], 2);
+// console.log(view); // [1, 2, 3, 4]
+// // subarray 方法
+// // 参数1：可选，开始位置
+// // 参数2：可选，结束位置(不包含结束位置)
+// let view= new Int16Array([1, 2, 3, 4]),
+// subview1 = view.subarray(),
+// subview2 = view.subarray(1),
+// subview3 = view.subarray(1, 3);
+// console.log(subview1); // [1, 2, 3, 4]
+// console.log(subview2); // [2, 3, 4]
+// console.log(subview3); // [2, 3]
+// 扩展运算符
+// 复制数组
+// let arr = [1, 2],
+// arr1 = [...arr];
+// console.log(arr1); // [1, 2]
+// // 数组含空位
+// let arr2 = [1, , 3],
+// arr3 = [...arr2];
+// console.log(arr3); [1, undefined, 3]
+// 合并数组
+
+// console.log([...[1, 2],...[3, 4]]); // [1, 2, 3, 4]
+</script>
+</body>
+</html>

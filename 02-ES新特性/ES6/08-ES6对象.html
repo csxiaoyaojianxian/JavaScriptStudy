@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>es6</title>
+</head>
+<body>
+<script>
+/**
+ * 对象字面量
+ */
+// 属性的简洁表示法
+const age = 12;
+const name = "Amy";
+const person = {age, name}; // 等同于 const person = {age: age, name: name}
+person // {age: 12, name: "Amy"}
+// 方法名也可以简写
+const person = {
+    sayHi(){ // 等同于 sayHi:function(){console.log("Hi");}
+        console.log("Hi");
+    }
+}
+person.sayHi(); //"Hi"
+// 如果是Generator 函数，则要在前面加一个星号
+const obj = {
+    * myGenerator() { // 等同于 myGenerator: function* () { yield 'hello world'; }
+        yield 'hello world';
+    }
+};
+/**
+ * 属性名表达式
+ */
+// ES6允许用表达式作为属性名，但是一定要将表达式放在方括号内
+// 注意点：属性的简洁表示法和属性名表达式不能同时使用，否则会报错
+const obj = {
+    ["he"+"llo"](){
+        return "Hi";
+    }
+}
+obj.hello(); // "Hi"
+const hello = "Hello";
+// const obj = { [hello] }; //SyntaxError: Unexpected token }
+const obj = {
+    [hello+"2"]:"world"
+};
+obj //{Hello2: "world"}
+
+/**
+ * 对象的拓展运算符
+ */
+// 拓展运算符（...）用于取出参数对象所有可遍历属性然后拷贝到当前对象
+let person = {name: "Amy", age: 15};
+someone = { ...person, name: "Mike", age: 17}; // {name: "Mike", age: 17}
+someone = {name: "Mike", age: 17, ...person}; // {name: "Amy", age: 15}
+let a = {...{}, a: 1, b: 2}; // {a: 1, b: 2}
+let b = {...null, ...undefined, a: 1, b: 2}; // {a: 1, b: 2}
+
+/**
+ * 【 Object.assign 】
+ * Object.assign(target, source_1, ...)
+ * 用于将源对象的所有可枚举属性复制到目标对象中
+ */
+let target = {a: 1};
+let object1 = {b: 2};
+let object2 = {c: 3};
+Object.assign(target,object1,object2); // {a: 1, b: 2, c: 3}
+Object.assign(3); // Number {3} 只有一个参数且为对象时直接返回该对象，不是对象时，会先转为对象然后返回
+typeof Object.assign(3); // "object"
+// Object.assign(null); // null 和 undefined 不能转化为对象，所以会报错
+// Object.assign(undefined, {a: 1}); // TypeError: Cannot convert undefined or null to object
+Object.assign(1, undefined); // Number {1} 参数为null和undefined但不放第一个时会跳过，不报错
+Object.assign({a: 1}, null); // {a: 1}
+// assign 的属性拷贝是浅拷贝
+let sourceObj = { a: { b: 1}};
+let targetObj = {c: 3};
+Object.assign(targetObj, sourceObj);
+targetObj.a.b = 2;
+sourceObj.a.b; // 2
+// 同名属性替换
+targetObj = { a: { b: 1, c:2}};
+sourceObj = { a: { b: "hh"}};
+Object.assign(targetObj, sourceObj);
+targetObj; // {a: {b: "hh"}}
+// 数组的处理
+Object.assign([2,3], [5]); // [5,3]
+// 会将数组处理成对象，所以先将 [2,3] 转为 {0:2,1:3}
+// 然后再进行属性复制，所以源对象的 0 号属性覆盖了目标对象的 0
+
+/**
+ * 【 Object.is(value1, value2) 】
+ * 用来比较两个值是否严格相等，与（===）基本类似
+ */
+Object.is("q","q"); // true
+Object.is(1,1); // true
+Object.is([1],[1]); // false
+Object.is({q:1},{q:1}); // false
+// 与（===）的区别
+Object.is(+0,-0); // false +0不等于-0
++0 === -0 // true
+Object.is(NaN,NaN); // true NaN等于本身
+NaN === NaN // false
+</script>
+</body>
+</html>

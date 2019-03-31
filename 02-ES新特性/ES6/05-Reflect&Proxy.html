@@ -312,9 +312,9 @@ Object.setPrototypeOf(proxyProto2, proto);
 // Proxy.revocable()
 // 用于返回一个可取消的 Proxy 实例
 let {proxy5, revoke} = Proxy.revocable({}, {});
-proxy5.name = "csxiaoyao";
+// proxy5.name = "csxiaoyao"; // Uncaught TypeError: Cannot set property 'name' of undefined
 revoke();
-proxy5.name
+// proxy5.name // TypeError: Cannot perform 'get' on a proxy that has been revoked
 
 /**
  * 【 Reflect 】
@@ -322,6 +322,199 @@ proxy5.name
  * 与 Object 类似，但是更易读
  * 为操作对象提供了一种更优雅的方式，方法与 Proxy 是对应的
  */
+/**
+ * Reflect.get(target, name, receiver)
+ * 查找并返回 target 对象的 name 属性
+ */
+let exam6 = {
+    name: "Tom",
+    age: 24,
+    get info () {
+        return this.name + this.age
+    }
+}
+Reflect.get(exam6, 'name'); // "Tom"
+// 当 target 对象中存在 name 属性的 getter 方法， getter 方法的 this 会绑定 receiver
+let receiver1 = {
+    name: "Jerry",
+    age: 20
+}
+Reflect.get(exam6, 'info', receiver1); // Jerry20
+// 当 name 为不存在于 target 对象的属性时，返回 undefined
+Reflect.get(exam6, 'birth'); // undefined
+
+/**
+ * Reflect.set(target, name, value, receiver)
+ * 将 target 的 name 属性设置为 value
+ * 返回值为 boolean ，true 表示修改成功，false 表示失败。当 target 为不存在的对象时，会报错。
+ */
+let exam7 = {
+    name: "Tom",
+    age: 24,
+    set info(value){
+        return this.age = value;
+    }
+}
+exam7.age; // 24
+Reflect.set(exam7, 'age', 25); // true
+exam7.age; // 25
+// value 为空时会将 name 属性清除
+Reflect.set(exam7, 'age', ); // true
+exam7.age; // undefined
+// 当 target 对象中存在 name 属性 setter 方法时，setter 方法中的 this 会绑定 receiver, 所以修改的实际上是 receiver 的属性
+let receiver2 = {
+    age: 18
+}
+Reflect.set(exam7, 'info', 1, receiver2); // true
+receiver2.age; // 1
+let receiver3 = {
+    name: 'sunshine'
+}
+/**
+ * Reflect.has(obj, name)
+ * 是 name in obj 指令的函数化
+ * 用于查找 name 属性在 obj 对象中是否存在
+ * 返回值为 boolean, 如果 obj 不是对象则会报错 TypeError
+ */
+let exam8 = {
+    name: "Tom",
+    age: 24
+}
+Reflect.has(exam8, 'name'); // true
+/**
+ * Reflect.deleteProperty(obj, property)
+ * 是 delete obj[property] 的函数化
+ * 用于删除 obj 对象的 property 属性
+ * 返回值为 boolean, 如果 obj 不是对象则会报错 TypeError
+ */
+let exam9 = {
+    name: "Tom",
+    age: 24
+}
+Reflect.deleteProperty(exam9 , 'name'); // true
+exam9 // {age: 24} 
+// property 不存在时，也会返回 true
+Reflect.deleteProperty(exam9 , 'name'); // true
+/**
+ * Reflect.construct(obj, args)
+ * 等同于 new target(...args)
+ */
+function exam10(name){
+    this.name = name;
+}
+Reflect.construct(exam10, ['Tom']); // exam10 {name: "Tom"}
+/**
+ * Reflect.getPrototypeOf(obj)
+ * 用于读取 obj 的 _proto_ 属性
+ * 在 obj 不是对象时不会像 Object 一样把 obj 转为对象，而是会报错
+ */
+class Exam11{}
+let obj2 = new Exam11()
+Reflect.getPrototypeOf(obj2) === Exam11.prototype // true
+/**
+ * Reflect.setPrototypeOf(obj, newProto)
+ * 用于设置目标对象的 prototype
+ */
+let obj3 ={}
+Reflect.setPrototypeOf(obj3, Array.prototype); // true
+/**
+ * Reflect.apply(func, thisArg, args)
+ * 等同于 Function.prototype.apply.call(func, thisArg, args)
+ *  func 表示目标函数；
+ *  thisArg 表示目标函数绑定的 this 对象；
+ *  args 表示目标函数调用时传入的参数列表，可以是数组或类似数组的对象
+ * 若目标函数无法调用，会抛出 TypeError
+ */
+Reflect.apply(Math.max, Math, [1, 3, 5, 3, 1]); // 5
+/**
+ * Reflect.defineProperty(target, propertyKey, attributes)
+ * 用于为目标对象定义属性。如果 target 不是对象，会抛出错误
+ */
+let myDate= {}
+Reflect.defineProperty(myDate, 'now', {
+    value: () => Date.now()
+}); // true
+/**
+ * Reflect.getOwnPropertyDescriptor(target, propertyKey)
+ * 用于得到 target 对象的 propertyKey 属性的描述对象
+ * 在 target 不是对象时，会抛出错误表示参数非法，不会将非对象转换为对象
+ */
+var exam12 = {}
+Reflect.defineProperty(exam12, 'name', {
+    value: true,
+    enumerable: false
+})
+const retData3 = Reflect.getOwnPropertyDescriptor(exam12, 'name')
+console.log(retData3) // { configurable: false, enumerable: false, value: true, writable: false}
+// propertyKey 属性在 target 对象中不存在时，返回 undefined
+Reflect.getOwnPropertyDescriptor(exam12, 'age') // undefined
+/**
+ * Reflect.isExtensible(target)
+ * 用于判断 target 对象是否可扩展
+ * 返回值为 boolean, 如果 target 参数不是对象，会抛出错误
+ */
+let exam13 = {}
+Reflect.isExtensible(exam13) // true
+/**
+ * Reflect.preventExtensions(target)
+ * 用于让 target 对象变为不可扩展, 如果 target 参数不是对象，会抛出错误
+ */
+let exam14 = {}
+Reflect.preventExtensions(exam14) // true
+/**
+ * Reflect.ownKeys(target)
+ * 用于返回 target 对象的所有属性，等同于 Object.getOwnPropertyNames 与 Object.getOwnPropertySymbols 之和
+ */
+var exam15 = {
+    name: 1,
+    [Symbol.for('age')]: 4
+}
+const retData4 = Reflect.ownKeys(exam15)
+console.log(exam15, Object.getOwnPropertyNames(exam15), retData4) // ["name", Symbol(age)]
+
+/**
+ * 【 组合使用 】
+ * Reflect 对象的方法与 Proxy 对象的方法是一一对应的
+ * 所以 Proxy 对象的方法可以通过调用 Reflect 对象的方法获取默认行为，然后进行额外操作
+ */
+let exam16 = {
+    name: "Tom",
+    age: 24
+}
+let handler9 = {
+    get: function(target, key){
+        console.log("getting "+key);
+        return Reflect.get(target,key);
+    },
+    set: function(target, key, value){
+        console.log("setting "+key+" to "+value)
+        Reflect.set(target, key, value);
+    }
+}
+let proxy6 = new Proxy(exam16, handler9)
+proxy6.name = "Jerry" // setting name to Jerry
+proxy6.name // getting name
+// "Jerry"
+
+/**
+ * 【 使用场景拓展 】
+ * 实现观察者模式
+ */
+// 定义 Set 集合
+const queuedObservers = new Set();
+// 把观察者函数都放入 Set 集合中（多次add）
+const observe = fn => queuedObservers.add(fn);
+// set方法
+function set(target, key, value, receiver) {
+    // 获取对象的赋值操作
+    const result = Reflect.set(target, key, value, receiver);
+    // 执行所有观察者
+    queuedObservers.forEach(observer => observer());
+    // 执行赋值操作
+    return result;
+}
+// observable 返回原始对象的代理，拦截赋值操作
+const observable = obj => new Proxy(obj, {set});
 
 </script>
 </body>

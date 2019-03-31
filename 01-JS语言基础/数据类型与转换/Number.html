@@ -45,11 +45,26 @@ console.log(-1/0);//-Infinity
 console.log(Number.NaN);//NaN
 console.log(Number.constructor);//function Function() { [native code] }
 console.log(Number.prototype);//Number {[[PrimitiveValue]]: 0}
-
 /**
  * 属性 (es6)
  */
-// Number.EPSILON 极小的常量，表示 1 与大于 1 的最小浮点数之间的差，实际上是 JavaScript 能够表示的最小精度
+// Number.EPSILON 极小的常量，表示 1 与大于 1 的最小浮点数之间的差
+// MAX_SAFE_INTEGER / MIN_SAFE_INTEGER 最大/最小安全整数
+
+// Number.EPSILON
+// 极小的常量，表示 1 与大于 1 的最小浮点数之间的差，实际上是 JavaScript 能够表示的最小精度
+// 它的值接近于 2.2204460492503130808472633361816E-16，或者 2-52
+0.1 + 0.2 === 0.3; // false
+equal = (Math.abs(0.1 - 0.3 + 0.2) < Number.EPSILON); // true 在误差范围内即视为相等
+
+// MAX_SAFE_INTEGER / MIN_SAFE_INTEGER 最大/最小安全整数
+// 安全整数表示在 JavaScript 中能够精确表示的整数，安全整数的范围在 2 的 -53 次方到 2 的 53 次方之间（不包括两个端点），超过这个范围的整数无法精确表示
+// 最大安全整数，2^53-1
+Number.MAX_SAFE_INTEGER + 1 === Number.MAX_SAFE_INTEGER + 2; // true
+Number.MAX_SAFE_INTEGER === Number.MAX_SAFE_INTEGER + 1; // false
+// 最小安全整数，-(2^53-1)
+Number.MIN_SAFE_INTEGER + 1 === Number.MIN_SAFE_INTEGER + 2; // false
+Number.MIN_SAFE_INTEGER === Number.MIN_SAFE_INTEGER - 1; // false
 
 /**
  * isNaN
@@ -91,14 +106,13 @@ console.log(Number(7777).toPrecision(2));//7.8e+3 出现四舍五入
 console.log(Number(7777).toPrecision(5));//7777.0
 var str = num.toString(2);          // 二进制
 console.log(str);                   // 11.00100100001111110011111000000011011100001100110111
-
 /**
  * 方法 (es6)
  */
 // Number.isFinite() 检查一个数值是否为有限(finite)，即不是Infinity
 // Number.isNaN() 检查一个值是否为NaN
-// Number.parseInt()
-// Number.parseFloat()
+// Number.parseInt() 和全局方法相同，用于全局变量的模块化
+// Number.parseFloat() 和全局方法相同，用于全局变量的模块化
 // Number.isInteger() 判断一个数值是否为整数
 // Number.isSafeInteger() 判断一个整数是否在安全范围内
 Number.isFinite(0.8); // true
@@ -119,6 +133,8 @@ Number.parseFloat === parseFloat // true
 
 /**
  * 进制 (es6)
+ * 二进制表示法新写法: 前缀 0b 或 0B
+ * 八进制表示法新写法: 前缀 0o 或 0O
  */
 0b111110111 === 503 // true 二进制0b
 0o767 === 503 // true 八进制0o
