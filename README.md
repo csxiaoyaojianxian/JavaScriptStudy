@@ -3,6 +3,8 @@
 
 CS逍遥剑仙 的 JavaScript的学习之路，持续更新   [![](
 https://img.shields.io/badge/author-csxiaoyao-brightgreen.svg)](http://www.csxiaoyao.com)  [![](https://img.shields.io/github/issues/csxiaoyaojianxian/JavaScriptStudy.svg)](https://github.com/csxiaoyaojianxian/JavaScriptStudy/issues)   [![](https://img.shields.io/github/forks/csxiaoyaojianxian/JavaScriptStudy.svg)](https://github.com/csxiaoyaojianxian/JavaScriptStudy/fork)   [![](https://img.shields.io/github/stars/csxiaoyaojianxian/JavaScriptStudy.svg)](https://github.com/csxiaoyaojianxian/JavaScriptStudy/star)   [![](https://img.shields.io/github/license/csxiaoyaojianxian/JavaScriptStudy.svg)](https://github.com/csxiaoyaojianxian/JavaScriptStudy/blob/master/LICENSE)
+[![996.icu](https://img.shields.io/badge/link-996.icu-red.svg)](https://996.icu)
+[![LICENSE](https://img.shields.io/badge/license-Anti%20996-blue.svg)](https://github.com/996icu/996.ICU/blob/master/LICENSE)
 
 > Write By CS逍遥剑仙  
 > 我的主页: [www.csxiaoyao.com](http://www.csxiaoyao.com)  
