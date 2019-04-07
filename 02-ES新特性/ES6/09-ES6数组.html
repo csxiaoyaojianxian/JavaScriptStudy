@@ -11,12 +11,21 @@
 /**
  * 常用方法
  */
-// Array.of()      将参数中所有值作为元素形成数组
-// Array.from()    将类数组对象或可迭代对象转化为数组
-// find()          查找数组中第一个符合条件的元素
-// findIndex()     查找数组中第一个符合条件的元素索引
-// fill() 】 将一定范围索引的数组元素内容填充为单个指定的值
-// copyWithin() 】 将一定范围索引的数组元素修改为此数组另一指定范围索引的元素
+// Array.of()        将参数中所有值作为元素形成数组
+// Array.from()      将类数组对象或可迭代对象转化为数组
+// find()            查找数组中第一个符合条件的元素
+// findIndex()       查找数组中第一个符合条件的元素索引
+// fill()            将一定范围索引的数组元素内容填充为单个指定的值
+// copyWithin()      将一定范围索引的数组元素修改为此数组另一指定范围索引的元素
+// entries() / next  遍历键值对
+// keys()            遍历键名
+// values()          遍历键值
+// includes()        数组是否包含指定值
+// flat()            嵌套数组转一维数组
+// flatMap()         遍历元素再对数组执行 flat() 方法
+// ...               复制 / 合并数组
+// 数组缓冲区 ArrayBuffer / DataView
+// 定型数组 Int8Array / Int16Array / Int32Array
 
 /**
  * es6 数组创建
@@ -142,7 +151,7 @@ console.log([...[,'a'].values()]); // [undefined, "a"] 数组含空位
 /**
  * es6 嵌套数组转一维数组
  */
-// 【 flat() 】
+// 【 flat() 】 嵌套数组转一维数组
 console.log([1 ,[2, 3]].flat()); // [1, 2, 3]
 console.log([1, [2, , 3]].flat()); // [1, 2, 3] 自动跳过空位
 //     指定转换的嵌套层数
@@ -154,9 +163,23 @@ console.log([1, [2, [3, [4, 5]]]].flat(Infinity)); // [1, 2, 3, 4, 5]
 console.log([1, 2, 3].flatMap(n => [n * 2])); // [2, 4, 6]
 
 /**
- * es6 数组缓冲区
+ * 扩展运算符
  */
-// 数组缓冲区是内存中的一段地址，定型数组的基础
+// 复制数组
+let arr = [1, 2],
+arr1 = [...arr];
+console.log(arr1); // [1, 2]
+let arr2 = [1, , 3], // 数组含空位
+arr3 = [...arr2];
+console.log(arr3); [1, undefined, 3]
+// 合并数组
+console.log([...[1, 2],...[3, 4]]); // [1, 2, 3, 4]
+
+/**
+ * es6 数组缓冲区
+ * ArrayBuffer DataView
+ */
+// 数组缓冲区是内存中的一段地址（定型数组的基础）
 // 实际字节数在创建时确定，之后只可修改其中的数据，不可修改大小
 // 【 创建数组缓冲区 】
 let buffer = new ArrayBuffer(10); // 通过构造函数创建
@@ -174,100 +197,84 @@ let buffer1 = new ArrayBuffer(10);
 dataView1 = new DataView(buffer1, 0, 3); // 通过设定偏移量(参数2)与长度(参数3)指定 DataView 可操作的字节范围
 // dataView1.setInt8(5,1); // RangeError
 
-// 定型数组
-// 数组缓冲区的特定类型的视图。
+/**
+ * es6 定型数组
+ * Int8Array Int16Array Int32Array
+ */
+// 数组缓冲区的特定类型的视图
+// 可以强制使用特定的数据类型，而不是使用通用的 DataView 对象来操作数组缓冲区
+// 【 创建1 】 通过数组缓冲区生成
+let buffer = new ArrayBuffer(10),
+view = new Int8Array(buffer);
+console.log(view.byteLength); // 10
+// 【 创建2 】 通过构造函数
+let view = new Int32Array(10);
+console.log(view.byteLength); // 40
+console.log(view.length); // 10
+let view1 = new Int32Array(); // 不传参则默认长度为0，数组缓冲区分配不到空间，创建的定型数组不能用来保存数据
+console.log(view1.byteLength); // 0
+console.log(view1.length); // 0
+// 可接受参数包括定型数组、可迭代对象、数组、类数组对象
+let arr = Array.from({
+    0: '1',
+    1: '2',
+    2: 3,
+    length: 3
+});
+let view2 = new Int16Array([1, 2]),
+view3 = new Int32Array(view2),
+view4 = new Int16Array(new Set([1, 2, 3])),
+view5 = new Int16Array([1, 2, 3]),
+view6 = new Int16Array(arr);
+console.log(view2.buffer === view3.buffer); // false
+console.log(view4.byteLength); // 6
+console.log(view5.byteLength); // 6
+console.log(view6.byteLength); // 6
+// 注意要点: length 属性不可写，如果尝试修改这个值，在非严格模式下会直接忽略该操作，在严格模式下会抛出错误
+let view = new Int16Array([1, 2]);
+view.length = 3;
+console.log(view.length); // 2
+// 定型数组可使用 entries()、keys()、values() 进行迭代
+let view = new Int16Array([1, 2]);
+for(let [k, v] of view.entries()){
+    console.log(k, v); // 0 1 | 1 2
+}
+// find() 等方法也可用于定型数组
+//   但是定型数组中的方法会额外检查数值类型是否安全
+//   也会通过 Symbol.species 确认方法的返回值是定型数组而非普通数组
+// concat() 方法由于两个定型数组合并结果不确定，故不能用于定型数组
+// 由于定型数组的尺寸不可更改,可以改变数组的尺寸的方法，例如 splice()，不适用于定型数组
+let view = new Int16Array([1, 2]);
+view.find((n) > 1); // 2
+// 所有定型数组都含有静态 of() 方法和 from() 方法
+// 运行效果分别与 Array.of() 方法和 Array.from() 方法相似
+// 区别是定型数组的方法返回定型数组，而普通数组的方法返回普通数组
+let view = Int16Array.of(1, 2);
+console.log(view instanceof Int16Array); // true
+// 定型数组不是普通数组，不继承自 Array
+let view = new Int16Array([1, 2]);
+console.log(Array.isArray(view)); // false
+// 定型数组中增加了 set() 与 subarray() 方法
+// set() 方法用于将其他数组复制到已有定型数组
+// subarray() 用于提取已有定型数组的一部分形成新的定型数组
+// set 方法
+//   参数1：一个定型数组或普通数组
+//   参数2：可选，偏移量，开始插入数据的位置，默认为0
+let view= new Int16Array(4);
+view.set([1, 2]);
+view.set([3, 4], 2);
+console.log(view); // [1, 2, 3, 4]
+// subarray 方法
+//   参数1：可选，开始位置
+//   参数2：可选，结束位置(不包含结束位置)
+let view= new Int16Array([1, 2, 3, 4]),
+subview1 = view.subarray(),
+subview2 = view.subarray(1),
+subview3 = view.subarray(1, 3);
+console.log(subview1); // [1, 2, 3, 4]
+console.log(subview2); // [2, 3, 4]
+console.log(subview3); // [2, 3]
 
-// 可以强制使用特定的数据类型，而不是使用通用的 DataView 对象来操作数组缓冲区。
-
-// 创建
-// 通过数组缓冲区生成
-
-// let buffer = new ArrayBuffer(10),
-// view = new Int8Array(buffer);
-// console.log(view.byteLength); // 10
-// 通过构造函数
-
-// let view = new Int32Array(10);
-// console.log(view.byteLength); // 40
-// console.log(view.length); // 10
-// // 不传参则默认长度为0
-// // 在这种情况下数组缓冲区分配不到空间，创建的定型数组不能用来保存数据
-// let view1 = new Int32Array();
-// console.log(view1.byteLength); // 0
-// console.log(view1.length); // 0
-// // 可接受参数包括定型数组、可迭代对象、数组、类数组对象
-// let arr = Array.from({
-// 0: '1',
-// 1: '2',
-// 2: 3,
-// length: 3
-// });
-// let view2 = new Int16Array([1, 2]),
-// view3 = new Int32Array(view2),
-// view4 = new Int16Array(new Set([1, 2, 3])),
-// view5 = new Int16Array([1, 2, 3]),
-// view6 = new Int16Array(arr);
-// console.log(view2 .buffer === view3.buffer); // false
-// console.log(view4.byteLength); // 6
-// console.log(view5.byteLength); // 6
-// console.log(view6.byteLength); // 6
-// 注意要点
-// length 属性不可写，如果尝试修改这个值，在非严格模式下会直接忽略该操作，在严格模式下会抛出错误。
-
-// let view = new Int16Array([1, 2]);
-// view.length = 3;
-// console.log(view.length); // 2
-// 定型数组可使用 entries()、keys()、values()进行迭代。
-
-// let view = new Int16Array([1, 2]);
-// for(let [k, v] of view.entries()){
-// console.log(k, v);
-// }
-// // 0 1
-// // 1 2
-// find() 等方法也可用于定型数组，但是定型数组中的方法会额外检查数值类型是否安全,也会通过 Symbol.species 确认方法的返回值是定型数组而非普通数组。concat() 方法由于两个定型数组合并结果不确定，故不能用于定型数组；另外，由于定型数组的尺寸不可更改,可以改变数组的尺寸的方法，例如 splice() ，不适用于定型数组。
-
-// let view = new Int16Array([1, 2]);
-// view.find((n) > 1); // 2
-// 所有定型数组都含有静态 of() 方法和 from() 方法,运行效果分别与 Array.of() 方法和 Array.from() 方法相似,区别是定型数组的方法返回定型数组,而普通数组的方法返回普通数组。
-
-// let view = Int16Array.of(1, 2);
-// console.log(view instanceof Int16Array); // true
-// 定型数组不是普通数组，不继承自 Array 。
-
-// let view = new Int16Array([1, 2]);
-// console.log(Array.isArray(view)); // false
-// 定型数组中增加了 set() 与 subarray() 方法。 set() 方法用于将其他数组复制到已有定型数组, subarray() 用于提取已有定型数组的一部分形成新的定型数组。
-
-// // set 方法
-// // 参数1：一个定型数组或普通数组
-// // 参数2：可选，偏移量，开始插入数据的位置，默认为0
-// let view= new Int16Array(4);
-// view.set([1, 2]);
-// view.set([3, 4], 2);
-// console.log(view); // [1, 2, 3, 4]
-// // subarray 方法
-// // 参数1：可选，开始位置
-// // 参数2：可选，结束位置(不包含结束位置)
-// let view= new Int16Array([1, 2, 3, 4]),
-// subview1 = view.subarray(),
-// subview2 = view.subarray(1),
-// subview3 = view.subarray(1, 3);
-// console.log(subview1); // [1, 2, 3, 4]
-// console.log(subview2); // [2, 3, 4]
-// console.log(subview3); // [2, 3]
-// 扩展运算符
-// 复制数组
-// let arr = [1, 2],
-// arr1 = [...arr];
-// console.log(arr1); // [1, 2]
-// // 数组含空位
-// let arr2 = [1, , 3],
-// arr3 = [...arr2];
-// console.log(arr3); [1, undefined, 3]
-// 合并数组
-
-// console.log([...[1, 2],...[3, 4]]); // [1, 2, 3, 4]
 </script>
 </body>
 </html>

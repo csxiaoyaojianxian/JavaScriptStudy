@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>es6</title>
+</head>
+<body>
+<script>
+/**
+ * 迭代的过程
+ * 
+ */
+// 1. 通过 Symbol.iterator 创建一个迭代器，指向当前数据结构的起始位置
+// 2. 通过 next 方法向下迭代指向下一个位置， next 方法返回当前位置的对象(包含当前属性值 value 和是否遍历结束 done 两个属性)
+// 3. 当 done 为 true 时则遍历结束
+// 【 可迭代的数据结构 】
+// Array、String、Map、Set、Dom元素（正在进行中）
+const items = ["zero", "one", "two"];
+const it = items[Symbol.iterator]();
+console.log(it.next()); // {value: "zero", done: false}
+console.log(it.next()); // {value: "one", done: false}
+console.log(it.next()); // {value: "two", done: false}
+console.log(it.next()); // {value: undefined, done: true}
+
+/**
+ * 【 for...of 】 循环（ES6）
+ * 用于替代 for..in 和 forEach() ，并且支持新的迭代协议
+ */
+// Array
+for (let item of ["zero", "one", "two"]) {
+    console.log(item); // zero one two
+}
+// TypedArray
+const typedArray = new Int8Array(6);
+typedArray[0] = 10;
+typedArray[1] = 11;
+for (let item of typedArray) {
+    console.log(item); // 10 11 0 0 0 0
+}
+// String  遍历Unicode码(每个码可能包含一个到两个Javascript字符)
+for (const c of 'z\uD83D\uDC0A') {
+    console.log(c); // z \uD83D\uDC0A
+}
+// Map  迭代entries，即[key, value]
+const map = new Map();
+map.set(0, "zero");
+map.set(1, "one");
+for (let item of map) {
+    console.log(item); // [0, "zero"] [1, "one"]
+}
+for (let [key, value] of map.entries()) {
+    console.log(key + " = " + value); // 0 = zero  1 = one
+}
+for (let key of map.keys()) {
+    console.log(key); // 0 1
+}
+for (let value of map.values()) {
+    console.log(value); // zero one
+}
+// Set
+const set = new Set();
+set.add("zero");
+set.add("one");
+for (let item of set) {
+    console.log(item); // zero one
+}
+for (let [key, value] of set.entries()) {
+    // 遍历 key 和 value ，两者相等
+    console.log(key + " = " + value); // zero = zero  one = one
+}
+for (let key of set.keys()) {
+    console.log(key); // zero one
+}
+for (let value of set.values()) {
+    console.log(value); // zero one
+}
+// arguments
+function args() {
+    for (let item of arguments) {
+        console.log(item);
+    }
+}
+args("zero", "one"); // zero one
+
+// ！！！ 普通对象由 object 创建，不可迭代，类数组可以使用Array.from()方法转换迭代
+const arrayLink = {length: 2, 0: "zero", 1: "one"}
+// for (let item of arrayLink) {
+//     console.log(item); // TypeError
+// }
+for (let item of Array.from(arrayLink)) {
+    console.log(item); // zero one
+}
+</script>
+</body>
+</html>

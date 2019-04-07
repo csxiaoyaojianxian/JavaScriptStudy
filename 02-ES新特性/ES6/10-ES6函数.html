@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>es6</title>
+</head>
+<body>
+<script>
+/**
+ * 【 函数参数扩展 】
+ */
+// 1. 默认参数
+function fn(name, age = 17){ console.log(name + "," + age); }
+fn("Amy",18); // Amy,18
+fn("Amy"); // Amy,17
+fn("Amy",null); // Amy,null 参数为undefined时才会使用默认参数，null值被认为是有效的值传递
+// 2. 参数暂时性死区: 未初始化赋值的参数值无法作为其他参数的默认值
+function bar1(x = y, y = 2) { return [x, y]; }
+// bar1(); // 报错
+function bar2(x = 2, y = x) { return [x, y]; }
+bar2(); // [2, 2]
+// 3. 不定参数
+function f(...values){ console.log(values, values.length); }
+f(1,2,3); // [1, 2, 3] 3
+
+/**
+ * 【 箭头函数 】
+ * 不可作为构造函数，即不能使用 new 命令
+ */
+var f = v => v; // 等价于 var f = function(v){return v;}
+f(1); // 1
+// 1. 没有参数或有多个参数，要用()
+var f = (a,b) => a+b;
+f(6,2); // 8
+// 2. 函数体有多行语句，用{}表示代码块
+var f = (a,b) => {
+    let result = a+b;
+    return result;
+}
+f(6,2); // 8
+// var f = (id,name) => {id: id, name: name}; // 报错, 直接返回对象时为区分于代码块，要用()
+var f = (id,name) => ({id: id, name: name});
+// 3. 没有 this、super、arguments 和 new.target 绑定
+//   箭头函数没有 this 对象，此时 this 是外层的 this 对象，即 Window
+var func = () => { console.log(this) };  func(1) // Window
+var func = () => { console.log(arguments) } // func(1); // ReferenceError: arguments is not defined
+function fn(){
+    // 定义时，this 绑定的是 fn 中的 this 对象
+    setTimeout(()=>{ console.log(this.a); },0)
+}
+fn.call({a: 18}); // 18 fn 的 this 对象为 {a: 18}
+
+/**
+ * 应用
+ */
+// 适合场景1: 回调函数
+var age = 20;
+var Person1 = {
+    'age': 18,
+    'sayHello': function () {
+        setTimeout(function () {
+            console.log(this, this.age);
+        });
+    }
+};
+var Person2 = {
+    'age': 18,
+    'sayHello': function () {
+        setTimeout(()=>{
+            console.log(this, this.age);
+        });
+    }
+};
+Person1.sayHello(); // window 20
+Person2.sayHello(); // {age: 18, sayHello: ƒ} 18
+
+// 不适合场景1: 定义函数的方法，且该方法中包含 this
+var age = 20;
+var Person3 = {
+    'age': 18,
+    'sayHello': () => {
+        console.log(this.age);
+    }
+};
+Person3.sayHello(); // 20 此时 this 指向的是全局对象
+// 不适合场景1: 需要动态 this 的时候
+var button = document.getElementById('userClick');
+button.addEventListener('click', () => {
+    this.classList.toggle('on'); // this指向即Window，非被点击的按钮对象
+});
+
+</script>
+</body>
+</html>
