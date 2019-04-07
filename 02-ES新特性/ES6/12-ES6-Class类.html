@@ -9,7 +9,12 @@
 <body>
 <script>
 // class是对象模板，本质是function语法糖
-// 类定义
+/**
+ * 【 类声明 】
+ *  注意：
+ *   1. 类定义不会提升
+*    2. 不可重复声明
+ */
 // 匿名类
 let Example1 = class {
     constructor(a) {
@@ -17,11 +22,263 @@ let Example1 = class {
     }
 }
 // 命名类
-let Example2 = class Example {
+class Example2 {
     constructor(a) {
         this.a = a;
     }
 }
+
+/**
+ * 【 类的主体 】
+ */
+// 【 属性 】
+// - prototype  虽可以直接在类中定义方法，但方法本质上还是定义在prototype上的
+class Example3 {
+    func1 () { return 'ret-func1' }
+}
+Object.assign(Example3.prototype, {
+    // 添加方法
+    func2: function () { return 'ret-func2' }
+})
+var exam3 = new Example3('csxiaoyao');
+console.log(exam3.func1(), exam3.func2()) // ret-func1 ret-func2
+
+// - name 属性
+let Example4 = class Example4 {}
+console.log(Example4.name); // Example4  返回class后的类名(存在时)
+
+// - 公共属性
+class Example5{}
+Example5.prototype.a = 1;
+console.log((new Example5()).a) // 1
+
+class Example6 {
+    a = 1; // 实例属性，定义在实例对象（ this ）上的属性
+    constructor () {
+        console.log(this.a);
+    }
+}
+new Example6() // 1
+
+// - 静态属性
+class Example7 {
+    static a = 1;
+}
+Example7.b = 2;
+console.log(Example7.a, Example7.b) // 1 2
+
+// 【 方法 】
+// - constructor 方法返回对象 （类的默认方法，实例化对象时被调用）
+class Example8 {
+    constructor(){
+        console.log('constructor');
+        // 默认返回实例对象 this
+    }
+}
+console.log(new Example8() instanceof Example8); // true
+// - 原型方法
+class Example9 {
+    sum(a, b) {
+        return a+b;
+    }
+}
+let exam9 = new Example9();
+console.log(exam9.sum(1, 2)); // 3
+// - 实例方法
+class Example10 {
+    constructor() {
+        this.sum = (a, b) => {
+            return a+b;
+        }
+    }
+}
+let exam10 = new Example10();
+console.log(exam10.sum(1, 2)); // 3
+// - 静态方法
+class Example11{
+    static sum (a, b) {
+        return a+b;
+    }
+}
+console.log(Example11.sum(1, 2)); // 3
+
+/**
+ * 【 实例化 】
+ */
+// 共享原型对象
+class Example12 {
+    constructor(a, b) {
+        this.a = a;
+        this.b = b;
+    }
+    sum () {
+        return this.a + this.b;
+    }
+}
+let exam12_1 = new Example12(2, 1), exam12_2 = new Example12(3, 1);
+exam12_1.__proto__.sub = function() {
+    return this.a - this.b;
+}
+console.log(exam12_1.sub(), exam12_2.sub()); // 1 2 共享方法sub
+
+/**
+ * 【 decorator 】
+ * decorator是在代码编译时修改类的行为的函数
+ */
+// 【 类修饰 】
+// 一个参数 target，指向类本身
+/*
+function testable(target) {
+    target.isTestable = true;
+}
+@testable
+class Example13 {}
+Example13.isTestable; // true 添加静态属性，若要添加实例属性，在类的 prototype 上操作即可
+*/
+// 多个参数——嵌套实现
+/*
+function testable(isTestable) {
+    return function(target) {
+        target.isTestable=isTestable;
+    }
+}
+@testable(true)
+class Example14 {}
+Example14.isTestable; // true
+*/
+// 【 方法修饰 】
+// 3个参数：target（类的原型对象）、name（修饰的属性名）、descriptor（该属性的描述对象）
+/*
+class Example15 {
+    @writable
+    sum(a, b) {
+        return a + b;
+    }
+}
+function writable(target, name, descriptor) {
+    descriptor.writable = false;
+    return descriptor; // 必须返回
+}
+*/
+// 修饰器执行顺序：由外向内进入，由内向外执行
+/*
+class Example16 {
+    @logMethod(1)
+    @logMethod(2)
+    sum(a, b){
+        return a + b;
+    }
+}
+function logMethod(id) {
+    console.log('evaluated logMethod '+id);
+    return (target, name, desctiptor) => console.log('excuted logMethod '+id);
+}
+// evaluated logMethod 1
+// evaluated logMethod 2
+// excuted logMethod 2
+// excuted logMethod 1
+*/
+
+/**
+ * 【 封装与继承 】
+ * getter / setter
+ */
+class Example16{
+    constructor(a, b) {
+        this.a = a;
+        this.b = b;
+    }
+    // getter 不可单独出现
+    get a(){
+        console.log('getter');
+        // return this.a;
+        return this._a;
+    }
+    set a(a){
+        console.log('setter');
+        // this.a = a; // 自身递归调用，不断输出 setter ，最终导致 RangeError
+        this._a = a;
+    }
+}
+let exam16 = new Example16(1,2); // 只输出 setter , 不会调用 getter 方法
+console.log(exam16.a, exam16._a); // 1 1
+// getter 与 setter 必须同时同级出现
+class Father1 {
+    constructor(){}
+    get a() {
+        return this._a;
+    }
+}
+class Child1 extends Father1 {
+    constructor(){
+        super();
+    }
+    set a(a) {
+        this._a = a;
+    }
+}
+let exam17 = new Child1();
+exam17.a = 2;
+console.log(exam17.a); // undefined
+
+/**
+ * 【 extends & super 】
+ * extends 继承，子类 constructor 方法中必须有 super ，且必须出现在 this 之前
+ */
+class Father2 {
+    constructor() {}
+}
+// error1 [有constructor必须有super] Uncaught ReferenceError: Must call super constructor in derived class before accessing 'this' or returning from derived constructor
+/* class Child2 extends Father2 { constructor() {} } */
+// error2 [super必须在this前] Uncaught ReferenceError: Must call super constructor in derived class before accessing 'this' or returning from derived constructor
+/*
+class Child2 extends Father2 {
+    constructor(a) {
+        this.a = a;
+        super();
+    }
+}
+*/
+class Child2 extends Father2 {} // ok
+class Child3 extends Father2 { // ok
+    constructor(a) {
+        super(a)
+        this.a = a
+    }
+}
+let exam18 = new Child2();
+let exam19 = new Child3(1);
+console.log(exam19.a) // 1
+
+// super调用父类方法，在普通方法中指向父类的原型对象，在静态方法中指向父类
+class Father3 {
+    test(){
+        return 0;
+    }
+    static test1(){
+        return 1;
+    }
+}
+class Child4 extends Father3 {
+    constructor(){
+        super();
+        // 调用父类普通方法
+        console.log(super.test()); // 0
+    }
+    static test2(){
+        // 调用父类静态方法
+        return super.test1() + 2;
+    }
+}
+console.log(Child4.test2()); // 3
+
+// 注意要点: 不可直接继承常规对象
+var Father4 = {}
+// class Child5 extends Father4 {} // error
+// 解决方案
+class Child5{}
+Object.setPrototypeOf(Child5.prototype, Father4);
+
 </script>
 </body>
 </html>
