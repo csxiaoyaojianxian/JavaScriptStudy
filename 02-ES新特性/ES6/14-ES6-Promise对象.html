@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>es6</title>
+</head>
+<body>
+<script>
+// Promise对象异步操作三种状态：pending（进行中）、fulfilled（已成功）和 rejected（已失败）
+//   then 方法将返回一个 resolved 或 rejected 状态的 Promise 对象用于链式调用，且 Promise 对象的值就是这个返回值
+const p = new Promise(function(resolve,reject){
+    resolve(1);
+}).then(function(value){ // 第一个then，resolve/reject传值 // 1
+    console.log(value);
+    return value * 2;
+}).then(function(value){ // 第二个then，then-return传值 // 2
+    console.log(value);
+}).then(function(value){ // 第三个then，没有return，没有传值 // undefined
+    console.log(value);
+    return Promise.resolve('resolve');
+}).then(function(value){ // 第四个then，Promise.resolve传值 // resolve
+    console.log(value);
+    return Promise.reject('reject');
+}).then(function(value){ // 第五个then，Promise.reject传值 // reject:reject
+    console.log('resolve:' + value);
+}, function(err) {
+    console.log('reject:' + err);
+});
+
+</script>
+</body>
+</html>

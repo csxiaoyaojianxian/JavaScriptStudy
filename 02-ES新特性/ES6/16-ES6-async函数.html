@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>es6</title>
+</head>
+<body>
+<script>
+/**
+ * async: es7异步操作关键字
+ */
+// async function name([param[, param[, ... param]]]) { statements }
+// async 函数返回一个 Promise 对象，可以使用 then 方法添加回调函数
+async function helloAsync(){
+    return "helloAsync";
+}
+console.log(helloAsync()) // Promise {<resolved>: "helloAsync"}
+helloAsync().then(v=>{
+    console.log(v); // helloAsync
+})
+/**
+ * await 表达式
+ */
+// await 关键字仅在 async function 中有效，用于等待一个 Promise 对象
+// await 命令后面一般是一个 Promise 对象，也可以是其他值，如字符串，布尔值，数值以及普通函数
+// 如果跟Promise，等待Promise对象执行完返回，跟非Promise对象，直接返回对应的值
+// [return_value] = await expression;
+function testAwait (x) {
+    return new Promise(resolve => {
+        setTimeout(() => {
+            resolve(x);
+        }, 1000);
+    });
+}
+async function helloAsync2() {
+    var x = await testAwait ("hello world");
+    console.log(x);
+}
+helloAsync2 (); // hello world
+</script>
+</body>
+</html>

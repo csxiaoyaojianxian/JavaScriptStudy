@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>es6</title>
+</head>
+<body>
+<script>
+// Generator 函数，可以通过 yield 关键字，把函数的执行流挂起实现异步处理
+//   组成
+//     1. function*，表示函数为 Generator 函数
+//     2. yield表达式，定义函数内部状态
+//   执行机制
+//     funcName()，返回指向内部状态对象的指针，调用Iterator对象的 next / return 方法控制执行
+
+/**
+ * f.next
+ */
+function* func(){
+    // 第一次调用 next 方法
+    console.log("one");
+    var x = yield '1'; // 第二次调用 next 方法
+    console.log("two", x);
+    yield '2'; // 第三次调用 next 方法
+    console.log("three");
+    return '3';
+    // 第四次调用 next 方法
+}
+var f = func()
+// 第一次调用 next 方法，从 Generator 函数的头部开始执行到 yield 停止，并将yield后表达式的值'1'作为返回对象的 value 属性值，done为false
+f.next(); // one {value: "1", done: false}
+// 第二次调用 next 方法，同上步，传入参数
+f.next(2); // two 2 {value: "2", done: false}
+// 第三次调用 next 方法，执行函数返回操作，并将 return 后表达式的值作为返回对象的 value 属性值，done为true
+f.next(); // three {value: "3", done: true}
+// 第四次调用 next 方法
+f.next(); // {value: undefined, done: true}
+
+/**
+ * f.return
+ */
+// return 方法返回给定值(不给定返回undefined)，并结束遍历 Generator 函数。
+function* foo(){
+    yield 1;
+    yield 2;
+    yield 3;
+}
+var f = foo();
+console.log(f.next()); // {value: 1, done: false}
+console.log(f.return("foo")); // {value: "foo", done: true}
+console.log(f.next()); // {value: undefined, done: true}
+
+/**
+ * f.throw
+ */
+// throw 方法可以在 Generator 函数体外面抛出异常，在函数体内部捕获
+var g = function* () {
+    try {
+        yield;
+    } catch (e) {
+        console.log('catch inner', e);
+    }
+};
+var i = g();
+i.next();
+try {
+    i.throw('a');
+    i.throw('b');
+} catch (e) {
+    console.log('catch outside', e);
+}
+// catch inner a  第一个错误被 Generator 函数内部捕获
+// catch outside b  第二个错误因函数体内catch已执行过，不再捕获这个错误，所以错误抛出 Generator 函数体，被函数体外 catch 捕获
+
+/**
+ * yield* 表达式
+ */
+// yield* 表达式表示 yield 返回一个遍历器对象，用于在 Generator 函数内部，调用另一个 Generator 函数
+function* callee() {
+    console.log('callee: ' + (yield));
+}
+function* caller() {
+    while (true) {
+        yield* callee();
+    }
+}
+const callerObj = caller();
+callerObj.next(); // {value: undefined, done: false}
+callerObj.next("a"); // callee: a {value: undefined, done: false}
+callerObj.next("b"); // callee: b {value: undefined, done: false}
+// 等同于
+/*
+function* caller() {
+    while (true) {
+        // 除了使用 next，还可以使用 for... of 循环遍历 Generator 函数生产的 Iterator 对象
+        for (var value of callee) {
+            yield value;
+        }
+    }
+}
+*/
+
+/**
+ * 使用场景
+ */
+// 实现 Iterator
+// 为不具备 Iterator 接口的对象提供遍历方法。
+function* objectEntries(obj) {
+    const propKeys = Reflect.ownKeys(obj); // 返回对象所有的属性，不管属性是否可枚举，包括 Symbol
+    for (const propKey of propKeys) {
+        yield [propKey, obj[propKey]];
+    }
+}
+const name = { first: 'cs', last: 'xiaoyao' };
+for (const [key,value] of objectEntries(name)) {
+    console.log(`${key}: ${value}`);
+}
+// first: cs
+// last: xiaoyao
+// name 原生是不具备 Iterator 接口无法通过 for... of遍历，使用 Generator 函数加上 Iterator 接口就可以遍历 name 对象了
+
+</script>
+</body>
+</html>

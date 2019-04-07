@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>es6</title>
+</head>
+<body>
+<script>
+// ES6前，实现模块化使用的是 RequireJS（基于AMD规范的模块化库）或者 seaJS（基于CMD规范的模块化库）
+// ES6模块自动开启严格模式
+// 模块中可以导入和导出各种类型的变量，如函数，对象，字符串，数字，布尔值，类等
+// 每个模块只加载一次。重复加载同一个文件直接从内存中读取
+/**
+ * 【 export & import 】
+ */
+/*-----export [test.js]-----*/
+let myName = "Tom";
+let myAge = 20;
+let myfn = function(){
+    return "My name is" + myName + "! I'm '" + myAge + "years old."
+}
+let myClass = class myClass {
+    static a = "yeah!";
+}
+export { myName, myAge, myfn, myClass }
+/*-----import [xxx.js]-----*/
+import { myName, myAge, myfn, myClass } from "./test.js";
+// import * from "./test.js";
+console.log(myfn());// My name is Tom! I'm 20 years old.
+console.log(myAge);// 20
+console.log(myName);// Tom
+console.log(myClass.a);// yeah!
+
+/**
+ * 【 as 】
+ */
+// 使用 as 定义导入导出的接口变量名称，隐藏模块内部的变量
+/*-----export [test.js]-----*/
+let myName = "Tom";
+export { myName as exportName }
+/*-----import [xxx.js]-----*/
+import { exportName as newName } from "./test.js";
+console.log(newName)
+
+/**
+ * 【 export default 】
+ * 在一个文件或模块中，export / import 可以有多个，export default 仅有一个
+ * export 方式导出，在导入时要加 { }，export default 则不需要
+ * export default 向外暴露的成员，可以使用任意变量来接收
+ */
+var a = "My name is Tom!";
+export default a; // 仅有一个
+import b from "./xxx.js"; // 不需要加{}，使用任意变量接收
+
+/**
+ * 【 复合使用 】
+ * 提案阶段，相当于 import from & export
+ */
+export { foo as bar } from "methods";
+export { foo as default } from "methods";
+export { default as foo } from "methods";
+export * from "methods";
+</script>
+</body>
+</html>
