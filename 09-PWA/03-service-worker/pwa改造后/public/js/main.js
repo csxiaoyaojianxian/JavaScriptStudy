@@ -28,13 +28,27 @@ define(function (require) {
                     // 作用域，只能比当前service worker的域小，例如：/a/b/sw.js，scope可以为/a/b/c/，若为/a会报错
                     scope: '/'
                 })
-                .then(function (registeration) {
-                    // 注册成功回调
-                    console.log('Service worker register success with scope ' + registeration.scope);
+                .then(function (registration) {
+                    /**
+                     * 手动更新 registration.update()
+                     */
+                    // const version = 1.0
+                    // if (localStorage.getItem('sw_version') !== version) {
+                    //     registration.update().then(function () {
+                    //         localStorage.setItem('sw_version', version)
+                    //     });
+                    // }
+
+                    // 注册成功
+                    console.log('ServiceWorker registration successful with scope: ', registration.scope);
+                })
+                .catch(function (err) {
+                    // 注册失败:(
+                    console.log('ServiceWorker registration failed: ', err);
                 });
         });
 
-        // 页面更新
+        // 页面更新，由sw.js中的clients.claim()触发
         navigator.serviceWorker.oncontrollerchange = function (event) {
             ui.showToast('页面已更新', 'info');
         };

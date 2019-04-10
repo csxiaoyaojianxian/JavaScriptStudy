@@ -1,0 +1,13 @@
+{
+    "short_name": "独立模式",
+    "name": "这是一个完整名称",
+    "icons": [
+        {
+            "src": "../../images/logo-144x144.png",
+            "type": "image/png",
+            "sizes": "144x144"
+        }
+    ],
+    "start_url": "./index.html",
+    "display": "standalone"
+}

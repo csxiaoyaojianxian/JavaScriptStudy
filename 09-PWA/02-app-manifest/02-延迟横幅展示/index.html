@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="utf-8">
+    <title>basic</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1,user-scalable=no,minimal-ui">
+    <link rel="shortcut icon" href="https://www.baidu.com/favicon.ico" type="image/x-icon">
+    <link rel="manifest" href="./manifest.json">
+    <style>
+        body, html {
+            height: 100%;
+            padding: 0;
+            margin: 0;
+            background: #2196f3;
+        }
+        .content {
+            width: 200px;
+            height: 100px;
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            margin: auto;
+            color: #fff;
+            text-align: center;
+        }
+        .text {
+            height: 30px;
+            text-align: center;
+            font-size: 24px;
+            line-height: 30px;
+        }
+        .button {
+            width: 120px;
+            height: 40px;
+            line-height: 40px;
+            margin: 10px auto 0;
+            background: #f44336;
+            border-radius: 8px;
+            cursor: pointer;
+            display: none;
+        }
+        .button:active {
+            background: #f51210;
+        }
+    </style>
+</head>
+<body>
+    <div class="content">
+        <div class="text">Hello PWA!</div>
+        <div class="button" id="btn">点击显示横幅</div>
+    </div>
+    <script>
+        if (navigator.serviceWorker) {
+            navigator.serviceWorker.register('./sw.js');
+        }
+    </script>
+    <script>
+        var dfdPrompt = null;
+        var button = document.getElementById('btn');
+        window.addEventListener('beforeinstallprompt', function (e) {
+            // 存储事件
+            dfdPrompt = e;
+            // 显示按钮
+            button.style.display = 'block';
+            // 阻止默认事件
+            e.preventDefault();
+            return false;
+        });
+        button.addEventListener('click', function (e) {
+            if (dfdPrompt == null) {
+                return;
+            }
+            // 通过按钮点击事件触发横幅显示
+            dfdPrompt.prompt();
+            // 监控用户的安装行为
+            dfdPrompt.userChoice.then(function (choiceResult) {
+                alert(choiceResult.outcome);
+            });
+            // 隐藏按钮
+            button.style.display = 'none';
+            dfdPrompt = null;
+        });
+    </script>
+</body>
+</html>

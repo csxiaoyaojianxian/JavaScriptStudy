@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="utf-8">
+    <title>basic</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1,user-scalable=no,minimal-ui">
+    <link rel="shortcut icon" href="https://www.baidu.com/favicon.ico" type="image/x-icon">
+    <link rel="manifest" href="./manifest.json">
+    <style>
+        .content {
+            width: 200px;
+            height: 100px;
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            margin: auto;
+            color: #fff;
+            text-align: center;
+        }
+        .button {
+            width: 120px;
+            height: 40px;
+            line-height: 40px;
+            margin: 10px auto 0;
+            background: #f44336;
+            border-radius: 8px;
+            cursor: pointer;
+            display: none;
+        }
+        .button:active {
+            background: #f51210;
+        }
+    </style>
+</head>
+<body>
+    <h3>显示原生应用安装横幅的条件</h3>
+    <pre>
+        1. 站点部署 manifest.json，该文件需配置如下属性：
+            short_name （用于主屏幕显示）
+            name （用于安装横幅显示）
+            icons （其中必须包含一个 192x192 且 mime 类型为 image/png 的图标声明）
+        2. 包含原生应用相关信息的 related_applications 对象
+        3. 站点注册 Service Worker
+        4. 站点支持 HTTPS 访问
+        5. 站点在同一浏览器中被访问至少两次，两次访问间隔至少为 2 天。
+        
+        【 related_applications 】关联应用列表
+        "related_applications": [
+            {
+                "platform": "play",
+                "id": "com.baidu.samples.apps.iosched"
+            }
+        ]
+        
+        如果只希望用户安装原生应用，而不需要弹出横幅引导用户安装 PWA，可以在 manifest.json 设置：
+        "prefer_related_applications": true
+    </pre>
+    <div class="content">
+        <div class="button" id="btn">点击显示横幅</div>
+    </div>
+    <script>
+        if (navigator.serviceWorker) {
+            navigator.serviceWorker.register('./sw.js');
+        }
+    </script>
+    <script>
+        var dfdPrompt = null;
+        var button = document.getElementById('btn');
+        window.addEventListener('beforeinstallprompt', function (e) {
+            // 存储事件
+            dfdPrompt = e;
+            // 显示按钮
+            button.style.display = 'block';
+            // 阻止默认事件
+            e.preventDefault();
+            return false;
+        });
+        button.addEventListener('click', function (e) {
+            if (dfdPrompt == null) {
+                return;
+            }
+            // 通过按钮点击事件触发横幅显示
+            dfdPrompt.prompt();
+            // 监控用户的安装行为
+            dfdPrompt.userChoice.then(function (choiceResult) {
+                alert(choiceResult.outcome);
+            });
+            // 隐藏按钮
+            button.style.display = 'none';
+            dfdPrompt = null;
+        });
+    </script>
+</body>
+</html>

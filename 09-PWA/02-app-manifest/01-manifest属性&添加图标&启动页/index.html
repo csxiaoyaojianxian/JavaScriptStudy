@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
     <link rel="stylesheet" href="/static/styles/main.css">
 
+    <!-- 引入manifest.json -->
     <link rel="manifest" href="manifest.json">
 
     <!-- 指定桌面icon -->
@@ -17,6 +18,8 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <!-- 修改ios状态栏颜色 -->
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <!-- 修改chrome地址栏主题色，覆盖manifest.json中的theme_color -->
+    <meta name="theme-color" content="green">
 </head>
 <body>
     <div id="app">
@@ -32,21 +35,25 @@
         </div> -->
         <h1>manifest</h1>
         <pre>
-【 name 】
-【 short_name 】
+【 name 】 应用名称，用于安装横幅、启动画面显示
+【 short_name 】 应用短名称，用于主屏幕显示
 【 display 】
-    fullscreen | standalone | minimal-ui | browser
+    fullscreen	应用的显示界面将占满整个屏幕
+    standalone	浏览器相关UI（如导航栏、工具栏等）将会被隐藏
+    minimal-ui	显示形式与standalone类似，浏览器相关UI会最小化为一个按钮，不同浏览器在实现上略有不同
+    browser	    浏览器模式，与普通网页在浏览器中打开的显示一致
 【 start_url 】 启动页
     "/"
+【 scope 】 作用域
         </pre>
         <h1>添加图标</h1>
         <pre>
 1. 主动添加
-2. 横幅提示添加（safari不支持）
-    部署manifest.json
+2. 横幅提示添加（safari不支持）PWA站点满足下列条件时自动添加
+    部署manifest.json (配置了short_name、name、icons[image/png]、start_url、display[standalone/fullscreen]属性)
     注册service worker
     支持https访问
-    用户在统一浏览器中至少访问两次，两次至少间隔5分钟
+    用户在同一浏览器中至少访问两次，两次至少间隔5分钟
         </pre>
     </div>
     <script>
@@ -61,6 +68,18 @@
                     // 注册失败:(
                     console.log('ServiceWorker registration failed: ', err);
                 });
+        });
+        // 横幅触发事件，目前支持度不高
+        window.addEventListener('beforeinstallprompt', function (e) {
+            // beforeinstallprompt event fired
+            e.userChoice.then(function (choiceResult) {
+                if (choiceResult.outcome === 'dismissed') {
+                    alert('用户取消安装应用');
+                }
+                else {
+                    alert('用户安装了应用');
+                }
+            });
         });
     }
   </script>
