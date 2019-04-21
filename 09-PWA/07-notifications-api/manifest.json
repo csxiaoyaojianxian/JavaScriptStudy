@@ -1,0 +1,13 @@
+{
+    "name": "PWA Lesson Demo",
+    "short_name": "PWA Lesson",
+    "display": "standalone",
+    "start_url": "/",
+    "icons": [{
+        "src": "./android-chrome-144x144.png",
+        "sizes": "144x144",
+        "type": "image/png"
+    }],
+    "background_color": "#1976d2",
+    "theme_color": "#2F3BA2"
+}
