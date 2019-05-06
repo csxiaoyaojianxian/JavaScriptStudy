@@ -1,0 +1,143 @@
+:root {
+    --gap: 16px;
+    --contentMargin: 10px;
+}
+
+*, *::after, *::before {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+}
+header {
+    margin: 0;
+    padding: var(--gap);
+    width: 100%;
+    color: #fff;
+    background: #000;
+    overflow: hidden;
+}
+
+header > .logo {
+    --iconWidth: 25px;
+    margin-right: var(--gap);
+    padding-left: calc(var(--iconWidth) + 2px);
+    background: url(/img/book.png) 0 center no-repeat;
+    background-size: var(--iconWidth);
+    vertical-align: middle;
+    font-size: 30px;
+}
+
+header > input {
+    border-radius: 3px;
+    border: none;
+    outline: none;
+    padding: 5px 10px;
+    margin-right: 5px;
+    width: 180px;
+    background: #555;
+    color: #fff;
+    line-height: 30px;
+    font-size: 14px;
+}
+
+header > button {
+    border-radius: 3px;
+    border: none;
+    outline: none;
+    padding: 5px 8px 5px 12px;
+    background: rgb(17, 149, 72);
+    color: #fff;
+    line-height: 20px;    
+    font-size: 12px;
+    letter-spacing: 4px;
+}
+
+main {
+    text-align: center;    
+}
+
+.loading {
+    display: none;
+    margin: 200px auto;
+    width: 80px;
+    height: 80px;
+    background: url(/img/loading.svg) 0 0 no-repeat;
+}
+
+.tip {
+    display: none;
+    margin: 200px 0;
+    text-align: center;
+    font-size: 20px;
+}
+
+.list {
+    margin: 0;
+    padding: var(--gap);
+}
+
+.list > li {
+    border-bottom: 1px solid #eee;    
+    list-style: none;
+    padding-bottom: calc(var(--gap) / 2);    
+    margin-bottom: calc(var(--gap) / 2);
+}
+
+.list > li::after {
+    content: '';
+    display: block;
+    clear: both;
+}
+
+/* .list > li > img {
+    float: left;
+    border-radius: 3px;
+    margin-right: var(--contentMargin);
+    width: 82px;
+    height: 110px;
+} */
+
+.list > li > .title {
+    margin-bottom: var(--contentMargin);
+    font-size: 18px;
+    color: #222;
+    text-align: left;
+    overflow : hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+}
+
+.list > li > .author {
+    margin-bottom: var(--contentMargin);
+    font-size: 14px;
+    color: #222;
+    text-align: left;
+    overflow: hidden;
+    text-overflow:ellipsis;
+    white-space: nowrap;
+}
+
+.list > li > .desc {
+    text-align: left;
+    font-size: 14px;
+    color: #999;
+}
+
+.list > li > .desc > span:first-child::after {
+    content: '';
+    display: inline;
+    margin-right: var(--contentMargin);
+}
+
+.thanks {
+    display: none;
+    padding: var(--gap);
+    text-decoration: none;
+    font-size: 12px;
+    color: #777;
+}

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1, maximum-scale=1, user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" type="text/css" href="./style.css">
+    <link rel="manifest" href="/manifest.json">
+
+    <meta name="theme-color" content="#5eace0"/>
+
+    <!-- 针对safari（iOS）的添加到桌面功能进行相关设置 -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="图书搜索">
+    <link rel="apple-touch-icon" href="img/icons/book-256.png">
+
+    <!-- IE的设置 -->
+    <meta name="application-name" content="图书搜索" />
+    <meta name="msapplication-TileColor" content="#222">
+    <meta name="msapplication-square70x70logo" content="img/icons/book-72.png" />
+    <meta name="msapplication-square150x150logo" content="img/icons/book-144.png" />
+    <meta name="msapplication-square310x310logo" content="img/icons/book-256.png" />
+
+    <title>PWA: 图书搜索</title>
+</head>
+<body>
+    <header>
+        <span class="logo"></span>
+        <input id="js-search-input" placeholder="关键词查询…">
+        <button id="js-search-btn">搜索</button>
+        <button id="js-notification-btn" class="notify-btn">提醒</button>
+        <button id="js-sync-btn" class="sync-btn">同步</button>
+        <button id="js-sync-event-btn" class="sync-btn sync-event-btn">同步(event)</button>
+        <button id="js-sync-db-btn" class="sync-btn sync-db-btn">同步(db)</button>
+    </header>
+    <main>
+        <div id="js-loading" class="loading"></div>
+        <div id="js-tip" class="tip"></div>
+        <ul class="list" id="js-list"></ul>
+        <a id="js-thanks" class="thanks" href="https://developers.douban.com/wiki/?title=guide">- 本Demo基于豆瓣API，感谢豆瓣开放平台 -</a>
+    </main>
+    <section class="panel">
+        <p>
+            讲解如何用Node构建可扩展因特网应用，是全面的实用指南，
+            除了详细介绍Node提供的API外，还用大量篇幅介绍了服务
+            器事件驱动开发的重要概念。内容涉及跨服务器的并发连接、
+            非阻塞I/O和事件驱动的编程、如何支持各种数据库和数据存
+            储工具、NodeAPI的使用示例等。适合对JavaScript及编程
+            有一定程度了解的读者阅读。
+        </p>
+    </section>
+    <script type="text/javascript" src="./base64util.js"></script>
+    <script type="text/javascript" src="./index.js"></script>
+</body>
+</html>

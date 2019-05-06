@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1, maximum-scale=1, user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" type="text/css" href="./style.css">
+    <link rel="manifest" href="/manifest.json">
+
+    <meta name="theme-color" content="#5eace0"/>
+
+    <!-- 针对safari（iOS）的添加到桌面功能进行相关设置 -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="图书搜索">
+    <link rel="apple-touch-icon" href="img/icons/book-256.png">
+
+    <!-- IE的设置 -->
+    <meta name="application-name" content="图书搜索" />
+    <meta name="msapplication-TileColor" content="#222">
+    <meta name="msapplication-square70x70logo" content="img/icons/book-72.png" />
+    <meta name="msapplication-square150x150logo" content="img/icons/book-144.png" />
+    <meta name="msapplication-square310x310logo" content="img/icons/book-256.png" />
+
+    <title>PWA: 图书搜索</title>
+</head>
+<body>
+    <header>
+        <span class="logo"></span>
+        <input id="js-search-input" placeholder="关键词查询…">
+        <button id="js-search-btn">搜索</button>
+    </header>
+    <main>
+        <div id="js-loading" class="loading"></div>
+        <div id="js-tip" class="tip"></div>
+        <ul class="list" id="js-list"></ul>
+        <a id="js-thanks" class="thanks" href="https://developers.douban.com/wiki/?title=guide">- 本Demo基于豆瓣API，感谢豆瓣开放平台 -</a>
+    </main>
+    <script type="text/javascript" src="./base64util.js"></script>
+    <script type="text/javascript" src="./index.js"></script>
+</body>
+</html>

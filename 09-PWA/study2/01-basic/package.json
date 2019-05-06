@@ -1,0 +1,44 @@
+{
+  "name": "learning-pwa",
+  "version": "0.1.0",
+  "description": "some samples and blogs about how to start with your first PWA",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "release": "standard-version",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alienzhou/learning-pwa.git"
+  },
+  "keywords": [
+    "PWA",
+    "koa",
+    "sample"
+  ],
+  "author": "alienzhou",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/alienzhou/learning-pwa/issues"
+  },
+  "homepage": "https://github.com/alienzhou/learning-pwa#readme",
+  "dependencies": {
+    "koa-router": "^7.4.0",
+    "koa-static": "^4.0.2",
+    "nedb": "^1.8.0",
+    "request": "^2.85.0"
+  },
+  "husky": {
+    "hooks": {
+      "commit-msg": "commitlint -e $GIT_PARAMS"
+    }
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^6.1.3",
+    "@commitlint/config-conventional": "^6.1.3",
+    "husky": "^0.15.0-rc.13",
+    "koa": "^2.7.0",
+    "standard-version": "^4.3.0"
+  }
+}
