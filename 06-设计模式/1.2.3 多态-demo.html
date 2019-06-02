@@ -1,56 +1,46 @@
-﻿
+﻿笔记：多态的最佳实践 demo
 <script type="text/javascript">
-
 	var googleMap = {
 		show: function(){
 			console.log( '开始渲染谷歌地图' );
 		}
 	};
-
-	var renderMap = function(){
-		googleMap.show();
-	};
-
-	renderMap(); // 输出：开始渲染谷歌地图
-
-	var googleMap = {
-		show: function(){
-			console.log( '开始渲染谷歌地图' );
-		}
-	};
-
 	var baiduMap = {
 		show: function(){
 			console.log( '开始渲染百度地图' );
 		}
 	};
-
-	var renderMap = function( type ){
-		if ( type === 'google' ){
-			googleMap.show();
-		}else if ( type === 'baidu' ){
-			baiduMap.show();
-		}
-	};
-
-	renderMap( 'google' ); // 输出：开始渲染谷歌地图
-	renderMap( 'baidu' ); // 输出：开始渲染百度地图
-
-	var renderMap = function( map ){
-		if ( map.show instanceof Function ){
-			map.show();
-		}
-	};
-
-	renderMap( googleMap ); // 输出：开始渲染谷歌地图
-	renderMap( baiduMap ); // 输出：开始渲染百度地图
-
 	var sosoMap = {
 		show: function(){
 			console.log( '开始渲染搜搜地图' );
 		}
 	};
 
+	// 反面教材1
+	var renderMap1 = function(){
+		googleMap.show();
+	};
+	renderMap1(); // 输出：开始渲染谷歌地图
+
+	// 反面教材1
+	var renderMap2 = function( type ){
+		if ( type === 'google' ){
+			googleMap.show();
+		}else if ( type === 'baidu' ){
+			baiduMap.show();
+		}
+	};
+	renderMap2( 'google' ); // 输出：开始渲染谷歌地图
+	renderMap2( 'baidu' ); // 输出：开始渲染百度地图
+
+	// 推荐的方式
+	var renderMap = function( map ){
+		if ( map.show instanceof Function ){
+			map.show();
+		}
+	};
+	renderMap( googleMap ); // 输出：开始渲染谷歌地图
+	renderMap( baiduMap ); // 输出：开始渲染百度地图
 	renderMap( sosoMap ); // 输出：开始渲染搜搜地图
 
 </script>
