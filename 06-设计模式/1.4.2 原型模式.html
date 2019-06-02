@@ -4,7 +4,6 @@ JavaScript 遵守原型编程的基本规则
  2. 要得到一个对象，不是通过实例化类，而是找到一个对象作为原型并克隆它
  3. 对象会记住它的原型
  4. 如果对象无法响应某个请求，它会把这个请求委托给它自己的原型
-
 <script type="text/javascript">
  	'use strict'
 	/**
@@ -19,6 +18,11 @@ JavaScript 遵守原型编程的基本规则
 
 	/**
 	 * 2. 要得到一个对象，不是通过实例化类，而是找到一个对象作为原型并克隆它
+	    Person 不是类，而是函数构造器，JavaScript 的函数既可作为普通函数被调用，也可作为构造器被调用
+	    当使用 new 运算符来调用函数时，此时的函数就是一个构造器
+		用 new 运算符来创建对象的过程，实际上也只是先克隆Object.prototype 对象，再进行一些其他额外操作的过程
+
+		* ！！！对象有没有原型，对象的构造器才有原型
 	 */
 	function Person( name ){
 		this.name = name;
@@ -32,11 +36,18 @@ JavaScript 遵守原型编程的基本规则
 	console.log( a.getName() ); // 输出：sven
 	console.log( Object.getPrototypeOf( a ) === Person.prototype ); // 输出：true
 
-	// 在 Chrome 和 Firefox 等向外暴露了对象__proto__属性的浏览器下，我们可以通过下面这段代码来理解 new 运算的过程：
+	/**
+	 * 3. 对象会记住它的原型
+	    JavaScript 给对象提供了一个名为__proto__的隐藏属性
+	    每个对象的__proto__属性默认会指向它的构造器的原型对象
+	    即 {Constructor}.prototype
+
+		在 Chrome 和 Firefox 等向外暴露了对象__proto__属性的浏览器下，我们可以通过下面这段代码来理解 new 运算的过程：
+	 */
 	var objectFactory = function(){
 		var obj = new Object(), // 从 Object.prototype 上克隆一个空的对象
 		Constructor = [].shift.call( arguments ); // Person，取得外部传入的构造器
-		obj.__proto__ = Constructor.prototype; // 指向正确的原型
+		obj.__proto__ = Constructor.prototype; // 指向正确的原型，__proto__就是对象跟“对象构造器的原型”联系起来的纽带
 		var ret = Constructor.apply( obj, arguments ); // 借用外部传入的构造器给 obj 设置属性
 		return typeof ret === 'object' ? ret : obj; // 确保构造器总是会返回一个对象
 	};

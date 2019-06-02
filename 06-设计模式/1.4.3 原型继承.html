@@ -1,34 +1,36 @@
-﻿笔记：
-
+﻿笔记：原型继承，续上一节
 <script type="text/javascript">
  	'use strict'
-	
-	// 最常用的原型继承方式：
+	/**
+	 * 4. 如果对象无法响应某个请求，它会把这个请求委托给它的构造器的原型
+	    查找name 属性的这个请求被委托给对象 a 的构造器的原型
+		它被a.__proto__ 记录着并且指向A.prototype
+		而A.prototype 被设置为对象 obj
+	 */
+	// 最常用的原型继承方式
 	var obj = { name: 'sven' };
 	var A = function(){};
 	A.prototype = obj;
 	var a = new A();
 	console.log( a.name ); // 输出：sven
 
-	//当我们期望得到一个“类”继承自另外一个“类”的效果时，往往会用下面的代码来模拟实现：
-	var A = function(){};
-	A.prototype = { name: 'sven' };
+	// C继承B
 	var B = function(){};
-	B.prototype = new A();
-	var b = new B();
-	console.log( b.name ); // 输出：sven
+	B.prototype = { name: 'sven' };
+	var C = function(){};
+	C.prototype = new B();
+	var c = new C();
+	console.log( c.name ); // 输出：sven
 
-	//通过Class 创建对象的一段简单示例代码①如下所示 ：
+	// 通过 Class 继承
 	class Animal {
 		constructor(name) {
 			this.name = name;
 		}
-
 		getName() {
 			return this.name;
 		}
 	}
-
 	class Dog extends Animal {
 		constructor(name) {
 			super(name);
@@ -37,8 +39,6 @@
 			return "woof";
 		}
 	}
-
 	var dog = new Dog("Scamp");
-	console.log(dog.getName() + ' says ' + dog.speak());
-
+	console.log(dog.getName() + ' says ' + dog.speak()); // Scamp says woof
 </script>

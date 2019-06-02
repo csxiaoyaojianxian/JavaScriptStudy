@@ -1,0 +1,97 @@
+﻿笔记：
+1. JavaScript 的 this 总是动态绑定指向一个对象
+2. 除去不常用的 with 和 eval，this 的指向大致可以分为以下 4 种
+ 作为对象的方法调用，this 指向该对象
+ 作为普通函数调用
+ 构造器调用
+ Function.prototype.call 或 Function.prototype.apply 调用
+<html>
+	<body>
+		<div id="div1">我是一个div</div>
+	</body>
+</html>
+<script type="text/javascript">
+	// 【1】当函数作为对象的方法被调用时，this 指向该对象：
+	var obj1 = {
+		a: 1,
+		getA: function(){
+			console.log ( this === obj1 ); // 输出：true
+			console.log ( this.a ); // 输出: 1
+		}
+	};
+	obj1.getA();
+
+	// 【2.1】作为普通函数调用，指向全局对象 window 对象
+	window.name1 = 'globalName';
+	var getName1 = function(){
+		return this.name1;
+	};
+	console.log( getName1() ); // globalName
+	// 或，区别于【1】
+	window.name2 = 'globalName';
+	var obj2 = {
+		name2: 'sven',
+		getName2: function(){
+			return this.name2;
+		}
+	};
+	var getName2 = obj2.getName2;
+	console.log( getName2() ); // globalName
+
+	// 【2.2】作为普通函数调用，指向全局对象 window 对象
+	window.id = 'window';
+	document.getElementById( 'div1' ).onclick = function(){
+		console.log ( this.id ); // 输出：'div1'
+		var that = this; // 保存div 的引用
+		var callback = function(){
+			console.log ( this.id ); // 输出：'window'
+			console.log ( that.id ); // 输出：'div1'
+		}
+		callback(); // 作为普通函数调用，指向全局对象 window 对象
+	};
+
+	// 【2.3】strict模式下作为普通函数调用，指向 undefined
+	function func(){
+		"use strict"
+		console.log ( this ); // 输出：undefined
+	}
+	func();
+
+	// 【3.1】构造器调用，构造器里的 this 指向返回的这个对象
+	var MyClass1 = function(){
+		this.name = 'sven';
+	};
+	var obj2 = new MyClass1();
+	console.log ( obj2.name ); // 输出：sven
+	// 【3.2】构造器调用，显式地返回一个对象
+	var MyClass2 = function(){
+		this.name = 'sven';
+		return { // 显式地返回一个对象
+			name: 'anne'
+		}
+	};
+	var obj3 = new MyClass2();
+	console.log ( obj3.name ); // 输出：anne
+	// 【3.3】构造器调用，非显式地返回一个对象
+	var MyClass3 = function(){
+		this.name = 'sven'
+		return 'anne'; // 返回string 类型
+	};
+	var obj4 = new MyClass3();
+	console.log ( obj4.name ); // 输出：sven
+
+	// 【4】Function.prototype.call 或 Function.prototype.apply 调用
+	var obj5 = {
+		name: 'sven',
+		getName: function(){
+			return this.name;
+		}
+	};
+	var obj6 = {
+		name: 'anne'
+	};
+	console.log( obj5.getName() ); // 输出: sven
+	// 动态改变传入函数的this
+	console.log( obj5.getName.call( obj6 ) ); // 输出：anne
+</script>
+	
