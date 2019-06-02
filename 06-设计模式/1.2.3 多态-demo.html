@@ -1,4 +1,8 @@
 ﻿笔记：多态的最佳实践 demo
+1. 多态最根本的作用把过程化的条件分支语句转化为对象的多态性
+从而消除这些条件分支语句: renderMap2 => renderMap
+2. 将行为分布在各个对象中，并让这些对象各自负责自己的行为，这正是面向对象设计的优点
+3. 案例：命令模式、组合模式、策略模式
 <script type="text/javascript">
 	var googleMap = {
 		show: function(){

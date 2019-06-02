@@ -1,0 +1,30 @@
+﻿笔记：
+1. 面向对象中，对象从类中创建而来
+而在原型编程思想中，类并不是必需的，一个对象是通过克隆另外一个对象得到
+2. 原型模式的实现关键，是语言本身是否提供了clone 方法
+ECMAScript 5 提供了 Object.create 方法，可以用来克隆对象
+<script type="text/javascript">
+	// 飞机大战 demo
+	var Plane = function(){
+		this.blood = 100;
+		this.attackLevel = 1;
+		this.defenseLevel = 1;
+	};
+
+	var plane = new Plane();
+	plane.blood = 500;
+	plane.attackLevel = 10;
+	plane.defenseLevel = 7;
+
+	// 通过 Object.create 克隆一个对象
+	var clonePlane = Object.create( plane );
+	console.log( clonePlane );  // 输出：Object {blood: 500, attackLevel: 10, defenseLevel: 7}
+
+	// 在不支持 Object.create 方法的浏览器中，则可以使用以下代码：
+	Object.create = Object.create || function( obj ){
+		var F = function(){};
+		F.prototype = obj;
+		return new F();
+	}
+
+</script>

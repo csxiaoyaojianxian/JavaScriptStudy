@@ -1,4 +1,18 @@
-﻿<script type="text/javascript">
+﻿笔记：
+1. 封装的目的是将信息隐藏，包括封装数据、实现、类型和变化
+2. 封装数据：
+JavaScript只能依赖变量的作用域模拟出 public 和 private 两种封装性
+3. 封装实现：
+对象间只通过暴露的 API 接口来通信
+4. 封装类型：
+工厂方法模式、组合模式
+静态语言通过抽象类和接口实现
+JavaScript 没有能力，也没必要做得更多
+5. 封装变化
+【创建型模式】封装创建对象的变化
+【结构型模式】封装对象之间的组合关系
+【行为型模式】封装对象的行为变化
+<script type="text/javascript">
 
 	var myObject = (function(){
 		var __name = 'sven'; // 私有（private）变量

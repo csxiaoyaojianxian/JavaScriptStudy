@@ -1,0 +1,47 @@
+﻿笔记：
+JavaScript 遵守原型编程的基本规则
+ 1. 所有的数据都是对象
+ 2. 要得到一个对象，不是通过实例化类，而是找到一个对象作为原型并克隆它
+ 3. 对象会记住它的原型
+ 4. 如果对象无法响应某个请求，它会把这个请求委托给它自己的原型
+
+<script type="text/javascript">
+ 	'use strict'
+	/**
+	 * 1. 所有的数据都是对象
+	 */
+	var obj1 = new Object();
+	var obj2 = {};
+	// JavaScript 中的根对象是Object.prototype 对象
+	// 利用ECMAScript 5 提供的Object.getPrototypeOf 来查看这两个对象的原型
+	console.log( Object.getPrototypeOf( obj1 ) === Object.prototype ); // 输出：true
+	console.log( Object.getPrototypeOf( obj2 ) === Object.prototype ); // 输出：true
+
+	/**
+	 * 2. 要得到一个对象，不是通过实例化类，而是找到一个对象作为原型并克隆它
+	 */
+	function Person( name ){
+		this.name = name;
+	};
+	Person.prototype.getName = function(){
+		return this.name;
+	};
+	// 用 new 运算符从构造器中得到一个对象
+	var a = new Person( 'sven' )
+	console.log( a.name ); // 输出：sven
+	console.log( a.getName() ); // 输出：sven
+	console.log( Object.getPrototypeOf( a ) === Person.prototype ); // 输出：true
+
+	// 在 Chrome 和 Firefox 等向外暴露了对象__proto__属性的浏览器下，我们可以通过下面这段代码来理解 new 运算的过程：
+	var objectFactory = function(){
+		var obj = new Object(), // 从 Object.prototype 上克隆一个空的对象
+		Constructor = [].shift.call( arguments ); // Person，取得外部传入的构造器
+		obj.__proto__ = Constructor.prototype; // 指向正确的原型
+		var ret = Constructor.apply( obj, arguments ); // 借用外部传入的构造器给 obj 设置属性
+		return typeof ret === 'object' ? ret : obj; // 确保构造器总是会返回一个对象
+	};
+	var a2 = objectFactory( Person, 'sven' );
+	console.log( a2.name ); // 输出：sven
+	console.log( a2.getName() ); // 输出：sven
+	console.log( Object.getPrototypeOf( a2 ) === Person.prototype ); // 输出：true
+</script>

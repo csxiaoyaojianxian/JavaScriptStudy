@@ -1,4 +1,7 @@
 ﻿笔记：改写后，把不变的部分隔离出来，makeSound
+1. 多态的思想实际是把“做什么”和“谁去做”分离开，归根结底先要消除类型之间的耦合关系
+本例中 makeSound 方法中未指定发出叫声的对象是某个类型，因此可被替换为另外一个类型
+2. 在 Java 中，通过向上转型来实现多态
 <script type="text/javascript">
 
 	var makeSound = function( animal ){

@@ -1,0 +1,44 @@
+﻿笔记：
+
+<script type="text/javascript">
+ 	'use strict'
+	
+	// 最常用的原型继承方式：
+	var obj = { name: 'sven' };
+	var A = function(){};
+	A.prototype = obj;
+	var a = new A();
+	console.log( a.name ); // 输出：sven
+
+	//当我们期望得到一个“类”继承自另外一个“类”的效果时，往往会用下面的代码来模拟实现：
+	var A = function(){};
+	A.prototype = { name: 'sven' };
+	var B = function(){};
+	B.prototype = new A();
+	var b = new B();
+	console.log( b.name ); // 输出：sven
+
+	//通过Class 创建对象的一段简单示例代码①如下所示 ：
+	class Animal {
+		constructor(name) {
+			this.name = name;
+		}
+
+		getName() {
+			return this.name;
+		}
+	}
+
+	class Dog extends Animal {
+		constructor(name) {
+			super(name);
+		}
+		speak() {
+			return "woof";
+		}
+	}
+
+	var dog = new Dog("Scamp");
+	console.log(dog.getName() + ' says ' + dog.speak());
+
+</script>
