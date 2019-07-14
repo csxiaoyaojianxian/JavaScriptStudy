@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>图片有序预加载</title>
+<style>
+.box {
+    text-align: center;
+}
+.btn {
+    display: inline-block;
+    height: 30px;
+}
+</style>
+</head>
+<body>
+<div class="box">
+    <img width="300" src="" alt="pic" id="img"/>
+    <p>
+        <a class="btn" data-control="prev" href="javascript:;">prev</a>
+        <a class="btn" data-control="next" href="javascript:;">next</a>
+    </p>
+</div>
+
+<script src="https://cdn.staticfile.org/jquery/2.2.4/jquery.min.js"></script>
+<script src="./preload.js"></script>
+<script>
+var imgs = ['https://raw.githubusercontent.com/csxiaoyaojianxian/ImageHosting/master/img/20180828195629.png',
+        'https://raw.githubusercontent.com/csxiaoyaojianxian/ImageHosting/master/img/20181208145435.png',
+        'https://raw.githubusercontent.com/csxiaoyaojianxian/ImageHosting/master/img/20181208145057.png',
+        'https://raw.githubusercontent.com/csxiaoyaojianxian/ImageHosting/master/img/20181208151400.png',
+        'https://raw.githubusercontent.com/csxiaoyaojianxian/ImageHosting/master/img/20181208151420.jpg',
+        'https://raw.githubusercontent.com/csxiaoyaojianxian/ImageHosting/master/img/20181208151425.png'];
+var index = 0,
+    len = imgs.length;
+
+$.preload(imgs, {
+    order: 'ordered',
+    allCb: function () {
+        // 默认展示第一张
+        document.title = '1/' + len;
+    }
+})
+
+// 加载图片
+window.onload = showPic;
+function showPic() {
+    var btns = document.getElementsByClassName("btn");
+    var place = document.getElementById("img");
+    for (var i = 0; i < btns.length; i++) {
+        btns[i].onclick = function() {
+            var control = this.getAttribute("data-control");
+            "prev" === control ? index = Math.max(0, --index) : 
+            index = Math.min(len - 1, ++index);
+            document.title = (index + 1) + "/" + len;
+            place.setAttribute("src",imgs[index]);
+        }
+    }
+    // 默认展示第一张
+    place.setAttribute("src",imgs[0]);
+}
+</script>
+</body>
+</html>
