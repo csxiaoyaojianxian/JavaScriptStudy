@@ -195,13 +195,19 @@ console.log("------------- x|y -------------");
 console.log(/(abc)|(xyz)/.test("xy"));      //false
 console.log(/(abc)|(xyz)/.test("abcd"));    //true
 console.log("------------- 贪婪匹配/懒惰匹配 -------------");
-// 量词默认为贪婪匹配(匹配最长串)，量词+"?"可转化为懒惰匹配模式(匹配最短串)
+// 量词默认为贪婪匹配(匹配最长串)，量词+"?"可转化为懒惰匹配模式(匹配最短串, PHP中还可以用模式U)
 // a.*?b匹配最短的以a开始b结束的字符串
-console.log("aabab".match(/a.*?b/g));       //["aab", "ab"] 懒惰匹配
-console.log("aabab".match(/a.*b/g));        //["aabab"] 贪婪匹配
+console.log("<b>abc</b><b>bcd</b>".match(/<b>.*?<\/b>/g));       // ["<b>abc</b>", "<b>bcd</b>"] 懒惰匹配
+console.log("<b>abc</b><b>bcd</b>".match(/<b>.*<\/b>/g));        // ["<b>abc</b><b>bcd</b>"] 贪婪匹配，默认
 
 /**
- * 【7 应用】
+ * 【7 中文匹配问题】
+ */
+// UTF-8         0x4e00-0x9fa5
+// ANSI(gb2312)  0xb0-0xf7,0xa1-0xfe
+
+/**
+ * 【8 应用】
  */
 // 正确返回字符串长度
 function codePointLength(text) {
@@ -211,6 +217,11 @@ function codePointLength(text) {
 var s = '𠮷𠮷';
 s.length // 4
 codePointLength(s) // 2
+
+/**
+ * 【9 其他】
+ * php后向引用？
+ */
 </script>
 </body>
 </html>
