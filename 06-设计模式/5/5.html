@@ -1,70 +1,62 @@
-﻿<script type="text/javascript">
-	var calculateBonus = function( performanceLevel, salary ){
-		if ( performanceLevel === 'S' ){
-			return salary * 4;
-		}
-		if ( performanceLevel === 'A' ){
-			return salary * 3;
-		}
-		if ( performanceLevel === 'B' ){
-			return salary * 2;
-		}
-	};
+﻿策略模式：
+定义一系列算法，把它们各自封装成策略类
+每次请求委托给这些策略对象中的某一个进行计算
 
-	calculateBonus( 'B', 20000 ); // 输出：40000
-	calculateBonus( 'S', 6000 ); // 输出：24000
-
-	var performanceS = function( salary ){
-		return salary * 4;
-	};
-	var performanceA = function( salary ){
-		return salary * 3;
-	};
-	var performanceB = function( salary ){
-		return salary * 2;
-	};
-	var calculateBonus = function( performanceLevel, salary ){
-		if ( performanceLevel === 'S' ){
-			return performanceS( salary );
-		}
-		if ( performanceLevel === 'A' ){
-			return performanceA( salary );
-		}
-		if ( performanceLevel === 'B' ){
-			return performanceB( salary );
-		}
-	};
-	calculateBonus( 'A' , 10000 ); // 输出：30000
+<script type="text/javascript">
+/**
+ * 不使用策略模式的原始方法
+ * 问题：违背开闭原则
+ */
+var performanceS = function( salary ){
+	return salary * 4;
+};
+var performanceA = function( salary ){
+	return salary * 3;
+};
+var performanceB = function( salary ){
+	return salary * 2;
+};
+var calculateBonus = function( performanceLevel, salary ){
+	if ( performanceLevel === 'S' ){
+		return performanceS( salary );
+	}
+	if ( performanceLevel === 'A' ){
+		return performanceA( salary );
+	}
+	if ( performanceLevel === 'B' ){
+		return performanceB( salary );
+	}
+};
+calculateBonus( 'A' , 10000 ); // 输出：30000
 
 
-	var performanceS = function(){};
-	performanceS.prototype.calculate = function( salary ){
-		return salary * 4;
-	};
-	var performanceA = function(){};
-	performanceA.prototype.calculate = function( salary ){
-		return salary * 3;
-	};
-	var performanceB = function(){};
-	performanceB.prototype.calculate = function( salary ){
-		return salary * 2;
-	};
+var performanceS = function(){};
+performanceS.prototype.calculate = function( salary ){
+	return salary * 4;
+};
+var performanceA = function(){};
+performanceA.prototype.calculate = function( salary ){
+	return salary * 3;
+};
+var performanceB = function(){};
+performanceB.prototype.calculate = function( salary ){
+	return salary * 2;
+};
 
-	//接下来定义奖金类Bonus：
-
-	var Bonus = function(){
-		this.salary = null; // 原始工资
-		this.strategy = null; // 绩效等级对应的策略对象
-	};
-	Bonus.prototype.setSalary = function( salary ){
-		this.salary = salary; // 设置员工的原始工资
-	};
-	Bonus.prototype.setStrategy = function( strategy ){
-		this.strategy = strategy; // 设置员工绩效等级对应的策略对象
-	};
-	Bonus.prototype.getBonus = function(){ // 取得奖金数额
-		return this.strategy.calculate( this.salary ); // 把计算奖金的操作委托给对应的策略对象
-	};
+// 定义奖金类 Bonus
+var Bonus = function(){
+	this.salary = null; // 原始工资
+	this.strategy = null; // 绩效等级对应的策略对象
+};
+Bonus.prototype.setSalary = function( salary ){
+	this.salary = salary; // 设置员工的原始工资
+};
+Bonus.prototype.setStrategy = function( strategy ){
+	this.strategy = strategy; // 设置员工绩效等级对应的策略对象
+};
+Bonus.prototype.getBonus = function(){ // 取得奖金数额
+	return this.strategy.calculate( this.salary ); // 把计算奖金的操作委托给对应的策略对象
+};
 
 	var bonus = new Bonus();
 	bonus.setSalary( 10000 );
