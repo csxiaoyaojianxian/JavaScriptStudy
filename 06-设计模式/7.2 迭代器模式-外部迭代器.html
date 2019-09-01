@@ -1,0 +1,78 @@
+外部迭代器必须显式地请求迭代下一个元素
+外部迭代器增加了一些调用的复杂度，但相对也增强了迭代器的灵活性，我们可以手工控制迭代的过程或者顺序
+<script>
+// 场景：使用内部迭代器来比较两个数组
+/*
+var compare = function( ary1, ary2 ){
+    if ( ary1.length !== ary2.length ){
+        throw new Error ( 'ary1 和 ary2 不相等' );
+    }
+    each( ary1, function( i, n ){
+        if ( n !== ary2[ i ] ){
+            throw new Error ( 'ary1 和 ary2 不相等' );
+        }
+    });
+    alert ( 'ary1 和 ary2 相等' );
+};
+compare( [ 1, 2, 3 ], [ 1, 2, 4 ] ); // throw new Error ( 'ary1 和 ary2 不相等' );
+*/
+
+// 外部迭代器
+var Iterator = function( obj ){
+    var current = 0;
+    var next = function(){
+        current += 1;
+    };
+    var isDone = function(){
+        return current >= obj.length;
+    };
+    var getCurrItem = function(){
+        return obj[ current ];
+    };
+    return {
+        next: next,
+        isDone: isDone,
+        getCurrItem: getCurrItem
+    }
+};
+// 比较函数
+var compare = function( iterator1, iterator2 ){
+    while( !iterator1.isDone() && !iterator2.isDone() ){
+        if ( iterator1.getCurrItem() !== iterator2.getCurrItem() ){
+            throw new Error ( 'iterator1 和iterator2 不相等' );
+        }
+        iterator1.next();
+        iterator2.next();
+    }
+    alert ( 'iterator1 和iterator2 相等' );
+}
+var iterator1 = Iterator( [ 1, 2, 3 ] );
+var iterator2 = Iterator( [ 1, 2, 3 ] );
+compare( iterator1, iterator2 ); // 输出：iterator1 和iterator2 相等
+
+// jquery
+/*
+$.each = function( obj, callback ) {
+    var value,
+        i = 0,
+        length = obj.length,
+        isArray = isArraylike( obj );
+    if ( isArray ) { // 迭代类数组
+        for ( ; i < length; i++ ) {
+            value = callback.call( obj[ i ], i, obj[ i ] );
+            if ( value === false ) {
+                break;
+            }
+        }
+    } else {
+        for ( i in obj ) { // 迭代object 对象
+            value = callback.call( obj[ i ], i, obj[ i ] );
+            if ( value === false ) {
+                break;
+            }
+        }
+    }
+    return obj;
+};
+*/
+</script>
