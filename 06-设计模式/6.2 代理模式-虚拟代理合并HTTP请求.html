@@ -1,0 +1,66 @@
+check的同时向服务器同步文件
+通过一个代理函数 proxySynchronousFile 来收集一段时间之内的请求，最后一次性发送给服务器
+比如我们等待 2 秒之后才把这 2 秒之内需要同步的文件 ID 打包发给 服务器
+如果不是对实时性要求非常高的系统，2 秒的延迟不会带来太大副作用，却能大大减轻 服务器的压力
+<body>
+    <input type="checkbox" id="1"></input>1
+    <input type="checkbox" id="2"></input>2
+    <input type="checkbox" id="3"></input>3
+    <input type="checkbox" id="4"></input>4
+    <input type="checkbox" id="5"></input>5
+    <input type="checkbox" id="6"></input>6
+    <input type="checkbox" id="7"></input>7
+    <input type="checkbox" id="8"></input>8
+    <input type="checkbox" id="9"></input>9
+</body>
+    
+<script>
+/**
+ * 绑定点击事件
+ * 点击的同时往另一台服务器同步文件
+ */
+// var synchronousFile = function( id ){
+//     console.log( '开始同步文件，id 为: ' + id );
+// };
+// var checkbox = document.getElementsByTagName( 'input' );
+// for ( var i = 0, c; c = checkbox[ i++ ]; ){
+//     c.onclick = function(){
+//         if ( this.checked === true ){
+//             synchronousFile( this.id );
+//         }
+//     }
+// };
+
+/**
+ * 虚拟代理，延迟发送http请求
+ */
+var synchronousFile = function( id ){
+    console.log( '开始同步文件，id 为: ' + id );
+};
+var proxySynchronousFile = (function(){
+    var cache = [], // 保存一段时间内需要同步的ID
+    timer; // 定时器
+    return function( id ){
+        cache.push( id );
+        if ( timer ){ // 保证不会覆盖已经启动的定时器
+            return;
+        }
+        timer = setTimeout(function(){
+            synchronousFile( cache.join( ',' ) ); // 2 秒后向本体发送需要同步的ID 集合
+            clearTimeout( timer ); // 清空定时器
+            timer = null;
+            cache.length = 0; // 清空ID 集合
+        }, 2000 );
+    }
+})();
+// 绑定点击事件
+var checkbox = document.getElementsByTagName( 'input' );
+for ( var i = 0, c; c = checkbox[ i++ ]; ){
+    c.onclick = function(){
+        if ( this.checked === true ){
+            proxySynchronousFile( this.id );
+        }
+    }
+};
+
+</script>

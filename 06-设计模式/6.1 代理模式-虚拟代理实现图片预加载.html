@@ -1,0 +1,71 @@
+虚拟代理实现图片预加载
+通过 proxyImage 间接地访问 MyImage
+proxyImage 控制了客户对 MyImage 的访问，并且在此过程中加入一些额外的操作
+比如在真正的图片加载好之前，先把 img 节点的 src 设置为一张本地的 loading 图片
+
+<script>
+/**
+ * 普通加载图片
+ * 不使用加载动画，不使用代理，直接插入图片
+ */
+// var myImage = (function(){
+//     var imgNode = document.createElement( 'img' );
+//     document.body.appendChild( imgNode );
+//     return {
+//         setSrc: function( src ){
+//             imgNode.src = src;
+//         }
+//     }
+// })();
+// myImage.setSrc( 'http:// imgcache.qq.com/music/photo/k/000GGDys0yA0Nk.jpg' );
+
+/**
+ * 使用代理处理 src
+ * 先插入loading图片，再预加载图片，加载完后插入
+ */
+//  myImage 不改变
+var myImage = (function(){
+    var imgNode = document.createElement( 'img' );
+    document.body.appendChild( imgNode );
+    return {
+        setSrc: function( src ){
+            imgNode.src = src;
+        }
+    }
+})();
+// 代理 proxyImage
+var proxyImage1 = (function(){
+    var img = new Image;
+    img.onload = function(){
+        myImage.setSrc( this.src );
+    }
+    return {
+        setSrc: function( src ){
+            myImage.setSrc( 'file:// /C:/Users/xxx/Desktop/loading.gif' );
+            img.src = src; // 开始加载正式的图片
+        }
+    }
+})();
+// 直接访问代理
+proxyImage1.setSrc( 'https://raw.githubusercontent.com/csxiaoyaojianxian/ImageHosting/master/img/20190112180457.png' );
+
+/**
+ * 
+ */
+// var MyImage = (function(){
+//     var imgNode = document.createElement( 'img' );
+//     document.body.appendChild( imgNode );
+//     var img = new Image;
+//     img.onload = function(){
+//         imgNode.src = img.src;
+//     };
+//     return {
+//         setSrc: function( src ){
+//             imgNode.src = 'file:// /C:/Users/xxx/Desktop/loading.gif';
+//             img.src = src;
+//         }
+//     }
+// })();
+// MyImage.setSrc( 'http:// imgcache.qq.com/music/photo/k/000GGDys0yA0Nk.jpg' );
+
+</script>

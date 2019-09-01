@@ -1,0 +1,35 @@
+缓存代理可以为一些开销大的运算结果提供暂时的存储
+在下次运算时，如果传递进来的参数跟之前一致，则可以直接返回前面存储的运算结果
+<script type="text/javascript">
+/**
+ * 计算乘积
+ */
+var mult = function(){
+    console.log( '开始计算乘积' );
+    var a = 1;
+    for ( var i = 0, l = arguments.length; i < l; i++ ){
+        a = a * arguments[i];
+    }
+    return a;
+};
+// 不使用缓存代理直接计算乘积
+mult( 2, 3 ); // 输出：6
+mult( 2, 3, 4 ); // 输出：24
+
+/**
+ * 缓存代理函数
+ */
+var proxyMult = (function(){
+    var cache = {};
+    return function(){
+        var args = Array.prototype.join.call( arguments, ',' );
+        if ( args in cache ){
+            return cache[ args ];
+        }
+        return cache[ args ] = mult.apply( this, arguments );
+    }
+})();
+// 使用缓存代理计算乘积
+proxyMult( 1, 2, 3, 4 ); // 输出：24
+proxyMult( 1, 2, 3, 4 ); // 输出：24，不经过计算，直接用缓存
+</script>

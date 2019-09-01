@@ -1,0 +1,88 @@
+miniConsole.js 库比较大，不适合初始化页面时加载，需要在用户按下 F2 以后加载
+在 miniConsole.js 加载之前，为了能够让用户正常地使用里面的 API，可以用一个占位的 miniConsole 代理对象来给用户提前使用
+这个代理对象提供给用户的接口，跟实际的 miniConsole 是一样的
+等用户按下 F2 唤出控制台的时候，才开始加载真正的 miniConsole.js 的代码，加载完成之后将遍历 miniConsole 代理对象中的缓存函数队列，同时依次执行它们
+
+<script type="text/javascript">
+/*
+var cache = [];
+// 代理对象
+var miniConsole = {
+    log: function(){
+        var args = arguments;
+        cache.push( function(){
+            return miniConsole.log.apply( miniConsole, args );
+        });
+    }
+};
+miniConsole.log(1);
+*/
+/**
+ * 绑定 F2 按键事件
+ */
+/*
+var handler = function( ev ){
+    if ( ev.keyCode === 113 ){
+        var script = document.createElement( 'script' );
+        script.onload = function(){
+            for ( var i = 0, fn; fn = cache[ i++ ]; ){
+                fn();
+            }
+        };
+        script.src = 'miniConsole.js';
+        document.getElementsByTagName( 'head' )[0].appendChild( script );
+    }
+};
+document.body.addEventListener( 'keydown', handler, false );
+*/
+// 加载的 miniConsole.js 代码，覆盖 miniConsole 对象
+/*
+miniConsole = {
+    log: function(){
+        // 真正代码略
+        console.log( Array.prototype.join.call( arguments ) );
+    }
+};
+*/
+
+// 代理对象
+var miniConsole = (function(){
+    var cache = [];
+    /**
+     * 绑定 F2 按键事件
+     */
+    var handler = function( ev ){
+        if ( ev.keyCode === 113 ){
+            var script = document.createElement( 'script' );
+            script.onload = function(){
+                for ( var i = 0, fn; fn = cache[ i++ ]; ){
+                    fn();
+                }
+            };
+            script.src = 'miniConsole.js';
+            document.getElementsByTagName( 'head' )[0].appendChild( script );
+            document.body.removeEventListener( 'keydown', handler );// 只加载一次miniConsole.js
+        }
+    };
+    document.body.addEventListener( 'keydown', handler, false );
+    return {
+        // 代理对象，调用时加入缓存
+        log: function(){
+            var args = arguments;
+            cache.push( function(){
+                return miniConsole.log.apply( miniConsole, args );
+            });
+        }
+    }
+})();
+miniConsole.log( 11 ); // 开始打印log
+// 加载的 miniConsole.js 代码，覆盖 miniConsole 对象
+/*
+miniConsole = {
+    log: function(){
+        // 真正代码略
+        console.log( Array.prototype.join.call( arguments ) );
+    }
+}
+*/
+</script>
