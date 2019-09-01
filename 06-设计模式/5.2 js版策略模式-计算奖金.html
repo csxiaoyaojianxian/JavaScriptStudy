@@ -1,0 +1,24 @@
+在 JavaScript 语言中，函数也是对象，所以更简单和直接的做法是把 strategy 直接定义为函数
+
+策略模式利用组合、委托和多态等技术和思想，可以有效地避免多重条件选择语句
+ 策略模式提供了对开放—封闭原则的完美支持，将算法封装在独立的 strategy 中，使得它们易于切换，易于理解，易于扩展。
+ 策略模式中的算法也可以复用在系统的其他地方，从而避免许多重复的复制粘贴工作。
+ 在策略模式中利用组合和委托来让 Context 拥有执行算法的能力，这也是继承的一种更轻便的替代方案。
+
+在函数作为一等对象的语言中，策略模式是隐形的，strategy 就是值为函数的变量
+
+<script>
+// 定义策略对象
+var strategies = {
+    "S": function( salary ){ return salary * 4; },
+    "A": function( salary ){ return salary * 3; },
+    "B": function( salary ){ return salary * 2; }
+};
+var calculateBonus = function( level, salary ){
+    // 选取对应的策略并执行
+    return strategies[ level ]( salary );
+};
+
+console.log( calculateBonus( 'S', 20000 ) ); // 输出：80000
+console.log( calculateBonus( 'A', 10000 ) ); // 输出：30000
+</script>

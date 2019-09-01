@@ -1,0 +1,66 @@
+策略模式：
+定义一系列算法，把它们各自封装成策略类
+每次请求委托给这些策略对象中的某一个进行计算
+
+<script type="text/javascript">
+/**
+ * 反面教材：不使用策略模式的原始方法
+ * 问题：违背开闭原则
+ */
+var performanceS = function( salary ){
+	return salary * 4;
+};
+var performanceA = function( salary ){
+	return salary * 3;
+};
+var performanceB = function( salary ){
+	return salary * 2;
+};
+var calculateBonus = function( performanceLevel, salary ){
+	if ( performanceLevel === 'S' ){
+		return performanceS( salary );
+	} else if ( performanceLevel === 'A' ){
+		return performanceA( salary );
+	} else if ( performanceLevel === 'B' ){
+		return performanceB( salary );
+	}
+};
+calculateBonus( 'A' , 10000 ); // 输出：30000
+
+/**
+ * 使用策略模式重构代码
+ * 模拟传统面向对象语言
+ */
+// 定义策略
+var performanceS = function(){};
+performanceS.prototype.calculate = function( salary ){ return salary * 4; };
+var performanceA = function(){};
+performanceA.prototype.calculate = function( salary ){ return salary * 3; };
+var performanceB = function(){};
+performanceB.prototype.calculate = function( salary ){ return salary * 2; };
+// 定义奖金类 Bonus
+var Bonus = function(){
+	this.salary = null; // 原始工资
+	this.strategy = null; // 绩效等级对应的策略对象
+};
+// 设置员工的原始工资
+Bonus.prototype.setSalary = function( salary ){
+	this.salary = salary;
+};
+// 设置员工绩效等级对应的策略对象
+Bonus.prototype.setStrategy = function( strategy ){
+	this.strategy = strategy;
+};
+// 把计算奖金的操作委托给对应的策略对象
+Bonus.prototype.getBonus = function(){ // 取得奖金数额
+	return this.strategy.calculate( this.salary );
+};
+
+var bonus = new Bonus();
+bonus.setSalary( 10000 );
+// 设置策略对象 S
+bonus.setStrategy( new performanceS() );
+console.log( bonus.getBonus() ); // 输出：40000
+// 设置策略对象 A
+bonus.setStrategy( new performanceA() );
+console.log( bonus.getBonus() ); // 输出：30000
