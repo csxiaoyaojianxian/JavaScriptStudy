@@ -1,0 +1,42 @@
+<div id="ball" style="position:absolute;background:#000;width:50px;height:50px"></div>
+输入小球移动后的位置：<input id="pos"/>
+<button id="moveBtn">开始移动</button>
+<!--增加取消按钮-->
+<button id="cancelBtn">cancel</cancel>
+
+<script>
+var ball = document.getElementById( 'ball' );
+var pos = document.getElementById( 'pos' );
+var moveBtn = document.getElementById( 'moveBtn' );
+var cancelBtn = document.getElementById( 'cancelBtn' );
+
+/**
+ * 封装命令对象
+ */
+var MoveCommand = function( receiver, pos ){
+    this.receiver = receiver;
+    this.pos = pos;
+    this.oldPos = null; // 存放历史数据
+};
+MoveCommand.prototype.execute = function(){
+    this.receiver.start( 'left', this.pos, 1000, 'strongEaseOut' );
+    // 记录小球开始移动前的位置
+    this.oldPos = this.receiver.dom.getBoundingClientRect()[ this.receiver.propertyName ];
+};
+
+MoveCommand.prototype.undo = function(){
+    // 回到小球移动前记录的位置
+    this.receiver.start( 'left', this.oldPos, 1000, 'strongEaseOut' );
+};
+
+// 绑定事件
+moveBtn.onclick = function(){
+    var animate = new Animate( ball );
+    var moveCommand = new MoveCommand( animate, pos.value );
+    moveCommand.execute();
+};
+cancelBtn.onclick = function(){
+    moveCommand.undo(); // 撤销命令
+};
+
+</script>

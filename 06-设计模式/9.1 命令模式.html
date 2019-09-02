@@ -1,0 +1,58 @@
+命令模式
+解耦请求发送者和请求接收者之间的耦合关系
+
+<script>
+var button1 = document.getElementById( 'button1' ),
+	button2 = document.getElementById( 'button2' ),
+	button3 = document.getElementById( 'button3' );
+// 定义命令
+var MenuBar = {
+    refresh: function(){
+        console.log( '刷新菜单界面' );
+    }
+};
+var SubMenu = {
+    add: function(){
+        console.log( '增加子菜单' );
+    },
+    del: function(){
+        console.log( '删除子菜单' );
+    }
+};
+
+/**
+ * 反面教材
+ */
+// var bindClick = function( button, func ){
+//     button.onclick = func;
+// };
+// bindClick( button1, MenuBar.refresh );
+// bindClick( button2, SubMenu.add );
+// bindClick( button3, SubMenu.del );
+
+
+/**
+ * 二次封装命令
+ * 返回含 excute 的对象
+ */
+var RefreshMenuBarCommand = function( receiver ){
+    return {
+        execute: function(){
+            receiver.refresh();
+        }
+    }
+};
+/**
+ * 命令绑定
+ */
+var setCommand = function( button, command ){
+    button.onclick = function(){
+        command.execute();
+    }
+};
+
+// 生成命令
+var refreshMenuBarCommand = RefreshMenuBarCommand( MenuBar );
+// 传入命令
+setCommand( button1, refreshMenuBarCommand );
+</script>
