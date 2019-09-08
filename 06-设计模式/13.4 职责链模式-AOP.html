@@ -1,0 +1,84 @@
+利用 JavaScript 的函数式特性，有一种更加方便的方法来创建职责链
+用 AOP 来实现职责链既简单又巧妙，但这种把函数叠在一起的方式，同时也叠加了函数的作用域，如果链条太长的话，也会对性能有较大的影响
+
+【 OOP 与 AOP 的区别 】
+面向目标不同：OOP 面向名词领域，AOP 面向动词领域
+思想结构不同：OOP 是纵向结构，AOP 是横向结构
+注重方面不同：OOP 注重业务逻辑单元的划分，AOP 偏重业务处理过程中的某个步骤或阶段
+【 OOP 与 AOP 的联系 】
+两者之间是一个相互补充和完善的关系
+
+<script type="text/javascript">
+/**
+ * 定义三类处理节点
+ * 如果当前节点不能处理，直接返回 nextSuccessor
+ */
+var order500 = function( orderType, pay, stock ){
+    if ( orderType === 1 && pay === true ){
+        console.log( '500 元定金预购，得到100 优惠券' );
+    }else{
+        return 'nextSuccessor'; // 不知道下一个节点是谁，反正把请求往后面传递
+    }
+};
+var order200 = function( orderType, pay, stock ){
+    if ( orderType === 2 && pay === true ){
+        console.log( '200 元定金预购，得到50 优惠券' );
+    }else{
+        return 'nextSuccessor'; // 不知道下一个节点是谁，反正把请求往后面传递
+    }
+};
+var orderNormal = function( orderType, pay, stock ){
+    if ( stock > 0 ){
+        console.log( '普通购买，无优惠券' );
+    }else{
+        console.log( '手机库存不足' );
+    }
+};
+
+/**
+ * 【核心】
+ * AOP，为 Function 添加 after 方法
+ * 每个函数都拥有了 after 方法
+ * 传入下个节点处理函数
+ */
+Function.prototype.after = function( fn ){
+    var self = this;
+    return function() {
+        // 调用各自处理函数的after方法时先执行了当前函数
+        // AREA1: 如 order500.after(order200) 先执行了 order500()
+        var ret = self.apply( this, arguments );
+        // 再根据返回结果，确定要不要继续执行
+        // 如果返回 'nextSuccessor'，则传递给下个节点函数处理
+        if ( ret === 'nextSuccessor' ) {
+            // AREA2: 执行下个节点
+            return fn.apply( this, arguments );
+        }
+        // 否则返回结果值
+        return ret;
+    }
+};
+
+// 函数式编程，确定链式关系，规定 order500 的下个节点为 order200，order 的下个节点为 orderNormal
+/*
+    分析：
+    order500.after( order200 ) 返回的是一个函数，并未执行
+    order500.after( order200 ).after( orderNormal ) 因为上面返回值是一个函数，因此有after方法，再次返回一个函数，未执行
+    形成函数链
+*/
+var order = order500.after( order200 ).after( orderNormal );
+
+/**
+ * 【注意】
+ * 确定链式关系时候执行完全流程
+ */
+/*
+    分析：
+      先执行了 AREA1: order500( 2, true, 5 )，返回结果：ret = 'nextSuccessor'
+      执行下个节点 AREA2: order200( 2, true, 5 )，返回结果：ret = undefined
+      // TODO
+*/
+// order( 1, true, 5 ); // 输出：500 元定金预购，得到100 优惠券
+order( 2, true, 5 ); // 输出：200 元定金预购，得到50 优惠券
+// order( 1, false, 5 ); // 输出：普通购买，无优惠券
+
+</script>

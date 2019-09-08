@@ -1,0 +1,72 @@
+<script type="text/javascript">
+/**
+ * 定义三类处理节点
+ * 如果当前节点不能处理，直接返回 nextSuccessor
+ */
+var order500 = function( orderType, pay, stock ){
+    if ( orderType === 1 && pay === true ){
+        console.log( '500 元定金预购，得到100 优惠券' );
+    }else{
+        return 'nextSuccessor'; // 不知道下一个节点是谁，反正把请求往后面传递
+    }
+};
+var order200 = function( orderType, pay, stock ){
+    if ( orderType === 2 && pay === true ){
+        console.log( '200 元定金预购，得到50 优惠券' );
+    }else{
+        return 'nextSuccessor'; // 不知道下一个节点是谁，反正把请求往后面传递
+    }
+};
+var orderNormal = function( orderType, pay, stock ){
+    if ( stock > 0 ){
+        console.log( '普通购买，无优惠券' );
+    }else{
+        console.log( '手机库存不足' );
+    }
+};
+
+/**
+ * 【核心】
+ * 定义职责链节点，传入节点函数
+ * 通过 setNextSuccessor 和 passRequest 将节点实例组成链式结构
+ * 参数 fn 为节点处理函数
+ */
+var Chain = function( fn ){
+    this.fn = fn;
+    this.successor = null;
+};
+// 指定在链中的下一个节点，参数 successor 为 Chain 节点实例
+Chain.prototype.setNextSuccessor = function( successor ){
+    return this.successor = successor;
+};
+// 传递请求给某个节点，传入节点处理的参数，节点开始处理
+Chain.prototype.passRequest = function(){
+    // 使用初始化时候传入的 fn 进行处理并取得返回值
+    var ret = this.fn.apply( this, arguments );
+    // 如果返回值为 'nextSuccessor' 表示不能处理，传递给下个节点处理
+    if ( ret === 'nextSuccessor' ) {
+        // 如果已经 setNextSuccessor 则进行处理
+        return this.successor && this.successor.passRequest.apply( this.successor, arguments );
+    }
+    return ret;
+};
+
+/**
+ * 【 执行 】
+ * 定义三个节点，传入不同的节点处理函数
+ */
+var chainOrder500 = new Chain( order500 );
+var chainOrder200 = new Chain( order200 );
+var chainOrderNormal = new Chain( orderNormal );
+// 链式关联，传入上面定义的节点
+// chainOrder500.setNextSuccessor( chainOrder200 );
+// chainOrder200.setNextSuccessor( chainOrderNormal );
+chainOrder500.setNextSuccessor( chainOrder200 ).setNextSuccessor( chainOrderNormal );
+
+// 执行逻辑，起点为 chainOrder500
+chainOrder500.passRequest( 1, true, 500 ); // 输出：500 元定金预购，得到 100 优惠券
+chainOrder500.passRequest( 2, true, 500 ); // 输出：200 元定金预购，得到 50 优惠券
+chainOrder500.passRequest( 3, true, 500 ); // 输出：普通购买，无优惠券
+chainOrder500.passRequest( 1, false, 0 ); // 输出：手机库存不足
+
+</script>

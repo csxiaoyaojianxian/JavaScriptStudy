@@ -1,0 +1,73 @@
+职责链模式的最大优点就是解耦了 请求发送者 和 N个接收者 之间的复杂关系
+由于不知道链中的哪个节点可以处理发出的请求，所以只需把请求传递给第一个节点即可
+无论是作用域链、原型链，还是 DOM 节点中的事件冒泡，我们都能从中找到职责链模式的影子
+
+1 对 N 环形关系 ===> 链式关系
+
+<script>
+/**
+ * 【 反面教材 】
+ * 定金购买：如果支付了500元定金得100优惠券，如果支付了200元定金得50元优惠券，没有成功支付定金的没有优惠券且有库存限制
+ */
+// 传入用户 订单类型 / 是否支付定金 / 库存
+var order = function( orderType, pay, stock ){
+    // 500 元定金购买模式
+    if ( orderType === 1 ){
+        // 已支付定金
+        if ( pay === true ){ console.log( '500 元定金预购, 得到100 优惠券' ); }
+        // 未支付定金，降级到普通购买模式
+        else{
+            // 用于普通购买的手机还有库存
+            if ( stock > 0 ){ console.log( '普通购买, 无优惠券' ); }
+            else{ console.log( '手机库存不足' ); }
+        }
+    }
+    // 200 元定金购买模式
+    else if ( orderType === 2 ){
+        if ( pay === true ){ console.log( '200 元定金预购, 得到50 优惠券' ); }
+        else {
+            if ( stock > 0 ){ console.log( '普通购买, 无优惠券' ); }
+            else { console.log( '手机库存不足' ); }
+        }
+    }
+    // 普通模式购买
+    else if ( orderType === 3 ){
+        if ( stock > 0 ){ console.log( '普通购买, 无优惠券' ); }
+        else { console.log( '手机库存不足' ); }
+    }
+};
+order( 1 , true, 5 ); // 输出： 500 元定金预购, 得到100 优惠券
+
+/**
+ * 优化：链式调用，仍然不推荐！！！违反开闭原则
+ */
+ var order500 = function( orderType, pay, stock ){
+    if ( orderType === 1 && pay === true ){
+        console.log( '500 元定金预购, 得到100 优惠券' );
+    }else{
+        order200( orderType, pay, stock ); // 将请求传递给200 元订单
+    }
+};
+// 200 元订单
+var order200 = function( orderType, pay, stock ){
+    if ( orderType === 2 && pay === true ){
+        console.log( '200 元定金预购, 得到50 优惠券' );
+    }else{
+        orderNormal( orderType, pay, stock ); // 将请求传递给普通订单
+    }
+};
+// 普通购买订单
+var orderNormal = function( orderType, pay, stock ){
+    if ( stock > 0 ){
+        console.log( '普通购买, 无优惠券' );
+    }else{
+        console.log( '手机库存不足' );
+    }
+};
+// 测试结果：
+order500( 1 , true, 0); // 输出：500 元定金预购, 得到100 优惠券
+order500( 2, true, 0 ); // 输出：200 元定金预购, 得到500 优惠券
+order500( 3, false, 1 ); // 输出：普通购买, 无优惠券
+order500( 3, false, 0 ); // 输出：手机库存不足
+
+</script>

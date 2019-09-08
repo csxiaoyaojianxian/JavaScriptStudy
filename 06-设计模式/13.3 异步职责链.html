@@ -1,0 +1,56 @@
+前面的 passRequest 用于自动传递同步请求，不能处理异步请求，往往职责链的传递是在异步 ajax 请求结束后才能确定的
+本demo额外给职责链添加 next 方法处理异步请求
+需要在异步处理函数中主动调用 next 进行下一步
+<script>
+/**
+ * 定义职责链，传入节点处理函数
+ */
+var Chain = function( fn ){
+    this.fn = fn;
+    this.successor = null;
+};
+// setNextSuccessor 指定在链中的下一个节点
+Chain.prototype.setNextSuccessor = function( successor ){
+    return this.successor = successor;
+};
+// passRequest 传递请求给某个节点
+// 通过返回 'nextSuccessor' 自动处理
+Chain.prototype.passRequest = function(){
+    var ret = this.fn.apply( this, arguments );
+    if ( ret === 'nextSuccessor' ){
+        return this.successor && this.successor.passRequest.apply( this.successor, arguments );
+    }
+    return ret;
+};
+// next 处理异步职责链
+// 动过在异步处理函数中主动调用
+Chain.prototype.next= function(){ 
+  return this.successor && this.successor.passRequest.apply( this.successor, arguments ); 
+};
+
+/**
+ * 【执行】
+ */
+// 节点1，同步处理
+var fn1 = new Chain(function(){
+  console.log( 1 );
+  return 'nextSuccessor';
+});
+// 节点2，异步处理
+var fn2 = new Chain(function(){
+  console.log( 2 );
+  var self = this;
+  // 1秒后主动调用下个节点处理
+  setTimeout(function(){
+    self.next();
+  }, 1000 );
+});
+// 节点3，同步处理
+var fn3 = new Chain(function(){
+  console.log( 3 );
+});
+// 定义链式结构
+fn1.setNextSuccessor( fn2 ).setNextSuccessor( fn3 );
+// 执行，从节点1开始
+fn1.passRequest();
+</script>
