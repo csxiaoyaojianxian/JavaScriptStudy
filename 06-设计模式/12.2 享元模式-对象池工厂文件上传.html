@@ -1,0 +1,119 @@
+享元模式的适用性
+ 一个程序中使用了大量的相似对象。
+ 由于使用了大量对象，造成很大的内存开销。
+ 对象的大多数状态都可以变为外部状态。
+ 剥离出对象的外部状态之后，可以用相对较少的共享对象取代大量对象
+
+<script>
+/**
+ * Upload上传类
+ * 分离内部状态 uploadType
+ */
+var Upload = function( uploadType){
+    // 设置当前对象内部属性（uploadType）
+    this.uploadType = uploadType;
+};
+// 删除文件
+Upload.prototype.delFile = function( id ){
+    // 为 this 当前对象设置外部属性（fileName / fileSize / dom）
+    // 外部属性加上公共内部属性，相当于拼成了一个完整的对象
+    uploadManager.setExternalState( id, this );
+    // 文件小于3000直接删除，否则二次确认删除
+    if ( this.fileSize < 3000 ){
+        return this.dom.parentNode.removeChild( this.dom );
+    } else if ( window.confirm( '确定要删除该文件吗? ' + this.fileName ) ){
+        return this.dom.parentNode.removeChild( this.dom );
+    }
+}
+
+/**
+ * 管理器封装外部状态
+ */
+var uploadManager = (function(){
+    // 保存所有 upload 对象的【外部状态】，以便在程序运行过程中给 upload 共享对象设置外部状态
+    var uploadDatabase = {};
+    return {
+        // 添加享元对象
+        add: function( id, uploadType, fileName, fileSize ){
+            var flyWeightObj = UploadFactory.create( uploadType );
+            var dom = document.createElement( 'div' );
+            dom.innerHTML =
+            '<span>文件名称:'+ fileName +', 文件大小: '+ fileSize +'</span>' +
+            '<button class="delFile">删除</button>';
+            // 绑定删除按钮事件
+            dom.querySelector( '.delFile' ).onclick = function(){
+                flyWeightObj.delFile( id );
+            }
+            document.body.appendChild( dom );
+            // 保存 upload 对象的【外部状态】
+            uploadDatabase[ id ] = {
+                fileName: fileName,
+                fileSize: fileSize,
+                dom: dom
+            };
+            return flyWeightObj ;
+        },
+        // 设置享元对象的外部状态
+        setExternalState: function( id, flyWeightObj ){
+            var uploadData = uploadDatabase[ id ];
+            // 对象属性拷贝
+            for ( var i in uploadData ){
+                flyWeightObj[ i ] = uploadData[ i ];
+            }
+        }
+    }
+})();
+
+/**
+ * 工厂
+ * 根据 uploadType 生产对象
+ * 享元对象使用对象池实现共用
+ */
+ var UploadFactory = (function(){
+    // 对象池
+    var createdFlyWeightObjs = {};
+    return {
+        // 根据 uploadType 生产对象
+        create: function( uploadType ){
+            if ( createdFlyWeightObjs [ uploadType] ){
+                return createdFlyWeightObjs [ uploadType];
+            }
+            return createdFlyWeightObjs [ uploadType] = new Upload( uploadType);
+        }
+    }
+})();
+
+/**
+ * startUpload上传处理
+ */
+var id = 0;
+window.startUpload = function( uploadType, files ){
+    for ( var i = 0, file; file = files[ i++ ]; ){
+        var uploadObj = uploadManager.add( ++id, uploadType, file.fileName, file.fileSize );
+    }
+};
+
+// 执行上传
+startUpload( 'plugin', [{
+    fileName: '1.txt',
+    fileSize: 1000
+}, {
+    fileName: '2.html',
+    fileSize: 3000
+}, {
+    fileName: '3.txt',
+    fileSize: 5000
+}]);
+// 执行上传
+startUpload( 'flash', [{
+    fileName: '4.txt',
+    fileSize: 1000
+}, {
+    fileName: '5.html',
+    fileSize: 3000
+}, {
+    fileName: '6.txt',
+    fileSize: 5000
+}]);
+
+</script>

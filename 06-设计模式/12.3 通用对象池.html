@@ -1,0 +1,50 @@
+通用对象池实现
+【 此案例没有尝试分离出内部状态，因此不算享元模式 】
+<script>
+/**
+ * 通用对象池
+ * 传入对象构造方法
+ */
+var objectPoolFactory = function( createObjFn ){
+    // 对象队列
+    var objectPool = [];
+    return {
+        // 创建
+        create: function(){
+            var obj = objectPool.length === 0 ?
+            createObjFn.apply( this, arguments ) : objectPool.shift();
+            return obj;
+        },
+        // 回收
+        recover: function( obj ){
+            objectPool.push( obj );
+        }
+    }
+};
+
+/**
+ * 生产iframe
+ * 传入的是iframe构造方法
+ * 加载完后立即回收
+ */
+var iframeFactory = objectPoolFactory( function(){
+    var iframe = document.createElement( 'iframe' );
+    document.body.appendChild( iframe );
+    iframe.onload = function(){
+        iframe.onload = null; // 防止iframe 重复加载的bug
+        iframeFactory.recover( iframe ); // iframe 加载完成之后回收节点
+    }
+    return iframe;
+});
+
+// 执行加载iframe
+// 【一共只有两个iframe实例】
+var iframe1 = iframeFactory.create();
+iframe1.src = 'http:// baidu.com';
+var iframe2 = iframeFactory.create();
+iframe2.src = 'http:// QQ.com';
+setTimeout(function(){
+    var iframe3 = iframeFactory.create();
+    iframe3.src = 'http:// 163.com';
+}, 3000 );
+</script>

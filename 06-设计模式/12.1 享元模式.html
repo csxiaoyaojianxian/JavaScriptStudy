@@ -1,0 +1,54 @@
+享元模式是为解决性能问题而生的模式，这跟大部分模式的诞生原因都不一样。
+在一个存在大量相似对象的系统中，享元模式可以运用共享技术很好地解决大量对象带来的性能问题。
+
+实现享元模式的关键是把内部状态和外部状态分离开来
+有多少种内部状态的组合，系统中便最多存在多少个共享对象
+而外部状态储存在共享对象的外部，在必要时被传入共享对象来组装成一个完整的对象
+
+<script>
+/**
+ * 反面教材
+ */
+/*
+// 未分离内部外部状态（sex / underwear）
+var Model = function( sex, underwear){
+    this.sex = sex;
+    this.underwear= underwear;
+};
+Model.prototype.takePhoto = function(){
+    console.log( 'sex= ' + this.sex + ' underwear=' + this.underwear);
+};
+for ( var i = 1; i <= 50; i++ ){
+    var maleModel = new Model( 'male', 'underwear' + i );
+    maleModel.takePhoto();
+};
+for ( var j = 1; j <= 50; j++ ){
+    var femaleModel= new Model( 'female', 'underwear' + j );
+    femaleModel.takePhoto();
+};
+*/
+
+// 内部状态
+var Model = function( sex ){
+    this.sex = sex;
+};
+Model.prototype.takePhoto = function(){
+    console.log( 'sex= ' + this.sex + ' underwear=' + this.underwear);
+};
+
+// 共享两个对象实例
+var maleModel = new Model( 'male' ),
+    femaleModel = new Model( 'female' );
+
+for ( var i = 1; i <= 50; i++ ){
+    // 外部状态
+    maleModel.underwear = 'underwear' + i;
+    maleModel.takePhoto();
+};
+
+for ( var j = 1; j <= 50; j++ ){
+    // 外部状态
+    femaleModel.underwear = 'underwear' + j;
+    femaleModel.takePhoto();
+};
+</script>
