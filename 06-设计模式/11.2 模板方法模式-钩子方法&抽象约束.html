@@ -1,0 +1,37 @@
+<script>
+var Beverage = function(){};
+Beverage.prototype.boilWater = function(){ console.log( '把水煮沸' ); };
+/**
+ * 抽象约束
+ * 如果子类没有覆盖方法，throw Error，缺点是错误后置，执行时候才能发现
+ */
+Beverage.prototype.brew = function(){ throw new Error( '子类必须重写brew 方法' ); };
+Beverage.prototype.pourInCup = function(){ throw new Error( '子类必须重写pourInCup 方法' ); };
+Beverage.prototype.addCondiments = function(){ throw new Error( '子类必须重写addCondiments 方法' ); };
+/**
+ * 钩子方法
+ */
+Beverage.prototype.customerWantsCondiments = function(){
+    return true; // 默认需要调料
+};
+Beverage.prototype.init = function(){
+    this.boilWater();
+    this.brew();
+    this.pourInCup();
+	if ( this.customerWantsCondiments() ){ // 如果挂钩返回true，则需要调料
+		this.addCondiments();
+	}
+};
+
+var CoffeeWithHook = function(){};
+CoffeeWithHook.prototype = new Beverage();
+CoffeeWithHook.prototype.brew = function(){ console.log( '用沸水冲泡咖啡' ); };
+CoffeeWithHook.prototype.pourInCup = function(){ console.log( '把咖啡倒进杯子' ); };
+CoffeeWithHook.prototype.addCondiments = function(){ console.log( '加糖和牛奶' ); };
+CoffeeWithHook.prototype.customerWantsCondiments = function(){
+	return window.confirm( '请问需要调料吗？' );
+};
+var coffeeWithHook = new CoffeeWithHook();
+coffeeWithHook.init();
+
+</script>

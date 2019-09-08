@@ -1,0 +1,70 @@
+【 好莱坞原则 】
+模板方法模式是好莱坞原则的一个典型使用场景，它与好莱坞原则的联系非常明显
+当我们用模板方法模式编写一个程序时，就意味着子类放弃了对自己的控制权，而是改为父类通知子类，哪些方法应该在什么时候被调用
+作为子类，只负责提供一些设计上的细节。
+除此之外，好莱坞原则还常常应用于其他模式和场景，例如：发布订阅模式 和 回调函数
+
+【高阶函数替代】
+模板方法模式是基于继承的一种设计模式，父类封装了子类的算法框架和方法的执行顺序
+子类继承父类之后，父类通知子类执行这些方法，好莱坞原则很好地诠释了这种设计技巧，即高层组件调用底层组件
+模板方法模式是为数不多的基于继承的设计模式，但 JavaScript 语言实际上没有提供真正的类式继承，继承是通过对象与对象之间的委托来实现的
+大多数情况下，其实我们可以通过高阶函数替代js不正宗的模板方法模式
+
+<script type="text/javascript">
+/**
+ * 通过 param 参数的形式实现
+ */
+var Beverage = function( param ){
+    var boilWater = function(){
+        console.log( '把水煮沸' );
+    };
+    var brew = param.brew || function(){
+        throw new Error( '必须传递brew 方法' );
+    };
+    var pourInCup = param.pourInCup || function(){
+        throw new Error( '必须传递pourInCup 方法' );
+    };
+    var addCondiments = param.addCondiments || function(){
+        throw new Error( '必须传递addCondiments 方法' );
+    };
+    var F = function(){};
+    F.prototype.init = function(){
+        boilWater();
+        brew();
+        pourInCup();
+        addCondiments();
+    };
+    return F;
+};
+
+var Coffee = Beverage({
+    brew: function(){
+        console.log( '用沸水冲泡咖啡' );
+    },
+    pourInCup: function(){
+        console.log( '把咖啡倒进杯子' );
+    },
+    addCondiments: function(){
+        console.log( '加糖和牛奶' );
+    }
+});
+
+var Tea = Beverage({
+    brew: function(){
+        console.log( '用沸水浸泡茶叶' );
+    },
+    pourInCup: function(){
+        console.log( '把茶倒进杯子' );
+    },
+    addCondiments: function(){
+        console.log( '加柠檬' );
+    }
+});
+
+var coffee = new Coffee();
+coffee.init();
+
+var tea = new Tea();
+tea.init();
+
+</script>

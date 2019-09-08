@@ -1,1 +1,56 @@
 模板方法模式
+模板方法模式是一种典型的通过封装变化提高系统扩展性的设计模式。
+在传统的面向对象语言中，一个运用了模板方法模式的程序中，子类的方法种类和执行顺序都是不变的，所以我们把这部分逻辑抽象到父类的模板方法里面。
+而子类的方法具体怎么实现则是可变的，于是我们把这部分变化的逻辑封装到子类中。
+通过增加新的子类，我们便能给系统增加新的功能，并不需要改动抽象父类以及其他子类，这也是符合开放封闭原则的。
+
+<script>
+/**
+ * 模板类
+ */
+var Beverage = function(){};
+Beverage.prototype.boilWater = function(){
+    console.log( '把水煮沸' );
+};
+Beverage.prototype.brew = function(){}; // 空方法，应该由子类重写
+Beverage.prototype.pourInCup = function(){}; // 空方法，应该由子类重写
+Beverage.prototype.addCondiments = function(){}; // 空方法，应该由子类重写
+Beverage.prototype.init = function(){
+    this.boilWater();
+    this.brew();
+    this.pourInCup();
+    this.addCondiments();
+};
+/**
+ * coffee子类
+ */
+var Coffee = function(){};
+Coffee.prototype = new Beverage();
+Coffee.prototype.brew = function(){
+    console.log( '用沸水冲泡咖啡' );
+};
+Coffee.prototype.pourInCup = function(){
+    console.log( '把咖啡倒进杯子' );
+};
+Coffee.prototype.addCondiments = function(){
+    console.log( '加糖和牛奶' );
+};
+var Coffee = new Coffee();
+Coffee.init();
+/**
+ * tea子类
+ */
+var Tea = function(){};
+Tea.prototype = new Beverage();
+Tea.prototype.brew = function(){
+    console.log( '用沸水浸泡茶叶' );
+};
+Tea.prototype.pourInCup = function(){
+    console.log( '把茶倒进杯子' );
+};
+Tea.prototype.addCondiments = function(){
+    console.log( '加柠檬' );
+};
+var tea = new Tea();
+tea.init();
+</script>
