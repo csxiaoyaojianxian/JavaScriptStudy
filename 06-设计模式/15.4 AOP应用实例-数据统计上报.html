@@ -1,0 +1,46 @@
+
+<button tag="login" id="button">点击打开登录浮层</button>
+<script>
+/**
+ * 反面教材
+ * 在 showLogin 函数里，既要负责打开登录浮层，又要负责数据上报
+ * 两个层面的功能却被耦合在一个函数里
+ */
+/*
+var showLogin = function(){
+    console.log( '打开登录浮层' );
+    log( this.getAttribute( 'tag' ) );
+}
+var log = function( tag ){
+    console.log( '上报标签为: ' + tag );
+    // 上报功能代码略...
+    (new Image).src = 'http://csxiaoyao.com/report?tag=' + tag;
+}
+document.getElementById( 'button' ).onclick = showLogin;
+*/
+
+/**
+ * 使用 AOP 分离功能
+ */
+Function.prototype.after = function( afterfn ){
+    var __self = this;
+    return function () {
+        var ret = __self.apply( this, arguments );
+        afterfn.apply( this, arguments );
+        return ret;
+    }
+};
+// 功能1: 打开浮层
+var showLogin = function(){
+    console.log( '打开登录浮层' );
+}
+// 功能2: 数据上报
+var log = function(){
+    console.log( '上报标签为: ' + this.getAttribute( 'tag' ) );
+    // 上报功能代码略...
+    (new Image).src = 'http://csxiaoyao.com/report?tag=' + this.getAttribute( 'tag' );
+}
+// 装饰 / 包装
+showLogin = showLogin.after( log ); // 打开登录浮层之后上报数据
+document.getElementById( 'button' ).onclick = showLogin;
+</script>

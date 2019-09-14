@@ -1,0 +1,30 @@
+解决 CSRF 攻击最简单的一个办法就是在 HTTP 请求中带上一个 Token 参数
+
+<script>
+/**
+ * AOP - before
+ */
+Function.prototype.before = function( beforefn ){
+    var __self = this;
+    return function(){
+        beforefn.apply( this, arguments ); // (1)
+        return __self.apply( this, arguments ); // (2)
+    }
+}
+// 生成 token 的方法
+var getToken = function(){
+    return 'Token';
+}
+// 发起 ajax 请求方法
+var ajax= function( type, url, param ){
+    console.log(param); // 发送 ajax 请求的代码略
+    // 如果直接这样写，能够实现功能，但是功能僵硬，这个ajax方法不能再被复用
+    // param.token = getToken();
+};
+// 通过 Function.prototyte.before 将 token 参数装饰到 ajax 的参数 param 对象中
+ajax = ajax.before(function( type, url, param ){
+    param.token = getToken();
+});
+ajax('get', 'http://csxiaoyao.com/userinfo', { name: 'csxiaoyao' });
+// {name: "csxiaoyao", token: "Token"}
+</script>

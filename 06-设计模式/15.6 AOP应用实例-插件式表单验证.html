@@ -1,0 +1,65 @@
+<body>
+    用户名：<input id="username" type="text"/>
+    密码： <input id="password" type="password"/>
+    <input id="submitBtn" type="button" value="提交"></button>
+</body>
+<script>
+/**
+ * AOP - bofore
+ */
+Function.prototype.before = function( beforefn ){
+    var __self = this;
+    return function(){
+        if ( beforefn.apply( this, arguments ) === false ){
+            // beforefn 返回 false 时直接 return，不再执行后面的原函数
+            return;
+        }
+        return __self.apply( this, arguments );
+    }
+}
+
+var username = document.getElementById( 'username' ),
+    password = document.getElementById( 'password' ),
+    submitBtn = document.getElementById( 'submitBtn' );
+/**
+ * 参数校验规则
+ */
+var validata = function(){
+    if ( username.value === '' ){
+        alert ( '用户名不能为空' );
+        return false;
+    }
+    if ( password.value === '' ){
+        alert ( '密码不能为空' );
+        return false;
+    }
+}
+
+var formSubmit = function(){
+    /**
+     * 反面教材写法：
+     * formSubmit 函数承担了两个职责（ajax & 校验）
+     * 易造成函数臃肿、职责混乱、降低复用性
+     */
+    /*
+    if ( validata() === false ){ // 校验未通过
+        return;
+    }
+    */
+    var param = {
+        username: username.value,
+        password: password.value
+    }
+    ajax( 'http://csxiaoyao.com/login', param);
+}
+
+/**
+ * AOP - before 方式
+ * 插件式表单验证
+ * 停止执行的逻辑在 before 中控制
+ */
+formSubmit = formSubmit.before( validata );
+
+// 绑定
+submitBtn.onclick = function () { formSubmit(); }
+</script>

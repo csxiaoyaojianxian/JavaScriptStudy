@@ -1,0 +1,32 @@
+要想为函数添加一些功能，最简单粗暴的方式就是直接改写该函数
+但这是最差的办法，直接违反了开放封闭原则
+<script>
+// plane
+var plane = {
+    fire: function(){
+        console.log( '发射普通子弹' );
+    }
+}
+// 待装饰的方法函数
+var missileDecorator = function(){
+    console.log( '发射导弹' );
+}
+var atomDecorator = function(){
+    console.log( '发射原子弹' );
+}
+// （装饰1）取得备份原来的待装饰方法并改写
+var fire1 = plane.fire;
+plane.fire = function(){ // 改写
+    fire1();
+    missileDecorator();
+}
+// （装饰2）取得备份原来的待装饰方法并改写
+var fire2 = plane.fire;
+plane.fire = function(){ // 改写
+    fire2();
+    atomDecorator();
+}
+
+// 分别输出： 发射普通子弹、发射导弹、发射原子弹
+plane.fire(); 
+</script>

@@ -1,0 +1,75 @@
+缺点：下面方法1 的 AOP 实现是在 Function.prototype 上添加 before 和 after 方法，这种方式会污染原型
+可以做一些变通，把原函数和装饰函数都作为参数传入 before 或者 after 方法，如方法2
+<button id="button"></button>
+<script>
+/**
+ * 方法1:
+ * AOP 封装装饰器方法
+ * 在 Function.prototype 上添加 before 和 after 方法
+ * 这种方式会污染原型
+ */
+Function.prototype.before = function( beforefn ){
+	var __self = this; // 保存原函数的引用
+	return function(){ // 返回包含了原函数和新函数的"代理"函数
+        // 执行新函数，且保证 this 不被劫持，新函数接受参数
+		beforefn.apply( this, arguments );
+		// 执行原函数并返回原函数的执行结果，并且保证 this 不被劫持
+		return __self.apply( this, arguments );
+	}
+}
+Function.prototype.after = function( afterfn ){
+	var __self = this;
+	return function(){
+		var ret = __self.apply( this, arguments );
+		afterfn.apply( this, arguments );
+		return ret;
+	}
+};
+
+/**
+ * demo1
+ * 装饰器改写 document.getElementById
+ */
+document.getElementById = document.getElementById.before(function(){
+    console.log('before');
+});
+var button = document.getElementById( 'button' );
+// console.dir( button );
+
+/**
+ * demo2
+ * onload
+ */
+window.onload = function(){
+    console.log(1);
+}
+// AOP after 每次返回的是 function，因此可以实现链式调用
+window.onload = ( window.onload || function(){} ).after(function(){
+    console.log(2);
+}).after(function(){
+    console.log(3);
+}).after(function(){
+    console.log(4);
+}); // 1 2 3 4
+
+/**
+ * 方法2:
+ * 生成新方法
+ * 把原函数和装饰函数都作为参数传入融合函数，生成新函数，且保证 this 不被劫持
+ */
+var before = function( fn, beforefn ){
+    return function(){
+        beforefn.apply( this, arguments );
+        return fn.apply( this, arguments );
+    }
+}
+var a = before(
+    function(){ console.log(3) },
+    function(){ console.log(2) }
+);
+a = before(
+    a,
+    function() { console.log(1); }
+);
+a(); // 1 2 3
+</script>
