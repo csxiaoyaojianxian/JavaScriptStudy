@@ -1,0 +1,34 @@
+在实际开发中，很多场景都可以用状态机来模拟，
+比如一个下拉菜单在 hover 动作下有显示、悬浮、隐藏等状态
+一次 TCP 请求有建立连接、监听、关闭等状态
+一个格斗游戏中人物有攻击、防御、跳跃、跌倒等状态。
+<script>
+var FSM = {
+    // 行走状态
+    walk: {
+        // 行走状态 下 其他操作
+        attack: function(){
+            console.log( '攻击' );
+        },
+        defense: function(){
+            console.log( '防御' );
+        },
+        jump: function(){
+            console.log( '跳跃' );
+        }
+    },
+    // 攻击状态
+    attack: {
+        // 攻击状态 下 其他操作
+        walk: function(){
+            console.log( '攻击的时候不能行走' );
+        },
+        defense: function(){
+            console.log( '攻击的时候不能防御' );
+        },
+        jump: function(){
+            console.log( '攻击的时候不能跳跃' );
+        }
+    }
+}
+</script>

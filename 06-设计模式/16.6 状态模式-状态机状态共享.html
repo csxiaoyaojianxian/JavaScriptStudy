@@ -1,0 +1,51 @@
+状态机状态共享，提升性能
+前面两个示例都是模拟传统面向对象语言的状态模式实现
+为每种状态都定义一个状态子类，然后在 Context 中持有这些状态对象的引用，以便把 currState 设置为当前的状态对象
+
+但在 JavaScript 这种“无类”语言中，没有规定状态对象一定要从类中创建而来，JavaScript 可以非常方便地使用委托技术，实现更加轻巧
+
+<script>
+/**
+ * context 类
+ */
+var Light = function(){
+    this.currState = FSM.off; // 设置当前状态
+    this.button = null;
+};
+Light.prototype.init = function(){
+    var button = document.createElement( 'button' ),
+    self = this;
+    button.innerHTML = '已关灯';
+    this.button = document.body.appendChild( button );
+    this.button.onclick = function(){
+        // 把请求委托给 FSM 状态机
+        self.currState.buttonWasPressed.call( self );
+    }
+};
+/**
+ * 状态机
+ * 状态共享，提升性能
+ */
+var FSM = {
+    off: {
+        buttonWasPressed: function(){
+            console.log( '关灯' );
+            this.button.innerHTML = '下一次按我是开灯';
+            // 状态切换
+            this.currState = FSM.on;
+        }
+    },
+    on: {
+        buttonWasPressed: function(){
+            console.log( '开灯' );
+            this.button.innerHTML = '下一次按我是关灯';
+            // 状态切换
+            this.currState = FSM.off;
+        }
+    }
+};
+
+// test
+var light = new Light();
+light.init();
+</script>

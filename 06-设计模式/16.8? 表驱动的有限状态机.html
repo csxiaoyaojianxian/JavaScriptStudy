@@ -1,0 +1,22 @@
+<script>
+// 略
+var fsm = StateMachine.create({
+    initial: 'off',
+    events: [
+        { name: 'buttonWasPressed', from: 'off', to: 'on' },
+        { name: 'buttonWasPressed', from: 'on', to: 'off' }
+    ],
+    callbacks: {
+        onbuttonWasPressed: function( event, from, to ){
+            console.log( arguments );
+        }
+    },
+    error: function( eventName, from, to, args, errorCode, errorMessage ) {
+        console.log( arguments ); // 从一种状态试图切换到一种不可能到达的状态的时候
+    }
+});
+
+button.onclick = function(){
+    fsm.buttonWasPressed();
+}
+</script>

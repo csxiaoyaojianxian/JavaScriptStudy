@@ -1,0 +1,143 @@
+<body></body>
+<script>
+/**
+ * 反面教材
+ * ...... 各种状态分支很难维护
+ */
+
+/**
+ * 插件类
+ * 定义插件的功能操作
+ */
+var plugin = (function(){
+    var plugin = document.createElement( 'embed' );
+    plugin.style.display = 'none';
+    plugin.type = 'application/txftn-webkit';
+    plugin.sign = function(){
+        console.log( '开始文件扫描' );
+    }
+    plugin.pause = function(){
+        console.log( '暂停文件上传' );
+    };
+    plugin.uploading = function(){
+        console.log( '开始文件上传' );
+    };
+    plugin.del = function(){
+        console.log( '删除文件上传' );
+    }
+    plugin.done = function(){
+        console.log( '文件上传完成' );
+    }
+    document.body.appendChild( plugin );
+    return plugin;
+})();
+/**
+ * context 类
+ */
+var Upload = function( fileName ){
+    this.plugin = plugin;
+    this.fileName = fileName;
+    this.button1 = null;
+    this.button2 = null;
+    // 设置初始状态为waiting
+    this.state = 'sign';
+};
+// 初始化
+Upload.prototype.init = function(){
+    var that = this;
+    this.dom = document.createElement( 'div' );
+    this.dom.innerHTML =
+        '<span>文件名称:'+ this.fileName +'</span>\
+        <button data-action="button1">扫描中</button>\
+        <button data-action="button2">删除</button>';
+    document.body.appendChild( this.dom );
+    this.button1 = this.dom.querySelector( '[data-action="button1"]' ); // 第一个按钮
+    this.button2 = this.dom.querySelector( '[data-action="button2"]' ); // 第二个按钮
+    // 统一功能事件绑定
+    this.bindEvent();
+};
+
+/**
+ * 功能事件绑定
+ */
+Upload.prototype.bindEvent = function(){
+    var self = this;
+    // 按钮1绑定
+    this.button1.onclick = function(){
+        // ...... 各种状态分支
+        if ( self.state === 'sign' ){ // 扫描状态下，任何操作无效
+            console.log( '扫描中，点击无效...' );
+        } else if ( self.state === 'uploading' ){ // 上传中，点击切换到暂停
+            self.changeState( 'pause' );
+        } else if ( self.state === 'pause' ){ // 暂停中，点击切换到上传中
+            self.changeState( 'uploading' );
+        } else if ( self.state === 'done' ){
+            console.log( '文件已完成上传, 点击无效' );
+        } else if ( self.state === 'error' ){
+            console.log( '文件上传失败, 点击无效' );
+        }
+    };
+    // 按钮2绑定
+    this.button2.onclick = function(){
+        // ...... 各种状态分支
+        if ( self.state === 'done' || self.state === 'error' || self.state === 'pause' ){
+            // 上传完成、上传失败和暂停状态下可以删除
+            self.changeState( 'del' );
+        } else if ( self.state === 'sign' ){
+            console.log( '文件正在扫描中，不能删除' );
+        } else if ( self.state === 'uploading' ){
+            console.log( '文件正在上传中，不能删除' );
+        }
+    };
+};
+/**
+ * 状态修改函数
+ */
+Upload.prototype.changeState = function( state ){
+    // ...... 各种状态分支
+    switch( state ){
+        case 'sign':
+            this.plugin.sign();
+            this.button1.innerHTML = '扫描中，任何操作无效';
+            break;
+        case 'uploading':
+            this.plugin.uploading();
+            this.button1.innerHTML = '正在上传，点击暂停';
+            break;
+        case 'pause':
+            this.plugin.pause();
+            this.button1.innerHTML = '已暂停，点击继续上传';
+            break;
+        case 'done':
+            this.plugin.done();
+            this.button1.innerHTML = '上传完成';
+            break;
+        case 'error':
+            this.button1.innerHTML = '上传失败';
+            break;
+        case 'del':
+            this.plugin.del();
+            this.dom.parentNode.removeChild( this.dom );
+            console.log( '删除完成' );
+            break;
+    }
+    this.state = state;
+};
+
+// test
+var uploadObj = new Upload( 'JavaScript 设计模式与开发实践' );
+uploadObj.init();
+// 用于模拟状态改变
+window.external.upload = function( state ){
+    console.log( state ); // 可能为sign、uploading、done、error
+    uploadObj.changeState( state );
+};
+// 模拟状态改变 sign -> uploading -> done
+window.external.upload( 'sign' ); // 文件开始扫描
+setTimeout(function(){
+    window.external.upload( 'uploading' ); // 1 秒后开始上传
+}, 1000 );
+setTimeout(function(){
+    window.external.upload( 'done' ); // 5 秒后上传完成
+}, 5000 );
+</script>

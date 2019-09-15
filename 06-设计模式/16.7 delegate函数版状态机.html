@@ -1,0 +1,65 @@
+利用 delegate 函数来完成状态机编写
+这是面向对象设计和闭包互换的一个例子
+前者把变量保存为对象的属性，而后者把变量封闭在闭包形成的环境中
+
+<script>
+/**
+ * delegate
+ * 将客户的操作委托给 delegation 对象
+ * delegation 为传入的状态
+ * 返回状态对象
+ */
+var delegate = function( client, delegation ){
+    return {
+        buttonWasPressed: function(){ // 将客户的操作委托给 delegation 对象
+            return delegation.buttonWasPressed.apply( client, arguments );
+        }
+    }
+};
+/**
+ * 状态机操作
+ */
+var FSM = {
+    off: {
+        buttonWasPressed: function(){
+            console.log( '关灯' );
+            this.button.innerHTML = '下一次按我是开灯';
+            this.currState = this.onState;
+        }
+    },
+    on: {
+        buttonWasPressed: function(){
+            console.log( '开灯' );
+            this.button.innerHTML = '下一次按我是关灯';
+            this.currState = this.offState;
+        }
+    }
+};
+/**
+ * context
+ */
+var Light = function(){
+    // delegate，设置状态对象
+    this.offState = delegate( this, FSM.off );
+    // delegate，设置状态对象
+    this.onState = delegate( this, FSM.on );
+    // 设置初始状态为关闭状态
+    this.currState = this.offState;
+    this.button = null;
+};
+
+Light.prototype.init = function(){
+    var button = document.createElement( 'button' ),
+    self = this;
+    button.innerHTML = '已关灯';
+    this.button = document.body.appendChild( button );
+    this.button.onclick = function(){
+        // 直接操作状态对象
+        self.currState.buttonWasPressed();
+    }
+};
+
+// test
+var light = new Light();
+light.init();
+</script>

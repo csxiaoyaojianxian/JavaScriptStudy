@@ -1,0 +1,51 @@
+GOF：状态模式 - 允许一个对象在其内部状态改变时改变它的行为，对象看起来似乎修改了它的类
+1. 将状态封装成独立的类，并将请求委托给当前的状态对象，当对象的内部状态改变时，会带来不同的行为变化
+2. 从客户的角度来看，我们使用的对象，在不同的状态下具有截然不同的行为，这个对象看起来是从不同的类中实例化而来的，实际上这是使用了委托的效果
+
+<script>
+/**
+ * 反面教材
+ * 
+ */
+var Light = function(){
+    this.state = 'off'; // 给电灯设置初始状态 off
+    this.button = null; // 电灯开关按钮
+};
+
+Light.prototype.init = function(){
+    var button = document.createElement( 'button' ),
+    self = this;
+    button.innerHTML = '开关';
+    this.button = document.body.appendChild( button );
+    this.button.onclick = function(){
+        self.buttonWasPressed();
+    }
+};
+
+Light.prototype.buttonWasPressed = function(){
+    if ( this.state === 'off' ){
+        console.log( '开灯' );
+        this.state = 'on';
+    }else if ( this.state === 'on' ){
+        console.log( '关灯' );
+        this.state = 'off';
+    }
+};
+
+var light = new Light();
+light.init();
+
+// 当需要增加一类状态时，需要用 if else 控制
+Light.prototype.buttonWasPressed = function(){
+    if ( this.state === 'off' ){
+        console.log( '弱光' );
+        this.state = 'weakLight';
+    }else if ( this.state === 'weakLight' ){
+        console.log( '强光' );
+        this.state = 'strongLight';
+    }else if ( this.state === 'strongLight' ){
+        console.log( '关灯' );
+        this.state = 'off';
+    }
+};
+</script>
