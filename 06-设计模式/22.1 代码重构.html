@@ -1,0 +1,321 @@
+﻿1. 提炼函数
+独立出新的公共函数
+ 避免出现超大函数
+ 独立出来的函数有助于代码复用
+ 独立出来的函数更容易被覆写
+ 独立出来的函数如果拥有一个良好的命名，它本身就起到了注释的作用
+<script>
+// var getUserInfo = function(){
+// 	ajax( 'http:// xxx.com/userInfo', function( data ){
+// 		console.log( 'userId: ' + data.userId );
+// 		console.log( 'userName: ' + data.userName );
+// 		console.log( 'nickName: ' + data.nickName );
+// 	});
+// };
+//改成：
+var getUserInfo = function(){
+	ajax( 'http:// xxx.com/userInfo', function( data ){
+		printDetails( data );
+	});
+};
+var printDetails = function( data ){
+	console.log( 'userId: ' + data.userId );
+	console.log( 'userName: ' + data.userName );
+	console.log( 'nickName: ' + data.nickName );
+};
+</script>
+
+2. 合并重复的条件片段
+<script>
+// var paging = function( currPage ){
+// 	if ( currPage <= 0 ){
+// 		currPage = 0;
+// 		jump( currPage ); // 跳转
+// 	}else if ( currPage >= totalPage ){
+// 		currPage = totalPage;
+// 		jump( currPage ); // 跳转
+// 	}else{
+// 		jump( currPage ); // 跳转
+// 	}
+// };
+// 改成：
+var paging = function( currPage ){
+	if ( currPage <= 0 ){
+		currPage = 0;
+	}else if ( currPage >= totalPage ){
+		currPage = totalPage;
+	}
+	jump( currPage ); // 把jump 函数独立出来
+};
+</script>
+
+3. 把条件分支语句提炼成函数
+<script>
+// var getPrice = function( price ){
+// 	var date = new Date();
+// 	if ( date.getMonth() >= 6 && date.getMonth() <= 9 ){ // 夏天
+// 		return price * 0.8;
+// 	}
+// 	return price;
+// };
+// 改成：
+var isSummer = function(){
+	var date = new Date();
+	return date.getMonth() >= 6 && date.getMonth() <= 9;
+};
+var getPrice = function( price ){
+	if ( isSummer() ){ // 夏天
+		return price * 0.8;
+	}
+	return price;
+};
+</script>
+
+4. 合理使用循环
+<script>
+// var createXHR = function(){
+// 	var xhr;
+// 	try{
+// 		xhr = new ActiveXObject( 'MSXML2.XMLHttp.6.0' );
+// 	}catch(e){
+// 		try{
+// 			xhr = new ActiveXObject( 'MSXML2.XMLHttp.3.0' );
+// 		}catch(e){
+// 			xhr = new ActiveXObject( 'MSXML2.XMLHttp' );
+// 		}
+// 	}
+// 	return xhr;
+// };
+// var xhr = createXHR();
+// 改成：
+var createXHR = function(){
+	var versions= [ 'MSXML2.XMLHttp.6.0ddd', 'MSXML2.XMLHttp.3.0', 'MSXML2.XMLHttp' ];
+	for ( var i = 0, version; version = versions[ i++ ]; ){
+		try{
+			return new ActiveXObject( version );
+		}catch(e){
+		}
+	}
+};
+var xhr = createXHR();
+</script>
+
+5. 提前让函数退出代替嵌套条件分支
+<script>
+// var del = function( obj ){
+// 	var ret;
+// 	if ( !obj.isReadOnly ){ // 不为只读的才能被删除
+// 		if ( obj.isFolder ){ // 如果是文件夹
+// 			ret = deleteFolder( obj );
+// 		}else if ( obj.isFile ){ // 如果是文件
+// 			ret = deleteFile( obj );
+// 		}
+// 	}
+// 	return ret;
+// };
+// 改成：
+var del = function( obj ){
+	if ( obj.isReadOnly ){ // 反转if 表达式
+		return;
+	}
+	if ( obj.isFolder ){
+		return deleteFolder( obj );
+	}
+	if ( obj.isFile ){
+		return deleteFile( obj );
+	}
+};
+</script>
+
+6. 传递对象参数代替过长的参数列表
+<script>
+// var setUserInfo = function( id, name, address, sex, mobile, qq ){
+// 	console.log( 'id= ' + id );
+// 	console.log( 'name= ' +name );
+// 	console.log( 'address= ' + address );
+// 	console.log( 'sex= ' + sex );
+// 	console.log( 'mobile= ' + mobile );
+// 	console.log( 'qq= ' + qq );
+// };
+// setUserInfo( 1314, 'sven', 'shenzhen', 'male', '137********', 377876679 );
+// 改成：
+var setUserInfo = function( obj ){
+	console.log( 'id= ' + obj.id );
+	console.log( 'name= ' + obj.name );
+	console.log( 'address= ' + obj.address );
+	console.log( 'sex= ' + obj.sex );
+	console.log( 'mobile= ' + obj.mobile );
+	console.log( 'qq= ' + obj.qq );
+};
+setUserInfo({
+	id: 1314,
+	name: 'sven',
+	address: 'shenzhen',
+	sex: 'male',
+	mobile: '137********',
+	qq: 377876679
+});
+</script>
+
+7. 尽量减少参数数量
+<script>
+// var draw = function( width, height, square ){};
+// 改成：
+var draw = function( width, height ){
+	var square = width * height;
+};
+</script>
+
+8. 少用三目运算符
+<script>
+var global = typeof window !== "undefined" ? window : this;
+// if ( !aup || !bup ) {
+// 	return a === doc ? -1 :
+// 	b === doc ? 1 :
+// 	aup ? -1 :
+// 	bup ? 1 :
+// 	sortInput ?
+// 	( indexOf.call( sortInput, a ) - indexOf.call( sortInput, b ) ) :
+// 	0;
+// }
+</script>
+
+9. 合理使用链式调用
+<script>
+var User = function(){
+	this.id = null;
+	this.name = null;
+};
+User.prototype.setId = function( id ){
+	this.id = id;
+	return this;
+};
+User.prototype.setName = function( name ){
+
+	this.name = name;
+	return this;
+};
+console.log( new User().setId( 1314 ).setName( 'sven' ) );
+// 或
+var User = {
+	id: null,
+	name: null,
+	setId: function( id ){
+		this.id = id;
+		return this;
+	},
+	setName: function( name ){
+		this.name = name;
+		return this;
+	}
+};
+// console.log( User.setId( 1314 ).setName( 'sven' ) );
+// 改成：
+var user = new User();
+user.setId( 1314 );
+user.setName( 'sven' );
+</script>
+
+10. 分解大型类
+<script>
+var Spirit = function( name ){
+	this.name = name;
+};
+// Spirit.prototype.attack = function( type ){ // 攻击
+// 	if ( type === 'waveBoxing' ){
+// 		console.log( this.name + ': 使用波动拳' );
+
+// 	}else if( type === 'whirlKick' ){
+// 		console.log( this.name + ': 使用旋风腿' );
+// 	}
+// };
+// var spirit = new Spirit( 'RYU' );
+// spirit.attack( 'waveBoxing' ); // 输出：RYU: 使用波动拳
+// spirit.attack( 'whirlKick' ); // 输出：RYU: 使用旋风腿
+
+// 将 attack 作为单独的类
+var Attack = function( spirit ){
+	this.spirit = spirit;
+};
+Attack.prototype.start = function( type ){
+	return this.list[ type ].call( this );
+};
+Attack.prototype.list = {
+	waveBoxing: function(){
+		console.log( this.spirit.name + ': 使用波动拳' );
+	},
+	whirlKick: function(){
+		console.log( this.spirit.name + ': 使用旋风腿' );
+	}
+};
+var Spirit = function( name ){
+	this.name = name;
+	this.attackObj = new Attack( this );
+};
+Spirit.prototype.attack = function( type ){ // 攻击
+	this.attackObj.start( type );
+};
+var spirit = new Spirit( 'RYU' );
+spirit.attack( 'waveBoxing' ); // 输出：RYU: 使用波动拳
+spirit.attack( 'whirlKick' ); // 输出：RYU: 使用旋风腿
+</script>
+
+11. 用 return 退出多重循环
+<script>
+// 方法1: flag标记，不推荐
+var func = function(){
+	var flag = false;
+	for ( var i = 0; i < 10; i++ ){
+		for ( var j = 0; j < 10; j++ ){
+			if ( i * j >30 ){
+				flag = true;
+				break;
+			}
+		}
+		if ( flag === true ){
+			break;
+		}
+	}
+};
+
+// 方法2: 循环标记，不推荐
+var func = function(){
+	outerloop:
+	for ( var i = 0; i < 10; i++ ){
+		innerloop:
+		for ( var j = 0; j < 10; j++ ){
+			if ( i * j >30 ){
+				break outerloop;
+			}
+		}
+	}
+};
+
+// 直接 return 的问题
+var func = function(){
+	for ( var i = 0; i < 10; i++ ){
+		for ( var j = 0; j < 10; j++ ){
+			if ( i * j >30 ){
+				return;
+			}
+		}
+	}
+	console.log( i ); // 这句代码没有机会被执行
+};
+
+// 推荐方式
+var print = function( i ){
+	console.log( i );
+};
+var func = function(){
+	for ( var i = 0; i < 10; i++ ){
+		for ( var j = 0; j < 10; j++ ){
+			if ( i * j >30 ){
+				return print( i );
+			}
+		}
+	}
+};
+
+func();
+</script>

@@ -1,0 +1,72 @@
+﻿面向接口编程，而不是面向实现编程
+接口是对象能响应的请求的集合
+
+静态类型语言通常设计为可以“向上转型”, 对象的具体类型被隐藏在“超类型”身后
+当对象类型之间的耦合关系被解除之后，这些对象才能在类型检查系统的监视下相互替换使用，这样才能看到对象的多态性。
+
+总而言之，不关注对象的具体类型，而仅仅针对超类型中的“契约方法”来编写程序，可以产生可靠性高的程序，
+也可以极大地减少子系统实现之间的相互依赖关系
+
+<button id="exeCommand">执行菜单命令</button>
+<script>
+var RefreshMenuBarCommand = function(){};
+RefreshMenuBarCommand.prototype.execute = function(){
+	console.log( '刷新菜单界面' );
+};
+
+var AddSubMenuCommand = function(){};
+AddSubMenuCommand.prototype.execute = function(){
+	console.log( '增加子菜单' );
+};
+
+var DelSubMenuCommand = function(){};
+//
+
+var refreshMenuBarCommand = new RefreshMenuBarCommand(),
+	addSubMenuCommand = new AddSubMenuCommand(),
+	delSubMenuCommand = new DelSubMenuCommand();
+var setCommand = function( command ){
+	document.getElementById( 'exeCommand' ).onclick = function(){
+		if ( typeof command.execute !== 'function' ){
+			throw new Error( "command 对象必须实现 execute 方法" );
+		}
+		command.execute();
+	}
+};
+setCommand( refreshMenuBarCommand ); // 点击按钮后输出："刷新菜单界面"
+setCommand( addSubMenuCommand ); // 点击按钮后输出："增加子菜单"
+setCommand( delSubMenuCommand ); // 点击按钮后报错。Uncaught TypeError: undefined is not a function
+</script>
+
+typescript 实现 interface
+<script type="text/javascript">
+interface Command{
+	execute: Function;
+}
+
+class RefreshMenuBarCommand implements Command{
+	constructor (){
+	}
+	execute(){
+		console.log( '刷新菜单界面' );
+	}
+}
+class AddSubMenuCommand implements Command{
+	constructor (){
+	}
+	execute(){
+		console.log( '增加子菜单' );
+	}
+}
+class DelSubMenuCommand implements Command{
+	constructor (){
+	}
+	// 忘记重写 execute 方法
+}
+var refreshMenuBarCommand = new RefreshMenuBarCommand(),
+	addSubMenuCommand = new AddSubMenuCommand(),
+	delSubMenuCommand = new DelSubMenuCommand();
+refreshMenuBarCommand.execute(); // 输出：刷新菜单界面
+addSubMenuCommand.execute(); // 输出：增加子菜单
+delSubMenuCommand.execute(); // 输出：Uncaught TypeError: undefined is not a function
+</script>
