@@ -1,19 +1,30 @@
-﻿<script type="text/javascript">
-	Function.prototype.after = function( afterfn ){
-		var __self = this;
-		return function(){
-			var ret = __self.apply( this, arguments );
-			afterfn.apply( this, arguments );
-			return ret;
-		}
-	};
-	window.onload = ( window.onload || function(){} ).after(function(){
-		console.log( document.getElementsByTagName( '*' ).length );
-	});
+﻿开放封闭原则（OCP）是面向对象最重要的一条原则
+软件实体（类、模块、函数）等应该是可以扩展的，但是不可修改。
 
+1. 扩展window.onload 函数
+<script>
+Function.prototype.after = function( afterfn ){
+	var __self = this;
+	return function(){
+		var ret = __self.apply( this, arguments );
+		afterfn.apply( this, arguments );
+		return ret;
+	}
+};
+window.onload = ( window.onload || function(){} ).after(function(){
+	console.log( document.getElementsByTagName( '*' ).length );
+});
 </script>
 
-<script type="text/javascript">
+
+
+
+
+
+
+
+
+<script>
 	var makeSound = function( animal ){
 		if ( animal instanceof Duck ){
 			console.log( '嘎嘎嘎' );
@@ -67,7 +78,7 @@
 </script>
 
 
-<script type="text/javascript">
+<script>
 
 	var getUserInfo = function( callback ){
 		$.ajax( 'http:// xxx.com/getUserInfo', callback );
