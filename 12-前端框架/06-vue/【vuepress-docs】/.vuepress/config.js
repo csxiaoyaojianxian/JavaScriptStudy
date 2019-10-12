@@ -65,7 +65,7 @@ module.exports = {
         search: true,
         searchMaxSuggestions: 10,
         // 更新时间戳 git
-        lastUpdated: 'Last Updated', // string | boolean
+        lastUpdated: '最后更新时间', // string | boolean
         // serviceWorker
         serviceWorker: {
             updatePopup: true, // 弹窗提示更新 Boolean | Object, 默认值是 undefined
@@ -82,7 +82,7 @@ module.exports = {
         // 以下为可选的 "Edit this page" 链接选项，如果你的文档和项目位于不同仓库：
         docsRepo: 'vuejs/vuepress',
         // 如果你的文档不在仓库的根目录下：
-        docsDir: 'docs',
+        docsDir: 'docs/xxx',
         // 如果你的文档在某个特定的分支（默认是 'master' 分支）：
         docsBranch: 'master',
         // 默认为 false，设置为 true 来启用
