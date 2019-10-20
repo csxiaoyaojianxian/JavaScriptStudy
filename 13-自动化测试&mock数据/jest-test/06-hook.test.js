@@ -30,7 +30,7 @@ describe('测试分组和钩子函数', () => {
         test.only('测试 Counter 的 addOne 方法', () => {
             console.log('case1')
             counter.addOne()
-            expect(counter.number).toBe(11)
+            expect(counter.number).toBe(1)
         })
         test('测试 Counter 的 addTwo 方法', () => {
             console.log('case2')
