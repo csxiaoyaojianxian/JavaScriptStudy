@@ -9,7 +9,7 @@ export default class Counter {
         this.number = 0
     }
     addOne () {
-        this.number += 3
+        this.number += 1
     }
     minusOne () {
         this.number -= 1

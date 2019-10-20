@@ -1,4 +1,4 @@
-import { runCallback, createObject, getData } from './07.mock'
+import { runCallback, createObject, getData } from './07-mock'
 import axios from 'axios'
 
 /**
