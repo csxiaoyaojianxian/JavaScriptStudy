@@ -46,7 +46,7 @@ https://img.shields.io/badge/author-csxiaoyao-brightgreen.svg)](http://www.csxia
   + 04-zepto
   + 05-lodash
   + 06-vue
-* 13-mock数据
+* 13-自动化测试 & mock数据
 * 14-监控
 * 15-数据可视化 
   + 01-echarts
