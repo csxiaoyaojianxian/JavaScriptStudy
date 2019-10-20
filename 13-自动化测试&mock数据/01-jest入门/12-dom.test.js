@@ -1,5 +1,7 @@
 import addDivToBody from './12-dom'
+
 import $ from 'jquery'
+
 /**
  * node 不具备 dom
  * jest 在 node 环境下模拟了 dom api --- jsDom
