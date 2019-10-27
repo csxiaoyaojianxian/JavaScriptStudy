@@ -2,10 +2,12 @@
   <div class="header">
     <div class="header-content">
       TodoList
+      <!-- 不能用 v-model -->
       <input
         class="header-input"
-        data-test="input"
-        v-model="inputValue"
+        data-test="header-input"
+        :value="inputValue"
+        @input="e => changeInputValue(e.target.value)"
         @keyup.enter="addTodoItem"
         placeholder="TodoItem"
       />
@@ -14,15 +16,18 @@
 </template>
 
 <script>
+import { mapState, mapMutations } from 'vuex'
 export default {
   name: 'Header',
-  props: {},
-  data () {
-    return {
-      inputValue: ''
-    }
+  computed: {
+    ...mapState({
+      inputValue: state => state.inputValue
+    })
   },
   methods: {
+    ...mapMutations({
+      changeInputValue: 'changeInputValue'
+    }),
     addTodoItem () {
       if (this.inputValue) {
         this.$emit('add', this.inputValue)

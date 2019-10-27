@@ -7,3 +7,6 @@ testPathIgnorePatterns
 修复eslint语法
 
 npm run lint --fix
+
+## 配置 vuex
+npm install vuex --save
