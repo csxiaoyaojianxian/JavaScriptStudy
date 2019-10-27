@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<coverage generated="1572145739102" clover="3.2.0">
+  <project timestamp="1572145739102" name="All files">
+    <metrics statements="28" coveredstatements="27" conditionals="4" coveredconditionals="4" methods="3" coveredmethods="3" elements="35" coveredelements="34" complexity="0" loc="28" ncloc="28" packages="3" files="4" classes="4">
+      <package name="containers.TodoList">
+        <metrics statements="17" coveredstatements="16" conditionals="2" coveredconditionals="2" methods="2" coveredmethods="2"/>
+        <file name="TodoList.vue" path="/Users/csxiaoyao/Workspace/github/JavaScriptStudy/13-自动化测试&mock数据/jest-vue/src/containers/TodoList/TodoList.vue">
+          <metrics statements="17" coveredstatements="16" conditionals="2" coveredconditionals="2" methods="2" coveredmethods="2"/>
+          <line num="15" count="1" type="stmt"/>
+          <line num="16" count="1" type="stmt"/>
+          <line num="24" count="7" type="stmt"/>
+          <line num="38" count="2" type="stmt"/>
+          <line num="44" count="0" type="stmt"/>
+          <line num="47" count="1" type="stmt"/>
+          <line num="48" count="1" type="stmt"/>
+          <line num="49" count="3" type="cond" truecount="2" falsecount="0"/>
+          <line num="50" count="1" type="stmt"/>
+          <line num="55" count="2" type="stmt"/>
+          <line num="61" count="1" type="stmt"/>
+          <line num="64" count="1" type="stmt"/>
+          <line num="65" count="1" type="stmt"/>
+          <line num="66" count="1" type="stmt"/>
+          <line num="67" count="3" type="stmt"/>
+          <line num="72" count="1" type="stmt"/>
+          <line num="75" count="1" type="stmt"/>
+        </file>
+      </package>
+      <package name="containers.TodoList.components">
+        <metrics statements="9" coveredstatements="9" conditionals="2" coveredconditionals="2" methods="0" coveredmethods="0"/>
+        <file name="Header.vue" path="/Users/csxiaoyao/Workspace/github/JavaScriptStudy/13-自动化测试&mock数据/jest-vue/src/containers/TodoList/components/Header.vue">
+          <metrics statements="4" coveredstatements="4" conditionals="2" coveredconditionals="2" methods="0" coveredmethods="0"/>
+          <line num="21" count="7" type="stmt"/>
+          <line num="27" count="3" type="cond" truecount="2" falsecount="0"/>
+          <line num="28" count="2" type="stmt"/>
+          <line num="29" count="2" type="stmt"/>
+        </file>
+        <file name="UndoList.vue" path="/Users/csxiaoyao/Workspace/github/JavaScriptStudy/13-自动化测试&mock数据/jest-vue/src/containers/TodoList/components/UndoList.vue">
+          <metrics statements="5" coveredstatements="5" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+          <line num="34" count="7" type="stmt"/>
+          <line num="40" count="1" type="stmt"/>
+          <line num="43" count="1" type="stmt"/>
+          <line num="46" count="1" type="stmt"/>
+          <line num="55" count="1" type="stmt"/>
+        </file>
+      </package>
+      <package name="utils">
+        <metrics statements="2" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
+        <file name="testUtils.js" path="/Users/csxiaoyao/Workspace/github/JavaScriptStudy/13-自动化测试&mock数据/jest-vue/src/utils/testUtils.js">
+          <metrics statements="2" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
+          <line num="1" count="2" type="stmt"/>
+          <line num="2" count="16" type="stmt"/>
+        </file>
+      </package>
+    </metrics>
+  </project>
+</coverage>
