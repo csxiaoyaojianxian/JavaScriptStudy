@@ -10,3 +10,7 @@ npm run lint --fix
 
 ## 配置 vuex
 npm install vuex --save
+
+## vuex 相关测试
+
+## 异步 axios 相关测试

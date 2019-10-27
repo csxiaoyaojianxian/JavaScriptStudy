@@ -12,6 +12,7 @@
 </template>
 
 <script>
+import axios from 'axios'
 import Header from './components/Header'
 import UndoList from './components/UndoList'
 export default {
@@ -32,6 +33,31 @@ export default {
         // }
       ]
     }
+  },
+  mounted () {
+    /**
+     * {
+     *    success: true,
+     *    data: [{
+     *      status: 'div',
+     *      value: 'csxiaoyao'
+     *    }]
+     * }
+     */
+    axios.get('/getUndoList.json').then((res) => {
+      this.undoList = res.data
+    }).catch(e => {
+      console.log(e)
+    })
+    /*
+    setTimeout(() => {
+      axios.get('/getUndoList.json').then((res) => {
+        this.undoList = res.data
+      }).catch(e => {
+        console.log(e)
+      })
+    }, 3000)
+    */
   },
   methods: {
     addUndoItem (inputValue) {
