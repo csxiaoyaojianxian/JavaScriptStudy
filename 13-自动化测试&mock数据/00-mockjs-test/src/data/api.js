@@ -7,7 +7,7 @@ const apiTable = {
 }
 
 /**
- * 查询需求基本信息
+ * log
  */
 const log = (data = '') => {
   return new Promise((resolve, reject) => {
