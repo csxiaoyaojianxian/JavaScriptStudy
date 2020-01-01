@@ -1,0 +1,30 @@
+{
+  "name": "ts-axios-doc",
+  "version": "1.0.0",
+  "description": "doc for ts-axios",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "dev": "vuepress dev docs",
+    "build": "vuepress build docs",
+    "deploy": "gh-pages -d dist"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Suremotoo/ts-axios-doc.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Suremotoo/ts-axios-doc/issues"
+  },
+  "homepage": "https://github.com/Suremotoo/ts-axios-doc#readme",
+  "devDependencies": {
+    "vuepress": "^1.0.0-alpha.44"
+  },
+  "dependencies": {
+    "gh-pages": "^2.0.1"
+  }
+}
