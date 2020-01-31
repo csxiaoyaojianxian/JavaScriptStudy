@@ -1,0 +1,61 @@
+<!--
+ * @Author: victorsun
+ * @Date: 2020-01-31 22:20:21
+ * @LastEditors  : victorsun
+ * @LastEditTime : 2020-01-31 22:24:05
+ * @Description: luban h5maker
+ -->
+<html>
+<head>
+    <title>debounce & throttle demo</title>
+    <style>
+        body {
+            font-family: "Roboto", "Helvetica", Arial;
+            font-weight: 200;
+            color: #777;
+        }
+        #moveonme {
+            width: 200px;
+            height: 600px;
+            background: #f5f5f5;
+            border: 1px solid #aaa;
+            float: left;
+            box-sizing: border-box;
+            padding: 25px;
+            text-align: center;
+            font-size: 18px;
+        }
+        .backtoblog {
+            width: 200px;
+            padding: 10px;
+            background: #f5f5f5;
+            border: 1px solid #aaa;
+            color: #777;
+            display: inline-block;
+            text-decoration: none;
+            transition: 0.2s all;
+            box-sizing: border-box;
+            position: relative;
+            top: -1px;
+            text-align: center;
+        }
+        .backtoblog:hover {
+            border: 1px solid #aaa;
+            background: transparent;
+        }
+    </style>
+</head>
+<body>
+    <div id="moveonme">
+        move your mouse here
+    </div>
+    <canvas id="paintonme" height="600" width="1190" style="float:right;"></canvas>
+    <script src="./helpers.js"></script>
+    <script src="./demo.js"></script>
+    <script>
+        var demo = new NIM_demo();
+        demo.init();
+    </script>
+</body>
+
+</html>
