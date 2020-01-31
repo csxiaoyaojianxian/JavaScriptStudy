@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Title</title>
+<style type="text/css">
+    div{
+        width: 100px;
+        height: 100px;
+    }
+    p{
+        width: 100px;
+        height: 100px;
+    }
+</style>
+<script>
+// 【 call 、 apply 、 bind 】
+
+// JS中的上下文 context：即执行环境this
+
+// call & apply & bind 可以修改函数调用上下文 this 的值，指向第一个参数（修改函数的调用方式）
+//  apply  func.apply(obj,[arg1, arg2, ..., argn]]) // 改变this指向后执行
+//  call   func.call(obj, arg1, arg2, ..., argn) // 改变this指向后执行
+//  bind   funcNew = funcOld.bind(obj) // 直接返回改变了this指向的新函数
+
+// 【 区别 】
+// call  在形参个数确定时使用
+// apply 在形参个数不确定时使用
+
+// 【 细节1: 自动类型转换 】
+// call/apply 第一个参数为值类型时会自动转换成对应的对象（引用类型）然后赋值给this
+function fn() {
+    console.log('---------')
+    console.log(this);
+    console.log(this.valueOf());
+    console.log(+this); //转换Number
+    console.log(""+this); //转换String
+    console.log('---------')
+}
+fn.apply(1);        // Number 1 1 1
+fn.apply("abc");    // String abc NaN abc
+fn.apply(true);     // Boolean true 1 true
+fn.apply(undefined);// window window NaN [object Window]
+
+// 【 细节2: 普通模式与严格模式 】 apply/call结果相同
+// 当传入的第一个参数为 null 或 Undefined 的时候，普通模式会把 this 赋值为 window
+fn.call();          // 普通模式 this => window，严格模式 this => undefined
+fn.call(null);      // 普通模式 this => window，严格模式 this => null
+fn.call(undefined); // 普通模式 this => window，严格模式 this => undefined
+
+// 【 细节3: 参数1传递null时表示函数调用模式 】
+var max = Math.max.apply(null, arr); // this => window
+
+/**
+ * 【 应用1: 方法借用 】
+ */
+// 还可以实现参数合并，即方法可以传多个参数
+arr1 = [1,2,3]
+arr2 = [4,5,6]
+// var arr = arr1.concat(arr2)
+var arr = [].concat.apply(arr1,arr2);
+console.log(arr); // [1,2,3,4,5,6]
+
+/**
+ * 【 应用2: 伪数组转数组 】
+ */
+// 案例1，自建伪数组
+var obj = {
+    0: "a",
+    1: "b",
+    2: "c",
+    length:3
+}
+var arr = [].concat.apply([],obj);
+console.log(arr) // ['a','b','c']
+// 案例2，函数参数 arguments
+function foo() { // arguments 伪数组不具有join方法，借用数组的join方法
+    var str = [].join.apply(arguments,["-"]); // Array.prototype.join.apply(arguments,["-"]);
+    return str;
+}
+var str = foo(1, 2, "sunshine", "csxiaoyao");
+console.log(str); // 1-2-sunshine-csxiaoyao
+
+/**
+ * 【 应用3: 判断变量类型 】
+ */
+var arr = [1,2,3];
+function isArray(obj) {
+  return Object.prototype.toString.call(obj) === '[object Array]';
+}
+console.log(isArray(arr)); // true
+
+/**
+ * 【 应用4: 借用构造函数实现继承 】
+ */
+function Person(){
+    this.name = "csxiaoyao";
+}
+function Student(){
+    Person.apply(this);
+}
+var stu = new Student();
+console.log(stu.name); // csxiaoyao
+
+</script>
+</head>
+<body>
+
+<div></div>
+<div></div>
+<p></p>
+<p></p>
+</body>
+</html>
