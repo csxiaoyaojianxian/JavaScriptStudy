@@ -80,9 +80,8 @@ console.log(str.match(reg));//["abc", "abc"]
 // g 全局模式（global）（全文查找出现的所有pattern）
 // i 不区分大小写（ease-insensitive）（忽略大小写）
 // m 执行多行匹配
-// y (es6) 相当于 ^$，保证每次匹配是连续的
 // u (es6) Unicode模式，正确处理大于\uFFFF的Unicode字符（四个字节的 UTF-16 编码）
-var s = '𠮷';
+var s = '𠮷'; // \uD842\uDFB7
 /^.$/.test(s); // false
 /^.$/u.test(s); // true 对于码点大于0xFFFF的 Unicode 字符，点字符不能识别，必须加上u修饰符
 /\u{61}/.test('a'); // false 误认为是量词，61个u
@@ -94,7 +93,7 @@ var s = '𠮷';
 /𠮷{2}/u.test('𠮷𠮷'); // true
 /^\S$/.test('𠮷'); // false \S是预定义模式，匹配所有非空白字符。只有加了u修饰符，它才能正确匹配码点大于0xFFFF的 Unicode 字符
 /^\S$/u.test('𠮷'); // true
-// y (es6) 粘连修饰符
+// y (es6) 粘连修饰符，相当于 ^$，保证每次匹配是连续的
 // s (es2018) 使.可以匹配任意单个字符(含行终止符)
 /foo.bar/s.test('foo\nbar') // true
 

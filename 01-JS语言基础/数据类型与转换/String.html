@@ -48,6 +48,8 @@
     ★【 matchAll() 】返回一个正则表达式在当前字符串的所有匹配
     【 String.raw() 】转义字符串
 
+    【 es6 tag 函数 & template literals 】
+
 4.【简单综合应用1】字符串占位
 
 5.【简单综合应用2】统计字符串中出现次数最多的字符和次数
@@ -360,6 +362,24 @@
             return document.getElementsByTagName(str);
         }
     }
+
+    /**
+     * es6 tag 函数 & template literals
+     */
+    function Price (strings, type) {
+        let s1 = strings[0] // 您此次的
+        const retailPrice = 20
+        const wholeSalePrice = 16
+        let showTxt
+        if (type === 'retail') {
+            showTxt = '购买单价是：' + retailPrice
+        } else {
+            showTxt = '购买的批发价是：' + wholeSalePrice
+        }
+        return `${s1}${showTxt}`
+    }
+    let showTxt = Price`您此次的${'retail'}`
+    console.log(showTxt) // 您此次的购买单价是：20
 
 </script>
 </body>
