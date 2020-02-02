@@ -1,0 +1,16 @@
+#div1 {
+    width: 100px;
+    height: 100px;
+    background: greenyellow;
+}
+#div2 {
+    width: 200px;
+    height: 200px;
+    background: deeppink;
+}
+.index1 {
+  color: yellow;
+}
+.index2 {
+  color: green;
+}

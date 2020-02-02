@@ -2,7 +2,7 @@
  * @Author: victorsun - csxiaoyao
  * @Date: 2020-02-01 17:07:04
  * @LastEditors  : victorsun
- * @LastEditTime : 2020-02-01 20:40:52
+ * @LastEditTime : 2020-02-01 21:03:23
  * @Description: www.csxiaoyao.com
  */
 module.exports = function(grunt){
@@ -62,8 +62,8 @@ module.exports = function(grunt){
     grunt.loadNpmTasks('grunt-contrib-cssmin');
     grunt.loadNpmTasks('grunt-contrib-watch');
     // 3. 注册构建任务
-    // grunt.registerTask('default', ['concat', 'uglify', 'jshint', 'cssmin', 'watch']);
+    // grunt.registerTask('default', ['concat', 'uglify', 'jshint', 'cssmin', 'watch']); // 同步执行
     // 优化
-    grunt.registerTask('default', ['concat', 'uglify', 'jshint', 'cssmin']);
-    grunt.registerTask('myWatch', ['default','watch']);
+    grunt.registerTask('default', ['concat', 'uglify', 'jshint', 'cssmin']); // 同步执行
+    grunt.registerTask('myWatch', ['default','watch']); // 同步执行
 };

@@ -66,7 +66,7 @@
       grunt.registerTask('default', []);
     };
     ```
-  * 命令: grunt  //提示成功, 但没有任何效果(还没有使用插件定义任务)
+  * 命令: grunt  //提示成功, 但没有任何效果(还没有使用插件定义任务) 同步执行命令
 
 * Grunt插件介绍
   * grunt官网的插件列表页面 http://www.gruntjs.net/plugins 
