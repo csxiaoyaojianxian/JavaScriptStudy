@@ -1,3 +1,10 @@
+<!--
+ * @Author: victorsun - csxiaoyao
+ * @Date: 2019-03-23 00:20:31
+ * @LastEditors: victorsun
+ * @LastEditTime: 2020-02-02 13:31:20
+ * @Description: www.csxiaoyao.com
+ -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -31,6 +38,13 @@ if(true){
   console.log(PI);  // ReferenceError: PI is not defined
   const PI = "3.1415926";
 }
+
+// 块状作用域
+{
+  let a = 1
+  console.log(a)
+}
+// console.log(a) // 报错
 </script>
 </body>
 </html>

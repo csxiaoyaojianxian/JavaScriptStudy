@@ -20,6 +20,7 @@
 var array1 = [1,2,3];
 var array2 = [];
 // 对象创建
+let arr0 = Array(5)
 var arr1 = new Array(); //空数组
 var arr2 = new Array("关羽","张飞","刘备");
 var arr3 = new Array(1,2,3);
@@ -27,14 +28,17 @@ var arr3 = new Array(1,2,3);
 // 【概念】：浅拷贝、深拷贝
 // 浅拷贝，复制的是引用
 // 深拷贝，遍历数组赋值，复制的是值
+// TODO
 
 // 在javascript中数组长度可变
-var arr = new Array(3); //创建了一个长度为【0】的数组对象。
+var arr = new Array(3); // 创建了一个长度为3的数组对象。
 arr[100] = 10;
 document.write("arr长度："+arr.length+"<br/>");//101	
 var arr = new Array("sun1","sun2","sun3");
 arr = ["sun4","sun5","sun6","sun7"];
 document.write("arr长度："+arr.length+"<br/>");//4
+
+// 【 ES6 方式 】见es6总结
 
 /**
  * 常用方法
@@ -55,6 +59,8 @@ document.write("arr长度："+arr.length+"<br/>");//4
 // filter(), concat(), slice()
 
 // (五) 迭代器方法
+// for循环，支持 break/continue，其他非for/for...of/for...in迭代器不支持
+//    for...of (尽量不用for...in遍历数组，因为for...in是用来遍历对象的，可能有问题)
 // 不生成新数组：forEach()、every()、some()、reduce()、reduceRight()
 // 生成新数组：map()、filter()
 
