@@ -80,7 +80,7 @@ console.log(str.match(reg));//["abc", "abc"]
 // g 全局模式（global）（全文查找出现的所有pattern）
 // i 不区分大小写（ease-insensitive）（忽略大小写）
 // m 执行多行匹配
-
+// y (es6) 相当于 ^$，保证每次匹配是连续的
 // u (es6) Unicode模式，正确处理大于\uFFFF的Unicode字符（四个字节的 UTF-16 编码）
 var s = '𠮷';
 /^.$/.test(s); // false

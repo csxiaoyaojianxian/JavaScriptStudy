@@ -11,6 +11,10 @@
 /**
  * 【 Map 对象 】
  * 保存键值对，任何值(对象或原始值)都可以作为键或值
+ * 初始值必须为kv形式：[[k1,v1],[k2,v2]]
+ * [ set / delete / clear / size / get / keys / values / entires ]
+ * for (let [key, value] of map) {}
+ * Object.assign(target, source) // 复制
  */
 // Maps 和 Objects 区别：
 // 1. 键的类型：Object只能是字符串或Symbols，Map可以是任意值
@@ -96,6 +100,9 @@ var merged = new Map([...first, ...second]); // {1 => "uno", 2 => "dos", 3 => "
 /**
  * 【 Set 对象 】
  * 存储任何类型的唯一值，无论是原始值或是对象引用
+ * 初始化的值为可遍历对象即可
+ * [ add / delete / clear / size / has / keys|values / entries ]
+ * forEach / for...of
  */
 /**
  * Set 中的特殊值
@@ -114,6 +121,7 @@ mySet1.add({a: 1, b: 2}); // Set(5) {1, 5, "some text", {…}, {…}} 对象之�
 
 /**
  * Set 类型转换
+ * 可遍历对象即可
  */
 // Array => Set
 var mySet2 = new Set(["value1", "value2", "value3"]);
@@ -130,14 +138,14 @@ var mySet3 = new Set('hello');  // Set {'h', 'e', 'l', 'l', 'o'}
 var mySet4 = new Set([1, 2, 3, 4, 4]);
 [...mySet4]; // [1, 2, 3, 4]
 
-// 【 集合 】
+// 2.【 集合 】运算
 var a = new Set([1, 2, 3]);
 var b = new Set([4, 3, 2]);
-// 2. 并集
+// 并集
 var union = new Set([...a, ...b]); // Set(4) {1, 2, 3, 4}
-// 3. 交集
+// 交集
 var intersect = new Set([...a].filter(x => b.has(x))); // Set(2) {2, 3}
-// 4. 差集
+// 差集
 var difference = new Set([...a].filter(x => !b.has(x))); // Set(1) {1}
 
 </script>

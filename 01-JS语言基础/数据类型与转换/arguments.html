@@ -1,3 +1,10 @@
+<!--
+ * @Author: victorsun - csxiaoyao
+ * @Date: 2019-01-12 16:25:43
+ * @LastEditors  : victorsun
+ * @LastEditTime : 2020-02-02 18:23:07
+ * @Description: www.csxiaoyao.com
+ -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,17 +13,6 @@
 <script>
 //函数内部的一个对象 arguments
 //当函数调用的时候，系统会将所有传入的实参，依次存入这个数组对象
-
-//【要求】允许函数调用时传入任意个数参数,并且函数返回这些数字中最大的数字
-function max(){
-    // console.log(arguments);
-    var maxNum = arguments[0];
-    for (var i = 1; i < arguments.length; i++) {
-        maxNum = maxNum > arguments[i] ? maxNum :arguments[i];
-    }
-    return maxNum;
-}
-console.log(max(1, 2, 34, 5, 6));//34
 
 //【要求】数组去重
 var distinct = new Function(`
@@ -29,6 +25,31 @@ var distinct = new Function(`
     return arr;
 `);
 console.log(distinct(1, 2, 34, 34, 5, 5));//[1, 2, 34, 5]
+
+/**
+ * 默认参数表达式 & 参数长度
+ */
+function f (x, y = 7, z = x + y) { // 默认参数表达式
+    console.log(arguments.length) // 4 传入的参数个数，和形参无关
+    console.log(f.length) // 1 第一个带默认参数前的参数个数
+    return x * 10 + z
+}
+console.log(f(1, undefined, 3, 4)) // 13
+
+/**
+ * 参数遍历
+ */
+function sum () {
+    let num = 0
+    Array.prototype.forEach.call(arguments, function (item) {
+        num += item * 2
+    })
+    Array.from(arguments).forEach(function (item) {
+      num += item * 2
+    })
+    return num
+}
+console.log(sum(1,2,3)) // 24
 
 </script>
 </head>
