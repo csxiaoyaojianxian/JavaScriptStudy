@@ -1,3 +1,10 @@
+<!--
+ * @Author: victorsun
+ * @Date: 2019-04-07 16:06:19
+ * @LastEditors: victorsun - csxiaoyao
+ * @LastEditTime: 2020-03-14 16:24:04
+ * @Description: sunjianfeng@csxiaoyao.com
+ -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -19,15 +26,31 @@ const p = new Promise(function(resolve,reject){
     console.log(value);
 }).then(function(value){ // 第三个then，没有return，没有传值 // undefined
     console.log(value);
-    return Promise.resolve('resolve');
+    return Promise.resolve('resolve'); // !!! Promise 静态方法，可以用来处理静态数据
 }).then(function(value){ // 第四个then，Promise.resolve传值 // resolve
     console.log(value);
-    return Promise.reject('reject');
+    return Promise.reject('reject'); // !!! Promise 静态方法，可以用来处理静态数据
 }).then(function(value){ // 第五个then，Promise.reject传值 // reject:reject
     console.log('resolve:' + value);
 }, function(err) {
     console.log('reject:' + err);
 });
+
+// then 可以传两个参数，成功回调和失败回调
+//【注意】两个回调都是函数func，如果传的不是函数，例如 func()返回值，那么 then 返回的是空Promise对象（会走到下一个成功回调），用于链式调用
+// func 普通的返回会走到下一个 then 的成功回调
+// 若想走到下一个 then 的失败回调
+//    需要返回 Promise 的 reject，如 new Promise((resolve, reject) => { reject() })
+//    或者使用静态方法 Promise.reject()
+
+
+// 并行处理 Promise.all
+const p1 = Promise.resolve(1)
+const p2 = Promise.resolve(2)
+const p3 = Promise.resolve(3)
+Promise.all([p1, p2, p3]).then(value => {
+    console.log(value) // [1, 2, 3]
+})
 
 </script>
 </body>
