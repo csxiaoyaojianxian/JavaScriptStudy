@@ -1,0 +1,91 @@
+<!--
+ * @Author: victorsun
+ * @Date: 2019-03-23 23:30:05
+ * @LastEditors: victorsun - csxiaoyao
+ * @LastEditTime: 2020-03-15 01:26:27
+ * @Description: sunjianfeng@csxiaoyao.com
+ -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>es6</title>
+</head>
+
+<body>
+    详细 api 参考 Reflect & Proxy
+    <script>
+        /**
+         * Relect 反射
+         * 编译阶段不知道是哪个类被加载，执行阶段才加载
+         */
+        // 【 用法1 Reflect.apply 】: 改变指向
+        // 使用 es5 apply
+        console.log(Math.floor.apply(null, [3.72]))
+        // 使用 es6 reflect
+        console.log(Reflect.apply(Math.floor, null, [4.72]))
+
+        // 【 用法2 Reflect.apply 】: 动态确定执行哪个类
+        let price = 91.5
+        // 使用 es5 apply
+        if (price > 100) { price = Math.floor.apply(null, [price]) } 
+        else { price = Math.ceil.apply(null, [price]) }
+        // 使用 es6 reflect
+        console.log(Reflect.apply(price > 100 ? Math.floor : Math.ceil, null, [price]))
+
+        // 【 用法3 Reflect.construct 】: 调用不同类实例化
+        let d = Reflect.construct(Date, []) // new Date()
+        console.log(d.getTime(), d instanceof Date) // xxx true
+
+        // 【 用法4 Reflect.defineProperty 】: 设置属性，与 Object 方法一致，除了返回值
+        const student = {}
+        // es5 返回 {name1: "Mike1", name2: "Mike2"} 
+        var ret1 = Object.defineProperty(student, 'name1', { value: 'Mike1' })
+        // es6 返回 true
+        var ret2 = Reflect.defineProperty(student, 'name2', { value: 'Mike2' })
+
+        // 【 用法5 Reflect.get 】: 读取对象属性
+        const obj = { x: 1, y: 2 }
+        console.log(Reflect.get(obj, 'x')) // obj.x   1
+        console.log(Reflect.get([3, 4], 1)) // [3,4][1]   4
+
+        // 【 用法6 Reflect.getOwnPropertyDescriptor 】: 获取属性描述符
+        // 返回 {value: 1, writable: true, enumerable: true, configurable: true}
+        console.log(Object.getOwnPropertyDescriptor(obj, 'x'))
+        console.log(Reflect.getOwnPropertyDescriptor(obj, 'x'))
+
+        // 【 用法7 Reflect.has 】: 判断属性是否存在
+        console.log(Reflect.has(obj, 'x')) // true
+
+        // 【 用法8 Reflect.preventExtensions / Reflect.isExtensible 】: 对象冻结 & 判断是否冻结
+        // es5
+        Object.freeze(obj)
+        obj.z = 3
+        console.log(obj) // {x: 1, y: 2}
+        // es6
+        Reflect.preventExtensions(obj)
+        console.log(Reflect.isExtensible(obj)) // false
+        Reflect.set(obj, 'z', 4)
+        console.log(obj) // {x: 1, y: 2}
+
+        // 【 用法9 Reflect.ownKeys 】: 判断属性是否存在
+        console.log(Reflect.ownKeys(obj)) // ["x", "y"]
+        console.log(Reflect.ownKeys([1,2])) // ["0", "1", "length"]
+
+        // 【 用法10 Reflect.set 】: 设置值
+        const arr = ['duck', 'duck', 'duck']
+        Reflect.set(arr, 2, 'goose')
+        console.log(arr) // ["duck", "duck", "goose"]
+
+        // 【 用法11 Reflect.getPrototypeOf / Reflect.setPrototypeOf 】: 原型相关
+        console.log(Reflect.getPrototypeOf(arr))
+        Reflect.setPrototypeOf(arr, String.prototype)
+        // console.log(Reflect.getPrototypeOf(arr))
+
+    </script>
+</body>
+
+</html>

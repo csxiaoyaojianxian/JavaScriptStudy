@@ -2,7 +2,7 @@
  * @Author: victorsun
  * @Date: 2019-04-07 16:06:19
  * @LastEditors: victorsun - csxiaoyao
- * @LastEditTime: 2020-03-14 16:24:04
+ * @LastEditTime: 2020-03-15 00:18:23
  * @Description: sunjianfeng@csxiaoyao.com
  -->
 <!DOCTYPE html>
@@ -43,8 +43,10 @@ const p = new Promise(function(resolve,reject){
 //    需要返回 Promise 的 reject，如 new Promise((resolve, reject) => { reject() })
 //    或者使用静态方法 Promise.reject()
 
-
-// 并行处理 Promise.all
+/**
+ * Promise.all
+ * 并行处理
+ */
 const p1 = Promise.resolve(1)
 const p2 = Promise.resolve(2)
 const p3 = Promise.resolve(3)
@@ -52,6 +54,27 @@ Promise.all([p1, p2, p3]).then(value => {
     console.log(value) // [1, 2, 3]
 })
 
+/**
+ * Promise.race
+ * 先到先得，如cdn静态资源处理
+ */
+const p4 = () => {
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            resolve(1)
+        }, 1000)
+    })
+}
+const p5 = () => {
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            resolve(2)
+        }, 500)
+    })
+}
+Promise.race([p4(), p5()]).then((value) => {
+    console.log(value) // 2
+})
 </script>
 </body>
 </html>

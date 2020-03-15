@@ -1,3 +1,10 @@
+<!--
+ * @Author: victorsun
+ * @Date: 2019-04-07 16:06:03
+ * @LastEditors: victorsun - csxiaoyao
+ * @LastEditTime: 2020-03-15 14:25:45
+ * @Description: sunjianfeng@csxiaoyao.com
+ -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -51,8 +58,12 @@ console.log(newName)
  * export default 向外暴露的成员，可以使用任意变量来接收
  */
 var a = "My name is Tom!";
+var b = "My name is csxiaoyao!";
 export default a; // 仅有一个
-import b from "./xxx.js"; // 不需要加{}，使用任意变量接收
+export {
+    b
+}
+import newA, { b } from "./xxx.js"; // 不需要加{}，使用任意变量接收
 
 /**
  * 【 复合使用 】
@@ -62,6 +73,9 @@ export { foo as bar } from "methods";
 export { foo as default } from "methods";
 export { default as foo } from "methods";
 export * from "methods";
+
+import * as Mod from "./xxx.js";
+// Mod.xxx
 </script>
 </body>
 </html>

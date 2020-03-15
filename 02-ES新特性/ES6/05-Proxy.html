@@ -1,0 +1,155 @@
+<!--
+ * @Author: victorsun
+ * @Date: 2019-03-23 23:30:05
+ * @LastEditors: victorsun - csxiaoyao
+ * @LastEditTime: 2020-03-15 02:07:03
+ * @Description: sunjianfeng@csxiaoyao.com
+ -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>es6</title>
+</head>
+
+<body>
+    详细 api 参考 Reflect & Proxy
+    <script>
+        /**
+         * Proxy 代理
+         */
+        // 【 用法1 】: 拦截get / set
+        let o = {
+            name: 'csxiaoyao',
+            price: 100
+        }
+        // es5
+        /*
+        for (let [key] of Object.entries(o)) {
+            Object.defineProperty(o, key, {
+                writable: false
+            })
+        }
+        d.price = 20
+        console.log(d.price) // 120
+        */
+        // es6 proxy
+        let d = new Proxy(o, {
+            get (target, key) {
+                if (key === 'price') {
+                    return target[key] + 20
+                } else {
+                    return target[key]
+                }
+            },
+            set (target, key, value) {
+                return false
+            }
+        })
+        d.price = 10
+        console.log(d.price) // 120
+
+        // 【 用法2 】: 写操作规则校验
+        let o2 = {
+            name: 'sunshine',
+            price: 100
+        }
+        // 规则校验
+        let validator2 = (target, key, value) => {
+            if (Reflect.has(target, key)) {
+                if (key === 'price') {
+                    if (value > 300) {
+                        return false
+                    } else {
+                        target[key] = value
+                    }
+                } else {
+                    target[key] = value
+                }
+            } else {
+                return false
+            }
+        }
+        let d2 = new Proxy(o2, {
+            get (target, key) {
+                return target[key] || ''
+            },
+            set: validator2
+        })
+        d2.price = 301 // 无效
+        console.log(d2.price, d2.name)
+
+        // 【 用法3 】: 监控上报
+        // 规则校验
+        let validator3 = (target, key, value) => {
+            if (Reflect.has(target, key)) {
+                if (key === 'price') {
+                    if (value > 300) {
+                        // report(...) // 这样不好
+                        throw new TypeError('price exceed 300')
+                        return false
+                    } else {
+                        target[key] = value
+                    }
+                } else {
+                    target[key] = value
+                }
+            } else {
+                return false
+            }
+        }
+        window.addEventListener('error', (e) => {
+            console.log(e.message)
+            // report('./')
+        })
+        let d3 = new Proxy(o2, {
+            get (target, key) {
+                return target[key] || ''
+            },
+            set: validator3
+        })
+        // d3.price = 301 // 无效
+
+        // 【 用法4 】: uuid
+        class Component {
+            constructor () {
+                this.proxy = new Proxy({
+                    id: Math.random().toString(36).slice(-8)
+                }, {})
+            }
+            get id () {
+                return this.proxy.id
+            }
+        }
+        let com = new Component()
+        let com2 = new Component()
+        for (let i = 0; i < 10; i++) {
+            console.log(com.id, com2.id)
+        }
+        com.id = 'abc'
+
+        // 【 扩展 】: 撤销代理
+        let o3 = {
+            name: 'sunshine',
+            price: 100
+        }
+        let d4 = Proxy.revocable(o3, {
+            get (target, key) {
+                return target[key] || ''
+            },
+            set: validator2
+        })
+        console.log(d4.proxy.price, d) // 100
+        setTimeout(() => {
+            d4.revoke()
+            setTimeout(() => {
+                console.log(d4.proxy.price) // 阅后即焚
+            }, 100)
+        }, 1000)
+    </script>
+</body>
+
+</html>

@@ -8,7 +8,28 @@
 </head>
 <body>
 <script>
-// Generator 函数，可以通过 yield 关键字，把函数的执行流挂起实现异步处理
+// es5 loop
+function loop () {
+    for (let i = 0; i < 3; i++) {
+        console.log(i)
+    }
+}
+// es6 Generator
+function * loop () {
+    for (let i = 0; i < 3; i++) {
+        yield console.log(i) // 暂停，使用 yield
+    }
+}
+// 执行
+const l = loop()
+l.next() // 0
+l.next() // 1
+l.next() // 2
+l.next()
+l.next()
+
+
+// 【 Generator 函数 】可以通过 yield 关键字，把函数的执行流挂起实现异步处理
 //   组成
 //     1. function*，表示函数为 Generator 函数
 //     2. yield表达式，定义函数内部状态
@@ -88,6 +109,7 @@ function* caller() {
 }
 const callerObj = caller();
 callerObj.next(); // {value: undefined, done: false}
+// next 传值，定义 yield 返回值
 callerObj.next("a"); // callee: a {value: undefined, done: false}
 callerObj.next("b"); // callee: b {value: undefined, done: false}
 // 等同于

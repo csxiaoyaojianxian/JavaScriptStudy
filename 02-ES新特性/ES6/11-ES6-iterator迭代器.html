@@ -8,9 +8,104 @@
 </head>
 <body>
 <script>
+// 问题：需要收集下面结构中所有的作者名
+let authors = {
+    allAuthors: {
+        fiction: ['aa', 'bb', 'cc'],
+        scienceFiction: ['dd', 'ee'],
+        fantasy: ['ff', 'gg']
+    },
+    address: []
+}
+let authors2 = {
+    allAuthors: {
+        fiction: ['aa', 'bb', 'cc'],
+        scienceFiction: ['dd', 'ee'],
+        fantasy: ['ff', 'gg']
+    },
+    address: []
+}
+// es5，需要每次自己写遍历逻辑，不够优雅，希望针对 authors，能用统一一种如 push 的方式实现(控制遍历的指针)
+let r = []
+for (let [,v] of Object.entries(authors.allAuthors)) {
+    r = r.concat(v)
+}
+console.log(r) // ["aa", "bb", "cc", "dd", "ee", "ff", "gg"]
+
+/**
+ * 迭代器定义
+ */
+// 1. 在对象上绑定 Symbol.iterator
+// 2. 固定输入为 this
+// 3. 约束输出格式，next / done / value
+/*
+authors[Symbol.iterator] = function () {
+    return {
+        next () { // next
+            return {
+                done: false, // done 必填，遍历是否结束
+                value: 1 // value 必填，当前遍历项的值
+            }
+        }
+    }
+}
+*/
+authors[Symbol.iterator] = function () {
+    // 固定输入 this
+    let allAuthors = this.allAuthors
+    let keys = Reflect.ownKeys(allAuthors)
+    let values = []
+    // 输出格式约束
+    return {
+        next () { // next
+            if (!values.length) {
+                if (keys.length) {
+                    values = allAuthors[keys[0]] // 0是因为用完后剔除
+                    keys.shift()
+                }
+            }
+            return {
+                done: !values.length, // done 必填，遍历是否结束
+                value: values.shift() // value 必填，当前遍历项的值
+            }
+        }
+    }
+}
+let r2 = []
+for (let v of authors) {
+    r2.push(v)
+}
+console.log(r2) // ["aa", "bb", "cc", "dd", "ee", "ff", "gg"]
+
+/**
+ * 扩展使用 generator 协议，应用上述的 迭代器协议
+ */
+authors2[Symbol.iterator] = function * () {
+    let allAuthors = this.allAuthors
+    let keys = Reflect.ownKeys(allAuthors)
+    let values = []
+    while (1) {
+        if (!values.length) {
+            if (keys.length) {
+                values = allAuthors[keys[0]]
+                keys.shift()
+                yield values.shift()
+            } else {
+                return false
+            }
+        } else {
+            yield values.shift()
+        }
+    }
+}
+let r3 = []
+for (let v of authors2) {
+    r3.push(v)
+}
+console.log(r3) // ["aa", "bb", "cc", "dd", "ee", "ff", "gg"]
+
 /**
  * 迭代的过程
- * 
  */
 // 1. 通过 Symbol.iterator 创建一个迭代器，指向当前数据结构的起始位置
 // 2. 通过 next 方法向下迭代指向下一个位置， next 方法返回当前位置的对象(包含当前属性值 value 和是否遍历结束 done 两个属性)
