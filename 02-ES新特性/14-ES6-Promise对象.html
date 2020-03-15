@@ -2,7 +2,7 @@
  * @Author: victorsun
  * @Date: 2019-04-07 16:06:19
  * @LastEditors: victorsun - csxiaoyao
- * @LastEditTime: 2020-03-15 00:18:23
+ * @LastEditTime: 2020-03-15 16:55:59
  * @Description: sunjianfeng@csxiaoyao.com
  -->
 <!DOCTYPE html>
@@ -75,6 +75,27 @@ const p5 = () => {
 Promise.race([p4(), p5()]).then((value) => {
     console.log(value) // 2
 })
+
+/**
+ * ES9升级
+ * finally
+ */
+const Gen = (time) => {
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            if (time < 500) {
+                reject(time)
+            } else {
+                resolve(time)
+            }
+        }, time)
+    })
+}
+Gen(Math.random() * 1000)
+    .then(val => console.log('resolve ', val))
+    .catch(err => console.log('reject ', err))
+    .finally(() => { console.log('finish') })
+
 </script>
 </body>
 </html>

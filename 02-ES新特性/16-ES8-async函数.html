@@ -1,10 +1,17 @@
+<!--
+ * @Author: victorsun
+ * @Date: 2019-04-07 16:07:26
+ * @LastEditors: victorsun - csxiaoyao
+ * @LastEditTime: 2020-03-15 16:21:12
+ * @Description: sunjianfeng@csxiaoyao.com
+ -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
-<title>es6</title>
+<title>es</title>
 </head>
 <body>
 <script>
@@ -25,7 +32,7 @@ helloAsync().then(v=>{
  */
 // await 关键字仅在 async function 中有效，用于等待一个 Promise 对象
 // await 命令后面一般是一个 Promise 对象，也可以是其他值，如字符串，布尔值，数值以及普通函数
-// 如果跟Promise，等待Promise对象执行完返回，跟非Promise对象，直接返回对应的值
+// 如果跟Promise，等待Promise对象执行完返回，跟非Promise对象，直接返回对应的值(自动包装成Promise对象，如 Promise.resolve(xxx))
 // [return_value] = await expression;
 function testAwait (x) {
     return new Promise(resolve => {

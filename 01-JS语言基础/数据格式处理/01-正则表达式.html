@@ -94,8 +94,10 @@ var s = '𠮷'; // \uD842\uDFB7
 /^\S$/.test('𠮷'); // false \S是预定义模式，匹配所有非空白字符。只有加了u修饰符，它才能正确匹配码点大于0xFFFF的 Unicode 字符
 /^\S$/u.test('𠮷'); // true
 // y (es6) 粘连修饰符，相当于 ^$，保证每次匹配是连续的
-// s (es2018) 使.可以匹配任意单个字符(含行终止符)
+// s (es2018) 使.可以匹配任意单个字符(含行终止符) !!!
 /foo.bar/s.test('foo\nbar') // true
+
+// es9 中 . 的全能匹配模式 us
 
 /**
  * 【 属性 】
@@ -108,14 +110,14 @@ r2.unicode // true
 // sticky 返回是否设置了y修饰符
 var r = /hello\d/y;
 r.sticky // true
-// dotAll
+// dotAll (es9) 返回是否设置了s修饰符
 const re = /foo.bar/s;
-re.dotAll // true
-
+re.dotAll; // true
 // source (es5) 返回正则表达式的正文
-/abc/ig.source // "abc"
+
+/abc/ig.source; // "abc"
 // flags (es6) 返回正则表达式的修饰符
-/abc/ig.flags // 'gi'
+/abc/ig.flags; // 'gi'
 
 /**
  * 【4 使用一：五大内部类】
@@ -221,6 +223,31 @@ codePointLength(s) // 2
  * 【9 其他】
  * php后向引用？
  */
+
+/**
+ * 【10 分组】
+ */
+// es5 匹配日期
+const t = '2020-03-15'.match(/(\d{4})-(\d{2})-(\d{2})/)
+console.log(t[1]) // 2020
+console.log(t[2]) // 03
+console.log(t[3]) // 15
+// es9 分组，重要
+const t2 = '2020-03-15'.match(/(?<year>\d{4})-(?<month>\d{2})-(?<day>\d{2})/)
+console.log(t2.groups.year) // 2020
+console.log(t2.groups.month) // 03
+console.log(t2.groups.day) // 15
+
+/**
+ * 【11 先行断言 / 后行断言】
+ * ?= 后行断言
+ * ?<= 先行断言(等于)
+ * ?<! 先行断言(不等于)
+ */
+let test = 'hello world'
+console.log(test.match(/hello(?=\sworld)/)) // 后行断言  先找到 hello 再判断hello后面是否满足，匹配到hello
+console.log(test.match(/(?<=hello\s)world/)) // 先行断言  先找到 world 再判断world前面是否满足，匹配到world
+console.log(test.match(/(?<!helle\s)world/)) // 先行断言  先找到 world 再判断world前面是否满足，匹配到world
 </script>
 </body>
 </html>

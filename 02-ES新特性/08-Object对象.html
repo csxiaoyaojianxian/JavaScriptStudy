@@ -15,14 +15,14 @@
 const age = 12;
 const name = "Amy";
 const person = {age, name}; // 等同于 const person = {age: age, name: name}
-person // {age: 12, name: "Amy"}
+// person // {age: 12, name: "Amy"}
 // 方法名也可以简写
-const person = {
+const person2 = {
     sayHi(){ // 等同于 sayHi:function(){console.log("Hi");}
         console.log("Hi");
     }
 }
-person.sayHi(); //"Hi"
+person2.sayHi(); //"Hi"
 // 如果是Generator 函数，则要在前面加一个星号
 const obj = {
     * myGenerator() { // 等同于 myGenerator: function* () { yield 'hello world'; }
@@ -34,26 +34,26 @@ const obj = {
  */
 // ES6允许用表达式作为属性名，但是一定要将表达式放在方括号内
 // 注意点：属性的简洁表示法和属性名表达式不能同时使用，否则会报错
-const obj = {
+const obj2 = {
     ["he"+"llo"](){
         return "Hi";
     }
 }
-obj.hello(); // "Hi"
+obj2.hello(); // "Hi"
 const hello = "Hello";
-// const obj = { [hello] }; //SyntaxError: Unexpected token }
-const obj = {
+// const obj3 = { [hello] }; //SyntaxError: Unexpected token }
+const obj3 = {
     [hello+"2"]:"world"
 };
-obj //{Hello2: "world"}
+obj3 //{Hello2: "world"}
 
 /**
  * 对象的拓展运算符
  */
 // 拓展运算符（...）用于取出参数对象所有可遍历属性然后拷贝到当前对象
-let person = {name: "Amy", age: 15};
-someone = { ...person, name: "Mike", age: 17}; // {name: "Mike", age: 17}
-someone = {name: "Mike", age: 17, ...person}; // {name: "Amy", age: 15}
+let person3 = {name: "Amy", age: 15};
+someone = { ...person3, name: "Mike", age: 17}; // {name: "Mike", age: 17}
+someone = {name: "Mike", age: 17, ...person3}; // {name: "Amy", age: 15}
 let a = {...{}, a: 1, b: 2}; // {a: 1, b: 2}
 let b = {...null, ...undefined, a: 1, b: 2}; // {a: 1, b: 2}
 
@@ -101,6 +101,50 @@ Object.is(+0,-0); // false +0不等于-0
 +0 === -0 // true
 Object.is(NaN,NaN); // true NaN等于本身
 NaN === NaN // false
+
+/**
+ * 【 es8 】数据描述符
+ * Object.defineProperty
+ * Object.getOwnPropertyDescriptor
+ * Object.getOwnPropertyDescriptors
+ */
+ const data = {
+    PortLand: '78/50',
+    Dublin: '88/52',
+    Lima: '58/40'
+}
+// Object.defineProperty
+Object.defineProperty(data, 'Lima', {
+    enumerable: false
+})
+console.log(Object.keys(data)) // ["PortLand", "Dublin"]
+console.log(Object.getOwnPropertyDescriptors(data))
+console.log(Object.getOwnPropertyDescriptor(data, 'Lima')) // {value: "58/40", writable: true, enumerable: false, configurable: true}
+
+/**
+ * 【 es9 】Rest & Spread
+ */
+const input = {
+    a: 1,
+    b: 2
+}
+const output = {
+    ...input,
+    c: 3
+}
+// ... 拷贝非引用
+console.log(input, output) // {a: 1, b: 2} {a: 1, b: 2, c: 3}
+input.a = 4
+console.log(input, output) // {a: 4, b: 2} {a: 1, b: 2, c: 3}
+
+const input2 = {
+    aa: 1,
+    bb: 2,
+    cc: 3,
+    dd: 4
+}
+const { aa, bb, ...rest } = input2
+console.log(aa, bb, rest) // 1 2 {cc: 3, dd: 4}
 </script>
 </body>
 </html>

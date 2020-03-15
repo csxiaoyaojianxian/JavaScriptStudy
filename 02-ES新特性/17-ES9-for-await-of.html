@@ -1,0 +1,86 @@
+<!--
+ * @Author: victorsun
+ * @Date: 2020-03-15 16:20:32
+ * @LastEditors: victorsun - csxiaoyao
+ * @LastEditTime: 2020-03-15 16:48:40
+ * @Description: sunjianfeng@csxiaoyao.com
+ -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>es</title>
+</head>
+<body>
+<script>
+function Gen (time) {
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            resolve(time)
+        }, time)
+    })
+}
+/*
+async function test () {
+    let arr = [Gen(2000), Gen(100), Gen(3000)]
+    for (let item of arr) {
+        // 先输出 await 后的，再输出时间，不符合预期
+        console.log(Date.now(), await item.then())
+    }
+}*/
+// for await of
+async function test () {
+    let arr = [Gen(2000), Gen(100), Gen(3000)]
+    for await (let item of arr) {
+        console.log(Date.now(), item)
+    }
+}
+test()
+// 1584261468829 2000
+// 1584261468830 100
+// 1584261469825 3000
+
+// 与迭代器协议结合
+const obj = {
+    count: 0,
+    Gen (time) {
+        return new Promise((resolve, reject) => {
+            setTimeout(() => {
+                // 不能写 resolve(time)，需要遵守迭代器协议
+                resolve({
+                    done: false,
+                    value: time // 略过相关逻辑
+                })
+            }, time)
+        })
+    },
+    [Symbol.asyncIterator] () {
+        let self = this
+        return {
+            next () {
+                self.count++
+                if (self.count < 4) {
+                    // 返回值为上面 Gen 返回的遵循迭代器协议的对象
+                    return self.Gen(Math.random() * 1000)
+                } else {
+                    return Promise.resolve({
+                        done: true,
+                        value: ''
+                    })
+                }
+            }
+        }
+    }
+}
+async function test2 () {
+    for await (let item of obj) {
+        console.log(Date.now(), item)
+    }
+}
+test2()
+
+</script>
+</body>
+</html>
