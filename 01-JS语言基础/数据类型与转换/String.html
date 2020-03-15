@@ -48,9 +48,10 @@
     【 String.raw() 】转义字符串
 
     【 es6 tag 函数 & template literals 】
-
-    【 es8 】
+【 es8 】
     * 【 padStart(), padEnd() 】字符串补全，比如统一数据前置0
+【 es10 】
+    【 trimLeft() / trimRight() / trimStart() / trimEnd() 】
 
 4.【简单综合应用1】字符串占位
 
@@ -291,27 +292,39 @@
     /**
      * 【 模板字符串 】
      */
+    /*
+    const basket = {
+        count: 0,
+        onSale: ['good1', 'good2']
+    }
     `There are <b>${basket.count + 1}</b> items
     in your basket, <em>${basket.onSale}</em>${f()}
     are on sale!`
     // 标签模板
     alert`Hello world!`; // 等价于 alert('Hello world!')
     f`My Name is ${name},I am ${age+1} years old next year.`; // 等价于 f(['My Name is',',I am ',' years old next year.'],'Mike',28)
+    */
+
     /**
      * 【 String.raw() 】
      * 转义字符串
      */
 
      /**
-     * 【 padStart(), padEnd() 】
-     * 字符串不够指定长度，在头部或尾部补全
-     */
+      * 【 padStart(), padEnd() 】
+      * 字符串不够指定长度，在头部或尾部补全
+      */
     'x'.padStart(4, 'ab') // 'abax'
     'x'.padEnd(5, 'ab') // 'xabab'
     'abc'.padStart(10, '0123456789') // '0123456abc'
     'x'.padEnd(4) // 'x   '
     '7'.padStart(3, '0') // '007'
-    
+
+    /**
+     * 【 trimLeft() / trimRight() / trimStart() / trimEnd() 】
+     */
+    let strTrim = '   foo   ' // strTrim.replace(/^\s+|\s+$/g, '')
+    console.log(strTrim.trimStart()) // 'foo   '
 
 //【简单综合应用1】字符串占位
     var str = "CS逍遥剑仙 www.csxiaoyao.com";

@@ -47,7 +47,7 @@ reg=/abc/g;
 reg.compile(reg);
 
 // 【 3 字符串方法 】
-// match() 根据正则表达式去查找字符串符合规则的内容，返回数组，没有匹配项返回null
+// match() / matchAll() 根据正则表达式去查找字符串符合规则的内容，返回数组，没有匹配项返回null
 console.log(str.match(reg));// ["sun", "jian", "feng"]
 // replace()
 console.log("sunjianfeng".replace(/jianfeng/,"shine"));//sunshine

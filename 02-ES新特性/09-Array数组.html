@@ -22,7 +22,7 @@
 // keys()            遍历键名
 // values()          遍历键值
 // includes()        数组是否包含指定值（es7）
-// flat()            嵌套数组转一维数组
+// flat()            嵌套数组转一维数组 (es10)
 // flatMap()         遍历元素再对数组执行 flat() 方法
 // ...               复制 / 合并数组
 // 数组缓冲区 ArrayBuffer / DataView
@@ -146,7 +146,7 @@ for(let value of ['a', 'b'].values()){
 console.log([...[,'a'].values()]); // [undefined, "a"] 数组含空位
 
 /**
- * es6 数组包含
+ * es7 数组包含
  */
 // 【 includes() 】 数组是否包含指定值
 //     注意：与 Set 和 Map 的 has 方法区分：Set 的 has 方法用于查找值；Map 的 has 方法用于查找键名。
@@ -157,7 +157,7 @@ console.log([...[,'a'].values()]); // [undefined, "a"] 数组含空位
 [1, NaN, 3].includes(NaN); // true
 
 /**
- * es6 嵌套数组转一维数组
+ * es10 嵌套数组转一维数组
  */
 // 【 flat() 】 嵌套数组转一维数组
 console.log([1 ,[2, 3]].flat()); // [1, 2, 3]
@@ -165,10 +165,12 @@ console.log([1, [2, , 3]].flat()); // [1, 2, 3] 自动跳过空位
 //     指定转换的嵌套层数
 console.log([1, [2, [3, [4, 5]]]].flat(2)); // [1, 2, 3, [4, 5]]
 console.log([1, [2, [3, [4, 5]]]].flat(Infinity)); // [1, 2, 3, 4, 5]
-// 【 flatMap() 】 先对数组中每个元素进行处理，再对数组执行 flat() 方法
+// 【 flatMap() 】 flat + map 先对数组中每个元素进行处理，再对数组执行 flat() 方法
 //     参数1：遍历函数，该遍历函数可接受3个参数：当前元素、当前元素索引、原数组
 //     参数2：指定遍历函数中 this 的指向
 console.log([1, 2, 3].flatMap(n => [n * 2])); // [2, 4, 6]
+// 相当于
+console.log([1, 2, 3].map(n => [n * 2]).flat()); // [[2], [4], [6]] => [2, 4, 6]
 
 /**
  * 扩展运算符
