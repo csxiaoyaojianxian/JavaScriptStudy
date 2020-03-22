@@ -2,7 +2,7 @@
  * @Author: victorsun
  * @Date: 2019-12-04 20:15:29
  * @LastEditors: victorsun - csxiaoyao
- * @LastEditTime: 2020-03-22 16:10:04
+ * @LastEditTime: 2020-03-22 16:17:47
  * @Description: sunjianfeng@csxiaoyao.com
  */
 import * as tf from '@tensorflow/tfjs';
@@ -15,6 +15,7 @@ import { file2img } from './utils';
  * 在 tensorflow.js 中调用web格式的模型文件
  * 
  * 【 MobileNet模型 】
+ * 图像分类模型
  * 卷积神经网络模型的一种，轻量、速度快，但是准确性一般
  * 
  * 【 文件说明 】

@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "dependencies": {
-    "@tensorflow-models/speech-commands": "^0.4.0",
+    "@tensorflow-models/speech-commands": "^0.4.2",
     "@tensorflow/tfjs": "^1.7.0",
     "@tensorflow/tfjs-node": "^1.7.0",
     "@tensorflow/tfjs-vis": "^1.2.0"
