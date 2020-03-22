@@ -2,7 +2,7 @@
  * @Author: victorsun
  * @Date: 2019-12-04 20:15:29
  * @LastEditors: victorsun - csxiaoyao
- * @LastEditTime: 2020-03-21 13:27:25
+ * @LastEditTime: 2020-03-22 00:05:54
  * @Description: sunjianfeng@csxiaoyao.com
  */
 import * as tf from '@tensorflow/tfjs';
@@ -31,16 +31,16 @@ window.onload = async () => {
     
     // 2. 初始化神经网络模型
     const model = tf.sequential();
-    // 添加层，dense： y=ax+b，设置激活函数(防止输入超过100%，对过大过小值收敛，保证数据在 0 - 1 之间)，常用 sigmoid
+    // 添加层，dense： y=ax+b，设置激活函数sigmoid(防止输入超过100%，对过大过小值收敛，保证数据在 0 - 1 之间)
     model.add(tf.layers.dense({
         units: 1, // 输出值为一个概率值，1个神经元即可
         inputShape: [2], // 坐标 x,y 两个值，特征数量为2
-        activation: 'sigmoid' // 设置激活函数 sigmoid
+        activation: 'sigmoid' // 设置激活函数 sigmoid 0-1
     }));
     // 设置损失函数和优化器
     model.compile({
-        loss: tf.losses.logLoss,
-        optimizer: tf.train.adam(0.1) // adam自动调节学习速率
+        loss: tf.losses.logLoss, // 损失函数，log损失，用于逻辑回归问题
+        optimizer: tf.train.adam(0.1) // adam自动调节学习速率，初始化学习速率0.1
     });
 
     // 3. 训练数据转tensor
