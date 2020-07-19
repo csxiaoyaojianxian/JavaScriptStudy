@@ -31,3 +31,24 @@ $ npm start
 
 - Node.js 8.x
 - Typescript 2.8+
+
+
+$ redis-server
+
+redis
+seed
+docs
+cros
+TDD
+域名
+登录态
+权限校验
+whistle
+husky
+lint-staged
+prettier
+
+
+sequelize
+https://sequelize.org/master/manual/query-interface.html
+https://sequelize.org/master/variable/index.html#static-variable-DataTypes

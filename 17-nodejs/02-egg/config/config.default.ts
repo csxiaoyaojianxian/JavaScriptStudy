@@ -11,6 +11,17 @@ export default (appInfo: EggAppInfo) => {
     SUCCESS: '0',
     TEST_ERROR: '-1',
     CURL_ERROR: '-1000',
+    DATA_NOT_FOUND: '404',
+  };
+
+  config.sequelize = {
+    dialect: 'mysql',
+    host: '127.0.0.1',
+    port: 3306,
+    database: 'test',
+    username: 'root',
+    password: '19931128',
+    timezone: '+08:00',
   };
 
   config.onerror = {
@@ -36,7 +47,6 @@ export default (appInfo: EggAppInfo) => {
   };
 
   const bodyParser = {
-    enable: true,
     jsonLimit: '3mb',
     // ignore: '/api',
   };
@@ -44,7 +54,7 @@ export default (appInfo: EggAppInfo) => {
   // add your egg config in here
   config.middleware = [
     'robot',
-    'errorHandler'
+    'errorHandler',
   ];
 
   // robot's configurations
@@ -52,7 +62,7 @@ export default (appInfo: EggAppInfo) => {
     ua: [
       /curl/i,
       /Baiduspider/i,
-    ]
+    ],
   };
 
   // 只对 /api 前缀的 url 路径生效

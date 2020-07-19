@@ -3,8 +3,8 @@ import { Application } from 'egg';
 export default (app: Application) => {
   const { controller, router } = app;
 
-  router.get('/', controller.index.index);
-  router.resources('topics', '/api/topics', app.controller.topics);
-  router.get('*', controller.index.notFound);
-
+  router.get('/', controller.demo.index);
+  router.resources('demo', '/api/demo', controller.demo);
+  router.resources('users', '/api/users', controller.user);
+  router.resources('posts', '/api/posts', controller.post);
 };

@@ -8,23 +8,29 @@
     "declarations": true
   },
   "scripts": {
-    "start": "egg-scripts start --daemon --title=egg-server-demo",
+    "start": "egg-scripts start --port=80 --daemon --title=egg-server-demo",
     "stop": "egg-scripts stop --title=egg-server-demo",
-    "dev": "egg-bin dev",
+    "dev": "npx sequelize db:migrate && egg-bin dev --port 2048",
     "debug": "egg-bin debug",
     "test-local": "egg-bin test",
-    "test": "npm run lint -- --fix && npm run test-local",
+    "test": "NODE_ENV=test npm run sequelize -- db:migrate && npm run lint -- --fix && npm run test-local",
     "cov": "egg-bin cov",
     "tsc": "ets && tsc -p tsconfig.json",
-    "ci": "npm run lint && npm run cov && npm run tsc",
+    "ci": "npm run lint && NODE_ENV=test npx sequelize db:migrate && npm run cov && npm run tsc",
     "autod": "autod",
-    "lint": "eslint . --ext .ts",
-    "clean": "ets clean"
+    "lint": "npx eslint . --ext .ts",
+    "clean": "ets clean",
+    "sequelize": "sequelize --"
   },
   "dependencies": {
     "egg": "^2.6.1",
+    "egg-redis": "^2.4.0",
     "egg-scripts": "^2.6.0",
-    "egg-validate": "^2.0.2"
+    "egg-sequelize": "^5.2.2",
+    "egg-validate": "^2.0.2",
+    "eslint": "^7.4.0",
+    "lodash": "^4.17.19",
+    "mysql2": "^2.1.0"
   },
   "devDependencies": {
     "@types/mocha": "^2.2.40",
@@ -32,12 +38,13 @@
     "@types/supertest": "^2.0.0",
     "autod": "^3.0.1",
     "autod-egg": "^1.1.0",
-    "egg-ci": "^1.8.0",
     "egg-bin": "^4.11.0",
+    "egg-ci": "^1.8.0",
     "egg-mock": "^3.16.0",
-    "tslib": "^1.9.0",
-    "eslint": "^6.7.2",
     "eslint-config-egg": "^8.0.0",
+    "factory-girl": "^5.0.4",
+    "sequelize-cli": "^6.2.0",
+    "tslib": "^1.9.0",
     "typescript": "^3.0.0"
   },
   "engines": {
@@ -53,6 +60,6 @@
   "eslintIgnore": [
     "coverage"
   ],
-  "author": "",
+  "author": "csxiaoyao <sunjianfeng@csxiaoyao.com>",
   "license": "MIT"
 }

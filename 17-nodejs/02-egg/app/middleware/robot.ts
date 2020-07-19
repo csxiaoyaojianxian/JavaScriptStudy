@@ -12,5 +12,5 @@ export default (options, app) => {
     } else {
       await next();
     }
-  }
+  };
 };
