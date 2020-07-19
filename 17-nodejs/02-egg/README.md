@@ -44,6 +44,7 @@ $ redis-server
 4. husky
 5. lint-staged
 6. prettier
+7. password organization
 
 ## Docs
 **validate**
@@ -58,3 +59,6 @@ https://mochajs.cn/
 
 https://sequelize.org/master/manual/query-interface.html
 https://sequelize.org/master/variable/index.html#static-variable-DataTypes
+
+**factory-girl**
+https://www.npmjs.com/package/factory-girl

@@ -1,5 +1,6 @@
-import { Application } from 'egg';
-export default function(app: Application) {
+// import { Application } from 'egg';
+// export default function(app: Application) {
+export default function(app) {
   const { STRING, INTEGER } = app.Sequelize;
 
   const Post = app.model.define('posts', {

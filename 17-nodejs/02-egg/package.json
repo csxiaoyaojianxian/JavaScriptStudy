@@ -12,8 +12,8 @@
     "stop": "egg-scripts stop --title=egg-server-demo",
     "dev": "npx sequelize db:migrate && egg-bin dev --port 2048",
     "debug": "egg-bin debug",
-    "test-local": "egg-bin test",
-    "test": "NODE_ENV=test npm run sequelize -- db:migrate && npm run lint -- --fix && npm run test-local",
+    "test": "NODE_ENV=test npm run sequelize -- db:migrate && npm run lint -- --fix && npm run test:local",
+    "test:local": "egg-bin test",
     "cov": "egg-bin cov",
     "tsc": "ets && tsc -p tsconfig.json",
     "ci": "npm run lint && NODE_ENV=test npx sequelize db:migrate && npm run cov && npm run tsc",
@@ -32,6 +32,7 @@
     "seed:down:all": "npx sequelize db:seed:undo:all"
   },
   "dependencies": {
+    "chai": "^4.2.0",
     "egg": "^2.6.1",
     "egg-redis": "^2.4.0",
     "egg-scripts": "^2.6.0",
