@@ -1,13 +1,13 @@
 import { app } from 'egg-mock/bootstrap';
 import assert = require('assert');
-// import { expect } from 'chai';
+import { expect } from 'chai';
 
 describe('test/app/service/post.test.js', () => {
   describe('GET /api/posts', () => {
     it('should work', async () => {
       await app.factory.createMany('post', 3);
       const res = await app.httpRequest().get('/api/posts?limit=2');
-      assert(res.status === 200);
+      expect(res.status).to.be.equal(200);
       assert(res.body.data.count === 3);
       assert(res.body.data.rows.length === 2);
       assert(res.body.data.rows[0].title);
