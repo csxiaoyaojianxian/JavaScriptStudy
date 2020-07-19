@@ -1,6 +1,5 @@
-// import { Application } from 'egg';
-// export default function(app: Application) {
-export default function(app) {
+import { Application } from 'egg';
+export default function(app: Application) {
   const { STRING, INTEGER } = app.Sequelize;
 
   const Post = app.model.define('posts', {
@@ -33,7 +32,7 @@ export default function(app) {
     }
 
     static async findByIdWithUser(id: number, userId: number) {
-      return await this.findOne({
+      return await app.model.Post.findOne({
         where: { id, user_id: userId },
       });
     }

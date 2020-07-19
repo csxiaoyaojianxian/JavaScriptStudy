@@ -52,3 +52,6 @@ prettier
 sequelize
 https://sequelize.org/master/manual/query-interface.html
 https://sequelize.org/master/variable/index.html#static-variable-DataTypes
+
+validate
+https://github.com/node-modules/parameter#rule

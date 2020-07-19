@@ -32,7 +32,6 @@ export default () => {
 
     // 404 单独处理
     if (ctx.status === 404 && !ctx.body) {
-      console.log(ctx.acceptJSON);
       if (ctx.acceptJSON) {
         ctx.body = { error: 'Not Found' };
       } else {
