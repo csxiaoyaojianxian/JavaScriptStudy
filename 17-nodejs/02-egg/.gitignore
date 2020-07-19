@@ -6,7 +6,6 @@ coverage/
 run/
 logs/
 .DS_Store
-.vscode
 *.swp
 *.lock
 *.js
@@ -18,3 +17,5 @@ config/**/*.js
 app/**/*.map
 test/**/*.map
 config/**/*.map
+
+!database/**/*

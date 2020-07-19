@@ -1,6 +1,4 @@
-# hackernews-async-ts
-
-[Hacker News](https://news.ycombinator.com/) showcase using typescript && egg
+# egg-demo-csxiaoyao
 
 ## QuickStart
 
@@ -9,7 +7,7 @@
 ```bash
 $ npm i
 $ npm run dev
-$ open http://localhost:7001/
+$ open http://localhost:2048/
 ```
 
 Don't tsc compile at development mode, if you had run `tsc` then you need to `npm run clean` before `npm run dev`.
@@ -32,26 +30,31 @@ $ npm start
 - Node.js 8.x
 - Typescript 2.8+
 
-
+## Other
+Need to start `mysql` & `redis`
+```
+$ brew services start mysql
 $ redis-server
+```
 
-redis
-seed
-docs
-cros
-TDD
-域名
-登录态
-权限校验
-whistle
-husky
-lint-staged
-prettier
+## TODO
+1. docs
+2. whistle & domain
+3. login & passport & auth
+4. husky
+5. lint-staged
+6. prettier
 
+## Docs
+**validate**
 
-sequelize
+https://github.com/node-modules/parameter#rule
+
+**mocha**
+
+https://mochajs.cn/
+
+**sequelize**
+
 https://sequelize.org/master/manual/query-interface.html
 https://sequelize.org/master/variable/index.html#static-variable-DataTypes
-
-validate
-https://github.com/node-modules/parameter#rule

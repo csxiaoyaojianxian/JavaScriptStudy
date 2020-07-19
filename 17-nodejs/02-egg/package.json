@@ -18,9 +18,18 @@
     "tsc": "ets && tsc -p tsconfig.json",
     "ci": "npm run lint && NODE_ENV=test npx sequelize db:migrate && npm run cov && npm run tsc",
     "autod": "autod",
+    "dev:doc": "npx vuepress dev doc",
+    "build:doc": "npx vuepress build doc",
     "lint": "npx eslint . --ext .ts",
+    "lint:fix": "npx eslint . --ext .ts --fix",
     "clean": "ets clean",
-    "sequelize": "sequelize --"
+    "sequelize": "sequelize --",
+    "migrate:up": "npx sequelize db:migrate",
+    "migrate:down": "npx sequelize db:migrate:undo",
+    "migrate:down:all": "npx sequelize db:migrate:undo:all",
+    "seed:up": "npx sequelize db:seed:all",
+    "seed:down": "npx sequelize db:seed:undo",
+    "seed:down:all": "npx sequelize db:seed:undo:all"
   },
   "dependencies": {
     "egg": "^2.6.1",

@@ -7,7 +7,7 @@ export default (app: Application) => {
   router.get('/api/demo', controller.demo.testEnv);
   router.get('/api/demo/:id', controller.demo.testThrowError);
   router.post('/api/demo', controller.demo.testRedis);
-
+  // restful
   router.resources('users', '/api/users', controller.user);
   router.resources('posts', '/api/posts', controller.post);
 };

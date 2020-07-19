@@ -1,4 +1,10 @@
+/**
+ * config default
+ * csxiaoyao
+ * 2020.07.19
+ */
 import { EggAppConfig, EggAppInfo, PowerPartial } from 'egg';
+import CODE from './CODE';
 
 export default (appInfo: EggAppInfo) => {
   const config = {} as PowerPartial<EggAppConfig>;
@@ -7,13 +13,7 @@ export default (appInfo: EggAppInfo) => {
   // use for cookie sign key, should change to your own and keep security
   config.keys = appInfo.name + '_csxiaoyao';
 
-  config.CODE = {
-    SUCCESS: '0',
-    TEST_ERROR: '-1',
-    CURL_ERROR: '-1000',
-    DATA_NOT_FOUND: '404',
-  };
-
+  // mysql
   config.sequelize = {
     dialect: 'mysql',
     host: '127.0.0.1',
@@ -24,55 +24,58 @@ export default (appInfo: EggAppInfo) => {
     timezone: '+08:00',
   };
 
+  // redis
+  config.redis = {
+    client: {
+      port: 6379,
+      host: '127.0.0.1',
+      password: '',
+      db: 0,
+    },
+  };
+
+  // 全局错误处理
   config.onerror = {
     all(err, ctx) {
       console.log(err);
-      // 在此处定义针对所有响应类型的错误处理方法
-      // 注意，定义了 config.all 之后，其他错误处理方法不会再生效
       ctx.body = 'error';
       ctx.status = 500;
     },
     html(err, ctx) {
       console.log(err);
-      // html hander
       ctx.body = '<h3>error</h3>';
       ctx.status = 500;
     },
     json(err, ctx) {
       console.log(err);
-      // json hander
       ctx.body = { message: 'error' };
       ctx.status = 500;
     },
   };
 
+  // body数据解析
   const bodyParser = {
     jsonLimit: '3mb',
     // ignore: '/api',
   };
 
-  // add your egg config in here
+  /**
+   * 自定义中间件配置
+   */
   config.middleware = [
     'robot',
     'errorHandler',
   ];
-
-  // robot's configurations
   const robot = {
-    ua: [
-      /curl/i,
-      /Baiduspider/i,
-    ],
+    ua: [ /curl/i ],
   };
-
-  // 只对 /api 前缀的 url 路径生效
   const errorHandler = {
-    match: '/api',
+    match: '/api', // 只对 /api 前缀的 url 路径生效
   };
 
-  // the return config will combines to EggAppConfig
   return {
     ...config,
+    CODE,
     bodyParser,
     robot,
     errorHandler,

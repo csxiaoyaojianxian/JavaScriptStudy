@@ -1,3 +1,6 @@
+/**
+ * 错误处理中间件
+ */
 export default () => {
   return async function errorHandler(ctx, next) {
     try {

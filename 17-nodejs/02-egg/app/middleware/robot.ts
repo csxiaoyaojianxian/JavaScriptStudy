@@ -1,5 +1,6 @@
-
-
+/**
+ * robot拦截
+ */
 // options === app.config.robot
 export default (options, app) => {
   console.log(app.config.robot);

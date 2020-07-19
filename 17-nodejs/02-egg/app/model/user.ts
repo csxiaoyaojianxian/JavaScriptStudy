@@ -33,6 +33,5 @@ export default function(app: Application) {
       app.model.User.hasMany(app.model.Post, { as: 'posts' });
     }
   };
-
   // return User;
 }
