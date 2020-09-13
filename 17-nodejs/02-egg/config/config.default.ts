@@ -4,7 +4,7 @@
  * 2020.07.19
  */
 import { EggAppConfig, EggAppInfo, PowerPartial } from 'egg';
-import CODE from './CODE';
+import CODE from './Code';
 
 export default (appInfo: EggAppInfo) => {
   const config = {} as PowerPartial<EggAppConfig>;
