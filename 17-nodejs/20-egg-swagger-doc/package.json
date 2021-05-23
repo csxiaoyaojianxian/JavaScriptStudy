@@ -1,0 +1,21 @@
+{
+  "name": "egg-example",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "egg-bin dev"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "egg": "^2.29.4",
+    "egg-swagger-doc": "^2.3.2",
+    "koa2-swagger-ui": "^5.1.0",
+    "swagger-jsdoc": "*"
+  },
+  "devDependencies": {
+    "egg-bin": "^4.16.2"
+  }
+}
