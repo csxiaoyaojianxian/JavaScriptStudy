@@ -13,7 +13,6 @@ class HomeController extends Controller {
    * @response 200 indexJsonBody
    */
   async index () {
-    console.log(111, this.ctx.query)
     this.ctx.body = {
       code: 0,
       message: '',
