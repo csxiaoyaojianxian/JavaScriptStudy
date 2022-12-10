@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lottie</title>
+  <style>
+    #lottie {
+      width: 300px;
+      background-color: rgb(236, 165, 165);
+    }
+  </style>
+
+  <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.10.0/lottie.min.js" type="text/javascript"></script> -->
+  <script src="lottie.min.js"></script>
+</head>
+<body>
+  <div id="lottie"></div>
+
+  <button onclick="play()">play</button>
+  <button onclick="pause()">pause</button>
+  <button onclick="stop()">stop</button>
+  <button onclick="destroy()">destroy</button>
+  <button onclick="setSpeed()">setSpeed</button>
+
+  <script>
+    var lottie = bodymovin.loadAnimation({
+      container: document.getElementById('lottie'), // Required
+      path: './lottie/data2.json', // Required
+      renderer: 'canvas', // Required svg/canvas/html
+      loop: true, // Optional
+      autoplay: true, // Optional
+    });
+
+    /**
+     * 事件监听 on
+     */
+    // onComplete、onLoopComplete、onEnterFrame、onSegmentStart
+    lottie.onComplete = () => {
+      console.log("onComplete...");
+    }
+    lottie.onLoopComplete = function () {
+      console.log("onLoopComplete...");
+    }
+
+    /**
+     * 事件监听 addEventListener
+     */
+    // complete、loopComplete、enterFrame、segmentStart、destroy
+    // config_ready (when initial config is done)
+    // data_ready (when all parts of the animation have been loaded)
+    // DOMLoaded (when elements have been added to the DOM)
+    lottie.addEventListener("data_ready", () => {
+      console.log("data_ready...");
+    });
+    lottie.addEventListener("DOMLoaded", () => {
+      console.log("DOMLoaded...");
+    });
+
+    /**
+     * 常用方法
+     */
+    window.onresize = () => {
+      console.log("onresize... ");
+      lottie.resize();
+    }
+    function play () {
+      console.log("getDuration: " + lottie.getDuration());
+      lottie.play();
+    }
+    function pause () {
+      lottie.pause();
+    }
+    function stop () {
+      lottie.stop();
+    }
+    function destroy () {
+      lottie.destroy();
+    }
+    function setSpeed () {
+      lottie.setSpeed(10);
+    }
+  </script>
+</body>
+</html>
