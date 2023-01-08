@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>json crack demo</title>
+  <style>
+    html {
+      height: 100%;
+    }
+    body {
+      margin: 0;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+    header {
+      background-color: #ccc;
+      height: 100px;
+      font-size: 24px;
+      padding: 0 20px;
+      box-sizing: border-box;
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+    }
+    footer {
+      background-color: #ccc;
+      height: 50px;
+    }
+    .main {
+      flex: 1;
+      display: flex;
+    }
+    .left {
+      background-color: #eee;
+      width: 300px;
+      height: 100%;
+    }
+    .left>div {
+      height: 50px;
+      line-height: 50px;
+      padding-left: 20px;
+    }
+    textarea {
+      width: 100%;
+      height: calc(100% - 50px);
+      box-sizing: border-box;
+    }
+    .center {
+      flex: 1;
+      height: 100%;
+    }
+    .buttons {
+      padding: 20px;
+    }
+    .container {
+      margin: 20px 100px;
+      background-color: red;
+      width: 800px;
+      height: 800px;
+    }
+    #jsoncrackEmbed {
+      width: 100%;
+      height: 100%;
+    }
+  </style>
+</head>
+<body>
+  <header>json crack demo</header>
+  <div class="main">
+    <div class="left">
+      <div>请输入json</div>
+      <textarea></textarea>
+    </div>
+    <div class="center">
+      <ul class="desc">
+        <li>1. jsoncrack 独立部署在本地 http://127.0.0.1:5501 下，注意修改，build 后的代码在 jsoncrack.com-2.5.0/out/ 下，不建议使用官方的 jsoncrack.com，有点慢</li>
+        <li>2. 源码基于 react，在 jsoncrack.com-2.5.0 下，修改后需要打包</li>
+        <li>3. [不推荐] 方式1：使用load事件载入json</li>
+        <li>4. [推荐] 方式2：通过get参数传入json，注意替换数据源 https://cdn.jsdelivr.net/gh/csxiaoyaojianxian/ImageHosting@0.0.2/json/test.json</li>
+        <li>5. [强烈推荐] 方式3：通过api发送json</li>
+      </ul>
+      <div class="buttons">
+        <button onclick="sendToEmbed()">通过api更新json</button>
+      </div>
+      <div class="container">
+        <iframe id="jsoncrackEmbed" src="https://jsoncrack.com/widget?json=https://cdn.jsdelivr.net/gh/csxiaoyaojianxian/ImageHosting@0.0.2/json/test.json" frameborder="0"></iframe>
+        <!-- <iframe id="jsoncrackEmbed" src="http://127.0.0.1:5501/widget.html?json=https://cdn.jsdelivr.net/gh/csxiaoyaojianxian/ImageHosting@0.0.2/json/test.json" frameborder="0"></iframe> -->
+        <!-- <iframe id="jsoncrackEmbed" src="http://127.0.0.1:5501/widget.html" frameborder="0"></iframe> -->
+      </div>
+    </div>
+  </div>
+  <script>
+    // [不推荐] 方式1：使用load事件载入json
+    /*
+    const jsonCrackEmbed = document.querySelector("iframe");
+    const json = JSON.stringify({
+      "section": "It loaded!"
+    });
+    jsonCrackEmbed?.addEventListener("load", () => {
+      setTimeout(() => jsonCrackEmbed.contentWindow.postMessage({
+        json
+      }, "*"), 500);
+    });
+    */
+
+    // [推荐] 方式2：通过get参数传入json
+
+    // [推荐] 方式3：通过api发送json
+    function sendToEmbed() {
+      const jsonCrackEmbed = document.getElementById("jsoncrackEmbed");
+      const json = JSON.stringify({
+        name: 'csxiaoyao.com',
+        email: 'sunjianfeng@csxiaoyao.com',
+        list: [{
+          test: 1,
+        }],
+      });
+      const options = {
+        theme: "light", // "light" or "dark"
+        direction: "RIGHT", // "UP", "DOWN", "LEFT", "RIGHT"
+      };
+      jsonCrackEmbed.contentWindow.postMessage({
+        json,
+        options
+      }, "*");
+    }
+  </script>
+  <footer></footer>
+</body>
+</html>
