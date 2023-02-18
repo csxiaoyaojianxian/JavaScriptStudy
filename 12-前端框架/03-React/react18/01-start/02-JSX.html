@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>JSX</title>
+  <script src="script/react.development.js"></script>
+  <script src="script/react-dom.development.js"></script>
+  <!-- 引入babel -->
+  <script src="script/babel.min.js"></script>
+</head>
+<body>
+
+<div id="root"></div>
+
+<!--设置js代码被babel处理-->
+<script type="text/babel">
+
+// [1] 命令式编程
+// const button = React.createElement('button', {}, '按钮');
+
+// [2] 声明式编程
+// 通过JSX创建React元素，必须引入babel编译为JS代码，才能被React执行
+// JSX是React.createElement()的语法糖
+
+/*
+注意事项:
+1. html标签小写，React组件大写
+2. 只有一个根标签
+3. 标签必须正确结束(自结束标签必须写/)
+4. 可以使用 {} 嵌入表达式(必须有值，如if语句不符合)，若表达式是 null、boolean、undefined，将不会显示
+5. 属性可以直接在标签中设置
+    - class需要使用className代替
+    - style中必须使用对象设置 style={{background:'red'}}，第一层大括号表示表达式，第二层表示对象
+*/
+
+const div = <div>
+  <button onClick={() => { alert('test') }}>按钮</button>
+  <div
+    className="test"
+    style={{ backgroundColor: "red", border: '10px red solid'}}
+  >
+    <input type="text"/>
+  </div>
+</div>;
+
+/*
+虚拟DOM
+1. React会通过diffing算法，将新元素和旧元素进行比较，只更新变化的部分
+2. 数组需要为每个元素设置一个唯一key，否则更新时会按顺序比较，可能导致性能问题，尽量不要用索引作为key
+*/
+// 列表渲染
+const data = ['孙悟空', '猪八戒', '沙和尚'];
+const list = <ul>{data.map(item => <li key={item}>{item}</li>)}</ul>;
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(list);
+
+</script>
+</body>
+</html>

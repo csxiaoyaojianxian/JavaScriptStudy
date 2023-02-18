@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>Hello World</title>
+  <!--引入react的核心库-->
+  <script src="script/react.development.js"></script>
+  <!--引入react的DOM库-->
+  <script src="script/react-dom.development.js"></script>
+</head>
+<body>
+
+<div id="root"></div>
+
+<script>
+/*
+// 原生DOM操作
+const div = document.createElement('div');
+div.innerText = 'hello world';
+const root = document.getElementById('root');
+root.appendChild(div);
+*/
+
+/*
+ 【 三个核心api 】
+
+ React.createElement(type, [props], [...children])
+  创建React元素
+    - 参数：
+    1. 元素名(组件名)，html标签必须小写，否则会识别为React组件
+    2. 标签中的属性，设置事件时需要用驼峰命名法
+    3. 元素的子元素(内容)
+
+ ReactDOM.createRoot(container[, options])
+  创建React根容器来放置React元素，需要一个DOM元素作为参数
+
+ root.render(element)
+  将React元素渲染到根元素中，第一次容器内DOM元素都会被替换，后续使用diff算法高效更新
+*/
+
+const button = React.createElement('button', {
+  id: 'btn',
+  type: 'button',
+  onClick: () => { alert('clicked') },
+}, 'hello world'); // 创建一个React元素
+
+const div = React.createElement('div', {}, button, 'test content');
+
+// React<18 的写法，react18 将 ReactDOM.render 拆分为 createRoot 和 render
+// ReactDOM.render(div, document.getElementById('root'));
+
+const root = ReactDOM.createRoot(document.getElementById('root')); // 创建React根元素
+
+root.render(div); // 渲染
+
+
+
+
+</script>
+</body>
+</html>
