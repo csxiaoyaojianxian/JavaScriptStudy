@@ -1,0 +1,8 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+.global-style {
+  border: 2px solid red;
+}
