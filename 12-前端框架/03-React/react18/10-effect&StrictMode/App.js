@@ -6,6 +6,9 @@
 import { useState, useEffect } from 'react';
 const App = () => {
 
+    
+    console.log('组件渲染');
+
     const [count, setCount] = useState(0);
 
     // 死循环，如列表清空时关闭页面操作
@@ -15,18 +18,36 @@ const App = () => {
     }
     */
 
+    // [重要] 在渲染阶段不会检查 state 值是否相同，使用 setState 会导致死循环
+    // 1. setTimeout 跳出渲染阶段，会检查 state 值是否相同，相同不触发重新渲染
+    // 2. useEffect 会在组件每次渲染完毕后执行，跳出渲染阶段
+    // 注意：检查 state 值是否相同时，值第一次相同时 react 可能也会重新渲染
+    /*
+    setTimeout(() => {
+        setCount(0);
+    }, 0);
+    */
+
     /*
     useEffect(()=>{
         // 编写会产生副作用的代码
+        // ...
+
+        const timer = setTimeout(() => {
+            // ...
+        }, 1000);
     
         return () => {
             // 清理函数，在下一次effect执行前调用，如清理定时器
+            clearTimeout(timer);
         };
     }, [a, b]); // 限制只有当 a,b 发生变化时才执行，[]只执行一次
     */
 
     useEffect(() => {
-        setCount(0);
+        if (count === 0) {
+            setCount(0);
+        }
     });
 
     return <div>{count}</div>;
