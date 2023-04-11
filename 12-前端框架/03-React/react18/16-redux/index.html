@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>Redux</title>
+</head>
+<body>
+
+<div>
+    <button id="sub">减少</button>
+    <span id="ageSpan">1</span>
+    <button id="add">增加</button>
+    <button id="addFive">加5</button>
+</div>
+
+<script src="https://unpkg.com/redux@4.2.0/dist/redux.js"></script>
+
+<script>
+/**
+ * 1. 创建reducer整合函数
+ * 2. 通过reducer对象创建store
+ * 3. 对store中的state进行订阅
+ * 4. 通过dispatch派发state的操作指令
+ */
+
+const subBtn = document.getElementById('sub');
+const addBtn = document.getElementById('add');
+const ageSpan = document.getElementById('ageSpan');
+const addFiveBtn = document.getElementById('addFive');
+
+// 1. 创建reducer整合函数
+// state表示当前状态，用于生成新状态  action保存操作信息的对象
+function reducer(state = { age: 18, name: 'sunshine'}, action) {
+    switch (action.type) {
+        case 'ADD':
+            return { ...state, age: state.age + 1 };
+        case 'SUB':
+            return { ...state, age: state.age - 1 };
+        case 'ADD_N':
+            return { ...state, age: state.age + action.payload };
+        default:
+            return state;
+    }
+}
+
+// 2. 通过reducer对象创建store
+// const store = Redux.createStore(reducer);
+const store = Redux.createStore(reducer, { name: 'victor', age: 30 });
+
+// 3. 对store中的state进行订阅
+store.subscribe(() => {
+    console.log(store.getState());
+    console.log(store.getState().name);
+    ageSpan.innerText = store.getState().age;
+});
+
+// 4. 通过dispatch派发state的操作指令
+subBtn.addEventListener('click', () => {
+    store.dispatch({type: 'SUB'});
+});
+addBtn.addEventListener('click', () => {
+    store.dispatch({type: 'ADD'});
+});
+addFiveBtn.addEventListener('click', () => {
+    store.dispatch({type: 'ADD_N', payload: 5});
+});
+</script>
+
+</body>
+</html>
