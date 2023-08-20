@@ -1,0 +1,41 @@
+{
+  /**
+   *   $ tsc -w
+   *
+   * include         指定需要被编译的文件
+   * exclude         排除编译的文件，默认 ["node_modules", "bower_components", "jspm_packages"]
+   * extends         继承配置文件
+   * files           列出需要编辑的具体文件
+   * compilerOptions
+   */
+  "include": [
+    "./src/**/*",
+    "./*",
+  ],
+  "exclude": [
+    "./old/**/*",
+    "./src/hello/**/*"
+  ],
+  // "extends": "./config/base",
+  // "files": [
+  //   "test.ts",
+  // ],
+  "compilerOptions": {
+    "target": "ES5", // 指定版本，默认ES3，可选 es3, es5, es6, es2015, es2016, es2017, es2018, es2019, es2020, esnext...
+    "module": "es2015", // 指定模块化规范，可选 none, commonjs, amd, system, umd, es6, es2015, es2020, esnext (es2015==es6)
+    "lib": ["dom", "es6"], // 指定代码运行包含的库(宿主环境)，默认为浏览器环境，若node等其他环境才需要修改
+    "outDir": "./dist", // 指定编译文件目录，默认同级
+    // "outFile": "./dist/app.js", // 合并输出一个文件
+    "allowJs": false, // 是否处理js文件
+    "checkJs": false, // 是否检查js代码是否符合规范
+    "removeComments": false, // 是否去除注释
+    "noEmit": false, // 不生成编译后的文件(仅编译检查)
+    "noEmitOnError": false, // 发生错误不生成文件
+
+    "strict": true, // 以下严格检查的总开关
+    "alwaysStrict": false, // 设置编译后的文件使用严格模式 "use strict"; 当包含 import 时默认为严格模式
+    "noImplicitAny": true, // 不允许隐式的any类型
+    "noImplicitThis": true, // 不允许隐式的this
+    "strictNullChecks": true, // 严格的空值检查
+  }
+}
