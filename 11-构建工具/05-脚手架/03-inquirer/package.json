@@ -1,0 +1,19 @@
+{
+  "name": "inquirer-study",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "bin": {
+    "csxiaoyao": "./bin/csxiaoyao.js"
+  },
+  "type": "module",
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "commander": "^11.0.0",
+    "inquirer": "^9.2.10"
+  }
+}
