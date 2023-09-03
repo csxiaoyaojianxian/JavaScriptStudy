@@ -2,18 +2,15 @@
 // 引入问答交互模块
 import inquirer from 'inquirer';
 import fs from 'fs';
-import path from 'path';
+
 import { createRequire } from "module";
+import path, { dirname } from 'path';
+import { fileURLToPath } from 'url';
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename); // type=module时 __dirname 不可直接使用
 
 const require = createRequire(import.meta.url);
-
-// 获取模板文件路径
-// console.log(import.meta.url);
-const __dirname = path.resolve(); // type=module 时不能直接使用 __dirname
-const tpath = path.resolve(__dirname, './csxiaoyao-template.json');
-
-// const csxiaoyaoTpls = await import(tpath);
-const csxiaoyaoTpls = require(tpath);
+const csxiaoyaoTpls = require(path.resolve(__dirname, '../csxiaoyao-template.json'));
 
 const questions = [
   {
