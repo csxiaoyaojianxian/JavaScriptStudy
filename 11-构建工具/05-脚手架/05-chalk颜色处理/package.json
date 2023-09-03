@@ -1,5 +1,5 @@
 {
-  "name": "ora-study",
+  "name": "chalk-study",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -13,6 +13,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "ora": "^7.0.1"
+    "chalk": "^5.3.0"
   }
 }

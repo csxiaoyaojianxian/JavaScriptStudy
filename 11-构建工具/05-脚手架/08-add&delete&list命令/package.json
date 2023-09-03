@@ -1,0 +1,24 @@
+{
+  "name": "study",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "bin": {
+    "csxiaoyao": "./bin/csxiaoyao.js",
+    "csxiaoyao-add": "./bin/csxiaoyao-add.js",
+    "csxiaoyao-list": "./bin/csxiaoyao-list.js",
+    "csxiaoyao-delete": "./bin/csxiaoyao-delete.js",
+    "csxiaoyao-init": "./bin/csxiaoyao-init.js"
+  },
+  "type": "module",
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "commander": "^11.0.0",
+    "download-git-repo": "^3.0.2",
+    "inquirer": "^9.2.10"
+  }
+}

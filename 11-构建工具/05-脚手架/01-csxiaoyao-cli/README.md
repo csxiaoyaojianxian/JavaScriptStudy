@@ -19,6 +19,7 @@
 $ sudo npm link
 # 取消
 $ npm unlink
+$ npm link --force
 ```
 
 5. process.argv 接收命令行参数

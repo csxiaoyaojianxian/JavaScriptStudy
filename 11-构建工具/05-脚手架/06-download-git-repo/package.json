@@ -1,5 +1,5 @@
 {
-  "name": "ora-study",
+  "name": "study",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -13,6 +13,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "ora": "^7.0.1"
+    "download-git-repo": "^3.0.2"
   }
 }
