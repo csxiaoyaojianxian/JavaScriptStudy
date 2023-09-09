@@ -18,5 +18,5 @@ program
   .parse(process.argv)
 
 // 获取输入参数
-console.log(program.classroom);
+console.log(program.opts().classroom);
 

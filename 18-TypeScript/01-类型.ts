@@ -36,11 +36,14 @@ s = d as string; // 变量 as 类型
 s = <string>d; // <类型>变量
 
 // void 
-function fn(): void {}
+function fn(): void {} // 返回 null / undefined
 
 // never 表示永远不会返回结果
 function fn2(): never {
   throw new Error('报错，立即结束，无返回值');
+}
+function infiniteLoop(): never { // 返回never的函数必须存在无法达到的终点
+  while (true) {}
 }
 
 // object
@@ -61,9 +64,13 @@ g = function(n1: number, n2: number): number {
 let h: string[];
 let i: Array<number>;
 
-// tuple 元组，固定长度数组
+// tuple 元组，固定长度和类型的数组，各元素的类型不必相同
 let j: [string, number];
 j = ['hello', 0];
+// 当访问一个越界的元素，会使用联合类型替代
+// j[3] = 'world'; // OK, 字符串可以赋值给(string | number)类型
+// console.log(j[5].toString()); // OK, 'string' 和 'number' 都有 toString
+// j[6] = true; // Error, 布尔不是(string | number)类型
 
 // enum 枚举
 /*
@@ -73,6 +80,10 @@ k = {
   gender: 0,
 }
 console.log(k.gender === 0);*/
+enum Color {Red=1, Green, Blue}
+let ccc: Color = Color.Green;
+let colorName: string = Color[1]; // 显示'Red'因为上面代码里它的值是1
+
 enum Gender {
   Male = 0,
   Female = 1,

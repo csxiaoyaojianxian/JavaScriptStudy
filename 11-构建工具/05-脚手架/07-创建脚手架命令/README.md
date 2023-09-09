@@ -17,4 +17,5 @@ $ npm link
 3. 使用命令
 ```
 $ csxiaoyao add
+$ csxiaoyao-add
 ```
