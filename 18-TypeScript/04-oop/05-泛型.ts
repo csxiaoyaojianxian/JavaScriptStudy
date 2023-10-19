@@ -35,3 +35,21 @@ class MyClass<T> {
   }
 }
 const mc = new MyClass<string>('csxiaoyao');
+
+
+// 使用带有调用签名的对象字面量来定义泛型函数
+function identity<T>(arg: T): T {
+  return arg;
+}
+let myIdentity: {
+  <T>(arg: T): T
+} = identity;
+interface GenericIdentityFn<T> {
+  (arg: T): T;
+}
+let myIdentity2: GenericIdentityFn<number> = identity;
+
+// 在泛型里使用类类型  在TypeScript使用泛型创建工厂函数时，需要引用构造函数的类类型
+function create<T>(c: { new(): T; }): T {
+  return new c();
+}
