@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>购物车动画</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+    }
+    .origin, .target {
+      width: 20px;
+      height: 20px;
+      background-color: red;
+      position: absolute;
+    }
+    .origin {
+      top: 40px;
+      left: 100px;
+    }
+    .target {
+      top: 120px;
+      left: 10px;
+    }
+
+    /* 购物车弹动动画 */
+    .target.animate {
+      animation: footer-car-animate 500ms ease-in-out;
+    }
+    @keyframes footer-car-animate {
+      0% {
+        transform: scale(1);
+      }
+      25% {
+        transform: scale(0.8);
+      }
+      50% {
+        transform: scale(1.1);
+      }
+      75% {
+        transform: scale(0.9);
+      }
+      100% {
+        transform: scale(1);
+      }
+    }
+
+    /* 抛物线外壳 */
+    .obj {
+      position: fixed;
+      width: 16px;
+      height: 16px;
+      left: 0;
+      top: 0;
+      margin-left: -8px;
+      margin-top: -8px;
+      background-color: rgb(205, 205, 239);
+      /* 外壳水平匀速移动，带动内部icon水平移动 */
+      transition: 0.5s linear;
+    }
+    .icon {
+      background-color: blue;
+      display: block;
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      color: white;
+      /* 抛物线 */
+      transition: 0.5s cubic-bezier(0.5, -0.5, 1, 1);
+    }
+  </style>
+</head>
+<body>
+  <div class="container"></div>
+
+  <script>
+
+    /**
+     * 播放购物车弹动动画
+     */
+    function playCarAnimate() {
+      var dom = document.querySelector('.target');
+      if (dom) {
+        dom.classList.add('animate');
+      }
+      // 避免重复添加
+      if (!window.isAddAnimationendListener) {
+        dom.addEventListener('animationend', function() {
+          this.classList.remove('animate');
+        });
+        window.isAddAnimationendListener = true;
+      }
+    }
+
+    // [1] 创建 初始位置origin 和购物车target
+    var frag = document.createDocumentFragment(); // 创建虚拟节点对象
+    var origin = document.createElement('div');
+    origin.classList = 'origin';
+    var target = document.createElement('div');
+    target.classList = 'target';
+    frag.appendChild(target);
+    frag.appendChild(origin);
+    document.querySelector('.container').appendChild(frag);
+
+    /**
+     * 抛物线动画
+     */
+    function jump() {
+      // 计算运动终点和起始位置
+      var targetRect = target.getBoundingClientRect();
+      var jumpTarget = {
+        x: targetRect.left + targetRect.width / 2,
+        y: targetRect.top + targetRect.height / 2,
+      }
+
+      var originRect = origin.getBoundingClientRect();
+      var jumpOrigin = {
+        x: originRect.left,
+        y: originRect.top,
+      }
+
+      // 创建运动元素obj，div中包含一个icon，设置运动obj到 origin 初始位置
+      // <div class="obj"><div class="icon"></div></div>
+      var obj = document.createElement('div');
+      obj.classList = 'obj';
+      var objInner = document.createElement('div');
+      objInner.classList = 'icon';
+      objInner.textContent = '+';
+      obj.appendChild(objInner);
+      document.body.appendChild(obj);
+
+      // 设置初始位置
+      obj.style.transform = `translateX(${jumpOrigin.x}px)`;
+      objInner.style.transform = `translateY(${jumpOrigin.y}px)`;
+
+      // 强行渲染(否则直接设置终点位置没有动画效果)，下面使用更好的 requestAnimationFrame 代替
+      // obj.clientWidth;
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          // 设置目标位置
+          obj.style.transform = `translateX(${jumpTarget.x}px)`;
+          objInner.style.transform = `translateY(${jumpTarget.y}px)`;
+        });
+      });
+
+      // 动画结束回调
+      obj.addEventListener('transitionend', function() {
+        obj.remove(); // 移除运动对象
+        playCarAnimate(); // 播放购物车弹动动画
+      }, {
+        once: true, // 事件仅触发一次，否则内部icon冒泡会额外执行一次
+      });
+    }
+    
+  </script>
+</body>
+</html>
