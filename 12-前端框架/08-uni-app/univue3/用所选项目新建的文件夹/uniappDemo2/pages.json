@@ -1,0 +1,73 @@
+{
+	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+		{
+			"path": "pages/index/index",
+			"style": {
+				"navigationBarTitleText": "uni-app"
+			}
+		},
+		{
+			"path" : "pages/demo1/demo1",
+			"style" : 
+			{
+				"navigationBarTitleText" : "demo1",
+				"enablePullDownRefresh" : false
+			}
+		},
+		{
+			"path" : "pages/demo2/demo2",
+			"style" : 
+			{
+				"navigationBarTitleText" : "demo2",
+				"enablePullDownRefresh" : false
+			}
+		},
+		{
+			"path" : "pages/demo3/demo3",
+			"style" : 
+			{
+				"navigationBarTitleText" : "demo3",
+				"enablePullDownRefresh" : false
+			}
+		},
+		{
+			"path" : "pages/demo4/demo4",
+			"style" : 
+			{
+				"navigationBarTitleText" : "demo4",
+				"enablePullDownRefresh" : false
+			}
+		},
+		{
+			"path" : "pages/demo5/demo5",
+			"style" : 
+			{
+				"navigationBarTitleText" : "demo5",
+				"enablePullDownRefresh" : false
+			}
+		},
+		{
+			"path" : "pages/demo6/demo6",
+			"style" : 
+			{
+				"navigationBarTitleText" : "demo6",
+				"enablePullDownRefresh" : false
+			}
+		},
+		{
+			"path" : "pages/demo7/demo7",
+			"style" : 
+			{
+				"navigationBarTitleText" : "demo7",
+				"enablePullDownRefresh" : false
+			}
+		}
+	],
+	"globalStyle": {
+		"navigationBarTextStyle": "black",
+		"navigationBarTitleText": "uni-app",
+		"navigationBarBackgroundColor": "#F8F8F8",
+		"backgroundColor": "#F8F8F8"
+	},
+	"uniIdRouter": {}
+}

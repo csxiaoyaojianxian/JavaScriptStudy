@@ -1,0 +1,108 @@
+{
+	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+		{
+			"path": "pages/index/index",
+			"style": {
+				"navigationBarTitleText": "uni-app",
+				"enablePullDownRefresh":true
+			}
+		},
+		{
+			"path": "pages/user/user",
+			"style": {
+				"navigationBarTitleText": "个人中心"				
+			}
+		},
+	    {
+	    	"path" : "pages/classify/classify",
+	    	"style" : 
+	    	{
+	    		"navigationBarBackgroundColor": "#F2E6DE",
+	    		"navigationBarTextStyle": "black",
+				"navigationBarTitleText": "分类",
+				"enablePullDownRefresh":true
+	    	}
+	    },
+	    {
+	    	"path" : "pages/demo/demo",
+	    	"style" : 
+	    	{
+	    		"navigationBarTitleText" : "demo",
+	    		"enablePullDownRefresh" : false
+	    	}
+	    },
+	    {
+	    	"path" : "pages/demo2/demo2",
+	    	"style" : 
+	    	{
+	    		"navigationBarTitleText" : "demo2",
+	    		"enablePullDownRefresh" : false
+	    	}
+	    },
+	    {
+	    	"path" : "pages/demo3/demo3",
+	    	"style" : 
+	    	{
+	    		"navigationBarTitleText" : "demo3",
+	    		"enablePullDownRefresh" : false
+	    	}
+	    },
+	    {
+	    	"path" : "pages/demo4/demo4",
+	    	"style" : 
+	    	{
+	    		"navigationBarTitleText" : "request网络请求",
+	    		"enablePullDownRefresh" : false
+	    	}
+	    },
+	    {
+	    	"path" : "pages/demo5/demo5",
+	    	"style" : 
+	    	{
+	    		"navigationBarTitleText" : "request参数",
+	    		"enablePullDownRefresh" : false
+	    	}
+	    },
+	    {
+	    	"path" : "pages/requestDemo/requestDemo",
+	    	"style" : 
+	    	{
+	    		"navigationBarTitleText" : "request综合案例",
+	    		"enablePullDownRefresh" : true
+	    	}
+	    }
+		
+		
+	],
+	"globalStyle": {
+		"navigationBarBackgroundColor": "#2B9939",
+		"navigationBarTextStyle": "white",
+		"navigationBarTitleText": "咸虾米",		
+		"backgroundColor": "#ccc",
+		"backgroundTextStyle": "light",		
+		"onReachBottomDistance":50
+	},
+	"tabBar": {
+		"color": "#999",
+		"selectedColor": "#2B9939",			
+		"list": [
+			{
+				"pagePath": "pages/index/index",
+				"text": "首页",
+				"iconPath": "static/images/tabBar/home.png",
+				"selectedIconPath": "static/images/tabBar/home-h.png"
+			},{
+				"pagePath": "pages/classify/classify",
+				"text": "分类",
+				"iconPath": "static/images/tabBar/classify.png",
+				"selectedIconPath": "static/images/tabBar/classify-h.png"
+			},{
+				"pagePath": "pages/user/user",
+				"text": "我的",
+				"iconPath": "static/images/tabBar/user.png",
+				"selectedIconPath": "static/images/tabBar/user-h.png"
+			}
+		]
+	},
+	"uniIdRouter": {}
+}

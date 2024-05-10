@@ -1,0 +1,99 @@
+{
+	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+		{
+			"path": "pages/index/index",
+			"style": {
+				"navigationBarTitleText": "uni-app",
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path" : "pages/classify/classify",
+			"style" : 
+			{
+				"navigationBarTitleText" : "分类",
+				"enablePullDownRefresh" : false,
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path" : "pages/user/user",
+			"style" : 
+			{
+				"navigationBarTitleText" : "我的",
+				"enablePullDownRefresh" : false,
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path" : "pages/classlist/classlist",
+			"style" : 
+			{
+				"navigationBarTitleText" : "分类列表",
+				"enablePullDownRefresh" : false
+			}
+		},
+		{
+			"path" : "pages/preview/preview",
+			"style" : 
+			{
+				"navigationBarTitleText" : "预览",
+				"enablePullDownRefresh" : false,
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path" : "pages/notice/notice",
+			"style" : 
+			{
+				"navigationBarTitleText" : "公告",
+				"enablePullDownRefresh" : false
+			}
+		},
+		{
+			"path" : "pages/notice/detail",
+			"style" : 
+			{
+				"navigationBarTitleText" : "公告详情",
+				"enablePullDownRefresh" : false
+			}
+		},
+		{
+			"path" : "pages/search/search",
+			"style" : 
+			{
+				"navigationBarTitleText" : "搜索",
+				"enablePullDownRefresh" : false
+			}
+		}
+	],
+	"globalStyle": {
+		"navigationBarTextStyle": "black",
+		"navigationBarTitleText": "咸虾米壁纸",
+		"navigationBarBackgroundColor": "#fff",
+		"backgroundColor": "#F8F8F8"
+	},
+	"tabBar": {
+		"color": "#9799a5",
+		"selectedColor": "#28B389",
+		"list": [
+			{
+				"text": "推荐",
+				"pagePath": "pages/index/index",
+				"iconPath": "static/images/tabBar/home.png",
+				"selectedIconPath": "static/images/tabBar/home-h.png"
+			},{
+				"text": "分类",
+				"pagePath": "pages/classify/classify",
+				"iconPath": "static/images/tabBar/classify.png",
+				"selectedIconPath": "static/images/tabBar/classify-h.png"
+			},{
+				"text": "我的",
+				"pagePath": "pages/user/user",
+				"iconPath": "static/images/tabBar/user.png",
+				"selectedIconPath": "static/images/tabBar/user-h.png"
+			}
+		]
+	},
+	"uniIdRouter": {}
+}

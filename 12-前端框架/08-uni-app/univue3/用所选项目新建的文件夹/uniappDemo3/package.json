@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "unplugin-auto-import": "^0.17.3"
+  }
+}
