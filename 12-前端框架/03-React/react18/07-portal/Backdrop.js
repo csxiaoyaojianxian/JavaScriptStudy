@@ -1,3 +1,7 @@
+/**
+ * Portal 将子节点渲染到存在于父组件以外的 DOM 节点
+ * ReactDOM.createPortal(child, container)
+ */
 import ReactDOM from "react-dom";
 
 const backdropRoot = document.getElementById('backdrop-root');

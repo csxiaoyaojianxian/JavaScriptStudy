@@ -1,3 +1,39 @@
+/*
+// useEffect 是 React 中的一个 Hook，用于在函数组件中处理副作用（如数据获取、订阅、手动更改 DOM 等）
+// 无依赖项: 如果不传递依赖项数组，副作用函数会在每次渲染后执行
+// 空依赖项数组: 如果传递一个空数组作为依赖项，副作用函数只会在组件首次渲染时执行一次
+// 带依赖项: 如果传递一个依赖项数组，副作用函数会在依赖项发生变化时执行，同时会先执行上一次渲染中的清除函数
+
+useEffect(() => {
+  // 副作用逻辑
+  return () => {
+    // 清除逻辑（可选）
+  };
+}, [依赖项]);
+
+// demo
+
+import React, { useEffect } from 'react';
+
+function MyComponent() {
+  useEffect(() => {
+    // 副作用逻辑
+    // 相当于类组件中的生命周期方法 componentDidMount / componentDidUpdate
+    console.log('组件渲染或更新了');
+
+    return () => {
+      // 清除逻辑（可选）
+      // 相当于类组件中的生命周期方法 componentWillUnmount
+      console.log('组件卸载了');
+    };
+  }); // 无依赖项，在每次渲染后执行
+  // }, []); // 空依赖数组，只在组件挂载和卸载时执行
+
+  return <div>Hello, useEffect!</div>;
+}
+ */
+
+
 // 组件中部分逻辑如果直接写在函数体中，会影响到组件的渲染，如 setState 触发渲染死循环
 // 为了避免副作用，使用钩子函数 useEffect() 处理那些不能直接写在组件内部的代码
 // 如获取数据、记录日志、检查登录、设置定时器等
